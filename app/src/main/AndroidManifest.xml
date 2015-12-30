@@ -17,7 +17,7 @@
         <meta-data
             android:name="com.parse.CLIENT_KEY"
             android:value="xHfAF4CtDlIeilX3ZvE71CMeZZHHMs8w6ICHVJJz" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".home.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
