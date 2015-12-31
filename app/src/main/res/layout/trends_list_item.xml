@@ -10,20 +10,7 @@
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:text="#kejriwalandmodi"/>
-    <TextView
-        android:id="@+id/trends_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/trends_topic_name"
-        android:layout_toLeftOf="@id/trends_vote_holder"
-        android:textSize="20sp"
-        android:text="@string/explore_message"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/trends_description"
-        android:layout_marginTop="28dp"
-        android:text="10hrs left to decay"/>
+
     <LinearLayout
         android:id="@+id/trends_vote_holder"
         android:layout_width="wrap_content"
@@ -48,6 +35,21 @@
             android:drawablePadding="4dp"
             android:text="1254"/>
     </LinearLayout>
+    <TextView
+        android:id="@+id/trends_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/trends_topic_name"
+        android:layout_toLeftOf="@id/trends_vote_holder"
+        android:textSize="20sp"
+        android:text="@string/explore_message"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/trends_description"
+        android:layout_marginTop="28dp"
+        android:text="10hrs left to decay"/>
+
 
 
 </RelativeLayout>
