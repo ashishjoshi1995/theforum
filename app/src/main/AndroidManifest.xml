@@ -11,12 +11,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <meta-data
-            android:name="com.parse.APPLICATION_ID"
-            android:value="0GHU34ScY8GWrtK26A6mTq1s5RnsFpWWjfIDYw4X" />
-        <meta-data
-            android:name="com.parse.CLIENT_KEY"
-            android:value="xHfAF4CtDlIeilX3ZvE71CMeZZHHMs8w6ICHVJJz" />
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
