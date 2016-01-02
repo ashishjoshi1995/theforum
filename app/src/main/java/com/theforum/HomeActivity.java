@@ -10,6 +10,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.theforum.utils.CommonUtils;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -58,9 +60,14 @@ public class HomeActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id){
+            case R.id.action_settings:
+                break;
+            case R.id.action_add_opinion:
+                CommonUtils.openContainerActivity(this, Constants.NEW_TOPIC_FRAGMENT);
+                break;
         }
+
 
         return super.onOptionsItemSelected(item);
     }
