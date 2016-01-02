@@ -36,8 +36,6 @@ public class User {
     }
 
 
-
-
     public int getmPointCollected() {
          mPointCollected = Integer.parseInt(profileUtils.getFromPreferences(ProfileUtils.POINTS_COLLECTED));
         return mPointCollected;
