@@ -5,13 +5,14 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
 
-import com.example.theforum.data.dataModels.opinion;
+import com.theforum.data.dataModels.opinion;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.MobileServiceException;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.microsoft.windowsazure.mobileservices.table.TableOperationCallback;
+import com.theforum.data.dataModels.topic;
 
 import java.util.concurrent.ExecutionException;
 
@@ -24,27 +25,22 @@ public class OpinionHelper {
     private MobileServiceTable<opinion> mOpinion;
     opinion opinion;
 
+
     private String uid;
-
-    public OpinionHelper(MobileServiceClient mobileServiceClient,int operation,opinion opinion){
+    public OpinionHelper(MobileServiceClient mobileServiceClient){
         this.mClient = mobileServiceClient;
-
-        mOpinion = mClient.getTable(opinion.class);
-
-    switch (operation){
-        case 0:
-            this.opinion = opinion;
-            //add opinion to server, local db
-            addOpinion();
-
-            break;
-        case 1:
-
-            //retrieve opinions from server
-            getAllOpinions();
-            break;
+        getTable();
     }
+    public OpinionHelper(MobileServiceClient mobileServiceClient,opinion opinion1){
+        this.mClient = mobileServiceClient;
+        this.opinion = opinion1;
+        getTable();
     }
+
+
+   private void getTable(){
+       mOpinion = mClient.getTable(opinion.class);
+   }
 
 
     private void getAllOpinions(){
@@ -75,7 +71,41 @@ public class OpinionHelper {
         runAsyncTask2(task);
     }
 
+    private void upvoteDownvote(Boolean ifUpvote,opinion opinion1){
+
+        if(ifUpvote){
+            //update UI
+            //update Local db
+           int c =  opinion1.getmUpVotes();
+            c++;
+            opinion1.setmUpVotes(c);
+        }
+        else{
+
+            //update UI
+            //update Local db
+
+            int c =  opinion1.getmUpVotes();
+            c--;
+            opinion1.setmUpVotes(c);
+        }
+        //update server
+        mOpinion.update(opinion1, new TableOperationCallback<com.theforum.data.dataModels.opinion>() {
+            @Override
+            public void onCompleted(opinion entity, Exception exception, ServiceFilterResponse response) {
+                if(exception==null){
+                    Log.e("upvoteDownvote","done");
+                }
+                else {
+                    Log.e("upvoteDownvote","error");
+                }
+            }
+        });
+
+    }
+
     private void addOpinion(){
+
     AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
 
         @Override

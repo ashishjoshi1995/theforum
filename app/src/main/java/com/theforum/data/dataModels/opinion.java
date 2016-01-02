@@ -25,6 +25,9 @@ public class opinion {
     @com.google.gson.annotations.SerializedName("topic_id")
     private String mTopicId;
 
+    private boolean upvoted;
+    private boolean downvoted;
+
     public String getmUid() {
         return mUid;
     }
@@ -79,5 +82,21 @@ public class opinion {
 
     public void setmTopicId(String mTopicId) {
         this.mTopicId = mTopicId;
+    }
+
+    public boolean isUpvoted() {
+        return upvoted;
+    }
+
+    public void setUpvoted(boolean upvoted) {
+        this.upvoted = upvoted;
+    }
+
+    public boolean isDownvoted() {
+        return downvoted;
+    }
+
+    public void setDownvoted(boolean downvoted) {
+        this.downvoted = downvoted;
     }
 }

@@ -2,11 +2,10 @@ package com.theforum.data.helpers;
 
 import android.os.AsyncTask;
 
-import com.example.theforum.data.user;
+import com.theforum.data.dataModels.user;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
-import com.theforum.data.dataModels.user;
 
 import java.util.concurrent.ExecutionException;
 
