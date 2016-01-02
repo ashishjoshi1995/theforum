@@ -1,15 +1,20 @@
 package com.theforum.home;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.theforum.R;
+import com.theforum.utils.CommonUtils;
 
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.BindDrawable;
 import butterknife.ButterKnife;
 
 /**
@@ -34,24 +39,19 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
 
     public class TopicsItemViewHolder extends RecyclerView.ViewHolder {
 
-     /*   @Bind(R.id.feeds_video_view) TextureView videoView;
-        @Bind(R.id.feeds_profile_pic) ImageView profilePic;
-        @Bind(R.id.feeds_user_name) TextView username;
-        @Bind(R.id.feeds_person_name) TextView personName;
-        @Bind(R.id.feeds_follow_btn) ImageButton personFollowBtn;
-        @Bind(R.id.feeds_description)TextView description;
-        @Bind(R.id.feeds_country) TextView country;
-        @Bind(R.id.feeds_count_holder) TextView section;
-        @Bind(R.id.feeds_reflur_btn) ImageView reflurBtn;
-        @Bind(R.id.feeds_comment_btn) ImageView commentBtn;
-        @Bind(R.id.feeds_share_btn) ImageView shareBtn;
-        @Bind(R.id.feeds_more_btn) ImageView moreBtn;*/
 
+        @Bind(R.id.topics_name) TextView name;
+        @Bind(R.id.topics_time_holder) TextView time;
+        @Bind(R.id.topics_renew_btn)TextView renewBtn;
+
+        @BindDrawable(R.drawable.renew_icon) Drawable renew;
 
         public TopicsItemViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, v);
 
+            renewBtn.setCompoundDrawablesWithIntrinsicBounds(null, CommonUtils.tintDrawable(renew, "#adadad"),
+                    null, null);
         }
 
     }

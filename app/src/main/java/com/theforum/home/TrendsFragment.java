@@ -34,10 +34,10 @@ public class TrendsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        List<TrendingModel> mFeeds = new ArrayList<>();
+        List<TrendsModel> mFeeds = new ArrayList<>();
 
         for (int i=0;i<10;i++){
-            mFeeds.add(new TrendingModel());
+            mFeeds.add(new TrendsModel());
         }
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));

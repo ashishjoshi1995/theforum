@@ -5,22 +5,28 @@
     android:padding= "16dp">
 
     <TextView
+        android:id="@+id/topics_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="32sp"
         android:text="#kejriwalandmodi"/>
+
     <TextView
+        android:id="@+id/topics_time_holder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:text="10hrs left to decay"/>
+
     <TextView
+        android:id="@+id/topics_renew_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|end"
         android:gravity="center"
-        android:drawableTop="@mipmap/ic_launcher"
-        android:drawablePadding="4dp"
+        android:drawablePadding="10dp"
+        android:padding="8dp"
+        android:clickable="true"
         android:text="1254"/>
 
 </FrameLayout>
