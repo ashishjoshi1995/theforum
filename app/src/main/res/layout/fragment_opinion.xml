@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -7,8 +7,10 @@
         layout="@layout/toolbar"/>
 
     <LinearLayout
+        android:id="@+id/opinion_des_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/opinion_toolbar"
         android:orientation="vertical"
         android:paddingTop="20dp"
         android:paddingLeft="50dp"
@@ -27,5 +29,17 @@
     </LinearLayout>
 
     <include android:id="@+id/opinion_recycler_view"
-        layout="@layout/home_recycler_view"/>
-</LinearLayout>
+        layout="@layout/home_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/opinion_des_holder"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/opinion_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/addopinion"/>
+</RelativeLayout>

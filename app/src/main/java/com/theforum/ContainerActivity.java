@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
+import com.theforum.other.NewOpinionFragment;
 import com.theforum.other.NewTopicFragment;
 import com.theforum.other.OpinionsFragment;
 
@@ -27,6 +28,9 @@ public class ContainerActivity extends AppCompatActivity {
                 fragmentTransaction.replace(R.id.menu_fragment_container, new OpinionsFragment());
                 break;
 
+            case Constants.NEW_OPINION_FRAGMENT:
+                fragmentTransaction.replace(R.id.menu_fragment_container, new NewOpinionFragment());
+                break;
         }
         fragmentTransaction.commit();
 
