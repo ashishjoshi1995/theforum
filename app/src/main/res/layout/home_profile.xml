@@ -18,7 +18,8 @@
             android:textColorHint="#585858"
             android:textSize="28sp"
             android:inputType="none"
-            android:drawableLeft="@mipmap/ic_launcher"/>
+            android:editable="false"
+            android:drawableLeft="@drawable/status"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -34,7 +35,8 @@
             android:hint="Point Collected"
             android:textSize="28sp"
             android:inputType="none"
-            android:drawableLeft="@mipmap/ic_launcher" />
+            android:editable="false"
+            android:drawableLeft="@drawable/points" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -51,7 +53,8 @@
             android:hint="Topics Created"
             android:textSize="28sp"
             android:inputType="none"
-            android:drawableLeft="@mipmap/ic_launcher"/>
+            android:editable="false"
+            android:drawableLeft="@drawable/topics_created"/>
     </android.support.design.widget.TextInputLayout>
 
 </LinearLayout>

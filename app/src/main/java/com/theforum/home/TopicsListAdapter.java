@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.theforum.Constants;
 import com.theforum.R;
 import com.theforum.utils.CommonUtils;
 
@@ -52,6 +53,13 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
 
             renewBtn.setCompoundDrawablesWithIntrinsicBounds(null, CommonUtils.tintDrawable(renew, "#adadad"),
                     null, null);
+
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CommonUtils.openContainerActivity(mContext, Constants.OPINIONS_FRAGMENT);
+                }
+            });
         }
 
     }

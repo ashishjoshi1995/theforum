@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
+
+    <include android:id="@+id/new_topic_toolbar"
+        layout="@layout/toolbar" />
 
     <TextView
         android:id="@+id/new_topic_dummy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="50dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="70dp"
         android:textSize="26sp"
         android:text="Create New Topic" />
 
@@ -46,7 +50,7 @@
             android:inputType="text|textMultiLine" />
     </android.support.design.widget.TextInputLayout>
 
-    <Button
+    <Button android:id="@+id/new_topic_upload_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

@@ -2,8 +2,10 @@ package com.theforum.other;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,8 +29,17 @@ public class OpinionsFragment extends Fragment {
     @Bind(R.id.opinion_recycler_view)
     RecyclerView recyclerView;
 
+    @Bind(R.id.opinion_toolbar)
+    Toolbar toolbar;
+    
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.home_recycler_view, container, false);
+        return inflater.inflate(R.layout.fragment_opinion, container, false);
     }
 
     @Override
@@ -36,6 +47,7 @@ public class OpinionsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         List<TopicsModel> mFeeds = new ArrayList<>();
         for (int i=0;i<10;i++){
             mFeeds.add(new TopicsModel());

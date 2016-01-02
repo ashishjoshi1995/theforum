@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import com.theforum.other.NewTopicFragment;
+import com.theforum.other.OpinionsFragment;
 
 public class ContainerActivity extends AppCompatActivity {
 
@@ -20,6 +21,10 @@ public class ContainerActivity extends AppCompatActivity {
 
             case Constants.NEW_TOPIC_FRAGMENT:
                 fragmentTransaction.replace(R.id.menu_fragment_container, new NewTopicFragment());
+                break;
+
+            case Constants.OPINIONS_FRAGMENT:
+                fragmentTransaction.replace(R.id.menu_fragment_container, new OpinionsFragment());
                 break;
 
         }
