@@ -1,34 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="120dp"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:background="?android:selectableItemBackground"
-    android:padding= "16dp"
+    android:padding="16dp"
     android:clickable="true">
 
-    <TextView
+    <com.theforum.utils.CustomFontTextView
         android:id="@+id/topics_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="32sp"
+        android:textColor="@color/blue"
+        app:fontName="Roboto-Light.ttf"
         android:text="#kejriwalandmodi"/>
-
-    <TextView
-        android:id="@+id/topics_time_holder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:text="10hrs left to decay"/>
 
     <TextView
         android:id="@+id/topics_renew_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|end"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="4dp"
         android:gravity="center"
         android:drawablePadding="10dp"
         android:padding="8dp"
         android:clickable="true"
         android:text="1254"/>
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/topics_time_holder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/topics_name"
+        android:layout_marginTop="17dp"
+        android:textSize="12sp"
+        android:text="10hrs left to decay"/>
+
+
+
+</RelativeLayout>

@@ -16,14 +16,25 @@
         app:fontName="Roboto-Light.ttf"
         android:text="#kejriwalandmodi"/>
 
+    <com.theforum.utils.CustomFontTextView
+        android:id="@+id/trends_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/trends_topic_name"
+        android:layout_marginRight="72dp"
+        android:textSize="16sp"
+        android:paddingTop="1dp"
+        app:fontName="Roboto-Light.ttf"
+        android:text="@string/explore_message"/>
+
     <LinearLayout
         android:id="@+id/trends_vote_holder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_alignTop="@id/trends_description"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="48dp"
-        android:layout_marginLeft="10dp">
+        android:layout_marginRight="4dp">
         <TextView
             android:id="@+id/trends_upvote_btn"
             android:layout_width="wrap_content"
@@ -43,16 +54,7 @@
             android:text="1254"/>
     </LinearLayout>
 
-    <com.theforum.utils.CustomFontTextView
-        android:id="@+id/trends_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/trends_topic_name"
-        android:layout_toLeftOf="@id/trends_vote_holder"
-        android:textSize="16sp"
-        android:paddingTop="1dp"
-        app:fontName="Roboto-Light.ttf"
-        android:text="@string/explore_message"/>
+
 
     <TextView
         android:id="@+id/trends_decay_time"

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.theforum.R;
 import com.theforum.utils.CommonUtils;
+import com.theforum.utils.CustomFontTextView;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ import butterknife.ButterKnife;
  * @since 08-12-2015.
  */
 
-@SuppressWarnings("deprecation")
+//@SuppressWarnings("deprecation")
 public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.TrendsItemViewHolder> {
 
     private Context mContext;

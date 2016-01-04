@@ -11,4 +11,17 @@
         <item name="android:textColor">@color/colorTextMain</item>
     </style>
 
+    <style name="homeTabStyle" parent="android:Widget">
+        <item name="tabIndicatorHeight">2dp</item>
+        <item name="tabPaddingStart">12dp</item>
+        <item name="tabPaddingEnd">12dp</item>
+        <item name="tabTextAppearance">@style/home_tab_design</item>
+    </style>
+
+    <style name="home_tab_design" parent="TextAppearance.AppCompat.Button">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#bfc1c3</item>
+        <item name="textAllCaps">true</item>
+    </style>
+
 </resources>
