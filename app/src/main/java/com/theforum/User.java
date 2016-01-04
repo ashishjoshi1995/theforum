@@ -15,6 +15,8 @@ public class User {
     private String mStatus;
     private int mTopicsCreated;
     private String mServerId;
+    private int mAge;
+
 
     public static User getInstance(){
         if(mUser==null) mUser = new User();
@@ -55,4 +57,11 @@ public class User {
         if(mServerId==null)mServerId = profileUtils.getFromPreferences(ProfileUtils.SERVER_ID);
         return mServerId;
     }
+
+    public int getAge() {
+        if(mAge == 0)mAge = Integer.parseInt(profileUtils.getFromPreferences(ProfileUtils.AGE));
+        return mAge;
+    }
+
+
 }

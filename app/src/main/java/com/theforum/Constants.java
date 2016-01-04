@@ -12,4 +12,9 @@ public class Constants {
     public static final int NEW_TOPIC_FRAGMENT = 101;
     public static final int OPINIONS_FRAGMENT = 102;
     public static final int SETTINGS_FRAGMENT = 103;
+
+    public static final int SORT_BASIS_CREATED_BY_ME = 200;
+    public static final int SORT_BASIS_LATEST = 201;
+    public static final int SORT_BASIS_MOST_RENEWAL = 202;
+    public static final int SORT_BASIS_LEAST_RENEWAL = 203;
 }

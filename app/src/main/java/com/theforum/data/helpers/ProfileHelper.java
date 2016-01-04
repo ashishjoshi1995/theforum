@@ -31,8 +31,7 @@ public class ProfileHelper {
             @Override
             protected user doInBackground(Void... voids) {
                 try {
-                    ash = mUser.where().field("uid").eq(uid)
-                            .execute().get();
+                    ash = mUser.where().field("uid").eq(uid).execute().get();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {
@@ -44,19 +43,9 @@ public class ProfileHelper {
             @Override
             protected void onPostExecute(user user) {
                 super.onPostExecute(user);
-
-
             }
-
-
-
-
         };
-
-
         return null;
     }
-
-
 
 }

@@ -23,6 +23,9 @@ public class user {
     @com.google.gson.annotations.SerializedName("topics_created")
     private int mTopicsCreated;
 
+    @com.google.gson.annotations.SerializedName("age")
+    private int age;
+
     public String getmUid() {
         return mUid;
     }
@@ -69,5 +72,13 @@ public class user {
 
     public void setmTopicsCreated(int mTopicsCreated) {
         this.mTopicsCreated = mTopicsCreated;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 }

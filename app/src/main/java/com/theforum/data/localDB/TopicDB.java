@@ -69,4 +69,8 @@ public class TopicDB extends SQLiteOpenHelper {
         db.insert(TABLE_NAME, null, values);
         db.close(); // Closing database connection
     }
+
+    public void deleteTopic(){
+
+    }
 }
