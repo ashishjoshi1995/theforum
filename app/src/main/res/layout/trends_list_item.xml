@@ -4,6 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?android:selectableItemBackground"
     android:padding="@dimen/default_margin">
 
     <com.theforum.utils.CustomFontTextView
@@ -21,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/trends_topic_name"
-        android:layout_marginRight="72dp"
+        android:layout_marginRight="50dp"
         android:textSize="16sp"
         android:paddingTop="1dp"
         app:fontName="Roboto-Light.ttf"
@@ -53,8 +54,6 @@
             android:clickable="true"
             android:text="1254"/>
     </LinearLayout>
-
-
 
     <TextView
         android:id="@+id/trends_decay_time"
