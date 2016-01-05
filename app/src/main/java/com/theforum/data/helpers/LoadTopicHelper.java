@@ -1,16 +1,23 @@
 package com.theforum.data.helpers;
 
+import android.annotation.TargetApi;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.util.Log;
 
+import com.microsoft.windowsazure.mobileservices.ApiOperationCallback;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.MobileServiceException;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
+import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.microsoft.windowsazure.mobileservices.table.query.QueryOrder;
 import com.theforum.Constants;
 import com.theforum.User;
 import com.theforum.data.dataModels.topic;
 import com.theforum.data.dataModels.user;
+import com.theforum.data.helpers.sortBasisCreatedByMe.InputClass;
+import com.theforum.data.helpers.sortBasisCreatedByMe.ResponseClass;
 
 
 import java.util.ArrayList;
@@ -48,9 +55,16 @@ public class LoadTopicHelper {
                         topics = mTopic.orderBy("hours_left", QueryOrder.Ascending).execute().get();
                         break;
                     case Constants.SORT_BASIS_CREATED_BY_ME:
-                        //to be written
-                        initUserTable();
-                       users =  mUser.where().field("uid").eq(User.getInstance().getForumId()).execute(new );
+
+                        InputClass inputClass = new InputClass();
+                        inputClass.uid = User.getInstance().getForumId();
+                        mClient.invokeApi("getmytopics", inputClass, ResponseClass.class, new ApiOperationCallback<ResponseClass>() {
+                            @Override
+                            public void onCompleted(ResponseClass result, Exception exception, ServiceFilterResponse response) {
+                                Log.e("herewego","herewego");
+                                //TODO convert the string to JSONARRAY AND THEN TO JAVA ARRAYLIST
+                            }
+                        });
                         break;
                     case Constants.SORT_BASIS_LEAST_RENEWAL:
                         topics = mTopic.orderBy("renewal_request",QueryOrder.Ascending).execute().get();
@@ -74,6 +88,14 @@ public class LoadTopicHelper {
                     users.get(0).getmCurrentTopics();
                 }
             }
+
         };
+        runAsyncTask(task);
+    }
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    private AsyncTask<Void, Void,ArrayList<topic>> runAsyncTask(AsyncTask<Void, Void, ArrayList<topic>> task) {
+
+        return task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
     }
 }
