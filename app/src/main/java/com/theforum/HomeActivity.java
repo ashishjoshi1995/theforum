@@ -1,15 +1,21 @@
 package com.theforum;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.theforum.notification.NotificationService;
 import com.theforum.utils.CommonUtils;
 
 import butterknife.Bind;
@@ -45,6 +51,27 @@ public class HomeActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        int minutes = 100;
+        Log.e("HomeActivity", "onResume");
+
+        AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+        Intent i = new Intent(this, NotificationService.class);
+        PendingIntent pi = PendingIntent.getService(this, 0, i, 0);
+        am.cancel(pi);
+        // by my own convention, minutes <= 0 means notifications are disabled
+        if (minutes > 0) {
+            am.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                    SystemClock.elapsedRealtime() + minutes * 60 * 1000,
+                    minutes * 60 * 1000, pi);
+
+        }
     }
 
     @Override

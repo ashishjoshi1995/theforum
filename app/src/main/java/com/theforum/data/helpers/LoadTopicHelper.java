@@ -16,6 +16,8 @@ import com.theforum.Constants;
 import com.theforum.User;
 import com.theforum.data.dataModels.topic;
 import com.theforum.data.dataModels.user;
+import com.theforum.data.helpers.renewalRequestApi.Request;
+import com.theforum.data.helpers.renewalRequestApi.Response;
 import com.theforum.data.helpers.sortBasisCreatedByMe.InputClass;
 import com.theforum.data.helpers.sortBasisCreatedByMe.ResponseClass;
 
@@ -92,6 +94,37 @@ public class LoadTopicHelper {
         };
         runAsyncTask(task);
     }
+
+    public String addRenewalRequest(String uid, String topic_id){
+        Request request = new Request();
+        request.topic_id = topic_id;
+        request.uid = uid;
+        final boolean[] bool = {false};
+        final int[] c = new int[1];
+
+        mClient.invokeApi("addrenewalrequest", request, Response.class, new ApiOperationCallback<Response>() {
+            @Override
+            public void onCompleted(Response result, Exception exception, ServiceFilterResponse response) {
+                if(exception==null){
+               c[0] = result.message;
+                }
+                else{
+                    bool[0] = true;
+                }
+
+            }
+        });
+
+        if(bool[0])return "Could not add a request now, try after some time";
+        if(c[0]>2 && !bool[0]){
+            c[0]--;
+        return "You and "+c[0]+" added a renewal request";}
+        else {
+            return "You successfully added a renewal request";
+        }
+
+    }
+
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private AsyncTask<Void, Void,ArrayList<topic>> runAsyncTask(AsyncTask<Void, Void, ArrayList<topic>> task) {
 

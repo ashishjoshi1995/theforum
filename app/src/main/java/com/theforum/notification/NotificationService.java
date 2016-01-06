@@ -1,6 +1,7 @@
 package com.theforum.notification;
 
 import android.annotation.TargetApi;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -14,9 +15,12 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.widget.RemoteViews;
 import android.widget.Toast;
 
+import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.theforum.R;
+import com.theforum.TheForumApplication;
 
 /**
  * Created by Ashish on 12/9/2015.
@@ -69,6 +73,8 @@ public class NotificationService extends Service {
         @Override
         protected Void doInBackground(Void... params) {
             // do stuff!
+            // here we need to query the two tables and transfer the data to on post execute
+            MobileServiceClient client = TheForumApplication.getClient();
 
 
             return null;
@@ -84,7 +90,30 @@ public class NotificationService extends Service {
         }
         @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
         private void Notify(String notificationTitle, String notificationMessage){
+            long when = System.currentTimeMillis();
+            Notification notification = new Notification(R.mipmap.ic_launcher, "Spur", when);
 
+            NotificationManager mNotificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+
+            RemoteViews contentView = new RemoteViews(getPackageName(), R.layout.notification_layout);
+            //TODO modify here for ewsponse
+            contentView.setTextViewText(R.id.title, "KEEP WORKING");
+            contentView.setTextViewText(R.id.text, "Kindly rate your efficiency in the last hour");
+
+
+            notification.contentView = contentView;
+
+           // Intent notificationIntent = new Intent(this, MainActivity.class);
+           // PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+           // notification.contentIntent = contentIntent;
+
+            //notification.flags |= Notification.FLAG_NO_CLEAR; //Do not clear the notification
+            notification.defaults |= Notification.DEFAULT_LIGHTS; // LED
+            notification.defaults |= Notification.DEFAULT_VIBRATE; //Vibration
+            notification.defaults |= Notification.DEFAULT_SOUND; // Sound
+
+            mNotificationManager.notify(1, notification);
+            stopSelf();
 
         }
 
