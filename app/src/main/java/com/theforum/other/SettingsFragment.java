@@ -11,11 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.theforum.R;
-import com.theforum.home.TopicsModel;
 import com.theforum.utils.OnListItemClickListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -39,9 +37,18 @@ public class SettingsFragment extends Fragment implements OnListItemClickListene
 
         ButterKnife.bind(this, view);
         ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
+        mToolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+        mToolbar.setTitle("Options");
+
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        mRecyclerView.setAdapter(new SettingsListAdapter(getActivity(), getListData()));
+        mRecyclerView.setAdapter(new SettingsListAdapter(this, getListData()));
 
     }
 
@@ -62,7 +69,7 @@ public class SettingsFragment extends Fragment implements OnListItemClickListene
     }
 
     @Override
-    public void onItemClicked(View v, int position) {
+    public void onItemClick(View v, int position) {
 
     }
 }
