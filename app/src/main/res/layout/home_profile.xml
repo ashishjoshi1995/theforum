@@ -1,60 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp">
 
-    <android.support.design.widget.TextInputLayout
+    <Button
+        android:id="@+id/profile_notification_btn"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:text="Notifications" />
+
+    <!-- status holder-->
+    <FrameLayout
+        android:id="@+id/profile_status_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="12dp">
-        <EditText
-            android:id="@+id/profile_edit_name"
+        android:layout_below="@id/profile_notification_btn"
+        android:layout_marginTop="16dp">
+        <ImageView
+            android:id="@+id/profile_status_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="14dp"
+            android:scaleType="center"
+            android:src="@drawable/status"
+            android:background="@drawable/profile_circle_drawable"/>
+
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Your Status"
-            android:textColorHint="#585858"
-            android:textSize="28sp"
-            android:inputType="none"
-            android:editable="false"
-            android:drawableLeft="@drawable/status"/>
-    </android.support.design.widget.TextInputLayout>
+            android:layout_marginLeft="56dp">
+            <EditText
+                android:id="@+id/profile_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Your Status"
+                android:textColorHint="#585858"
+                android:textSize="32sp"
+                android:inputType="none"
+                android:editable="false" />
+        </android.support.design.widget.TextInputLayout>
+    </FrameLayout>
 
-    <android.support.design.widget.TextInputLayout
+    <!--points holder -->
+    <FrameLayout
+        android:id="@+id/profile_points_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="12dp">
+        android:layout_below="@id/profile_status_holder">
 
-        <EditText android:id="@+id/profile_edit_location"
+        <ImageView
+            android:id="@+id/profile_points_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="14dp"
+            android:scaleType="center"
+            android:src="@drawable/points"
+            android:background="@drawable/profile_circle_drawable"/>
+
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Point Collected"
-            android:textSize="28sp"
-            android:inputType="none"
-            android:editable="false"
-            android:drawableLeft="@drawable/points" />
-    </android.support.design.widget.TextInputLayout>
+            android:layout_marginLeft="56dp">
 
-    <android.support.design.widget.TextInputLayout
+            <EditText android:id="@+id/profile_points"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Point Collected"
+                android:textSize="32sp"
+                android:inputType="none"
+                android:editable="false" />
+        </android.support.design.widget.TextInputLayout>
+    </FrameLayout>
+
+    <!--topics holder-->
+    <FrameLayout
+        android:id="@+id/profile_topics_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="12dp">
+        android:layout_below="@id/profile_points_holder">
+        <ImageView
+            android:id="@+id/profile_topics_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="14dp"
+            android:scaleType="center"
+            android:src="@drawable/topics_created"
+            android:background="@drawable/profile_circle_drawable"/>
 
-        <EditText
-            android:id="@+id/profile_edit_description"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Topics Created"
-            android:textSize="28sp"
-            android:inputType="none"
-            android:editable="false"
-            android:drawableLeft="@drawable/topics_created"/>
-    </android.support.design.widget.TextInputLayout>
+            android:layout_marginLeft="56dp">
 
-</LinearLayout>
+            <EditText
+                android:id="@+id/profile_topics"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Topics Created"
+                android:textSize="32sp"
+                android:inputType="none"
+                android:editable="false" />
+        </android.support.design.widget.TextInputLayout>
+    </FrameLayout>
+
+
+
+
+
+</RelativeLayout>
