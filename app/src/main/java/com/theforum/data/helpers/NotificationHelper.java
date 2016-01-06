@@ -11,6 +11,8 @@ import com.theforum.TheForumApplication;
 import com.theforum.User;
 import com.theforum.data.dataModels.OpinionNotification;
 import com.theforum.data.dataModels.TopicNotification;
+import com.theforum.data.dataModels.opinion;
+import com.theforum.data.dataModels.topic;
 import com.theforum.data.dataModels.user;
 import com.theforum.data.interfaces.NotificationIfAny;
 import com.theforum.data.local.NotificationStack;
@@ -25,22 +27,22 @@ public class NotificationHelper {
     //asyncTask is already included during the call of any of the above methods
 
     MobileServiceClient mobileServiceClient;
-    MobileServiceTable<TopicNotification>topicNotificationTable;
-    MobileServiceTable<OpinionNotification>opinionNotificationTable;
+    MobileServiceTable<topic>topic;
+    MobileServiceTable<opinion>opinion;
 
 
     public NotificationHelper(){
         this.mobileServiceClient = TheForumApplication.getClient();
-        this.opinionNotificationTable = mobileServiceClient.getTable(OpinionNotification.class);
-        this.topicNotificationTable = mobileServiceClient.getTable(TopicNotification.class);
+        this.opinion = mobileServiceClient.getTable(opinion.class);
+        this.topic = mobileServiceClient.getTable(topic.class);
     }
 
     public void readNotification(final NotificationIfAny notificationIfAny){
         final boolean[] one = {false};
 //        boolean two = false;
-       opinionNotificationTable.where().field("uid").eq(User.getInstance().getForumId()).execute(new TableQueryCallback<OpinionNotification>() {
+       opinion.where().field("uid").eq(User.getInstance().getForumId()).execute(new TableQueryCallback<opinion>() {
             @Override
-            public void onCompleted(List<OpinionNotification> result, int count, Exception exception, ServiceFilterResponse response) {
+            public void onCompleted(List<opinion> result, int count, Exception exception, ServiceFilterResponse response) {
                 Log.e("readNotif opi", String.valueOf(count));
                 if(count>0)
                 {
@@ -52,9 +54,9 @@ public class NotificationHelper {
 
         });
 
-        topicNotificationTable.where().field("uid").eq(User.getInstance().getForumId()).execute(new TableQueryCallback<TopicNotification>() {
+        topic.where().field("uid").eq(User.getInstance().getForumId()).execute(new TableQueryCallback<topic>() {
             @Override
-            public void onCompleted(List<TopicNotification> result, int count, Exception exception, ServiceFilterResponse response) {
+            public void onCompleted(List<topic> result, int count, Exception exception, ServiceFilterResponse response) {
                 Log.e("readNotif topic", String.valueOf(count));
                 if(count>0){
                     NotificationStack.pushTopicListInStack(result);

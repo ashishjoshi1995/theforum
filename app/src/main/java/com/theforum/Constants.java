@@ -20,4 +20,9 @@ public class Constants {
 
     public static final int ADD_MY_TOPIC = 300;
     public static final int ADD_TOPICS_ALL = 301;
+
+    public static final int NOTIFICATION_TYPE_RENEWALREQUEST = 400;
+    public static final int NOTIFICATION_TYPE_RENEWED = 401;
+    public static final int NOTIFICATION_TYPE_OPINIONS = 402;
+    public static final int NOTIFICATION_TYPE_OPINIONUPVOTES = 403;
 }

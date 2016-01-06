@@ -28,6 +28,16 @@ public class topic {
     @com.google.gson.annotations.SerializedName("topic")
     private String mTopic;
 
+    @com.google.gson.annotations.SerializedName("notif_new_opinions")
+    private int mNotifOpinionIds;
+
+    @com.google.gson.annotations.SerializedName("notif_new_renewal_request")
+    private int mNotifRenewalRequests;
+
+    @com.google.gson.annotations.SerializedName("hours_left")
+    private int mHoursLeft;
+
+
 
     public String getmId() {
         return mId;
@@ -92,4 +102,30 @@ public class topic {
     public void setmTopic(String mTopic) {
         this.mTopic = mTopic;
     }
+
+    public int getmNotifOpinionIds() {
+        return mNotifOpinionIds;
+    }
+
+    public void setmNotifOpinionIds(int mNotifOpinionIds) {
+        this.mNotifOpinionIds = mNotifOpinionIds;
+    }
+
+    public int getmNotifRenewalRequests() {
+        return mNotifRenewalRequests;
+    }
+
+    public void setmNotifRenewalRequests(int mNotifRenewalRequests) {
+        this.mNotifRenewalRequests = mNotifRenewalRequests;
+    }
+
+    public int getmHoursLeft() {
+        return mHoursLeft;
+    }
+
+    public void setmHoursLeft(int mHoursLeft) {
+        this.mHoursLeft = mHoursLeft;
+    }
+
+
 }
