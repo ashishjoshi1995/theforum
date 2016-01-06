@@ -52,16 +52,17 @@ public class OpinionsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ButterKnife.bind(this, view);
 
+        ButterKnife.bind(this, view);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+
         List<TopicsModel> mFeeds = new ArrayList<>();
         for (int i=0;i<10;i++){
             mFeeds.add(new TopicsModel());
         }
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(new TopicsListAdapter(getActivity(), mFeeds));
+        recyclerView.setAdapter(new OpinionsListAdapter(getActivity(), mFeeds));
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

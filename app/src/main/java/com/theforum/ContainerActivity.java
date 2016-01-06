@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.theforum.other.NewOpinionFragment;
 import com.theforum.other.NewTopicFragment;
 import com.theforum.other.OpinionsFragment;
+import com.theforum.other.SettingsFragment;
 
 public class ContainerActivity extends AppCompatActivity {
 
@@ -33,6 +34,7 @@ public class ContainerActivity extends AppCompatActivity {
                 break;
 
             case Constants.SETTINGS_FRAGMENT:
+                fragmentTransaction.replace(R.id.menu_fragment_container,new SettingsFragment());
                 break;
         }
         fragmentTransaction.commit();
