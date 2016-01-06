@@ -14,7 +14,7 @@ public class ContainerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.menu_container);
+        setContentView(R.layout.activity_container);
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 

@@ -3,18 +3,16 @@ package com.theforum;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.os.SystemClock;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
+import com.theforum.home.HomeFragment;
 import com.theforum.notification.NotificationService;
 import com.theforum.utils.CommonUtils;
 
@@ -26,31 +24,20 @@ public class HomeActivity extends AppCompatActivity {
     @Bind(R.id.home_toolbar)
     Toolbar mToolbar;
 
-    @Bind(R.id.home_sliding_tabs)
-    TabLayout mTabLayout;
-
-    @Bind(R.id.home_viewpager)
-    ViewPager mViewPager;
-
-    @Bind(R.id.home_fab)
-    FloatingActionButton mFab;
+    FragmentTransaction mFragmentTransaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.home);
+
+        setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
 
         setSupportActionBar(mToolbar);
-        mViewPager.setAdapter(new HomePagerAdapter(getSupportFragmentManager()));
-        mTabLayout.setupWithViewPager(mViewPager);
 
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+        mFragmentTransaction = getSupportFragmentManager().beginTransaction()
+                .replace(R.id.home_fragment_container, new HomeFragment());
+        mFragmentTransaction.commit();
     }
 
 
