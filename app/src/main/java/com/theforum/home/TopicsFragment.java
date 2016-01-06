@@ -2,15 +2,14 @@ package com.theforum.home;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.theforum.R;
+import com.theforum.utils.DividerItemDecorator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,8 +36,6 @@ public class TopicsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-
-
         List<TopicsModel> mFeeds = new ArrayList<>();
         /* add dummy content*/
         for (int i=0;i<10;i++){
@@ -46,6 +43,8 @@ public class TopicsFragment extends Fragment {
         }
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        recyclerView.addItemDecoration(new DividerItemDecorator(getActivity(), R.drawable.recycler_view_divider));
         recyclerView.setAdapter(new TopicsListAdapter(getActivity(), mFeeds));
+
     }
 }

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.theforum.R;
+import com.theforum.utils.DividerItemDecorator;
 import com.theforum.utils.OnListItemClickListener;
 
 import java.util.ArrayList;
@@ -36,10 +37,10 @@ public class SettingsFragment extends Fragment implements OnListItemClickListene
         super.onViewCreated(view, savedInstanceState);
 
         ButterKnife.bind(this, view);
+
+        mToolbar.setTitle("Options");
         ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
         mToolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
-        mToolbar.setTitle("Options");
-
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,6 +49,7 @@ public class SettingsFragment extends Fragment implements OnListItemClickListene
         });
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        mRecyclerView.addItemDecoration(new DividerItemDecorator(getActivity(), R.drawable.recycler_view_divider));
         mRecyclerView.setAdapter(new SettingsListAdapter(this, getListData()));
 
     }

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.theforum.R;
+import com.theforum.utils.DividerItemDecorator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +42,7 @@ public class TrendsFragment extends Fragment {
         }
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        recyclerView.addItemDecoration(new DividerItemDecorator(getActivity(), R.drawable.recycler_view_divider));
         recyclerView.setAdapter(new TrendsListAdapter(getActivity(), mFeeds));
 
     }
