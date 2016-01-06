@@ -3,8 +3,6 @@ package com.theforum;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.FragmentTransaction;
@@ -12,8 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.StyleSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -47,9 +43,6 @@ public class HomeActivity extends AppCompatActivity {
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         spannableString.setSpan(new TypefaceSpan(this,"Roboto-Medium.ttf"), 4, 8,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(new ForegroundColorSpan(Color.WHITE), 0, 8,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
         mToolbar.setTitle(spannableString);
 
         mFragmentTransaction = getSupportFragmentManager().beginTransaction()
@@ -75,16 +68,6 @@ public class HomeActivity extends AppCompatActivity {
                     minutes * 60 * 1000, pi);
 
         }
-    }
-
-
-    private Spannable getSpannable(int beginIndex, int endIndex, String string ){
-
-        Spannable span = new SpannableString(string);
-        span.setSpan(new StyleSpan(Typeface.BOLD),beginIndex, endIndex,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        span.setSpan(new ForegroundColorSpan(Color.parseColor("#ed2557")), beginIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        return span;
     }
 
 
