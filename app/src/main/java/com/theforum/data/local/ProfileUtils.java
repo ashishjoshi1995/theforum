@@ -1,4 +1,4 @@
-package com.theforum.data.localDB;
+package com.theforum.data.local;
 
 import android.content.Context;
 import android.content.SharedPreferences;

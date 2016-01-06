@@ -1,6 +1,6 @@
 package com.theforum;
 
-import com.theforum.data.localDB.ProfileUtils;
+import com.theforum.data.local.ProfileUtils;
 
 /**
  * Created by Ashish on 1/2/2016.

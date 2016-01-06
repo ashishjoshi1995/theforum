@@ -1,4 +1,4 @@
-package com.theforum.data.localDB;
+package com.theforum.data.local;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -10,7 +10,6 @@ import com.theforum.Constants;
 import com.theforum.data.dataModels.topic;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Ashish on 1/2/2016.
