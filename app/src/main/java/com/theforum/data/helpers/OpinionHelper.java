@@ -133,6 +133,7 @@ public class OpinionHelper {
 
 }
 
+
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private AsyncTask<Void, Void, MobileServiceList<opinion>> runAsyncTask2(AsyncTask<Void, Void, MobileServiceList<opinion>> task) {
 

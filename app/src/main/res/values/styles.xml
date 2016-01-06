@@ -11,6 +11,13 @@
         <item name="android:textColor">@color/colorTextMain</item>
     </style>
 
+    <style name="ToolbarTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:textColorPrimary">#fff</item>
+        <item name="android:textColorPrimaryInverse">#fff</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColorSecondary">#fff</item>
+    </style>
+
     <style name="homeTabStyle" parent="android:Widget">
         <item name="tabIndicatorHeight">2dp</item>
         <item name="tabPaddingStart">12dp</item>

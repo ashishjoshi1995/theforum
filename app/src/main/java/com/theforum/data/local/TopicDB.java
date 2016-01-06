@@ -1,11 +1,15 @@
-package com.theforum.data.localDB;
+package com.theforum.data.local;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.theforum.Constants;
 import com.theforum.data.dataModels.topic;
+
+import java.util.ArrayList;
 
 /**
  * Created by Ashish on 1/2/2016.
@@ -19,7 +23,9 @@ public class TopicDB extends SQLiteOpenHelper {
     // Database Name
     private static final String DATABASE_NAME = "TOPIC_DB";
 
-    private static final String TABLE_NAME = "TOPICS_TABLE";
+    private static final String TABLE_NAME = "TOPICS_TABLE_FEED";
+    private static final String MY_DATA_TABLE = "MY_ADDED_TOPICS";
+
 
     //statistics table coloumn
     private static final String KEY_ID = "id";
@@ -43,16 +49,23 @@ public class TopicDB extends SQLiteOpenHelper {
                 +KEY_TOPIC+" TEXT,"  + KEY_DESCRIPTION+ " TEXT,"  + KEY_RENEWAL_REQUEST + " INTEGER,"
                 + KEY_TOTAL_OPINIONS + " INTEGER)";
         db.execSQL(CREATE_TOPIC_TABLE);
+
+        String CREATE_MY_TOPIC_TABLE = "CREATE TABLE " +MY_DATA_TABLE + "("
+                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_SERVER_ID + " TEXT,"+KEY_OPINION_IDS+" TEXT,"+KEY_TOPIC_ID+" TEXT,"
+                +KEY_TOPIC+" TEXT,"  + KEY_DESCRIPTION+ " TEXT,"  + KEY_RENEWAL_REQUEST + " INTEGER,"
+                + KEY_TOTAL_OPINIONS + " INTEGER)";
+        db.execSQL(CREATE_MY_TOPIC_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS" + TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS" + MY_DATA_TABLE);
         // Create tables again
         onCreate(db);
     }
 
-    public void addTopic(topic topic){
+    public void addTopic(topic topic , int j){
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -62,11 +75,37 @@ public class TopicDB extends SQLiteOpenHelper {
         values.put(KEY_TOPIC_ID,topic.getmTopicId());
         values.put(KEY_TOPIC,topic.getmTopic());
         values.put(KEY_DESCRIPTION,topic.getmDescription());
-        values.put(KEY_RENEWAL_REQUEST,topic.getmRenewalRequests());
-        values.put(KEY_TOTAL_OPINIONS,topic.getmTotalOpinions());
+        values.put(KEY_RENEWAL_REQUEST, topic.getmRenewalRequests());
+        values.put(KEY_TOTAL_OPINIONS, topic.getmTotalOpinions());
 
         // Inserting Row
-        db.insert(TABLE_NAME, null, values);
-        db.close(); // Closing database connection
+        switch (j) {
+            case Constants.ADD_TOPICS_ALL:
+                db.insert(TABLE_NAME, null, values);
+                break;
+            case Constants.ADD_MY_TOPIC:
+                db.insert(MY_DATA_TABLE, null, values);
+                break;
+        }    db.close(); // Closing database connection
+
+    }
+
+    public void deleteTopic(){
+
+    }
+
+    public ArrayList<String> getMyTopicId(){
+       ArrayList<String> s = new ArrayList<String>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        String readTopicId = "SELECT DISTINCT" + KEY_TOPIC_ID +"FROM" + MY_DATA_TABLE;
+        Cursor c = db.rawQuery(readTopicId,null);
+        if(c!=null){
+            c.moveToFirst();
+        }
+        for(int i =0; i<c.getCount();i++){
+            s.add(c.getString(0));
+        }
+
+        return s;
     }
 }

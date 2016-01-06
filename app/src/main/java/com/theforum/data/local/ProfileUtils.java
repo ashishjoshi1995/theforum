@@ -1,4 +1,4 @@
-package com.theforum.data.localDB;
+package com.theforum.data.local;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -21,6 +21,7 @@ public class ProfileUtils {
     public static final String TOPICS_CREATED = "topics_created";
     public static final String CURRENT_TOPICS = "current_topics";
     public static final String SERVER_ID = "server_id";
+    public static final String AGE = "age";
 
     public static ProfileUtils getInstance() {
         return profileUtils;
