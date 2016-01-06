@@ -21,6 +21,12 @@ import android.widget.Toast;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.theforum.R;
 import com.theforum.TheForumApplication;
+import com.theforum.data.dataModels.OpinionNotification;
+import com.theforum.data.dataModels.TopicNotification;
+import com.theforum.data.helpers.NotificationHelper;
+import com.theforum.data.interfaces.NotificationIfAny;
+
+import java.util.List;
 
 /**
  * Created by Ashish on 12/9/2015.
@@ -74,7 +80,20 @@ public class NotificationService extends Service {
         protected Void doInBackground(Void... params) {
             // do stuff!
             // here we need to query the two tables and transfer the data to on post execute
-            MobileServiceClient client = TheForumApplication.getClient();
+            Log.e("PollTask doinbackground","notficationhelper called");
+            NotificationHelper helper = new NotificationHelper();
+            helper.readNotification(new NotificationIfAny() {
+
+                @Override
+                public void topicNotif(List<TopicNotification> topicNotifications) {
+                    
+                }
+
+                @Override
+                public void opinionNotif(List<OpinionNotification> opinionNotifications) {
+
+                }
+            });
 
 
             return null;
@@ -84,10 +103,13 @@ public class NotificationService extends Service {
         @Override
         protected void onPostExecute(Void result) {
             // handle your data
-            Notify("You've received new message","messAGE");
-            Toast.makeText(getBaseContext(),"asynctask",Toast.LENGTH_SHORT).show();
+           // Notify("You've received new message","messAGE");
+           // Toast.makeText(getBaseContext(),"asynctask",Toast.LENGTH_SHORT).show();
             stopSelf();
         }
+
+
+
         @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
         private void Notify(String notificationTitle, String notificationMessage){
             long when = System.currentTimeMillis();
