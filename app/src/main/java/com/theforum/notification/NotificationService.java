@@ -86,7 +86,7 @@ public class NotificationService extends Service {
 
                 @Override
                 public void topicNotif(List<TopicNotification> topicNotifications) {
-                    
+
                 }
 
                 @Override
