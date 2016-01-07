@@ -1,7 +1,5 @@
 package com.theforum;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -9,23 +7,26 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.theforum.home.HomeFragment;
 import com.theforum.utils.CommonUtils;
+import com.theforum.utils.OnHomeUiChangeListener;
 import com.theforum.utils.TypefaceSpan;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements OnHomeUiChangeListener{
 
     @Bind(R.id.home_toolbar)
     Toolbar mToolbar;
 
-    FragmentTransaction mFragmentTransaction;
+    private FragmentTransaction mFragmentTransaction;
+
+    private boolean changeMenuItem;
+    private boolean setSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,12 +75,30 @@ public class HomeActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        MenuItem search = menu.findItem(R.id.action_search);
+        if(search!= null) {
+            SearchView searchView = (SearchView)search.getActionView();
+        }
         
         return true;
     }
 
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+
+        if(changeMenuItem){
+            if(setSearch){
+                menu.findItem(R.id.action_search).setVisible(true);
+                menu.findItem(R.id.action_share).setVisible(false);
+            }else {
+                menu.findItem(R.id.action_search).setVisible(false);
+                menu.findItem(R.id.action_share).setVisible(true);
+            }
+            changeMenuItem = false;
+        }
+
+        return super.onPrepareOptionsMenu(menu);
+    }
 
 
 
@@ -96,15 +115,23 @@ public class HomeActivity extends AppCompatActivity {
                 CommonUtils.openContainerActivity(this, Constants.NEW_TOPIC_FRAGMENT);
                 break;
             case R.id.action_search:
-                //onSearchRequested();
+
                 break;
 
         }
 
-
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onPageSelected(int position, boolean setSearchEnabled) {
+        changeMenuItem = true;
+        setSearch = setSearchEnabled;
+        supportInvalidateOptionsMenu();
+    }
+
+
+/*
     @Override
     public boolean onSearchRequested() {
 
@@ -113,6 +140,7 @@ public class HomeActivity extends AppCompatActivity {
         appData.putString("hello", "world");
         startSearch(null, false, appData, false);
         return true;
-    }
+    }*/
+
 
 }

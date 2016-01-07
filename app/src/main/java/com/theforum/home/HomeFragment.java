@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.theforum.HomePagerAdapter;
 import com.theforum.R;
+import com.theforum.utils.OnHomeUiChangeListener;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -30,8 +31,11 @@ public class HomeFragment extends Fragment {
     @Bind(R.id.home_fab)
     FloatingActionButton mFab;
 
+    private int mPosition;
+    private OnHomeUiChangeListener homeUiChangeListener;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        homeUiChangeListener = (OnHomeUiChangeListener) getActivity();
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
@@ -50,6 +54,29 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if(mPosition==1&& position==2) {
+                    homeUiChangeListener.onPageSelected(position, false);
+                }else if(mPosition==2 && position==1) homeUiChangeListener.onPageSelected(position,true);
+
+                mPosition = position;
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
     }
+
 
 }

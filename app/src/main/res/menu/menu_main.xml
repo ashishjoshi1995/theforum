@@ -18,4 +18,10 @@
         android:icon="@drawable/search"
         app:showAsAction="collapseActionView|always"
         app:actionViewClass="android.support.v7.widget.SearchView"/>
+
+    <item android:id="@+id/action_share"
+        android:title="Share"
+        android:icon="@drawable/status"
+        android:visible="false"
+        app:showAsAction="always"/>
 </menu>
