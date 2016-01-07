@@ -1,12 +1,18 @@
 package com.theforum.data.local;
 
-/**
- * Created by Ashish on 1/6/2016.
- */
-public class NotificationDataModel {
-    //hrs left, topicname,
+import com.theforum.Constants;
 
-    public int notificationType;
+/**
+ * @author Ashish
+ * @since 1/6/2016.
+ */
+
+public class NotificationDataModel {
+
+/*
+ * type of notification, hours left to delete and topic
+ */
+    public int notificationType = Constants.NOTIFICATION_TYPE_OPINION_UP_VOTES;
     public int hoursLeft;
     public String topicText;
 
@@ -18,7 +24,7 @@ public class NotificationDataModel {
     public boolean ifUpvoted;
     public boolean ifDownvoted;
 //break
-public boolean ifRenewalRequested;
+    public boolean ifRenewalRequested;
     public String topicId;
 
 //notification of renewal request
