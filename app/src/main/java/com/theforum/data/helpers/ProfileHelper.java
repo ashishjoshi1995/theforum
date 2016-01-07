@@ -1,12 +1,16 @@
 package com.theforum.data.helpers;
 
+import android.annotation.TargetApi;
 import android.os.AsyncTask;
+import android.os.Build;
 
+import com.theforum.data.dataModels.topic;
 import com.theforum.data.dataModels.user;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -45,7 +49,13 @@ public class ProfileHelper {
                 super.onPostExecute(user);
             }
         };
+        runAsyncTask(task);
         return null;
     }
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    private AsyncTask<Void, user, user> runAsyncTask(AsyncTask<Void, user, user> task) {
 
+        return task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+    }
 }

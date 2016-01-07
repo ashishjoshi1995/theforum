@@ -46,7 +46,7 @@ public class NotificationHelper {
                 Log.e("readNotif opi", String.valueOf(count));
                 if(count>0)
                 {
-                    NotificationStack.pushOpinionListInStack(result);
+                    //NotificationStack.pushNotificationInflatorItemData(result);
                     notificationIfAny.opinionNotif(result);
 
                 }
@@ -59,7 +59,7 @@ public class NotificationHelper {
             public void onCompleted(List<topic> result, int count, Exception exception, ServiceFilterResponse response) {
                 Log.e("readNotif topic", String.valueOf(count));
                 if(count>0){
-                    NotificationStack.pushTopicListInStack(result);
+                   // NotificationStack.pushNotificationInflatorItemData(result);
                     notificationIfAny.topicNotif(result);
                 }
 

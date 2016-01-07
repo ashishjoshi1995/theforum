@@ -88,10 +88,15 @@ public class HomeActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         switch (id){
             case R.id.action_settings:
+                CommonUtils.openContainerActivity(this,Constants.SETTINGS_FRAGMENT);
                 break;
             case R.id.action_add_opinion:
                 CommonUtils.openContainerActivity(this, Constants.NEW_TOPIC_FRAGMENT);
                 break;
+            case R.id.action_search:
+                //item.expandActionView();
+                break;
+
         }
 
 

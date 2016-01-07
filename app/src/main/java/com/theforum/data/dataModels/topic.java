@@ -13,6 +13,9 @@ public class topic {
     @com.google.gson.annotations.SerializedName("renewal_requests")
     private int mRenewalRequests;
 
+    @com.google.gson.annotations.SerializedName("renewed_count")
+    private int mRenewedCount;
+
     @com.google.gson.annotations.SerializedName("topic_id")
     private String mTopicId;
 
@@ -128,4 +131,11 @@ public class topic {
     }
 
 
+    public int getmRenewedCount() {
+        return mRenewedCount;
+    }
+
+    public void setmRenewedCount(int mRenewedCount) {
+        this.mRenewedCount = mRenewedCount;
+    }
 }
