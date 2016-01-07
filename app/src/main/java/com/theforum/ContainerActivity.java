@@ -10,6 +10,7 @@ import com.theforum.other.NewOpinionFragment;
 import com.theforum.other.NewTopicFragment;
 import com.theforum.other.OpinionsFragment;
 import com.theforum.other.SettingsFragment;
+import com.theforum.other.SortFragment;
 
 public class ContainerActivity extends AppCompatActivity {
 
@@ -40,6 +41,10 @@ public class ContainerActivity extends AppCompatActivity {
 
             case Constants.NOTIFICATION_FRAGMENT:
                 fragmentTransaction.replace(R.id.menu_fragment_container,new NotificationFragment());
+                break;
+
+            case Constants.SORT_FRAGMENT:
+                fragmentTransaction.replace(R.id.menu_fragment_container,new SortFragment());
                 break;
         }
 

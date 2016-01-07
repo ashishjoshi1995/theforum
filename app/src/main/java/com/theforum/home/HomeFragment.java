@@ -9,8 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.theforum.Constants;
+import com.theforum.ContainerActivity;
 import com.theforum.HomePagerAdapter;
 import com.theforum.R;
+import com.theforum.utils.CommonUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -46,7 +49,7 @@ public class HomeFragment extends Fragment {
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                CommonUtils.openContainerActivity(getContext(), Constants.SORT_FRAGMENT);
             }
         });
 

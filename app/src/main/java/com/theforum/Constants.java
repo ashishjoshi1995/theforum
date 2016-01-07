@@ -13,6 +13,7 @@ public class Constants {
     public static final int OPINIONS_FRAGMENT = 102;
     public static final int SETTINGS_FRAGMENT = 103;
     public static final int NOTIFICATION_FRAGMENT = 104;
+    public static final int SORT_FRAGMENT = 105;
 
     public static final int SORT_BASIS_CREATED_BY_ME = 200;
     public static final int SORT_BASIS_LATEST = 201;
