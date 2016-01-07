@@ -4,37 +4,18 @@
     android:layout_height="wrap_content"
     android:padding= "16dp">
 
-    <LinearLayout
-        android:id="@+id/opinion_vote_holder"
+    <include android:id="@+id/opinion_vote_holder"
+        layout="@layout/vote_holder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_alignParentRight="true"
-        android:layout_marginLeft="10dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:drawableTop="@mipmap/ic_launcher"
-            android:drawablePadding="4dp"
-            android:text="1254"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:drawableTop="@mipmap/ic_launcher"
-            android:drawablePadding="4dp"
-            android:text="1254"/>
-    </LinearLayout>
-    <TextView
-        android:id="@+id/opinion_description"
+        android:layout_marginLeft="10dp"/>
+
+    <TextView android:id="@+id/opinion_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@id/opinion_vote_holder"
         android:textSize="20sp"
         android:text="@string/explore_message"/>
-
-
-
 
 </RelativeLayout>

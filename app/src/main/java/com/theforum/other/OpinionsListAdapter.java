@@ -23,7 +23,7 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
 
     private Context mContext;
 
-    /* list of feed data */
+    /* list of data */
     private List<TopicsModel> mFeeds;
 
 

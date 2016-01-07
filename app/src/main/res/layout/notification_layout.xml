@@ -9,7 +9,6 @@
     <TextView android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         style="Custom Notification Title" />
     <TextView android:id="@+id/text"
         android:layout_width="wrap_content"
@@ -18,7 +17,4 @@
         style="Custom Notification Text" />
 
 
-
-
 </RelativeLayout>
-    <!-- android:layout_below="@+id/efficiency_seekbar"-->

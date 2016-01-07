@@ -1,4 +1,4 @@
-package com.theforum.other;
+package com.theforum.notification;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,20 +9,19 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.theforum.R;
-import com.theforum.utils.CommonUtils;
 import com.theforum.utils.DividerItemDecorator;
-import com.theforum.utils.OnListItemClickListener;
-
-import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+/**
+ * @author DEEPANKAR
+ * @since 07-01-2016.
+ */
 
-public class SettingsFragment extends Fragment implements OnListItemClickListener{
+public class NotificationFragment extends Fragment {
 
     @Bind(R.id.settings_toolbar)
     Toolbar mToolbar;
@@ -40,7 +39,7 @@ public class SettingsFragment extends Fragment implements OnListItemClickListene
 
         ButterKnife.bind(this, view);
 
-        mToolbar.setTitle("Options");
+        mToolbar.setTitle("Notifications");
         ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
         mToolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -50,35 +49,9 @@ public class SettingsFragment extends Fragment implements OnListItemClickListene
             }
         });
 
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.setMargins(0, (int)CommonUtils.convertDpToPixel(12, getContext()), 0, 0);
-        mRecyclerView.setLayoutParams(params);
-
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         mRecyclerView.addItemDecoration(new DividerItemDecorator(getActivity(), R.drawable.recycler_view_divider));
-        mRecyclerView.setAdapter(new SettingsListAdapter(this, getListData()));
-
-    }
-
-    private ArrayList<String> getListData(){
-        ArrayList<String> data = new ArrayList<>();
-        data.add("Spread The World");
-        data.add("Share the App");
-        data.add("App");
-        data.add("Rate Us");
-        data.add("Feedback");
-        data.add("Reach Us");
-        data.add("Support");
-        data.add("Contact Us");
-        data.add("Legal");
-        data.add("Terms Of Service");
-
-        return data;
-    }
-
-    @Override
-    public void onItemClick(View v, int position) {
+    //    mRecyclerView.setAdapter(new NotificationListAdapter(this, getListData()));
 
     }
 }

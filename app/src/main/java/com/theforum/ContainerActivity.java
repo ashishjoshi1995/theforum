@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
+import com.theforum.notification.NotificationFragment;
 import com.theforum.other.NewOpinionFragment;
 import com.theforum.other.NewTopicFragment;
 import com.theforum.other.OpinionsFragment;
@@ -36,7 +37,12 @@ public class ContainerActivity extends AppCompatActivity {
             case Constants.SETTINGS_FRAGMENT:
                 fragmentTransaction.replace(R.id.menu_fragment_container,new SettingsFragment());
                 break;
+
+            case Constants.NOTIFICATION_FRAGMENT:
+                fragmentTransaction.replace(R.id.menu_fragment_container,new NotificationFragment());
+                break;
         }
+
         fragmentTransaction.commit();
 
 

@@ -9,7 +9,7 @@ public class NotificationStack {
    static Stack notificationStack = new Stack();
 
 
-    public static void pushNotificationInflatorItemData(NotificationInflatorItemData notificationInflatorItemData){
-        notificationStack.push(notificationInflatorItemData);
+    public static void pushNotificationInflatorItemData(NotificationDataModel notificationDataModel){
+        notificationStack.push(notificationDataModel);
     }
 }
