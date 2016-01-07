@@ -3,20 +3,21 @@ package com.theforum;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.os.SystemClock;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
+import com.theforum.home.HomeFragment;
 import com.theforum.notification.NotificationService;
+import com.theforum.other.SettingsFragment;
 import com.theforum.utils.CommonUtils;
+import com.theforum.utils.TypefaceSpan;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -26,31 +27,28 @@ public class HomeActivity extends AppCompatActivity {
     @Bind(R.id.home_toolbar)
     Toolbar mToolbar;
 
-    @Bind(R.id.home_sliding_tabs)
-    TabLayout mTabLayout;
-
-    @Bind(R.id.home_viewpager)
-    ViewPager mViewPager;
-
-    @Bind(R.id.home_fab)
-    FloatingActionButton mFab;
+    FragmentTransaction mFragmentTransaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.home);
+
+        setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
 
         setSupportActionBar(mToolbar);
-        mViewPager.setAdapter(new HomePagerAdapter(getSupportFragmentManager()));
-        mTabLayout.setupWithViewPager(mViewPager);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        SpannableString spannableString = new SpannableString("theforum");
+        spannableString.setSpan(new TypefaceSpan(this,"Roboto-Light.ttf"), 0, 3,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new TypefaceSpan(this,"Roboto-Medium.ttf"), 4, 8,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        mToolbar.setTitle(spannableString);
 
-            }
-        });
+        mFragmentTransaction = getSupportFragmentManager().beginTransaction()
+                .replace(R.id.home_fragment_container, new HomeFragment());
+        mFragmentTransaction.commit();
     }
 
 
@@ -59,7 +57,6 @@ public class HomeActivity extends AppCompatActivity {
         super.onResume();
 
         int minutes = 100;
-        Log.e("HomeActivity", "onResume");
 
         AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
         Intent i = new Intent(this, NotificationService.class);
@@ -73,6 +70,7 @@ public class HomeActivity extends AppCompatActivity {
 
         }
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -88,6 +86,12 @@ public class HomeActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         switch (id){
             case R.id.action_settings:
+<<<<<<< HEAD
+=======
+
+               // Intent intent = new Intent(this, SettingsFragment.class);
+               // startActivity(intent);
+>>>>>>> c6a5aa5ccc9e04503246d4ee6388c8c98c79fa66
                 CommonUtils.openContainerActivity(this,Constants.SETTINGS_FRAGMENT);
                 break;
             case R.id.action_add_opinion:

@@ -8,13 +8,14 @@ import android.support.v7.app.AppCompatActivity;
 import com.theforum.other.NewOpinionFragment;
 import com.theforum.other.NewTopicFragment;
 import com.theforum.other.OpinionsFragment;
+import com.theforum.other.SettingsFragment;
 
 public class ContainerActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.menu_container);
+        setContentView(R.layout.activity_container);
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
@@ -30,6 +31,10 @@ public class ContainerActivity extends AppCompatActivity {
 
             case Constants.NEW_OPINION_FRAGMENT:
                 fragmentTransaction.replace(R.id.menu_fragment_container, new NewOpinionFragment());
+                break;
+
+            case Constants.SETTINGS_FRAGMENT:
+                fragmentTransaction.replace(R.id.menu_fragment_container,new SettingsFragment());
                 break;
         }
         fragmentTransaction.commit();

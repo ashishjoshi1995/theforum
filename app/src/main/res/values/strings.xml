@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TheForum</string>
+    <string name="app_name">theforum</string>
     <string name="explore_message">This is Explore. we are currently developing it to help you see the world.
     Make more flurs and Share the App! Let\'s build a new Atlas Together</string>
     <string name="title_activity_handle_search_result">HandleSearchResult</string>
