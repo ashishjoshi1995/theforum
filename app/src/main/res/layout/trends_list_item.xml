@@ -28,32 +28,14 @@
         app:fontName="Roboto-Light.ttf"
         android:text="@string/explore_message"/>
 
-    <LinearLayout
+    <include
         android:id="@+id/trends_vote_holder"
+        layout="@layout/vote_holder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_alignTop="@id/trends_description"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="4dp">
-        <TextView
-            android:id="@+id/trends_upvote_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:drawablePadding="8dp"
-            android:clickable="true"
-            android:text="1254"/>
-        <TextView
-            android:id="@+id/trends_downvote_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="17dp"
-            android:gravity="center"
-            android:drawablePadding="8dp"
-            android:clickable="true"
-            android:text="1254"/>
-    </LinearLayout>
+        android:layout_marginRight="4dp"/>
 
     <TextView
         android:id="@+id/trends_decay_time"

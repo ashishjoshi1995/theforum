@@ -3,11 +3,8 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include android:id="@+id/settings_toolbar"
+    <include android:id="@+id/sort_toolbar"
         layout="@layout/toolbar"/>
 
-    <include android:id="@+id/settings_recycler_view"
-        layout="@layout/home_recycler_view"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent" />
+
 </LinearLayout>

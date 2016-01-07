@@ -9,8 +9,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.theforum.R;
+import com.theforum.utils.CommonUtils;
 import com.theforum.utils.DividerItemDecorator;
 import com.theforum.utils.OnListItemClickListener;
 
@@ -47,6 +49,11 @@ public class SettingsFragment extends Fragment implements OnListItemClickListene
                 getActivity().finish();
             }
         });
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.setMargins(0, (int)CommonUtils.convertDpToPixel(12, getContext()), 0, 0);
+        mRecyclerView.setLayoutParams(params);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         mRecyclerView.addItemDecoration(new DividerItemDecorator(getActivity(), R.drawable.recycler_view_divider));
