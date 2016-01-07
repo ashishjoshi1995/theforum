@@ -19,14 +19,24 @@
         android:textSize="24sp"
         android:text="New Text" />
 
+    <TextView
+        android:id="@+id/notification_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/notification_main_text"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="56dp"
+        android:textSize="16sp"
+        android:text="with 984 renewal requests"/>
+
     <TextView android:id="@+id/notification_decay_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/notification_main_text"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="36dp"
         android:text="New Text"/>
 
-    <ImageButton
+    <ImageButton android:id="@+id/notification_renew_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"

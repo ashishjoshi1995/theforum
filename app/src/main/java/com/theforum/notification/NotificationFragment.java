@@ -11,7 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.theforum.R;
+import com.theforum.data.local.NotificationDataModel;
 import com.theforum.utils.DividerItemDecorator;
+
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -51,7 +54,15 @@ public class NotificationFragment extends Fragment {
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         mRecyclerView.addItemDecoration(new DividerItemDecorator(getActivity(), R.drawable.recycler_view_divider));
-    //    mRecyclerView.setAdapter(new NotificationListAdapter(this, getListData()));
+        mRecyclerView.setAdapter(new NotificationListAdapter(getActivity(), getListData()));
 
+    }
+
+    private ArrayList<NotificationDataModel> getListData(){
+        ArrayList<NotificationDataModel> list = new ArrayList<>();
+        for (int i=0;i<10;i++) {
+            list.add(new NotificationDataModel());
+        }
+        return list;
     }
 }

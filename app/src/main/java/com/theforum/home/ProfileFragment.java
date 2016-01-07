@@ -7,10 +7,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.theforum.Constants;
 import com.theforum.R;
+import com.theforum.utils.CommonUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -21,6 +24,7 @@ import butterknife.ButterKnife;
  */
 public class ProfileFragment extends Fragment {
 
+    @Bind(R.id.profile_notification_btn) Button notifications;
     @Bind(R.id.profile_status) EditText status;
     @Bind(R.id.profile_points) EditText points;
     @Bind(R.id.profile_topics) EditText topics;
@@ -42,10 +46,16 @@ public class ProfileFragment extends Fragment {
         points.setText("930");
         topics.setText("100");
 
-        setBackgroundColor(statusIcon,"#313c44");
+        setBackgroundColor(statusIcon, "#313c44");
         setBackgroundColor(pointsIcon,"#d9ab1d");
         setBackgroundColor(topicsIcon,"#643173");
 
+        notifications.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CommonUtils.openContainerActivity(getContext(), Constants.NOTIFICATION_FRAGMENT);
+            }
+        });
     }
 
     private void setBackgroundColor(ImageView imageView,String hexColor){

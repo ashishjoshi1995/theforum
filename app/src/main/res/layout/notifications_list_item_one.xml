@@ -36,13 +36,11 @@
         android:layout_marginTop="20dp"
         android:text="New Text"/>
 
-    <include android:id="@+id/trends_vote_holder"
-        layout="@layout/vote_holder"
+    <include layout="@layout/vote_holder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/notification_description"
         android:layout_alignParentRight="true"
         android:layout_marginRight="4dp"/>
-
 
 </RelativeLayout>

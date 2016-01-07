@@ -5,14 +5,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.theforum.Constants;
 import com.theforum.R;
 import com.theforum.data.local.NotificationDataModel;
-import com.theforum.utils.OnListItemClickListener;
 
 import java.util.ArrayList;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * @author DEEPANKAR
@@ -24,48 +27,43 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     private ArrayList<NotificationDataModel> mData;
     private Context mContext;
-    private OnListItemClickListener onListItemClickListener;
 
     private final static int VIEW_TYPE_ONE = 0;
     private final static int VIEW_TYPE_TWO = 1;
 
-    public NotificationListAdapter(ArrayList<NotificationDataModel> dataSet,Context context) {
+    public NotificationListAdapter(Context context, ArrayList<NotificationDataModel> dataSet) {
         mData = dataSet;
         mContext = context;
     }
 
-    public static void setOnListItemClickListener(OnListItemClickListener onListItemClickListener) {
-        //  SettingsMainAdapter.onListItemClickListener = onListItemClickListener;
-    }
-
     public class ViewHolderOne extends RecyclerView.ViewHolder {
+
+        @Bind(R.id.notification_header) TextView header;
+        @Bind(R.id.notification_main_text) TextView mainText;
+        @Bind(R.id.notification_description)TextView description;
+        @Bind(R.id.notification_decay_time) TextView timeHolder;
+        @Bind(R.id.upvote_btn) TextView upVoteBtn;
+        @Bind(R.id.downvote_btn) TextView downVoteBtn;
 
         public ViewHolderOne(View v) {
             super(v);
-           // headerSection = (TextView)v.findViewById(R.id.settings_item_section_text);
+            ButterKnife.bind(this, v);
+
         }
     }
 
+    public static class ViewHolderTwo extends RecyclerView.ViewHolder  {
 
-    public static class ViewHolderTwo extends RecyclerView.ViewHolder implements View.OnClickListener {
+        @Bind(R.id.notification_header) TextView header;
+        @Bind(R.id.notification_main_text) TextView mainText;
+        @Bind(R.id.notification_description)TextView description;
+        @Bind(R.id.notification_decay_time) TextView timeHolder;
+        @Bind(R.id.notification_renew_btn) ImageButton renewBtn;
 
-        TextView optionName;
-        TextView popUpOptionName;
-        CheckBox checkBox;
+        public ViewHolderTwo(View v) {
+            super(v);
+            ButterKnife.bind(this, v);
 
-        public ViewHolderTwo(View itemView) {
-            super(itemView);
-
-        /*    optionName = (TextView) itemView.findViewById(R.id.settings_item_option_name);
-            popUpOptionName = (TextView) itemView.findViewById(R.id.settings_item_pop_up_option);
-            checkBox = (CheckBox) itemView.findViewById(R.id.settings_item_check_box);*/
-
-            itemView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            // onListItemClickListener.onItemClick(getLayoutPosition(), v);
         }
 
     }
@@ -77,7 +75,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public int getItemViewType(int position) {
-        if(position==0||position==6||position==8||position==10||position==14||position==17){
+        if(mData.get(position).notificationType == Constants.NOTIFICATION_TYPE_OPINION_UP_VOTES){
             return VIEW_TYPE_ONE;
         }else return VIEW_TYPE_TWO;
     }
@@ -97,7 +95,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
     public void onBindViewHolder(RecyclerView.ViewHolder holder,final int position) {
 
         if(holder.getItemViewType()== VIEW_TYPE_ONE){
-          //  ((ViewHolderOne)holder).headerSection.setText(mData.get(position).getOptionName());
+
         }else {
             final ViewHolderTwo viewHolderTwo = (ViewHolderTwo)holder;
 

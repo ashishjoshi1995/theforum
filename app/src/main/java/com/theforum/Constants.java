@@ -26,4 +26,5 @@ public class Constants {
     public static final int NOTIFICATION_TYPE_RENEWED = 401;
     public static final int NOTIFICATION_TYPE_OPINIONS = 402;
     public static final int NOTIFICATION_TYPE_OPINION_UP_VOTES = 403;
+
 }
