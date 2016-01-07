@@ -9,7 +9,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.theforum.R;
-import com.theforum.data.local.NotificationInflatorItemData;
+import com.theforum.data.local.NotificationDataModel;
 import com.theforum.utils.OnListItemClickListener;
 
 import java.util.ArrayList;
@@ -22,14 +22,14 @@ import java.util.ArrayList;
 
 public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private ArrayList<NotificationInflatorItemData> mData;
+    private ArrayList<NotificationDataModel> mData;
     private Context mContext;
     private OnListItemClickListener onListItemClickListener;
 
     private final static int VIEW_TYPE_ONE = 0;
     private final static int VIEW_TYPE_TWO = 1;
 
-    public NotificationListAdapter(ArrayList<NotificationInflatorItemData> dataSet,Context context) {
+    public NotificationListAdapter(ArrayList<NotificationDataModel> dataSet,Context context) {
         mData = dataSet;
         mContext = context;
     }

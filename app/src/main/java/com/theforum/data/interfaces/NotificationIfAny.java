@@ -1,7 +1,8 @@
 package com.theforum.data.interfaces;
 
-import com.theforum.data.dataModels.OpinionNotification;
-import com.theforum.data.dataModels.TopicNotification;
+
+import com.theforum.data.dataModels.opinion;
+import com.theforum.data.dataModels.topic;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
  */
 public interface NotificationIfAny  {
 
-     void topicNotif (List<TopicNotification> topicNotifications);
-     void opinionNotif (List<OpinionNotification> opinionNotifications);
+     void topicNotif (List<topic> topicNotifications);
+     void opinionNotif (List<opinion> opinionNotifications);
 
 }

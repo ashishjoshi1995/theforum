@@ -89,6 +89,10 @@ public class HomeActivity extends AppCompatActivity {
             case R.id.action_add_opinion:
                 CommonUtils.openContainerActivity(this, Constants.NEW_TOPIC_FRAGMENT);
                 break;
+            case R.id.action_search:
+                //item.expandActionView();
+                break;
+
         }
 
 

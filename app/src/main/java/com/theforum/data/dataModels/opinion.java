@@ -25,6 +25,18 @@ public class opinion {
     @com.google.gson.annotations.SerializedName("topic_id")
     private String mTopicId;
 
+    @com.google.gson.annotations.SerializedName("notif_count")
+    private int mNotifCount;
+
+    @com.google.gson.annotations.SerializedName("notif_newdownvotes")
+    private int mNotifNewDownvotes;
+
+    @com.google.gson.annotations.SerializedName("notif_newupvotes")
+    private int mNotifNewUpvotes;
+
+    @com.google.gson.annotations.SerializedName("topic")
+    private String mTopic;
+
     private boolean upvoted;
     private boolean downvoted;
 
@@ -98,5 +110,37 @@ public class opinion {
 
     public void setDownvoted(boolean downvoted) {
         this.downvoted = downvoted;
+    }
+
+    public int getmNotifCount() {
+        return mNotifCount;
+    }
+
+    public void setmNotifCount(int mNotifCount) {
+        this.mNotifCount = mNotifCount;
+    }
+
+    public int getmNotifNewDownvotes() {
+        return mNotifNewDownvotes;
+    }
+
+    public void setmNotifNewDownvotes(int mNotifNewDownvotes) {
+        this.mNotifNewDownvotes = mNotifNewDownvotes;
+    }
+
+    public int getmNotifNewUpvotes() {
+        return mNotifNewUpvotes;
+    }
+
+    public void setmNotifNewUpvotes(int mNotifNewUpvotes) {
+        this.mNotifNewUpvotes = mNotifNewUpvotes;
+    }
+
+    public String getmTopic() {
+        return mTopic;
+    }
+
+    public void setmTopic(String mTopic) {
+        this.mTopic = mTopic;
     }
 }
