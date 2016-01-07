@@ -56,11 +56,11 @@
             android:label="@string/title_activity_handle_search_result" >
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
-                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <meta-data android:name="android.app.searchable"
                 android:resource="@xml/searchable"/>
         </activity>
+
         <service android:name=".notification.NotificationService"/>
 
     </application>
