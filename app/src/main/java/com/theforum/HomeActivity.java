@@ -86,12 +86,10 @@ public class HomeActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         switch (id){
             case R.id.action_settings:
-<<<<<<< HEAD
-=======
 
                // Intent intent = new Intent(this, SettingsFragment.class);
                // startActivity(intent);
->>>>>>> c6a5aa5ccc9e04503246d4ee6388c8c98c79fa66
+
                 CommonUtils.openContainerActivity(this,Constants.SETTINGS_FRAGMENT);
                 break;
             case R.id.action_add_opinion:
