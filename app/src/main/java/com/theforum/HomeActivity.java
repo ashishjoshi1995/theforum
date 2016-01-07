@@ -62,7 +62,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
+/*
         int minutes = 100;
 
         AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
@@ -75,7 +75,7 @@ public class HomeActivity extends AppCompatActivity {
                     SystemClock.elapsedRealtime() + minutes * 60 * 1000,
                     minutes * 60 * 1000, pi);
 
-        }
+        }*/
     }
 
 
@@ -86,6 +86,7 @@ public class HomeActivity extends AppCompatActivity {
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        Log.e("zxcvbn","zzzzzzzzzzzzzzzzz");
 
         return true;
     }
@@ -106,7 +107,7 @@ public class HomeActivity extends AppCompatActivity {
                 CommonUtils.openContainerActivity(this, Constants.NEW_TOPIC_FRAGMENT);
                 break;
             case R.id.action_search:
-                onSearchRequested();
+                //onSearchRequested();
                 break;
 
         }
@@ -119,6 +120,7 @@ public class HomeActivity extends AppCompatActivity {
     public boolean onSearchRequested() {
 
        Bundle appData = new Bundle();
+        Log.e("asasas","asasas");
         appData.putString("hello", "world");
         startSearch(null, false, appData, false);
         return true;

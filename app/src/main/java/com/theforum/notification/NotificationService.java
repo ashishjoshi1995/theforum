@@ -61,7 +61,8 @@ public class NotificationService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.e("NotificationService","onStartCommand");
-        handleIntent(intent);
+        //TODO remove the below comment
+        //handleIntent(intent);
         return START_NOT_STICKY;
     }
 

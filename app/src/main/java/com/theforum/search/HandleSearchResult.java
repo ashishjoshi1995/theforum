@@ -1,6 +1,7 @@
 package com.theforum.search;
 
 import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
@@ -9,7 +10,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.SearchView;
 
 import com.theforum.R;
 import com.theforum.data.dataModels.topic;
@@ -39,12 +42,12 @@ public class HandleSearchResult extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
         Log.e("HandleSearchResult","oncreate");
         // Get the intent, verify the action and get the query
-        Intent intent = getIntent();
+        /*Intent intent = getIntent();
         Bundle appData = intent.getBundleExtra(SearchManager.APP_DATA);
         if (appData != null) {
             String rec = appData.getString("hello");
             doMySearch(rec);
-        }
+        }*/
         /*if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
             doMySearch(query);
@@ -56,4 +59,30 @@ public class HandleSearchResult extends AppCompatActivity {
        topics =  helper.Search(query);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName()));
+
+        return true;
+    }
+    @Override
+    protected void onNewIntent(Intent intent) {
+        handleIntent(intent);
+    }
+
+    private void handleIntent(Intent intent) {
+
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            //use the query to search
+            Log.e("handleIntent","handleIntent");
+        }
+    }
 }
