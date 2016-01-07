@@ -15,7 +15,6 @@ import android.view.MenuItem;
 
 import com.theforum.home.HomeFragment;
 import com.theforum.notification.NotificationService;
-import com.theforum.other.SettingsFragment;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.TypefaceSpan;
 
@@ -83,7 +82,6 @@ public class HomeActivity extends AppCompatActivity {
 
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         switch (id){
             case R.id.action_settings:
                 CommonUtils.openContainerActivity(this,Constants.SETTINGS_FRAGMENT);
