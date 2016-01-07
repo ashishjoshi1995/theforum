@@ -1,17 +1,25 @@
 package com.theforum;
 
+import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SearchEvent;
+import android.widget.SearchView;
 
 import com.theforum.home.HomeFragment;
 import com.theforum.notification.NotificationService;
@@ -40,9 +48,9 @@ public class HomeActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         SpannableString spannableString = new SpannableString("theforum");
-        spannableString.setSpan(new TypefaceSpan(this,"Roboto-Light.ttf"), 0, 3,
+        spannableString.setSpan(new TypefaceSpan(this, "Roboto-Light.ttf"), 0, 3,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(new TypefaceSpan(this,"Roboto-Medium.ttf"), 4, 8,
+        spannableString.setSpan(new TypefaceSpan(this, "Roboto-Medium.ttf"), 4, 8,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         mToolbar.setTitle(spannableString);
 
@@ -75,9 +83,17 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
         return true;
     }
 
+
+
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -96,12 +112,21 @@ public class HomeActivity extends AppCompatActivity {
                 CommonUtils.openContainerActivity(this, Constants.NEW_TOPIC_FRAGMENT);
                 break;
             case R.id.action_search:
-                //item.expandActionView();
+                onSearchRequested();
                 break;
 
         }
 
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onSearchRequested() {
+
+       Bundle appData = new Bundle();
+        appData.putString("hello", "world");
+        startSearch(null, false, appData, false);
+        return true;
     }
 }
