@@ -4,44 +4,38 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 /**
- * Created by Ashish on 1/2/2016.
+ * @author Ashish
+ * @since 1/8/2016
  */
-public class ProfileUtils {
+public class SettingsUtils {
     private Context mContext;
-    private static ProfileUtils profileUtils;
+    private static SettingsUtils settingsUtils;
     private SharedPreferences sharedPreferences;
 
     /**
      * Key Values to store in SharedPreferences
      */
 
-    public static final String FORUM_ID = "forum_id";
-    public static final String STATUS = "status";
-    public static final String POINTS_COLLECTED = "points_collected";
-    public static final String TOPICS_CREATED = "topics_created";
-    public static final String CURRENT_TOPICS = "current_topics";
-    public static final String SERVER_ID = "server_id";
-    public static final String AGE = "age";
-
-    public static ProfileUtils getInstance() {
-        return profileUtils;
+    public static final String TOPIC_FEED_SORT_STATUS = "topic_feed_sort_status";
+    public static SettingsUtils getInstance() {
+        return settingsUtils;
     }
 
     public static void initialize(Context context) {
 
-        if (profileUtils == null) {
-            profileUtils = new ProfileUtils(context);
+        if (settingsUtils == null) {
+            settingsUtils = new SettingsUtils(context);
         }
     }
 
-    private ProfileUtils(Context context) {
+    private SettingsUtils(Context context) {
         mContext = context;
     }
 
     private SharedPreferences getPreferences() {
         if (sharedPreferences == null) {
             sharedPreferences = mContext.getApplicationContext().getSharedPreferences(
-                    "theforum_Profile", Context.MODE_PRIVATE);
+                    "theforum_settings", Context.MODE_PRIVATE);
         }
 
         return sharedPreferences;

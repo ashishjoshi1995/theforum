@@ -1,10 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    >
     <include android:id="@+id/sort_toolbar"
         layout="@layout/toolbar"/>
+    <LinearLayout
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@id/sort_toolbar"
+        >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/fragment_sort_sort"
+                android:text="Sort"
+                android:textColor="#fff"
+            />
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Latest"
+                android:id="@+id/fragment_sort_latest"
+                android:button="@null"
+                android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+                android:textColor="#fff"
+            />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#000"
+            />
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Created by Me"
+                android:button="@null"
+                android:id="@+id/fragment_sort_created_by_me"
+                android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+                android:textColor="#fff"
+            />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#000"
+            />
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Most Renewal"
+                android:button="@null"
+                android:id="@+id/fragment_sort_most_renewal"
+                android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+                android:textColor="#fff"
+            />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#000"
+             />
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Least Renewal"
+                android:button="@null"
+                android:id="@+id/fragment_sort_least_renewal"
+                android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+                android:textColor="#fff"
+            />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#000"
+            />
+    </LinearLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="DONE"
+        android:id="@+id/fragment_sort_done"
+        android:layout_alignParentBottom="true"
+    />
 
-
-</LinearLayout>
+</RelativeLayout>
