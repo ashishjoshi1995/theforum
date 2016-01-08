@@ -1,7 +1,7 @@
 package com.theforum.other;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -9,12 +9,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.theforum.Constants;
 import com.theforum.R;
-import com.theforum.home.TopicsListAdapter;
 import com.theforum.home.TopicsModel;
 import com.theforum.utils.CommonUtils;
 
@@ -22,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.BindDrawable;
 import butterknife.ButterKnife;
 
 /**
@@ -31,13 +32,10 @@ import butterknife.ButterKnife;
  */
 public class OpinionsFragment extends Fragment {
 
-    @Bind(R.id.opinion_recycler_view) RecyclerView recyclerView;
-
-    @Bind(R.id.opinion_toolbar) Toolbar toolbar;
-
+    @Bind(R.id.opinion_recycler_view) RecyclerView mRecyclerView;
+    @Bind(R.id.opinion_toolbar) Toolbar mToolbar;
+    @Bind(R.id.opinion_collapsing_toolbar) CollapsingToolbarLayout mCollapsingToolbarLayout;
     @Bind(R.id.opinion_fab) FloatingActionButton fab;
-
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,15 +52,26 @@ public class OpinionsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         ButterKnife.bind(this, view);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+
+        mToolbar.setTitle("#Take Them back");
+        ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
+        mToolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
+
+      //  mCollapsingToolbarLayout.setTitleEnabled(false);
 
         List<TopicsModel> mFeeds = new ArrayList<>();
         for (int i=0;i<10;i++){
             mFeeds.add(new TopicsModel());
         }
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(new OpinionsListAdapter(getActivity(), mFeeds));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        mRecyclerView.setAdapter(new OpinionsListAdapter(getActivity(), mFeeds));
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,4 +80,21 @@ public class OpinionsFragment extends Fragment {
             }
         });
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_other, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId()== R.id.action_settings) CommonUtils.openContainerActivity(getContext(),
+                Constants.SETTINGS_FRAGMENT);
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
 }

@@ -1,45 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include android:id="@+id/opinion_toolbar"
-        layout="@layout/toolbar"/>
-
-    <LinearLayout
-        android:id="@+id/opinion_des_holder"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/opinion_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/opinion_toolbar"
-        android:orientation="vertical"
-        android:paddingTop="20dp"
-        android:paddingLeft="50dp"
-        android:background="@color/colorPrimary">
-        <TextView
+        android:clipToPadding="false"
+        android:paddingTop="205dp"/>
+
+    <me.henrytao.smoothappbarlayout.SmoothAppBarLayout
+        android:id="@+id/opinion_appbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/opinion_collapsing_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textColor="@android:color/white"
-            android:text="@string/explore_message"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="12hrs left to decay | 23 Renewal requests"/>
-    </LinearLayout>
+            android:layout_height="match_parent"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:titleEnabled = "false">
 
-    <include android:id="@+id/opinion_recycler_view"
-        layout="@layout/recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/opinion_des_holder"/>
+            <LinearLayout
+                android:id="@+id/opinion_des_holder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="76dp"
+                android:paddingLeft="50dp"
+                android:background="@color/colorPrimary">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/white"
+                    android:text="@string/explore_message"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="12hrs left to decay | 23 Renewal requests"/>
+            </LinearLayout>
+
+            <android.support.v7.widget.Toolbar
+                android:theme="@style/ToolbarTheme"
+                android:id="@+id/opinion_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@color/colorPrimary"
+                app:layout_collapseMode="pin"/>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+    </me.henrytao.smoothappbarlayout.SmoothAppBarLayout>
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/opinion_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
+        android:layout_gravity="bottom|center"
         android:layout_marginBottom="16dp"
         android:src="@drawable/addopinion"/>
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>
+
+
+
+
+
+

@@ -49,6 +49,7 @@ public class HomeFragment extends Fragment {
         mViewPager.setAdapter(new HomePagerAdapter(getChildFragmentManager()));
         mTabLayout.setupWithViewPager(mViewPager);
 
+       // mFab.hide();
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,6 +68,11 @@ public class HomeFragment extends Fragment {
                 if(mPosition==1&& position==2) {
                     homeUiChangeListener.onPageSelected(position, false);
                 }else if(mPosition==2 && position==1) homeUiChangeListener.onPageSelected(position,true);
+
+            /*    if(position==1){
+                    mFab.show();
+                }else mFab.hide();*/
+
 
                 mPosition = position;
 

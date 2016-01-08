@@ -8,9 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.theforum.Constants;
 import com.theforum.R;
 import com.theforum.utils.CommonUtils;
-import com.theforum.utils.CustomFontTextView;
 
 import java.util.List;
 
@@ -38,7 +38,7 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
     }
 
 
-    public class TrendsItemViewHolder extends RecyclerView.ViewHolder {
+    public class TrendsItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         @Bind(R.id.trends_topic_name) TextView topicName;
         @Bind(R.id.trends_description) TextView description;
@@ -57,9 +57,15 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                     null, null);
             downVoteBtn.setCompoundDrawablesWithIntrinsicBounds(null, CommonUtils.tintDrawable(downvote,"#adadad"),
                     null,null);
+
+            v.setOnClickListener(this);
         }
 
 
+        @Override
+        public void onClick(View v) {
+            CommonUtils.openContainerActivity(mContext, Constants.OPINIONS_FRAGMENT);
+        }
     }
 
     @Override
