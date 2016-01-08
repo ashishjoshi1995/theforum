@@ -3,17 +3,23 @@ package com.theforum;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.SearchView;
 
 import com.theforum.home.HomeFragment;
 import com.theforum.utils.CommonUtils;
+import com.theforum.utils.MaterialSearchView;
 import com.theforum.utils.OnHomeUiChangeListener;
 import com.theforum.utils.TypefaceSpan;
+
+import java.lang.reflect.Field;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -22,6 +28,10 @@ public class HomeActivity extends AppCompatActivity implements OnHomeUiChangeLis
 
     @Bind(R.id.home_toolbar)
     Toolbar mToolbar;
+
+    @Bind(R.id.home_material_search_view)
+    MaterialSearchView mMaterialSearchView;
+
 
     private FragmentTransaction mFragmentTransaction;
 
@@ -48,6 +58,18 @@ public class HomeActivity extends AppCompatActivity implements OnHomeUiChangeLis
         mFragmentTransaction = getSupportFragmentManager().beginTransaction()
                 .replace(R.id.home_fragment_container, new HomeFragment());
         mFragmentTransaction.commit();
+
+        mMaterialSearchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
+            @Override
+            public void onSearchViewShown() {
+                mToolbar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onSearchViewClosed() {
+                mToolbar.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
 
@@ -71,15 +93,11 @@ public class HomeActivity extends AppCompatActivity implements OnHomeUiChangeLis
     }
 
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-
-        MenuItem search = menu.findItem(R.id.action_search);
-        if(search!= null) {
-            SearchView searchView = (SearchView)search.getActionView();
-        }
-        
+        mMaterialSearchView.setMenuItem(menu.findItem(R.id.action_search));
         return true;
     }
 
@@ -114,8 +132,7 @@ public class HomeActivity extends AppCompatActivity implements OnHomeUiChangeLis
             case R.id.action_add_opinion:
                 CommonUtils.openContainerActivity(this, Constants.NEW_TOPIC_FRAGMENT);
                 break;
-            case R.id.action_search:
-
+            case R.id.action_share:
                 break;
 
         }
@@ -129,18 +146,5 @@ public class HomeActivity extends AppCompatActivity implements OnHomeUiChangeLis
         setSearch = setSearchEnabled;
         supportInvalidateOptionsMenu();
     }
-
-
-/*
-    @Override
-    public boolean onSearchRequested() {
-
-       Bundle appData = new Bundle();
-        Log.e("asasas","asasas");
-        appData.putString("hello", "world");
-        startSearch(null, false, appData, false);
-        return true;
-    }*/
-
 
 }
