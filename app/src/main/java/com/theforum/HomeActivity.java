@@ -9,17 +9,12 @@ import android.text.SpannableString;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.SearchView;
 
 import com.theforum.home.HomeFragment;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.MaterialSearchView;
 import com.theforum.utils.OnHomeUiChangeListener;
 import com.theforum.utils.TypefaceSpan;
-
-import java.lang.reflect.Field;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -97,14 +92,6 @@ public class HomeActivity extends AppCompatActivity implements OnHomeUiChangeLis
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-<<<<<<< HEAD
-        mMaterialSearchView.setMenuItem(menu.findItem(R.id.action_search));
-=======
-
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-
->>>>>>> 5ac5b164b2cb1fc3dd62a3b8bb2f9eec706d5ec4
         return true;
     }
 
@@ -138,6 +125,9 @@ public class HomeActivity extends AppCompatActivity implements OnHomeUiChangeLis
                 break;
             case R.id.action_add_opinion:
                 CommonUtils.openContainerActivity(this, Constants.NEW_TOPIC_FRAGMENT);
+                break;
+            case R.id.action_search:
+                mMaterialSearchView.showSearch();
                 break;
             case R.id.action_share:
                 break;

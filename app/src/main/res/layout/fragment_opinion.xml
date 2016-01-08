@@ -29,7 +29,7 @@
     </LinearLayout>
 
     <include android:id="@+id/opinion_recycler_view"
-        layout="@layout/home_recycler_view"
+        layout="@layout/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/opinion_des_holder"/>

@@ -27,7 +27,7 @@ public class TrendsFragment extends Fragment {
     RecyclerView recyclerView;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.home_recycler_view, container, false);
+        return inflater.inflate(R.layout.recycler_view, container, false);
     }
 
     @Override

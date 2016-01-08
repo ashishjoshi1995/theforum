@@ -34,7 +34,7 @@
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:background="?android:attr/selectableItemBackground"
-            android:src="@drawable/abc_ic_ab_back_mtrl_am_alpha"
+            android:src="@drawable/ic_action_navigation_arrow_back"
             android:paddingLeft="@dimen/default_margin"
             android:paddingRight="@dimen/default_margin"/>
 

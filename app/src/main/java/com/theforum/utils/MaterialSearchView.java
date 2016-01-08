@@ -13,7 +13,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -37,7 +36,7 @@ import java.lang.reflect.Field;
  */
 public class MaterialSearchView extends LinearLayout implements FilterListener{
 
-    private MenuItem mMenuItem;
+
     private boolean mIsSearchOpen = false;
     private boolean mClearingFocus;
 
@@ -80,8 +79,7 @@ public class MaterialSearchView extends LinearLayout implements FilterListener{
 
 
     private void initiateView() {
-        LayoutInflater.from(mContext).inflate(R.layout.material_search_view, this, true);
-        mSearchLayout = findViewById(R.id.search_layout);
+        mSearchLayout = LayoutInflater.from(mContext).inflate(R.layout.material_search_view, this, true);
 
         mSearchTopBar = (RelativeLayout) mSearchLayout.findViewById(R.id.search_bar);
         mSuggestionsListView = (ListView) mSearchLayout.findViewById(R.id.suggestion_list);
@@ -92,7 +90,6 @@ public class MaterialSearchView extends LinearLayout implements FilterListener{
         mQueryTextView.setOnClickListener(mOnClickListener);
         mBackBtn.setOnClickListener(mOnClickListener);
         mCloseBtn.setOnClickListener(mOnClickListener);
-
 
         initSearchView();
 
@@ -242,7 +239,7 @@ public class MaterialSearchView extends LinearLayout implements FilterListener{
     /**
      * Set Suggest List OnItemClickListener
      *
-     * @param listener
+     * @param listener listener to handle click events of suggestions listView
      */
     public void setOnItemClickListener(AdapterView.OnItemClickListener listener) {
         mSuggestionsListView.setOnItemClickListener(listener);
@@ -306,26 +303,11 @@ public class MaterialSearchView extends LinearLayout implements FilterListener{
     }
 
 
-    /**
-     * Call this method and pass the menu item so this class can handle click events for the Menu Item.
-     *
-     * @param menuItem
-     */
-    public void setMenuItem(MenuItem menuItem) {
-        this.mMenuItem = menuItem;
-        mMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                showSearch();
-                return true;
-            }
-        });
-    }
 
     /**
      * Return true if search is open
      *
-     * @return
+     * @return status of search bar i.e open or close
      */
     public boolean isSearchOpen() {
         return mIsSearchOpen;
@@ -403,8 +385,8 @@ public class MaterialSearchView extends LinearLayout implements FilterListener{
         // Don't accept focus if in the middle of clearing focus
         if (mClearingFocus) return false;
         // Check if SearchView is focusable.
-        if (!isFocusable()) return false;
-        return mQueryTextView.requestFocus(direction, previouslyFocusedRect);
+
+        return isFocusable() && mQueryTextView.requestFocus(direction, previouslyFocusedRect);
     }
 
     @Override
@@ -488,7 +470,7 @@ public class MaterialSearchView extends LinearLayout implements FilterListener{
          * let the SearchView handle the submission by launching any associated intent.
          *
          * @param query the query text that is to be submitted
-         * @return true if the query has been handled by the listener, false to let the
+         * @return true if the query has been handled by the user, false to let the
          * SearchView perform the default action.
          */
         boolean onQueryTextSubmit(String query);
@@ -498,7 +480,7 @@ public class MaterialSearchView extends LinearLayout implements FilterListener{
          *
          * @param newText the new content of the query text field.
          * @return false if the SearchView should perform the default action of showing any
-         * suggestions if available, true if the action was handled by the listener.
+         * suggestions if available, true if the action was handled by the user.
          */
         boolean onQueryTextChange(String newText);
     }
