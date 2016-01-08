@@ -21,7 +21,7 @@ import butterknife.ButterKnife;
 
 public class HomeActivity extends AppCompatActivity implements OnHomeUiChangeListener{
 
-    @Bind(R.id.home_toolbar)
+    @Bind(R.id.toolbar)
     Toolbar mToolbar;
 
     @Bind(R.id.home_material_search_view)

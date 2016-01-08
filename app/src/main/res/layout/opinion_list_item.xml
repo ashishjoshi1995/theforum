@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding= "16dp">
+    android:padding="@dimen/default_margin">
 
-    <include android:id="@+id/opinion_vote_holder"
-        layout="@layout/vote_holder"
+    <com.theforum.utils.CustomFontTextView
+        android:id="@+id/opinion_opinion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginLeft="10dp"/>
-
-    <TextView android:id="@+id/opinion_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toLeftOf="@id/opinion_vote_holder"
-        android:textSize="20sp"
+        android:layout_marginTop="9dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="50dp"
+        android:textSize="16sp"
+        app:fontName="Roboto-Light.ttf"
         android:text="@string/explore_message"/>
+
+    <include layout="@layout/vote_holder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/opinion_opinion"
+        android:layout_alignParentRight="true" />
+
+
 
 </RelativeLayout>

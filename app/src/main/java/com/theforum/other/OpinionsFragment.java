@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,6 +20,7 @@ import com.theforum.Constants;
 import com.theforum.R;
 import com.theforum.home.TopicsModel;
 import com.theforum.utils.CommonUtils;
+import com.theforum.utils.DividerItemDecorator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +38,8 @@ public class OpinionsFragment extends Fragment {
     @Bind(R.id.opinion_toolbar) Toolbar mToolbar;
     @Bind(R.id.opinion_collapsing_toolbar) CollapsingToolbarLayout mCollapsingToolbarLayout;
     @Bind(R.id.opinion_fab) FloatingActionButton fab;
+
+    private boolean first;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,7 +67,15 @@ public class OpinionsFragment extends Fragment {
             }
         });
 
-      //  mCollapsingToolbarLayout.setTitleEnabled(false);
+        mCollapsingToolbarLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                Log.e("runnable",""+mCollapsingToolbarLayout.getHeight());
+                mRecyclerView.setPadding(0, mCollapsingToolbarLayout.getHeight(), 0, 0);
+                mRecyclerView.setClipToPadding(false);
+            }
+        });
+
 
         List<TopicsModel> mFeeds = new ArrayList<>();
         for (int i=0;i<10;i++){
@@ -71,7 +83,17 @@ public class OpinionsFragment extends Fragment {
         }
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        mRecyclerView.addItemDecoration(new DividerItemDecorator(getActivity(), R.drawable.recycler_view_divider));
         mRecyclerView.setAdapter(new OpinionsListAdapter(getActivity(), mFeeds));
+        RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                Log.e("dy",""+dy);
+            }
+        };
+
+       // mRecyclerView.addOnScrollListener(onScrollListener);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,6 +102,8 @@ public class OpinionsFragment extends Fragment {
             }
         });
     }
+
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

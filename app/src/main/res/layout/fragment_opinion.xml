@@ -9,8 +9,7 @@
         android:id="@+id/opinion_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clipToPadding="false"
-        android:paddingTop="205dp"/>
+        android:clipToPadding="false" />
 
     <me.henrytao.smoothappbarlayout.SmoothAppBarLayout
         android:id="@+id/opinion_appbar_layout"
@@ -21,29 +20,47 @@
             android:id="@+id/opinion_collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:titleEnabled = "false">
+            app:titleEnabled= "false">
 
-            <LinearLayout
-                android:id="@+id/opinion_des_holder"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingTop="76dp"
-                android:paddingLeft="50dp"
-                android:background="@color/colorPrimary">
-                <TextView
+                android:paddingTop="81dp"
+                android:paddingLeft="@dimen/default_margin"
+                android:paddingRight="@dimen/default_margin"
+                android:paddingBottom="9dp">
+
+                <com.theforum.utils.CustomFontTextView
+                    android:id="@+id/opinion_topic_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
+                    android:layout_marginRight="50dp"
+                    android:textSize="16sp"
                     android:textColor="@android:color/white"
+                    app:fontName="Roboto-Light.ttf"
                     android:text="@string/explore_message"/>
-                <TextView
+
+                <ImageButton android:id="@+id/notification_renew_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="4dp"
+                    android:src="@drawable/renew_icon"
+                    android:background="@null"/>
+
+                <TextView android:id="@+id/opinion_time_holder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/opinion_topic_description"
+                    android:layout_marginTop="29dp"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="12sp"
                     android:text="12hrs left to decay | 23 Renewal requests"/>
-            </LinearLayout>
+            </RelativeLayout>
 
             <android.support.v7.widget.Toolbar
                 android:theme="@style/ToolbarTheme"
@@ -65,6 +82,7 @@
         android:layout_gravity="bottom|center"
         android:layout_marginBottom="16dp"
         android:src="@drawable/addopinion"/>
+
 </android.support.design.widget.CoordinatorLayout>
 
 

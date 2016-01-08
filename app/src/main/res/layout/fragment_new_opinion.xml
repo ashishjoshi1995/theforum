@@ -3,6 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <include layout="@layout/toolbar"/>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/new_opinion_text"
@@ -18,7 +19,8 @@
             android:layout_height="wrap_content"
             android:hint="Your Opinion On #TakeThenBack"
             android:textSize="20sp"
-            android:inputType="text" />
+            android:inputType="text|textMultiLine"
+            android:maxLines="6"/>
     </android.support.design.widget.TextInputLayout>
 
     <Button
