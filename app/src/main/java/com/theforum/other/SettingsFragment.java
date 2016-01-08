@@ -24,7 +24,7 @@ import butterknife.ButterKnife;
 
 public class SettingsFragment extends Fragment implements OnListItemClickListener{
 
-    @Bind(R.id.settings_toolbar)
+    @Bind(R.id.toolbar)
     Toolbar mToolbar;
 
     @Bind(R.id.settings_recycler_view)

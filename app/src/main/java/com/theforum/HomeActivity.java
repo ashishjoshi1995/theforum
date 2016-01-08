@@ -27,7 +27,6 @@ public class HomeActivity extends AppCompatActivity implements OnHomeUiChangeLis
     @Bind(R.id.home_material_search_view)
     MaterialSearchView mMaterialSearchView;
 
-
     private FragmentTransaction mFragmentTransaction;
 
     private boolean changeMenuItem;

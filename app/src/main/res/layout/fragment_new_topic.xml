@@ -4,8 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimary">
 
-    <include android:id="@+id/new_topic_toolbar"
-        layout="@layout/toolbar" />
+    <include layout="@layout/toolbar" />
 
     <TextView
         android:id="@+id/new_topic_dummy"

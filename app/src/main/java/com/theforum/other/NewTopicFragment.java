@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
  */
 public class NewTopicFragment extends Fragment {
 
-    @Bind(R.id.new_topic_toolbar)
+    @Bind(R.id.toolbar)
     Toolbar mToolbar;
 
     @Bind(R.id.new_topic_name)
