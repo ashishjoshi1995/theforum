@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import com.theforum.R;
+import com.theforum.data.dataModels.opinion;
+import com.theforum.data.helpers.OpinionHelper;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.SoftKeyboardStateWatcher;
 import com.theforum.utils.customViews.KeyboardListenerEditText;
@@ -94,7 +96,7 @@ public class NewOpinionFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(!mUploadText.getText().toString().equals("")){
-                    uploadData();
+                 //   uploadData();
                 }else CommonUtils.showToast(getContext(),"Opinion Empty");
             }
         });
@@ -102,7 +104,22 @@ public class NewOpinionFragment extends Fragment {
     }
 
     private void uploadData(){
-        
+        opinion opinion = new opinion(mUploadText.getText().toString());
+       // opinion.
+
+        OpinionHelper opinionHelper = new OpinionHelper();
+        opinionHelper.addOpinion(opinion, new OpinionHelper.OnOpinionAddListener() {
+            @Override
+            public void onCompleted(opinion opinion) {
+
+            }
+
+            @Override
+            public void onError(String error) {
+
+            }
+        });
+
     }
 
 }

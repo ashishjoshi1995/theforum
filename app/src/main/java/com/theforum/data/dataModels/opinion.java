@@ -40,6 +40,14 @@ public class opinion {
     private boolean upvoted;
     private boolean downvoted;
 
+    public opinion(){
+
+    }
+    
+    public opinion(String opinion){
+        this.mOpinion = opinion;
+    }
+
     public String getmUid() {
         return mUid;
     }

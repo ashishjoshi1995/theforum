@@ -30,23 +30,19 @@
             android:src="@drawable/status"
             android:background="@drawable/profile_circle_drawable"/>
 
-        <android.support.design.widget.TextInputLayout
+        <TextView
+            android:id="@+id/profile_status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="56dp">
-            <EditText
-                android:id="@+id/profile_status"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Your Status"
-                android:textColorHint="#585858"
-                android:textSize="32sp"
-                android:inputType="none"
-                android:editable="false" />
-        </android.support.design.widget.TextInputLayout>
+            android:layout_marginLeft="56dp"
+            android:hint="Your Status"
+            android:textColorHint="#585858"
+            android:textSize="32sp" />
+
     </FrameLayout>
 
     <!--points holder -->
+
     <FrameLayout
         android:id="@+id/profile_points_holder"
         android:layout_width="match_parent"
@@ -63,19 +59,14 @@
             android:src="@drawable/points"
             android:background="@drawable/profile_circle_drawable"/>
 
-        <android.support.design.widget.TextInputLayout
+        <TextView android:id="@+id/profile_points"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="56dp">
+            android:layout_marginLeft="56dp"
+            android:hint="Point Collected"
+            android:textSize="32sp" />
 
-            <EditText android:id="@+id/profile_points"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Point Collected"
-                android:textSize="32sp"
-                android:inputType="none"
-                android:editable="false" />
-        </android.support.design.widget.TextInputLayout>
+
     </FrameLayout>
 
     <!--topics holder-->
@@ -94,20 +85,16 @@
             android:src="@drawable/topics_created"
             android:background="@drawable/profile_circle_drawable"/>
 
-        <android.support.design.widget.TextInputLayout
+        <TextView
+            android:id="@+id/profile_topics"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="56dp">
+            android:layout_marginLeft="56dp"
+            android:hint="Topics Created"
+            android:textSize="32sp"
+            android:inputType="none"
+            android:editable="false" />
 
-            <EditText
-                android:id="@+id/profile_topics"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Topics Created"
-                android:textSize="32sp"
-                android:inputType="none"
-                android:editable="false" />
-        </android.support.design.widget.TextInputLayout>
     </FrameLayout>
 
 <ImageView

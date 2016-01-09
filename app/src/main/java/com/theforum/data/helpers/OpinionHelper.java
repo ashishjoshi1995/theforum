@@ -6,6 +6,7 @@ import android.os.Build;
 import android.util.Log;
 
 import com.microsoft.windowsazure.mobileservices.ApiOperationCallback;
+import com.theforum.TheForumApplication;
 import com.theforum.data.dataModels.opinion;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.MobileServiceException;
@@ -30,8 +31,9 @@ public class OpinionHelper {
 
 
     private String uid;
-    public OpinionHelper(MobileServiceClient mobileServiceClient){
-        this.mClient = mobileServiceClient;
+
+    public OpinionHelper(){
+        this.mClient = TheForumApplication.getClient();
         getTable();
     }
 
@@ -41,7 +43,7 @@ public class OpinionHelper {
    }
 
 
-    private void getAllOpinions(){
+    public void getAllOpinions(){
         AsyncTask<Void, Void, MobileServiceList<opinion>> task = new AsyncTask<Void, Void, MobileServiceList<opinion>>() {
 
 
@@ -69,7 +71,7 @@ public class OpinionHelper {
         runAsyncTask2(task);
     }
 
-    private void upvoteDownvote(Boolean ifUpvote,opinion opinion1){
+    public void upvoteDownvote(Boolean ifUpvote,opinion opinion1){
         UPDVRequest updvRequest= new UPDVRequest();
         updvRequest.opinion_id = opinion1.getmOpinionId();
         updvRequest.opinion_owner_id = opinion1.getmUid();
@@ -96,7 +98,7 @@ public class OpinionHelper {
 
     }
 
-    private void addOpinion(final opinion opinion , final OnOpinionAddListener listener){
+    public void addOpinion(final opinion opinion , final OnOpinionAddListener listener){
 
     AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
 
