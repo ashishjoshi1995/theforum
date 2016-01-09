@@ -36,6 +36,7 @@ public class OpinionDB extends SQLiteOpenHelper {
     private static final String KEY_NOTIF_NEW_UPVOTES="notif_newupvotes";
     private static final String KEY_NOTIF_NEW_DOWNVOTES="notif_newdownvotes";
     private static final String KEY_TOPIC="topic";
+    private static final String KEY_TIME = "time";
 
     public OpinionDB(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -47,7 +48,7 @@ public class OpinionDB extends SQLiteOpenHelper {
                 + KEY_LOCAL_ID + " INTEGER PRIMARY KEY," + KEY_ID + " TEXT,"+KEY_UPVOTES+" INTEGER,"+KEY_DOWNVOTES+" INTEGER,"
                 +KEY_OPINION+" TEXT,"  + KEY_OPINION_ID+ " TEXT,"  + KEY_FORUM_ID + " TEXT,"
                 + KEY_TOPIC_ID + " TEXT," +KEY_NOTIF_COUNT + " INTEGER," + KEY_NOTIF_NEW_UPVOTES + " INTEGER,"
-                + KEY_NOTIF_NEW_DOWNVOTES+" INTEGER,"+ KEY_TOPIC + " TEXT)";
+                + KEY_NOTIF_NEW_DOWNVOTES+" INTEGER,"+ KEY_TOPIC + " TEXT,"+KEY_TIME+" INTEGER)";
         db.execSQL(CREATE_TOPIC_TABLE);
        // this.db = db;
     }
@@ -80,7 +81,8 @@ public class OpinionDB extends SQLiteOpenHelper {
             values.put(KEY_UPVOTES, opinion.getmUpVotes());
             values.put(KEY_TOPIC,opinion.getmTopic());
             values.put(KEY_TOPIC_ID,opinion.getmTopicId());
-          
+            values.put(KEY_TIME,"datetime(now)");
+
 
             db.insert(TABLE_OPINION_NAME, null, values);            // Inserting record
         }
@@ -96,7 +98,8 @@ public class OpinionDB extends SQLiteOpenHelper {
 
     public void deleteOpinions(){
         SQLiteDatabase db = this.getWritableDatabase();
-        String sql = "DELETE FROM "+TABLE_OPINION_NAME +" WHERE Save_Date <= date('now','-2 day')";
+        String sql = "DELETE FROM "+TABLE_OPINION_NAME +" WHERE "+ KEY_TIME +" <= date('now','-2 day')";
+      //  SELECT * FROM test WHERE age <= datetime('now', '-5 minutes')
         db.execSQL(sql);
     }
 }
