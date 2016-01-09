@@ -1,6 +1,5 @@
 package com.theforum.other;
 
-import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
@@ -11,11 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.RelativeLayout;
 
 import com.theforum.R;
+import com.theforum.utils.SoftKeyboardStateWatcher;
 import com.theforum.utils.customViews.KeyboardListenerEditText;
 
 import butterknife.Bind;
@@ -36,11 +35,15 @@ public class NewOpinionFragment extends Fragment {
     @Bind(R.id.new_opinion_upload_btn)
     Button mUpload;
 
+    @Bind(R.id.new_opinion_root_view)
+    RelativeLayout mRootView;
+
     KeyboardListenerEditText mUploadText;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
         return inflater.inflate(R.layout.fragment_new_opinion, container, false);
     }
 
@@ -51,7 +54,7 @@ public class NewOpinionFragment extends Fragment {
 
         mToolbar.setTitle("");
         ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
-        mToolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+        mToolbar.setNavigationIcon(R.drawable.ic_action_navigation_arrow_back);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,6 +74,21 @@ public class NewOpinionFragment extends Fragment {
 
         mUpload.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/Roboto-Medium.ttf"));
 
+        SoftKeyboardStateWatcher softKeyboardStateWatcher
+                = new SoftKeyboardStateWatcher(mRootView,getActivity(),true);
+        softKeyboardStateWatcher.addSoftKeyboardStateListener(new SoftKeyboardStateWatcher.SoftKeyboardStateListener() {
+            @Override
+            public void onSoftKeyboardOpened(int rootWindowHeight) {
+                ViewGroup.LayoutParams params = mRootView.getLayoutParams();
+                params.height = rootWindowHeight;
+                mRootView.setLayoutParams(params);
+            }
+
+            @Override
+            public void onSoftKeyboardClosed() {
+
+            }
+        });
     }
 
 }
