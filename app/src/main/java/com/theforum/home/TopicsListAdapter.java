@@ -1,6 +1,7 @@
 package com.theforum.home;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,8 +11,10 @@ import android.widget.TextView;
 
 import com.theforum.Constants;
 import com.theforum.R;
+import com.theforum.data.dataModels.topic;
 import com.theforum.utils.CommonUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -29,12 +32,13 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
     private Context mContext;
 
     /* list of feed data */
-    private List<TopicsModel> mFeeds;
+    private List<topic> mTopics;
+    Resources resources;
 
-
-    public TopicsListAdapter(Context context, List<TopicsModel> feeds){
+    public TopicsListAdapter(Context context, List<topic> feeds){
         mContext = context;
-        mFeeds = feeds;
+        mTopics = feeds;
+        resources = mContext.getResources();
     }
 
 
@@ -43,15 +47,16 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
 
         @Bind(R.id.topics_name) TextView name;
         @Bind(R.id.topics_time_holder) TextView time;
-        @Bind(R.id.topics_renew_btn)TextView renewBtn;
+        @Bind(R.id.topics_renew_btn)TextView renewCountBtn;
 
-        @BindDrawable(R.drawable.renew_icon) Drawable renew;
+        @BindDrawable(R.drawable.renew_icon) Drawable renewIcon;
+
 
         public TopicsItemViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, v);
 
-            renewBtn.setCompoundDrawablesWithIntrinsicBounds(null, CommonUtils.tintDrawable(renew, "#adadad"),
+            renewCountBtn.setCompoundDrawablesWithIntrinsicBounds(null, CommonUtils.tintDrawable(renewIcon, "#adadad"),
                     null, null);
 
             v.setOnClickListener(new View.OnClickListener() {
@@ -72,16 +77,32 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
 
     @Override
     public void onBindViewHolder(TopicsItemViewHolder holder, int position) {
-       // holder.name.setText();
+        topic topic = mTopics.get(position);
+        if(topic!=null) {
+            holder.name.setText(topic.getmTopic());
+            holder.renewCountBtn.setText(String.valueOf(topic.getmRenewalRequests()));
+            holder.time.setText(resources.getString(R.string.time_holder_message, topic.getmHoursLeft(),
+                    topic.getmRenewedCount()));
+        }
     }
 
 
-    public void addFeedItem(TopicsModel feedDataModel){
-        mFeeds.add(0,feedDataModel);
+    public void addTopic(topic topicDataModel, int position){
+        mTopics.add(position, topicDataModel);
+        notifyDataSetChanged();
+    }
+
+    public void addTopics(ArrayList<topic> topics){
+        mTopics.addAll(topics);
+        notifyDataSetChanged();
+    }
+
+    public void removeTopic(topic topicDataModel){
+        mTopics.remove(topicDataModel);
         notifyDataSetChanged();
     }
 
 
     @Override
-    public int getItemCount() {return mFeeds.size();}
+    public int getItemCount() {return mTopics.size();}
 }

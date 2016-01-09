@@ -86,6 +86,7 @@ public class LoginFragmentTwo extends Fragment {
 
                         Intent intent = new Intent(getContext(),HomeActivity.class);
                         startActivity(intent);
+                        getActivity().finish();
                     }
 
                     @Override
