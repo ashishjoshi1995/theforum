@@ -32,13 +32,16 @@ public class topic {
     private String mTopic;
 
     @com.google.gson.annotations.SerializedName("notif_new_opinions")
-    private int mNotifOpinionIds;
+    private int mNotifOpinions;
 
     @com.google.gson.annotations.SerializedName("notif_new_renewal_request")
     private int mNotifRenewalRequests;
 
     @com.google.gson.annotations.SerializedName("hours_left")
     private int mHoursLeft;
+
+    @com.google.gson.annotations.SerializedName("points")
+    private int mPoints;
 
 
 
@@ -106,12 +109,12 @@ public class topic {
         this.mTopic = mTopic;
     }
 
-    public int getmNotifOpinionIds() {
-        return mNotifOpinionIds;
+    public int getmNotifOpinions() {
+        return mNotifOpinions;
     }
 
-    public void setmNotifOpinionIds(int mNotifOpinionIds) {
-        this.mNotifOpinionIds = mNotifOpinionIds;
+    public void setmNotifOpinions(int mNotifOpinionIds) {
+        this.mNotifOpinions = mNotifOpinionIds;
     }
 
     public int getmNotifRenewalRequests() {
@@ -137,5 +140,13 @@ public class topic {
 
     public void setmRenewedCount(int mRenewedCount) {
         this.mRenewedCount = mRenewedCount;
+    }
+
+    public int getmPoints() {
+        return mPoints;
+    }
+
+    public void setmPoints(int mPoints) {
+        this.mPoints = mPoints;
     }
 }
