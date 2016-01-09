@@ -26,17 +26,12 @@ public class OpinionHelper {
     //create Opinion, get opinions, upvoteDownvote
     private MobileServiceClient mClient;
     private MobileServiceTable<opinion> mOpinion;
-    opinion opinion;
+    //opinion opinion;
 
 
     private String uid;
     public OpinionHelper(MobileServiceClient mobileServiceClient){
         this.mClient = mobileServiceClient;
-        getTable();
-    }
-    public OpinionHelper(MobileServiceClient mobileServiceClient,opinion opinion1){
-        this.mClient = mobileServiceClient;
-        this.opinion = opinion1;
         getTable();
     }
 
@@ -101,7 +96,7 @@ public class OpinionHelper {
 
     }
 
-    private void addOpinion(){
+    private void addOpinion(final opinion opinion , final OnOpinionAddListener listener){
 
     AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
 
@@ -112,13 +107,20 @@ public class OpinionHelper {
                     @Override
                     public void onCompleted(opinion entity, Exception exception, ServiceFilterResponse response) {
                         Log.e("opinionAdded", "opinionAdded");
+                        if(exception == null) {
+                            listener.onCompleted(entity);
+                        }
+                        else {
+                            listener.onError(exception.getMessage());
+                        }
+
                     }
 
 
                 });
 
             } catch (Exception e) {
-
+                listener.onError(e.getMessage());
             }
 
             return null;
@@ -142,5 +144,14 @@ public class OpinionHelper {
 
         return task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
+    }
+
+    public interface OnOpinionAddListener{
+        /**
+         *
+         * @param  opinion opinion data model with updated params
+         */
+        void onCompleted(opinion opinion);
+        void onError(String error);
     }
 }
