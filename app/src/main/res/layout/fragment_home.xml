@@ -28,5 +28,8 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="16dp"
-        android:src="@drawable/filter_topics"/>
+        android:src="@drawable/filter_topics"
+        app:rippleColor="@color/colorPrimaryDark"
+        app:backgroundTint="@color/colorPrimary"
+        />
 </RelativeLayout>

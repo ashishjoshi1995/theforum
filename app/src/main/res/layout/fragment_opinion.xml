@@ -81,7 +81,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
         android:layout_marginBottom="16dp"
-        android:src="@drawable/addopinion"/>
+        android:src="@drawable/addopinion"
+        app:rippleColor="@color/colorPrimaryDark"
+        app:backgroundTint="@color/colorPrimary"
+        />
 
 </android.support.design.widget.CoordinatorLayout>
 
