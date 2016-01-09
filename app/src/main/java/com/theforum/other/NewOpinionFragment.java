@@ -78,9 +78,9 @@ public class NewOpinionFragment extends Fragment {
                 = new SoftKeyboardStateWatcher(mRootView,getActivity(),true);
         softKeyboardStateWatcher.addSoftKeyboardStateListener(new SoftKeyboardStateWatcher.SoftKeyboardStateListener() {
             @Override
-            public void onSoftKeyboardOpened(int rootWindowHeight) {
+            public void onSoftKeyboardOpened(int keyboardHeight) {
                 ViewGroup.LayoutParams params = mRootView.getLayoutParams();
-                params.height = rootWindowHeight;
+                params.height = mRootView.getHeight()-keyboardHeight;
                 mRootView.setLayoutParams(params);
             }
 

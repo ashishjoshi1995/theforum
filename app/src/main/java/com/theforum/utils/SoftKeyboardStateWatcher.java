@@ -4,9 +4,9 @@ package com.theforum.utils;
  * @author DEEPANKAR
  * @since 09-01-2016.
  */
+
 import android.content.Context;
 import android.graphics.Rect;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
@@ -33,13 +33,13 @@ public class SoftKeyboardStateWatcher implements ViewTreeObserver.OnGlobalLayout
 
         activityRootView.getWindowVisibleDisplayFrame(r);
 
-        final int heightDiff = activityRootView.getRootView().getHeight() - (r.bottom - r.top);
+        final int heightDiff = activityRootView.getHeight() - (r.bottom - r.top);
         if (!isSoftKeyboardOpened && heightDiff > CommonUtils.convertDpToPixel(100, mContext)) {
             isSoftKeyboardOpened = true;
             this.lastSoftKeyboardHeightInPx = heightDiff;
 
             if (listener != null) {
-                listener.onSoftKeyboardOpened(r.bottom-r.top);
+                listener.onSoftKeyboardOpened(heightDiff);
             }
 
         } else if (isSoftKeyboardOpened && heightDiff < CommonUtils.convertDpToPixel(100,mContext)) {
@@ -66,9 +66,9 @@ public class SoftKeyboardStateWatcher implements ViewTreeObserver.OnGlobalLayout
     public interface SoftKeyboardStateListener {
         /**
          *
-         * @param rootWindowHeight gives new changed height of root Window
+         * @param keyboardHeight gives soft keyboard Height in pixels.
          */
-        void onSoftKeyboardOpened(int rootWindowHeight);
+        void onSoftKeyboardOpened(int keyboardHeight);
 
         /**
          * notifies when keyboard get closed.
