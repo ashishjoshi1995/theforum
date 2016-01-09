@@ -60,7 +60,7 @@ public class SortFragment extends Fragment implements CheckBox.OnCheckedChangeLi
         buttonView.setChecked(true);
     }
         else {
-            checkBoxMostRenewal.setChecked(true);
+          //  checkBoxMostRenewal.setChecked(true);
         }
     }
 
