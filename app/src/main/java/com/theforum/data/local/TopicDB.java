@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.theforum.Constants;
 import com.theforum.data.dataModels.topic;
@@ -78,7 +79,7 @@ public class TopicDB extends SQLiteOpenHelper {
         values.put(KEY_DESCRIPTION,topic.getmDescription());
         values.put(KEY_RENEWAL_REQUEST, topic.getmRenewalRequests());
         values.put(KEY_TOTAL_OPINIONS, topic.getmTotalOpinions());
-        values.put(KEY_TIME,"datetime(now)");
+        values.put(KEY_TIME, "datetime(now)");
 
         // Inserting Row
         switch (j) {
@@ -90,6 +91,29 @@ public class TopicDB extends SQLiteOpenHelper {
                 break;
         }    db.close(); // Closing database connection
 
+    }
+
+    public void addTopicFromServer(topic topic){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        Cursor c=db.rawQuery("SELECT * FROM user WHERE" + KEY_TOPIC_ID + "=" + topic.getmTopicId(), null);
+        if(c.moveToFirst())
+        {
+            Log.e("Error", "Record exist");
+        }
+        else
+        {
+            addTopic(topic,Constants.ADD_MY_TOPIC);
+        }
+        db.close();
+    }
+
+
+    public void addTopicsFromServer(ArrayList<topic>topics){
+        for (int k = 0; k<topics.size();k++){
+            addTopicFromServer(topics.get(k));
+        }
     }
 
     public void deleteTopic(){

@@ -12,6 +12,7 @@ import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.microsoft.windowsazure.mobileservices.table.TableOperationCallback;
 import com.microsoft.windowsazure.mobileservices.table.query.QueryOrder;
 import com.theforum.Constants;
+import com.theforum.TheForumApplication;
 import com.theforum.data.dataModels.topic;
 import com.theforum.data.dataModels.user;
 
@@ -26,18 +27,18 @@ public class CreateTopic {
 
     private MobileServiceClient mClient;
     private MobileServiceTable<topic> mTopic;
-    private topic topic;
+    //public  topic topic;
     private String uid;
 
-    public CreateTopic(MobileServiceClient client,topic topic1) {
-        this.mClient = client;
-        this.topic = topic1;
+    public CreateTopic() {
+        this.mClient = TheForumApplication.getClient();
         mTopic = mClient.getTable(topic.class);
     }
 
 
 
-    public void addTopic() {
+    public void addTopic(final topic topic, final OnTopicInsertListener onTopicInsertListener) {
+        //this.topic = topic;
         AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
 
             @Override
@@ -47,6 +48,12 @@ public class CreateTopic {
                         @Override
                         public void onCompleted(topic entity, Exception exception, ServiceFilterResponse response) {
                             Log.e("done","done" );
+                            if(exception == null){
+                                onTopicInsertListener.onCompleted(entity);
+                            }
+                            else{
+                                onTopicInsertListener.onError(exception.getMessage());
+                            }
                             //add file to the local db
                         }
                     });
@@ -68,6 +75,15 @@ public class CreateTopic {
 
         return task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
+    }
+
+    public interface OnTopicInsertListener{
+        /**
+         *
+         * @param topic topic data model with updated params
+         */
+        void onCompleted(topic topic);
+        void onError(String error);
     }
 
 }

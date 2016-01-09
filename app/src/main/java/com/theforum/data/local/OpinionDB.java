@@ -86,7 +86,7 @@ public class OpinionDB extends SQLiteOpenHelper {
 
             db.insert(TABLE_OPINION_NAME, null, values);            // Inserting record
         }
-
+        db.close();
 
     }
 
