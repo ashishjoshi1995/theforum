@@ -6,6 +6,7 @@ import com.theforum.utils.ProfileUtils;
  * @author Ashish on 1/2/2016.
  */
 public class User {
+
     public static User mUser;
     ProfileUtils profileUtils;
 
@@ -13,7 +14,6 @@ public class User {
     private String mCurrentTopics;
     private String mStatus;
     private String mServerId;
-    
     private int mTopicsCreated = -1;
     private int mPointCollected = -1;
     private int mAge = -1;

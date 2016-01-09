@@ -1,8 +1,6 @@
 package com.theforum.data.helpers;
 
-import android.annotation.TargetApi;
 import android.os.AsyncTask;
-import android.os.Build;
 
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
@@ -18,12 +16,11 @@ import com.theforum.data.dataModels.user;
  * @since 1/9/2016
  */
 public class LoginHelper {
-    private MobileServiceClient mClient;
+
     private MobileServiceTable<user> mUser;
 
     public LoginHelper(){
-        this.mClient = TheForumApplication.getClient();
-        mUser = mClient.getTable(user.class);
+        mUser = TheForumApplication.getClient().getTable(user.class);
     }
 
     public void login(final user user, final OnLoginCompleteListener listener){
@@ -49,11 +46,9 @@ public class LoginHelper {
         runAsyncTask(task);
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+
     private AsyncTask<Void, Void, Void> runAsyncTask(AsyncTask<Void, Void, Void> task) {
-
         return task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
     }
 
     public interface OnLoginCompleteListener{
