@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import com.theforum.R;
+import com.theforum.utils.CommonUtils;
 import com.theforum.utils.SoftKeyboardStateWatcher;
 import com.theforum.utils.customViews.KeyboardListenerEditText;
 
@@ -72,8 +73,6 @@ public class NewOpinionFragment extends Fragment {
             }
         });
 
-        mUpload.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/Roboto-Medium.ttf"));
-
         SoftKeyboardStateWatcher softKeyboardStateWatcher
                 = new SoftKeyboardStateWatcher(mRootView,getActivity(),true);
         softKeyboardStateWatcher.addSoftKeyboardStateListener(new SoftKeyboardStateWatcher.SoftKeyboardStateListener() {
@@ -89,6 +88,21 @@ public class NewOpinionFragment extends Fragment {
 
             }
         });
+
+        mUpload.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/Roboto-Medium.ttf"));
+        mUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!mUploadText.getText().toString().equals("")){
+                    uploadData();
+                }else CommonUtils.showToast(getContext(),"Opinion Empty");
+            }
+        });
+
+    }
+
+    private void uploadData(){
+        
     }
 
 }
