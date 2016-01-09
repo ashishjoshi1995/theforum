@@ -26,6 +26,10 @@ public class user {
     @com.google.gson.annotations.SerializedName("age")
     private int age;
 
+    @com.google.gson.annotations.SerializedName("country")
+    private String country;
+
+
     public String getmUid() {
         return mUid;
     }
@@ -80,5 +84,13 @@ public class user {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 }
