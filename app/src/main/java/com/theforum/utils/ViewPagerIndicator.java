@@ -108,7 +108,7 @@ public class ViewPagerIndicator extends View {
     private void initialize(){
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         dotRadius = (int)CommonUtils.convertDpToPixel(4,getContext());
-        activeDotColor = Color.parseColor("#5b5b5b");
-        normalDotColor = Color.parseColor("#adadad");
+        activeDotColor = Color.parseColor("#adadad");
+        normalDotColor = Color.parseColor("#5b5b5b");
     }
 }
