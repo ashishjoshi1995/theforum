@@ -130,41 +130,35 @@ public class LoadTopicHelper {
         runAsyncTask(task);
     }
 
-    public String addRenewalRequest(String uid, String topic_id){
-        Request request = new Request();
+    public void addRenewalRequest(String uid, String topic_id , final OnRenewalRequestAddedListener listener) {
+        final Request request = new Request();
         request.topic_id = topic_id;
         request.uid = uid;
         final boolean[] bool = {false};
-        final int[] c = new int[1];
+
 
         mClient.invokeApi("addrenewalrequest", request, Response.class, new ApiOperationCallback<Response>() {
             @Override
             public void onCompleted(Response result, Exception exception, ServiceFilterResponse response) {
-                if(exception==null){
-               c[0] = result.message;
-                }
-                else{
+                if (exception == null) {
+                    if (result.message > 1) {
+
+                        listener.response("You and " + result.message + " others added a renewal request");
+                        bool[0] = false;
+                    } else {
+                        listener.response("A renewal request has been added for this topic");
+                    }
+                } else {
+                    listener.response(exception.getMessage());
                     bool[0] = true;
                 }
-
             }
         });
-
-        if(bool[0])return "Could not add a request now, try after some time";
-        if(c[0]>2 && !bool[0]){
-            c[0]--;
-        return "You and "+c[0]+" added a renewal request";}
-        else {
-            return "You successfully added a renewal request";
-        }
-
     }
 
 
     private AsyncTask<Void, Void,ArrayList<topic>> runAsyncTask(AsyncTask<Void, Void, ArrayList<topic>> task) {
-
         return task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
     }
 
     public interface OnTopicsReceiveListener{
@@ -174,6 +168,15 @@ public class LoadTopicHelper {
          */
         void onCompleted(ArrayList<topic> topics);
         void onError(String error);
+    }
+
+    public interface OnRenewalRequestAddedListener{
+        /**
+         *
+         * @param  s model with updated params
+         */
+        void response(String s);
+
     }
 
 }
