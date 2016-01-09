@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 /**
- * Created by Ashish on 1/5/2016.
+ * @author Ashish on 1/5/2016.
  */
 public class LoadTopicHelper {
     private MobileServiceClient mClient;
@@ -60,7 +60,7 @@ public class LoadTopicHelper {
                         break;
                     case Constants.SORT_BASIS_CREATED_BY_ME:
                         InputClass inputClass = new InputClass();
-                        inputClass.uid = User.getInstance().getForumId();
+                        inputClass.uid = User.getInstance().getId();
                         mClient.invokeApi("getmytopics", inputClass, ResponseClass.class, new ApiOperationCallback<ResponseClass>() {
                             @Override
                             public void onCompleted(ResponseClass result, Exception exception, ServiceFilterResponse response) {

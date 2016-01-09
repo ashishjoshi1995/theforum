@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,9 +39,9 @@ public class HomeActivity extends AppCompatActivity implements OnHomeUiChangeLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if(!ProfileUtils.getInstance().contains(Constants.USER_ID)){
-            startActivity(new Intent(this,LoginActivity.class));
+        
+        if(!ProfileUtils.getInstance().contains(ProfileUtils.USER_ID)){
+            startActivity(new Intent(this, LoginActivity.class));
             finish();
         }
 

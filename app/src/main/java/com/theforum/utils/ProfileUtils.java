@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 /**
- * Created by Ashish on 1/2/2016.
+ * @author  Ashish on 1/2/2016.
  */
 public class ProfileUtils {
     private Context mContext;
@@ -15,7 +15,7 @@ public class ProfileUtils {
      * Key Values to store in SharedPreferences
      */
 
-    public static final String FORUM_ID = "forum_id";
+    public static final String USER_ID = "forum_id";
     public static final String STATUS = "status";
     public static final String POINTS_COLLECTED = "points_collected";
     public static final String TOPICS_CREATED = "topics_created";

@@ -73,11 +73,12 @@ public class LoginFragmentTwo extends Fragment {
                          */
                         User localUser = User.getInstance();
                         localUser.setId(user.getmUid());
-                        localUser.setServerId(user.getmUid());
+                        localUser.setServerId(user.getmId());
                         localUser.setAge(age);
                         localUser.setStatus("Rookie");
                         localUser.setPointCollected(0);
                         localUser.setTopicsCreated(0);
+                        Log.e("login",""+user.getmUid()+"/"+user.getmId());
 
                         /*
                          *  show home UI

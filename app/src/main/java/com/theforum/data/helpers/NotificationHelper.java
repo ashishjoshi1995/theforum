@@ -3,24 +3,19 @@ package com.theforum.data.helpers;
 import android.util.Log;
 
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
-import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.microsoft.windowsazure.mobileservices.table.TableQueryCallback;
 import com.theforum.TheForumApplication;
 import com.theforum.User;
-import com.theforum.data.dataModels.OpinionNotification;
-import com.theforum.data.dataModels.TopicNotification;
 import com.theforum.data.dataModels.opinion;
 import com.theforum.data.dataModels.topic;
-import com.theforum.data.dataModels.user;
 import com.theforum.data.interfaces.NotificationIfAny;
-import com.theforum.data.local.NotificationStack;
 
 import java.util.List;
 
 /**
- * Created by Ashish on 1/6/2016.
+ * @author Ashish on 1/6/2016.
  */
 public class NotificationHelper {
     //this class has none of the server methods built with asyncTask as
@@ -40,7 +35,7 @@ public class NotificationHelper {
     public void readNotification(final NotificationIfAny notificationIfAny){
         final boolean[] one = {false};
 //        boolean two = false;
-       opinion.where().field("uid").eq(User.getInstance().getForumId()).execute(new TableQueryCallback<opinion>() {
+       opinion.where().field("uid").eq(User.getInstance().getId()).execute(new TableQueryCallback<opinion>() {
             @Override
             public void onCompleted(List<opinion> result, int count, Exception exception, ServiceFilterResponse response) {
                 Log.e("readNotif opi", String.valueOf(count));
@@ -54,7 +49,7 @@ public class NotificationHelper {
 
         });
 
-        topic.where().field("uid").eq(User.getInstance().getForumId()).execute(new TableQueryCallback<topic>() {
+        topic.where().field("uid").eq(User.getInstance().getId()).execute(new TableQueryCallback<topic>() {
             @Override
             public void onCompleted(List<topic> result, int count, Exception exception, ServiceFilterResponse response) {
                 Log.e("readNotif topic", String.valueOf(count));

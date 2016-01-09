@@ -29,12 +29,12 @@ public class User {
     }
 
     public String getId() {
-        if(mUid==null) mUid = profileUtils.getFromPreferences(ProfileUtils.FORUM_ID);
+        if(mUid==null) mUid = profileUtils.getFromPreferences(ProfileUtils.USER_ID);
         return mUid;
     }
 
     public void setId(String id){
-        profileUtils.savePreferences(ProfileUtils.FORUM_ID,id);
+        profileUtils.savePreferences(ProfileUtils.USER_ID,id);
         mUid = id;
     }
 
