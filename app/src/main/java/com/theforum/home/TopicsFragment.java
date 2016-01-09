@@ -55,18 +55,19 @@ public class TopicsFragment extends Fragment {
 
     private void getTopicsFromServer(){
 
-        LoadTopicHelper loadTopicHelper = new LoadTopicHelper();
-        loadTopicHelper.loadTopics(Constants.SORT_BASIS_MOST_POPULAR, new LoadTopicHelper.OnTopicsReceiveListener() {
+
+        LoadTopicHelper.getHelper().loadTopics(Constants.SORT_BASIS_MOST_POPULAR,
+                new LoadTopicHelper.OnTopicsReceiveListener() {
             @Override
             public void onCompleted(ArrayList<topic> topics) {
-                if(topics!=null) {
+                if (topics != null) {
                     mAdapter.addTopics(topics);
                 }
             }
 
             @Override
             public void onError(String error) {
-                Log.e("error",error);
+                Log.e("error", error);
             }
         });
 

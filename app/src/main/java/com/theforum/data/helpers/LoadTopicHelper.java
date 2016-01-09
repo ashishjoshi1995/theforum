@@ -29,13 +29,21 @@ import java.util.concurrent.ExecutionException;
  * @author Ashish on 1/5/2016.
  */
 public class LoadTopicHelper {
+
+    private static LoadTopicHelper mLoadTopicHelper;
     private MobileServiceClient mClient;
     private MobileServiceTable<topic> mTopic;
-    private String uid;
+    private String mUid;
 
-    public LoadTopicHelper(){
+    public static LoadTopicHelper getHelper(){
+        if(mLoadTopicHelper==null) mLoadTopicHelper = new LoadTopicHelper();
+        return mLoadTopicHelper;
+    }
+
+    private LoadTopicHelper(){
         this.mClient = TheForumApplication.getClient();
         mTopic = mClient.getTable(topic.class);
+        mUid = User.getInstance().getId();
     }
 
 
@@ -130,16 +138,17 @@ public class LoadTopicHelper {
         runAsyncTask(task);
     }
 
-    public void addRenewalRequest(String uid, String topic_id , final OnRenewalRequestAddedListener listener) {
+    public void addRenewalRequest(String topic_id , final OnRenewalRequestAddedListener listener) {
         final Request request = new Request();
         request.topic_id = topic_id;
-        request.uid = uid;
+        request.uid = mUid;
         final boolean[] bool = {false};
 
 
         mClient.invokeApi("addrenewalrequest", request, Response.class, new ApiOperationCallback<Response>() {
             @Override
             public void onCompleted(Response result, Exception exception, ServiceFilterResponse response) {
+                Log.e("result",""+result.message);
                 if (exception == null) {
                     if (result.message > 1) {
 

@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.theforum.Constants;
 import com.theforum.R;
-import com.theforum.User;
 import com.theforum.data.dataModels.topic;
 import com.theforum.data.helpers.LoadTopicHelper;
 import com.theforum.utils.CommonUtils;
@@ -53,14 +52,40 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
 
         @BindDrawable(R.drawable.renew_icon) Drawable renewIcon;
 
+        Drawable unRenewIcon;
+
+
         public TopicsItemViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, v);
+            unRenewIcon = renewIcon;
+            renewIcon = CommonUtils.tintDrawable(renewIcon, "#30ed17");
+            unRenewIcon = CommonUtils.tintDrawable(unRenewIcon, "#adadad");
 
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     CommonUtils.openContainerActivity(mContext, Constants.OPINIONS_FRAGMENT);
+                }
+            });
+
+            renewCountBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    topic topic = mTopics.get(getLayoutPosition());
+                    Log.e("I m called",""+topic.getIsRenewed()+"/"+getLayoutPosition());
+                    if(!topic.getIsRenewed()) {
+                        renewCountBtn.setCompoundDrawablesWithIntrinsicBounds(null, renewIcon, null, null);
+                        topic.setIsRenewed(true);
+
+                        LoadTopicHelper.getHelper().addRenewalRequest(topic.getmTopicId(),
+                                new LoadTopicHelper.OnRenewalRequestAddedListener() {
+                                    @Override
+                                    public void response(String s) {
+                                        Log.e("response", s);
+                                    }
+                                });
+                    }
                 }
             });
         }
@@ -76,41 +101,16 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
     @Override
     public void onBindViewHolder(final TopicsItemViewHolder holder, int position) {
         final topic topic = mTopics.get(position);
-        if(topic!=null) {
-            holder.topicName.setText(topic.getmTopic());
-            holder.renewCountBtn.setText(String.valueOf(topic.getmRenewalRequests()));
-            holder.timeHolder.setText(resources.getString(R.string.time_holder_message, topic.getmHoursLeft(),
-                    topic.getmRenewedCount()));
 
-            final boolean isRenewed = topic.getIsRenewed();
-            if(isRenewed){
-                holder.renewCountBtn.setCompoundDrawablesWithIntrinsicBounds(null,
-                        CommonUtils.tintDrawable(holder.renewIcon, "#30ed17"), null, null);
-            }else holder.renewCountBtn.setCompoundDrawablesWithIntrinsicBounds(null,
-                    CommonUtils.tintDrawable(holder.renewIcon, "#adadad"), null, null);
+        holder.topicName.setText(topic.getmTopic());
+        holder.renewCountBtn.setText(String.valueOf(topic.getmRenewalRequests()));
+        holder.timeHolder.setText(resources.getString(R.string.time_holder_message, topic.getmHoursLeft(),
+                topic.getmRenewedCount()));
 
-            holder.renewCountBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.e("click", "yes");
-                    if(!isRenewed) {
-                        holder.renewCountBtn.setCompoundDrawablesWithIntrinsicBounds(null,
-                                CommonUtils.tintDrawable(holder.renewIcon, "#30ed17"), null, null);
-                        topic.setIsRenewed(true);
-                        //call api
-
-                        LoadTopicHelper helper = new LoadTopicHelper();
-                        helper.addRenewalRequest(User.getInstance().getId(), topic.getmTopicId(), new LoadTopicHelper.OnRenewalRequestAddedListener() {
-                            @Override
-                            public void response(String s) {
-                                Log.e("response",s);
-                            }
-                        });
-                    }
-
-                }
-            });
-        }
+        if(topic.getIsRenewed()){
+            holder.renewCountBtn.setCompoundDrawablesWithIntrinsicBounds(null, holder.renewIcon, null, null);
+        }else
+            holder.renewCountBtn.setCompoundDrawablesWithIntrinsicBounds(null, holder.unRenewIcon, null, null);
 
     }
 
