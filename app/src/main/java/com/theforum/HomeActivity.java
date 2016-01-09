@@ -12,7 +12,7 @@ import android.view.View;
 
 import com.theforum.home.HomeFragment;
 import com.theforum.utils.CommonUtils;
-import com.theforum.utils.MaterialSearchView;
+import com.theforum.utils.customViews.MaterialSearchView;
 import com.theforum.utils.OnHomeUiChangeListener;
 import com.theforum.utils.TypefaceSpan;
 

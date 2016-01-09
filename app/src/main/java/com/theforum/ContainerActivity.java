@@ -4,6 +4,7 @@ package com.theforum;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 
 import com.theforum.notification.NotificationFragment;
 import com.theforum.other.NewOpinionFragment;
@@ -14,14 +15,18 @@ import com.theforum.other.SortFragment;
 
 public class ContainerActivity extends AppCompatActivity {
 
+    int id = -1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_container);
 
+        id = getIntent().getExtras().getInt("id");
+
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
-        switch (getIntent().getExtras().getInt("id")){
+        switch (id){
 
             case Constants.NEW_TOPIC_FRAGMENT:
                 fragmentTransaction.replace(R.id.menu_fragment_container, new NewTopicFragment());
@@ -50,7 +55,8 @@ public class ContainerActivity extends AppCompatActivity {
 
         fragmentTransaction.commit();
 
-
-
     }
+
+
+
 }

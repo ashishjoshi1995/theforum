@@ -20,7 +20,7 @@ import com.theforum.Constants;
 import com.theforum.R;
 import com.theforum.home.TopicsModel;
 import com.theforum.utils.CommonUtils;
-import com.theforum.utils.DividerItemDecorator;
+import com.theforum.utils.customViews.DividerItemDecorator;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -13,7 +13,7 @@ import android.widget.LinearLayout;
 
 import com.theforum.R;
 import com.theforum.utils.CommonUtils;
-import com.theforum.utils.DividerItemDecorator;
+import com.theforum.utils.customViews.DividerItemDecorator;
 import com.theforum.utils.OnListItemClickListener;
 
 import java.util.ArrayList;

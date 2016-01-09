@@ -1,5 +1,6 @@
 package com.theforum.other;
 
+import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
@@ -9,10 +10,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.theforum.R;
+import com.theforum.utils.customViews.KeyboardListenerEditText;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -32,11 +36,11 @@ public class NewOpinionFragment extends Fragment {
     @Bind(R.id.new_opinion_upload_btn)
     Button mUpload;
 
-    EditText mUploadText;
-
+    KeyboardListenerEditText mUploadText;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         return inflater.inflate(R.layout.fragment_new_opinion, container, false);
     }
 
@@ -55,10 +59,18 @@ public class NewOpinionFragment extends Fragment {
             }
         });
 
-        mUploadText = mTopicNameHolder.getEditText();
+        mUploadText = (KeyboardListenerEditText)mTopicNameHolder.getEditText();
         mUploadText.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/Roboto-Light.ttf"));
+        mUploadText.setOnBackPressListener(new KeyboardListenerEditText.OnBackPressListener() {
+            @Override
+            public boolean onBackPressed() {
+                getActivity().finish();
+                return true;
+            }
+        });
 
         mUpload.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/Roboto-Medium.ttf"));
 
     }
+
 }

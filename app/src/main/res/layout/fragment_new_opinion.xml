@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@color/colorPrimary">
 
     <include layout="@layout/toolbar"/>
@@ -14,7 +14,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginTop="66dp"
         android:textColorHint="@android:color/white">
-        <EditText
+        <com.theforum.utils.customViews.KeyboardListenerEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusable="true"
@@ -28,8 +28,7 @@
     <Button android:id="@+id/new_opinion_upload_btn"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_below="@id/new_opinion_text_holder"
-        android:layout_marginTop="80dp"
+        android:layout_alignParentBottom="true"
         android:textColor="@android:color/white"
         android:textSize="16sp"
         android:text="UPLOAD"

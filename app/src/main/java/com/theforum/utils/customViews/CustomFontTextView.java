@@ -1,4 +1,4 @@
-package com.theforum.utils;
+package com.theforum.utils.customViews;
 
 
 import android.annotation.TargetApi;

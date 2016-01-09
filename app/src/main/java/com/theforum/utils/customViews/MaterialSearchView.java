@@ -1,4 +1,4 @@
-package com.theforum.utils;
+package com.theforum.utils.customViews;
 
 import android.content.Context;
 import android.graphics.Rect;

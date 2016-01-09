@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.theforum.R;
 import com.theforum.data.dataModels.topic;
-import com.theforum.utils.CustomFontTextView;
+import com.theforum.utils.customViews.CustomFontTextView;
 
 import java.util.ArrayList;
 
