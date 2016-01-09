@@ -6,18 +6,11 @@ import android.os.Build;
 import android.util.Log;
 
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
-import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.microsoft.windowsazure.mobileservices.table.TableOperationCallback;
-import com.microsoft.windowsazure.mobileservices.table.query.QueryOrder;
-import com.theforum.Constants;
 import com.theforum.TheForumApplication;
 import com.theforum.data.dataModels.topic;
-import com.theforum.data.dataModels.user;
-
-import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Ashish on 1/5/2016.

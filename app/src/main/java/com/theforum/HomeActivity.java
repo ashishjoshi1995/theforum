@@ -12,9 +12,9 @@ import android.view.View;
 
 import com.theforum.home.HomeFragment;
 import com.theforum.utils.CommonUtils;
-import com.theforum.utils.customViews.MaterialSearchView;
 import com.theforum.utils.OnHomeUiChangeListener;
 import com.theforum.utils.TypefaceSpan;
+import com.theforum.utils.customViews.MaterialSearchView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -35,6 +35,9 @@ public class HomeActivity extends AppCompatActivity implements OnHomeUiChangeLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+       // startActivity(new Intent(this,LoginActivity.class));
+       // finish();
 
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.theforum.Constants;
 import com.theforum.R;
@@ -25,9 +26,9 @@ import butterknife.ButterKnife;
 public class ProfileFragment extends Fragment {
 
     @Bind(R.id.profile_notification_btn) Button notifications;
-    @Bind(R.id.profile_status) EditText status;
-    @Bind(R.id.profile_points) EditText points;
-    @Bind(R.id.profile_topics) EditText topics;
+    @Bind(R.id.profile_status) TextView status;
+    @Bind(R.id.profile_points) TextView points;
+    @Bind(R.id.profile_topics) TextView topics;
 
     @Bind(R.id.profile_status_icon) ImageView statusIcon;
     @Bind(R.id.profile_points_icon) ImageView pointsIcon;

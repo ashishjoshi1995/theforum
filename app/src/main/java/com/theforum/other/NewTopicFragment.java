@@ -79,6 +79,7 @@ public class NewTopicFragment extends Fragment {
         topic topic = new topic();
         topic.setmTopic(mTopicText.getText().toString());
         topic.setmDescription(mDescription.getText().toString());
+        topic.setmUid("qweenc");
 
         CreateTopic topicHelper = new CreateTopic();
         topicHelper.addTopic(topic, new CreateTopic.OnTopicInsertListener() {
