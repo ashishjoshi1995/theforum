@@ -19,6 +19,7 @@ public class Constants {
     public static final int SORT_BASIS_LATEST = 201;
     public static final int SORT_BASIS_MOST_RENEWAL = 202;
     public static final int SORT_BASIS_LEAST_RENEWAL = 203;
+    public static final int SORT_BASIS_MOST_POPULAR = 204;
 
     public static final int ADD_MY_TOPIC = 300;
     public static final int ADD_TOPICS_ALL = 301;
