@@ -72,7 +72,7 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
 
     @Override
     public void onBindViewHolder(TopicsItemViewHolder holder, int position) {
-
+       // holder.name.setText();
     }
 
 

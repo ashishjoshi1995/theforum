@@ -1,4 +1,4 @@
-package com.theforum.data.local;
+package com.theforum.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -41,7 +41,7 @@ public class ProfileUtils {
     private SharedPreferences getPreferences() {
         if (sharedPreferences == null) {
             sharedPreferences = mContext.getApplicationContext().getSharedPreferences(
-                    "theforum_Profile", Context.MODE_PRIVATE);
+                    "theforum_profile", Context.MODE_PRIVATE);
         }
 
         return sharedPreferences;
