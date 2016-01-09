@@ -1,7 +1,6 @@
 package com.theforum.login;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -25,10 +24,10 @@ public class LoginViewPagerAdapter extends FragmentPagerAdapter {
 
         switch (position){
             case 0:
-                fragment =  new LoginFragment1();
+                fragment =  new LoginFragmentOne();
                 break;
             case 1:
-                fragment =  new LoginFragment2();
+                fragment =  new LoginFragmentTwo();
                 break;
 
         }

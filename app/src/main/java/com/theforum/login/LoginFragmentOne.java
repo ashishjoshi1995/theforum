@@ -13,11 +13,11 @@ import com.theforum.R;
  * @author Ashish
  * @since 1/9/2016
  */
-public class LoginFragment1 extends Fragment {
+public class LoginFragmentOne extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_login1, container, false);
+        return inflater.inflate(R.layout.fragment_login_one, container, false);
     }
 
     @Override
