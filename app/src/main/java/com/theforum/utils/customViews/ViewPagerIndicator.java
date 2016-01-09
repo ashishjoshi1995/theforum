@@ -1,4 +1,4 @@
-package com.theforum.utils;
+package com.theforum.utils.customViews;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
+
+import com.theforum.utils.CommonUtils;
 
 /**
  * @author DEEPANKAR
@@ -107,7 +109,7 @@ public class ViewPagerIndicator extends View {
 
     private void initialize(){
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        dotRadius = (int)CommonUtils.convertDpToPixel(4,getContext());
+        dotRadius = (int) CommonUtils.convertDpToPixel(4, getContext());
         activeDotColor = Color.parseColor("#adadad");
         normalDotColor = Color.parseColor("#5b5b5b");
     }

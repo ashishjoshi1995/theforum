@@ -1,15 +1,12 @@
 package com.theforum;
 
+import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.theforum.login.LoginViewPagerAdapter;
 import com.theforum.utils.CommonUtils;
-import com.theforum.utils.ViewPagerIndicator;
+import com.theforum.utils.customViews.ViewPagerIndicator;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -35,22 +32,15 @@ public class LoginActivity extends AppCompatActivity {
         mViewPager.setAdapter(new LoginViewPagerAdapter(this, getSupportFragmentManager()));
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                Log.e("Ashish","Joshi1");
-            }
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
 
             @Override
             public void onPageSelected(int position) {
-                Log.e("Ashish", String.valueOf(position));
-
                 mViewPagerIndicator.setActiveDot(position);
-
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {
-                Log.e("Ashish","Joshi3");
-            }
+            public void onPageScrollStateChanged(int state) {}
         });
     }
 
