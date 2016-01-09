@@ -1,8 +1,9 @@
 package com.theforum.data.dataModels;
 
 /**
- * Created by Ashish on 12/31/2015.
+ * @author Ashish on 12/31/2015.
  */
+
 public class topic {
     @com.google.gson.annotations.SerializedName("id")
     private String mId;

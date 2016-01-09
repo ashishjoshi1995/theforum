@@ -1,8 +1,6 @@
 package com.theforum.data.helpers;
 
-import android.annotation.TargetApi;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.util.Log;
 
 import com.microsoft.windowsazure.mobileservices.ApiOperationCallback;
@@ -15,7 +13,6 @@ import com.theforum.Constants;
 import com.theforum.TheForumApplication;
 import com.theforum.User;
 import com.theforum.data.dataModels.topic;
-import com.theforum.data.dataModels.user;
 import com.theforum.data.helpers.renewalRequestApi.Request;
 import com.theforum.data.helpers.renewalRequestApi.Response;
 import com.theforum.data.helpers.sortBasisCreatedByMe.InputClass;
@@ -164,7 +161,7 @@ public class LoadTopicHelper {
 
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+
     private AsyncTask<Void, Void,ArrayList<topic>> runAsyncTask(AsyncTask<Void, Void, ArrayList<topic>> task) {
 
         return task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
