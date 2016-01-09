@@ -2,5 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="theforum | speek free"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="theforum is anonymus community of people with opinions.Create topics and find What people have to say."/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Upvote and Downvote the opinion you see. Write your own. Build a profile and have fun croaking."/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your profile will help your topics spread. See yourself grow from a Rookie to an intelectual(i.e. a red to green frog)"/>
 
 </LinearLayout>
