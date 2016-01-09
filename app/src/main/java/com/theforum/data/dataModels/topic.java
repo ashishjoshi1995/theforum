@@ -44,7 +44,7 @@ public class topic {
     @com.google.gson.annotations.SerializedName("points")
     private int mPoints;
 
-
+    private boolean isRenewed = false;
 
     public String getmId() {
         return mId;
@@ -149,5 +149,13 @@ public class topic {
 
     public void setmPoints(int mPoints) {
         this.mPoints = mPoints;
+    }
+
+    public boolean getIsRenewed() {
+        return isRenewed;
+    }
+
+    public void setIsRenewed(boolean isRenewed) {
+        this.isRenewed = isRenewed;
     }
 }

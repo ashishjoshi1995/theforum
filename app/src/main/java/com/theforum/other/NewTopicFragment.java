@@ -87,6 +87,7 @@ public class NewTopicFragment extends Fragment {
             @Override
             public void onCompleted(topic topic) {
                 CommonUtils.showToast(getActivity(),"Topic created");
+                //TODO: save data to local db
             }
 
             @Override

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,9 +55,6 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
             super(v);
             ButterKnife.bind(this, v);
 
-            renewCountBtn.setCompoundDrawablesWithIntrinsicBounds(null, CommonUtils.tintDrawable(renewIcon, "#adadad"),
-                    null, null);
-
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -74,14 +72,36 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
     }
 
     @Override
-    public void onBindViewHolder(TopicsItemViewHolder holder, int position) {
-        topic topic = mTopics.get(position);
+    public void onBindViewHolder(final TopicsItemViewHolder holder, int position) {
+        final topic topic = mTopics.get(position);
         if(topic!=null) {
             holder.topicName.setText(topic.getmTopic());
             holder.renewCountBtn.setText(String.valueOf(topic.getmRenewalRequests()));
             holder.timeHolder.setText(resources.getString(R.string.time_holder_message, topic.getmHoursLeft(),
                     topic.getmRenewedCount()));
+
+            final boolean isRenewed = topic.getIsRenewed();
+            if(isRenewed){
+                holder.renewCountBtn.setCompoundDrawablesWithIntrinsicBounds(null,
+                        CommonUtils.tintDrawable(holder.renewIcon, "#30ed17"), null, null);
+            }else holder.renewCountBtn.setCompoundDrawablesWithIntrinsicBounds(null,
+                    CommonUtils.tintDrawable(holder.renewIcon, "#adadad"), null, null);
+
+            holder.renewCountBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.e("click", "yes");
+                    if(!isRenewed) {
+                        holder.renewCountBtn.setCompoundDrawablesWithIntrinsicBounds(null,
+                                CommonUtils.tintDrawable(holder.renewIcon, "#30ed17"), null, null);
+                        topic.setIsRenewed(true);
+                        //call api
+                    }
+
+                }
+            });
         }
+
     }
 
     public void addTopic(topic topicDataModel, int position){
@@ -102,4 +122,5 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
 
     @Override
     public int getItemCount() {return mTopics.size();}
+
 }

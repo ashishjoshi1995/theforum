@@ -63,7 +63,6 @@ public class LoadTopicHelper {
                             public void onCompleted(ResponseClass result, Exception exception, ServiceFilterResponse response) {
                                 Log.e("herewego", "herewego");
                                 if (exception == null){
-                                    //TODO convert the string to JSONARRAY AND THEN TO JAVA ARRAYLIST
                                     try {
                                         //JSONObject jsnobject = new JSONObject(result.message);
                                         JSONArray jsonArray = new JSONArray(result.message);

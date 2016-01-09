@@ -35,6 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="56dp"
+            android:drawableBottom="@drawable/recycler_view_divider"
             android:hint="Your Status"
             android:textColorHint="#585858"
             android:textSize="32sp" />
@@ -63,6 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="56dp"
+            android:drawableBottom="@drawable/recycler_view_divider"
             android:hint="Point Collected"
             android:textSize="32sp" />
 
@@ -90,10 +92,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="56dp"
+            android:drawableBottom="@drawable/recycler_view_divider"
             android:hint="Topics Created"
-            android:textSize="32sp"
-            android:inputType="none"
-            android:editable="false" />
+            android:textSize="32sp"/>
 
     </FrameLayout>
 

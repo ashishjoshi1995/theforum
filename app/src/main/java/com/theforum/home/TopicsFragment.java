@@ -71,4 +71,9 @@ public class TopicsFragment extends Fragment {
         });
 
     }
+
+    //TODO: Also load topics from local database to inflate layout
+    private void getTopicsFromDataBase(){
+
+    }
 }
