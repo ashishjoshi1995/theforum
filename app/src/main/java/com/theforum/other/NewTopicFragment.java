@@ -5,6 +5,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.theforum.R;
+import com.theforum.data.dataModels.topic;
+import com.theforum.data.helpers.CreateTopic;
+import com.theforum.utils.CommonUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -26,7 +30,9 @@ public class NewTopicFragment extends Fragment {
     Toolbar mToolbar;
 
     @Bind(R.id.new_topic_name)
-    TextInputLayout topicNameHolder;
+    TextInputLayout mTopicNameHolder;
+
+    EditText mTopicText;
 
     @Bind(R.id.new_topic_description)
     EditText mDescription;
@@ -45,5 +51,50 @@ public class NewTopicFragment extends Fragment {
 
         ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
 
+        mTopicText = mTopicNameHolder.getEditText();
+
+        mUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (!isEditTextEmpty(mTopicText)) {
+
+                    if(!isEditTextEmpty(mDescription)){
+                        /**
+                         * We have topic and description. Now we can upload the topic
+                         * to server
+                         */
+
+                        uploadData();
+
+                    }else CommonUtils.showToast(getContext(),"Description Empty");
+
+                } else CommonUtils.showToast(getActivity(), "Topic Empty");
+
+            }
+        });
+    }
+
+    private void uploadData(){
+        topic topic = new topic();
+        topic.setmTopic(mTopicText.getText().toString());
+        topic.setmDescription(mDescription.getText().toString());
+
+        CreateTopic topicHelper = new CreateTopic();
+        topicHelper.addTopic(topic, new CreateTopic.OnTopicInsertListener() {
+            @Override
+            public void onCompleted(topic topic) {
+                CommonUtils.showToast(getActivity(),"Topic created");
+            }
+
+            @Override
+            public void onError(String error) {
+                Log.e("error",""+error);
+            }
+        });
+    }
+
+    private boolean isEditTextEmpty(EditText editText){
+        return (editText.getText().toString().equals("")) ;
     }
 }
