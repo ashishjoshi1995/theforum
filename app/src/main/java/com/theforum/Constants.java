@@ -6,6 +6,9 @@ package com.theforum;
  */
 public class Constants {
 
+    /**
+     * fragments constants identifiers (values) to be opened by containerActivity.
+     */
     public static final int  NEW_OPINION_FRAGMENT = 100;
     public static final int NEW_TOPIC_FRAGMENT = 101;
     public static final int OPINIONS_FRAGMENT = 102;
@@ -13,6 +16,10 @@ public class Constants {
     public static final int NOTIFICATION_FRAGMENT = 104;
     public static final int SORT_FRAGMENT = 105;
 
+    /**
+     * constants identifiers (key values) for sorting the topics which are shown
+     * to the user.
+     */
     public static final int SORT_BASIS_CREATED_BY_ME = 200;
     public static final int SORT_BASIS_LATEST = 201;
     public static final int SORT_BASIS_MOST_RENEWAL = 202;
@@ -27,4 +34,12 @@ public class Constants {
     public static final int NOTIFICATION_TYPE_OPINIONS = 402;
     public static final int NOTIFICATION_TYPE_OPINION_UP_VOTES = 403;
 
+    /**
+     * other key values for passing of the variables (as bundles) between activities.
+     */
+
+    /*
+        used when data is passed from topics item to opinion fragment
+     */
+    public static final String TOPIC_MODEL = "topic_model";
 }

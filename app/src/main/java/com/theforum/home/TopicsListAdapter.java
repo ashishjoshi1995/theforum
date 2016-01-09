@@ -44,13 +44,11 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
 
     public class TopicsItemViewHolder extends RecyclerView.ViewHolder {
 
-
-        @Bind(R.id.topics_name) TextView name;
-        @Bind(R.id.topics_time_holder) TextView time;
+        @Bind(R.id.topics_name) TextView topicName;
+        @Bind(R.id.topics_time_holder) TextView timeHolder;
         @Bind(R.id.topics_renew_btn)TextView renewCountBtn;
 
         @BindDrawable(R.drawable.renew_icon) Drawable renewIcon;
-
 
         public TopicsItemViewHolder(View v) {
             super(v);
@@ -79,13 +77,12 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
     public void onBindViewHolder(TopicsItemViewHolder holder, int position) {
         topic topic = mTopics.get(position);
         if(topic!=null) {
-            holder.name.setText(topic.getmTopic());
+            holder.topicName.setText(topic.getmTopic());
             holder.renewCountBtn.setText(String.valueOf(topic.getmRenewalRequests()));
-            holder.time.setText(resources.getString(R.string.time_holder_message, topic.getmHoursLeft(),
+            holder.timeHolder.setText(resources.getString(R.string.time_holder_message, topic.getmHoursLeft(),
                     topic.getmRenewedCount()));
         }
     }
-
 
     public void addTopic(topic topicDataModel, int position){
         mTopics.add(position, topicDataModel);
