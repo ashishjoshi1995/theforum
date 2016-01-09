@@ -12,7 +12,9 @@ import android.widget.TextView;
 
 import com.theforum.Constants;
 import com.theforum.R;
+import com.theforum.User;
 import com.theforum.data.dataModels.topic;
+import com.theforum.data.helpers.LoadTopicHelper;
 import com.theforum.utils.CommonUtils;
 
 import java.util.ArrayList;
@@ -96,6 +98,14 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
                                 CommonUtils.tintDrawable(holder.renewIcon, "#30ed17"), null, null);
                         topic.setIsRenewed(true);
                         //call api
+
+                        LoadTopicHelper helper = new LoadTopicHelper();
+                        helper.addRenewalRequest(User.getInstance().getId(), topic.getmTopicId(), new LoadTopicHelper.OnRenewalRequestAddedListener() {
+                            @Override
+                            public void response(String s) {
+                                Log.e("response",s);
+                            }
+                        });
                     }
 
                 }
