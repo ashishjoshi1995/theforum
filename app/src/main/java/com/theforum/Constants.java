@@ -20,14 +20,24 @@ public class Constants {
      * constants identifiers (key values) for sorting the topics which are shown
      * to the user.
      */
+
     public static final int SORT_BASIS_CREATED_BY_ME = 200;
     public static final int SORT_BASIS_LATEST = 201;
     public static final int SORT_BASIS_MOST_RENEWAL = 202;
     public static final int SORT_BASIS_LEAST_RENEWAL = 203;
     public static final int SORT_BASIS_MOST_POPULAR = 204;
 
+    /**
+     * joshi please update its use.
+     */
     public static final int ADD_MY_TOPIC = 300;
     public static final int ADD_TOPICS_ALL = 301;
+
+    /**
+     * types of the notifications which can be received by the user. These act
+     * as identifiers for notification type and also while requesting the
+     * notification layout to be drawn.
+     */
 
     public static final int NOTIFICATION_TYPE_RENEWAL_REQUEST = 400;
     public static final int NOTIFICATION_TYPE_RENEWED = 401;
