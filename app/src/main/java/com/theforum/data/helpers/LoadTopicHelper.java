@@ -7,7 +7,6 @@ import android.util.Log;
 
 import com.microsoft.windowsazure.mobileservices.ApiOperationCallback;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
-import com.microsoft.windowsazure.mobileservices.MobileServiceException;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
@@ -20,7 +19,6 @@ import com.theforum.data.helpers.renewalRequestApi.Request;
 import com.theforum.data.helpers.renewalRequestApi.Response;
 import com.theforum.data.helpers.sortBasisCreatedByMe.InputClass;
 import com.theforum.data.helpers.sortBasisCreatedByMe.ResponseClass;
-
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
@@ -53,6 +51,9 @@ public class LoadTopicHelper {
                 try {
                 switch (sortMode)
                 {
+                    case Constants.SORT_BASIS_MOST_POPULAR:
+                        topics = mTopic.orderBy("points", QueryOrder.Descending).execute().get();
+                        break;
                     case Constants.SORT_BASIS_LATEST:
                         topics = mTopic.orderBy("hours_left", QueryOrder.Ascending).execute().get();
                         break;

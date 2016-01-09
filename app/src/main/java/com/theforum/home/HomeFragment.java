@@ -1,5 +1,6 @@
 package com.theforum.home;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -50,6 +51,7 @@ public class HomeFragment extends Fragment {
         mTabLayout.setupWithViewPager(mViewPager);
 
        // mFab.hide();
+
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

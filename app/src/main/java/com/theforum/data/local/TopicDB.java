@@ -36,6 +36,7 @@ public class TopicDB extends SQLiteOpenHelper {
     private static final String KEY_TOTAL_OPINIONS="total_opinions";
     private static final String KEY_DESCRIPTION="description";
     private static final String KEY_TOPIC="topic";
+    private static final String KEY_TIME = "time";
 
 
     public TopicDB(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -47,13 +48,13 @@ public class TopicDB extends SQLiteOpenHelper {
         String CREATE_TOPIC_TABLE = "CREATE TABLE " +TABLE_NAME + "("
                 + KEY_ID + " INTEGER PRIMARY KEY," + KEY_SERVER_ID + " TEXT,"+KEY_OPINION_IDS+" TEXT,"+KEY_TOPIC_ID+" TEXT,"
                 +KEY_TOPIC+" TEXT,"  + KEY_DESCRIPTION+ " TEXT,"  + KEY_RENEWAL_REQUEST + " INTEGER,"
-                + KEY_TOTAL_OPINIONS + " INTEGER)";
+                + KEY_TOTAL_OPINIONS + " INTEGER," + KEY_TIME + " INTEGER)";
         db.execSQL(CREATE_TOPIC_TABLE);
 
         String CREATE_MY_TOPIC_TABLE = "CREATE TABLE " +MY_DATA_TABLE + "("
                 + KEY_ID + " INTEGER PRIMARY KEY," + KEY_SERVER_ID + " TEXT,"+KEY_OPINION_IDS+" TEXT,"+KEY_TOPIC_ID+" TEXT,"
                 +KEY_TOPIC+" TEXT,"  + KEY_DESCRIPTION+ " TEXT,"  + KEY_RENEWAL_REQUEST + " INTEGER,"
-                + KEY_TOTAL_OPINIONS + " INTEGER)";
+                + KEY_TOTAL_OPINIONS + " INTEGER," + KEY_TIME + " INTEGER)";
         db.execSQL(CREATE_MY_TOPIC_TABLE);
     }
 
@@ -77,6 +78,7 @@ public class TopicDB extends SQLiteOpenHelper {
         values.put(KEY_DESCRIPTION,topic.getmDescription());
         values.put(KEY_RENEWAL_REQUEST, topic.getmRenewalRequests());
         values.put(KEY_TOTAL_OPINIONS, topic.getmTotalOpinions());
+        values.put(KEY_TIME,"datetime(now)");
 
         // Inserting Row
         switch (j) {
@@ -91,7 +93,12 @@ public class TopicDB extends SQLiteOpenHelper {
     }
 
     public void deleteTopic(){
-
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sql = "DELETE FROM "+TABLE_NAME +" WHERE "+ KEY_TIME +" <= date('now','-2 day')";
+        String sql2 = "DELETE FROM "+MY_DATA_TABLE +" WHERE "+ KEY_TIME +" <= date('now','-2 day')";
+        //  SELECT * FROM test WHERE age <= datetime('now', '-5 minutes')
+        db.execSQL(sql);
+        db.execSQL(sql2);
     }
 
     public ArrayList<String> getMyTopicId(){

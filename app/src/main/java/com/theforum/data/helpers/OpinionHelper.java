@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
 
+import com.microsoft.windowsazure.mobileservices.ApiOperationCallback;
 import com.theforum.data.dataModels.opinion;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.MobileServiceException;
@@ -13,6 +14,8 @@ import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.microsoft.windowsazure.mobileservices.table.TableOperationCallback;
 import com.theforum.data.dataModels.topic;
+import com.theforum.data.helpers.upvoteDownvoteApi.UPDVRequest;
+import com.theforum.data.helpers.upvoteDownvoteApi.UPDVResponse;
 
 import java.util.concurrent.ExecutionException;
 
@@ -72,33 +75,27 @@ public class OpinionHelper {
     }
 
     private void upvoteDownvote(Boolean ifUpvote,opinion opinion1){
-
+        UPDVRequest updvRequest= new UPDVRequest();
+        updvRequest.opinion_id = opinion1.getmOpinionId();
+        updvRequest.opinion_owner_id = opinion1.getmUid();
         if(ifUpvote){
             //update UI
             //update Local db
-           int c =  opinion1.getmUpVotes();
-            c++;
-            opinion1.setmUpVotes(c);
+            updvRequest.operation_chosen = 1;
         }
         else{
 
             //update UI
             //update Local db
-
-            int c =  opinion1.getmUpVotes();
-            c--;
-            opinion1.setmUpVotes(c);
+            updvRequest.operation_chosen = 0;
         }
         //update server
-        mOpinion.update(opinion1, new TableOperationCallback<com.theforum.data.dataModels.opinion>() {
+
+
+        mClient.invokeApi("upvote", updvRequest, UPDVResponse.class, new ApiOperationCallback<UPDVResponse>() {
             @Override
-            public void onCompleted(opinion entity, Exception exception, ServiceFilterResponse response) {
-                if(exception==null){
-                    Log.e("upvoteDownvote","done");
-                }
-                else {
-                    Log.e("upvoteDownvote","error");
-                }
+            public void onCompleted(UPDVResponse result, Exception exception, ServiceFilterResponse response) {
+                Log.e("message UpdvAPi",result.message);
             }
         });
 
