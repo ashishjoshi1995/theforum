@@ -49,6 +49,7 @@ public class CreateTopic {
                         public void onCompleted(topic entity, Exception exception, ServiceFilterResponse response) {
                             Log.e("done","done" );
                             if(exception == null){
+
                                 onTopicInsertListener.onCompleted(entity);
                             }
                             else{
