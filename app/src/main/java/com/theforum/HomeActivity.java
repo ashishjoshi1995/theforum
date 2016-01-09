@@ -39,7 +39,7 @@ public class HomeActivity extends AppCompatActivity implements OnHomeUiChangeLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
         if(!ProfileUtils.getInstance().contains(ProfileUtils.USER_ID)){
             startActivity(new Intent(this, LoginActivity.class));
             finish();

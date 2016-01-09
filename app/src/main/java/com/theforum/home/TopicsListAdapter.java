@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.theforum.Constants;
 import com.theforum.R;
+import com.theforum.data.dataModels.topic;
 import com.theforum.utils.CommonUtils;
 
 import java.util.List;
@@ -29,12 +30,12 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
     private Context mContext;
 
     /* list of feed data */
-    private List<TopicsModel> mFeeds;
+    private List<topic> mTopics;
 
 
-    public TopicsListAdapter(Context context, List<TopicsModel> feeds){
+    public TopicsListAdapter(Context context, List<topic> feeds){
         mContext = context;
-        mFeeds = feeds;
+        mTopics = feeds;
     }
 
 
@@ -76,12 +77,17 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
     }
 
 
-    public void addFeedItem(TopicsModel feedDataModel){
-        mFeeds.add(0,feedDataModel);
+    public void addFeedItem(topic topicDataModel, int position){
+        mTopics.add(position, topicDataModel);
+        notifyDataSetChanged();
+    }
+
+    public void removeTopic(topic topicDataModel){
+        mTopics.remove(topicDataModel);
         notifyDataSetChanged();
     }
 
 
     @Override
-    public int getItemCount() {return mFeeds.size();}
+    public int getItemCount() {return mTopics.size();}
 }

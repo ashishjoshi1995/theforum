@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.theforum.R;
+import com.theforum.data.dataModels.topic;
 import com.theforum.utils.customViews.DividerItemDecorator;
 
 import java.util.ArrayList;
@@ -36,10 +37,10 @@ public class TopicsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        List<TopicsModel> mFeeds = new ArrayList<>();
+        List<topic> mFeeds = new ArrayList<>();
         /* add dummy content*/
         for (int i=0;i<10;i++){
-            mFeeds.add(new TopicsModel());
+            mFeeds.add(new topic());
         }
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));

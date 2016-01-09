@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.theforum.R;
-import com.theforum.home.TopicsModel;
+import com.theforum.data.dataModels.opinion;
 import com.theforum.utils.CommonUtils;
 
 import java.util.List;
@@ -29,10 +29,10 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
     private Context mContext;
 
     /* list of data */
-    private List<TopicsModel> mFeeds;
+    private List<opinion> mFeeds;
 
 
-    public OpinionsListAdapter(Context context, List<TopicsModel> feeds){
+    public OpinionsListAdapter(Context context, List<opinion> feeds){
         mContext = context;
         mFeeds = feeds;
     }
@@ -72,8 +72,8 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
     }
 
 
-    public void addFeedItem(TopicsModel feedDataModel){
-        mFeeds.add(0,feedDataModel);
+    public void addFeedItem(opinion opinionDataModel){
+        mFeeds.add(0,opinionDataModel);
         notifyDataSetChanged();
     }
 
