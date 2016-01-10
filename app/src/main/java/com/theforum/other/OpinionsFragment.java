@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +24,7 @@ import com.theforum.data.dataModels.topic;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.customViews.DividerItemDecorator;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,7 +52,6 @@ public class OpinionsFragment extends Fragment {
 
         if(getArguments()!=null){
             topicModel = (topic) getArguments().getSerializable(Constants.TOPIC_MODEL);
-            Log.e("topicId",""+topicModel.getmTopicId());
         }
     }
 
@@ -104,7 +105,8 @@ public class OpinionsFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CommonUtils.openContainerActivity(getActivity(), Constants.NEW_OPINION_FRAGMENT);
+                CommonUtils.openContainerActivity(getActivity(), Constants.NEW_OPINION_FRAGMENT,
+                        Pair.create(Constants.TOPIC_MODEL, (Serializable)topicModel));
             }
         });
     }

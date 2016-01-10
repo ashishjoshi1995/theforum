@@ -6,6 +6,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +14,10 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
+import com.theforum.Constants;
 import com.theforum.R;
 import com.theforum.data.dataModels.opinion;
+import com.theforum.data.dataModels.topic;
 import com.theforum.data.helpers.OpinionHelper;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.SoftKeyboardStateWatcher;
@@ -43,6 +46,18 @@ public class NewOpinionFragment extends Fragment {
 
     KeyboardListenerEditText mUploadText;
 
+    private topic topicModel;
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if(getArguments()!=null){
+            topicModel = (topic) getArguments().getSerializable(Constants.TOPIC_MODEL);
+            Log.e("topicId",""+topicModel.getmTopicId());
+        }
+    }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
@@ -96,7 +111,7 @@ public class NewOpinionFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(!mUploadText.getText().toString().equals("")){
-                 //  uploadData();
+                   uploadData();
                 }else CommonUtils.showToast(getContext(),"Opinion Empty");
             }
         });
@@ -105,17 +120,19 @@ public class NewOpinionFragment extends Fragment {
 
     private void uploadData(){
         opinion opinion = new opinion(mUploadText.getText().toString());
-       // opinion.
+        opinion.setmTopicId(topicModel.getmTopicId());
+        opinion.setmTopicId(topicModel.getmTopic());
 
         OpinionHelper.getHelper().addOpinion(opinion, new OpinionHelper.OnOpinionAddListener() {
             @Override
             public void onCompleted(opinion opinion) {
-
+                Log.e("success","yay");
+                CommonUtils.showToast(getContext(),"Your Opinion is added");
             }
 
             @Override
             public void onError(String error) {
-
+                Log.e("error",error);
             }
         });
 
