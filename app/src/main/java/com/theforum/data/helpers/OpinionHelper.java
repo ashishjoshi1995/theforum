@@ -8,6 +8,7 @@ import android.util.Log;
 import com.microsoft.windowsazure.mobileservices.ApiOperationCallback;
 import com.microsoft.windowsazure.mobileservices.table.query.QueryOrder;
 import com.theforum.TheForumApplication;
+import com.theforum.data.dataModels.OpinionNotification;
 import com.theforum.data.dataModels.opinion;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.MobileServiceException;
@@ -27,28 +28,19 @@ import java.util.concurrent.ExecutionException;
  */
 public class OpinionHelper {
     //create Opinion, get opinions, upvoteDownvote
-    private MobileServiceClient mClient;
-    private MobileServiceTable<opinion> mOpinion;
+    private static MobileServiceClient mClient;
+    private static MobileServiceTable<opinion> mOpinion;
     //opinion opinion;
-
-
     private String uid;
-
-    public OpinionHelper(){
-        this.mClient = TheForumApplication.getClient();
-        getTable();
-    }
-
-
-   private void getTable(){
+    public OpinionHelper(){}
+    private static void getTable(){
        mOpinion = mClient.getTable(opinion.class);
    }
 
-
     public void getTrendingOpinions(final OnOpinionsReceivedListener listener){
+        mClient = TheForumApplication.getClient();
+        getTable();
         AsyncTask<Void, Void, MobileServiceList<opinion>> task = new AsyncTask<Void, Void, MobileServiceList<opinion>>() {
-
-
             @Override
             protected MobileServiceList<opinion> doInBackground(Void... voids) {
                 MobileServiceList<opinion> result = null;
@@ -59,7 +51,6 @@ public class OpinionHelper {
                 } catch (ExecutionException e) {
                     listener.onError(e.getMessage());
                 }
-
                 return result;
             }
 
@@ -72,7 +63,9 @@ public class OpinionHelper {
         runAsyncTask2(task);
     }
 
-    public void getTopicSpecificOpinions(final String topic_id, final OnOpinionsReceivedListener listener){
+    public static void getTopicSpecificOpinions(final String topic_id, final OnOpinionsReceivedListener listener){
+        mClient = TheForumApplication.getClient();
+        getTable();
         AsyncTask<Void, Void, MobileServiceList<opinion>> task = new AsyncTask<Void, Void, MobileServiceList<opinion>>() {
 
 
@@ -86,10 +79,8 @@ public class OpinionHelper {
                 } catch (ExecutionException e) {
                     listener.onError(e.getMessage());
                 }
-
                 return result;
             }
-
             @Override
             protected void onPostExecute(MobileServiceList<opinion> opinions) {
                 super.onPostExecute(opinions);
@@ -126,8 +117,9 @@ public class OpinionHelper {
 
     }
 
-    public void addOpinion(final opinion opinion , final OnOpinionAddListener listener){
-
+    public static  void addOpinion(final opinion opinion , final OnOpinionAddListener listener){
+        mClient = TheForumApplication.getClient();
+        getTable();
     AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
 
         @Override
@@ -143,37 +135,24 @@ public class OpinionHelper {
                         else {
                             listener.onError(exception.getMessage());
                         }
-
                     }
 
 
                 });
-
             } catch (Exception e) {
                 listener.onError(e.getMessage());
             }
-
             return null;
         }
-
-
     };
     runAsyncTask(task);
-
-}
-
-
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    private AsyncTask<Void, Void, MobileServiceList<opinion>> runAsyncTask2(AsyncTask<Void, Void, MobileServiceList<opinion>> task) {
-
-        return task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
     }
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    private AsyncTask<Void, Void,Void> runAsyncTask(AsyncTask<Void, Void, Void> task) {
 
+    private static AsyncTask<Void, Void, MobileServiceList<opinion>> runAsyncTask2(AsyncTask<Void, Void, MobileServiceList<opinion>> task) {
         return task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
+    }
+    private static AsyncTask<Void, Void,Void> runAsyncTask(AsyncTask<Void, Void, Void> task) {
+        return task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public interface OnOpinionAddListener{
