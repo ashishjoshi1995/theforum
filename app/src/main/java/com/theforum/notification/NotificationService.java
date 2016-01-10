@@ -104,7 +104,6 @@ public class NotificationService extends Service {
                         inflatorItemDataOpinions.opinions = topics.get(j).getmTotalOpinions();
                         NotificationStack.pushNotificationInflatorItemData(inflatorItemDataOpinions);
                         jaiHo++;
-
                     }
                     if(stop){
                         Notify(jaiHo);
@@ -112,7 +111,6 @@ public class NotificationService extends Service {
                     }
                     stop= true;
                 }
-
                 @Override
                 public void opinionNotif(List<opinion> opinions) {
                         for(int j=0;j<opinions.size();j++){
@@ -133,8 +131,6 @@ public class NotificationService extends Service {
                     stop= true;
                 }
             });
-
-
             return null;
         }
 
@@ -147,9 +143,6 @@ public class NotificationService extends Service {
             stopSelf();
         }
 
-
-
-        @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
         private void Notify(int j){
             long when = System.currentTimeMillis();
             Notification notification = new Notification(R.mipmap.ic_launcher, "theforum", when);
