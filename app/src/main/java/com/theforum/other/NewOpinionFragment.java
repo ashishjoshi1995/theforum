@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 
 import com.theforum.Constants;
 import com.theforum.R;
+import com.theforum.User;
 import com.theforum.data.dataModels.opinion;
 import com.theforum.data.dataModels.topic;
 import com.theforum.data.helpers.OpinionHelper;
@@ -55,7 +56,7 @@ public class NewOpinionFragment extends Fragment {
 
         if(getArguments()!=null){
             topicModel = (topic) getArguments().getSerializable(Constants.TOPIC_MODEL);
-            Log.e("topicId",""+topicModel.getmTopicId());
+            Log.e("topicId",""+topicModel.getTopicId());
         }
     }
 
@@ -120,8 +121,9 @@ public class NewOpinionFragment extends Fragment {
 
     private void uploadData(){
         opinion opinion = new opinion(mUploadText.getText().toString());
-        opinion.setmTopicId(topicModel.getmTopicId());
+        opinion.setmTopicId(topicModel.getTopicId());
         opinion.setmTopicId(topicModel.getmTopic());
+        opinion.setmUid(User.getInstance().getId());
 
         OpinionHelper.getHelper().addOpinion(opinion, new OpinionHelper.OnOpinionAddListener() {
             @Override

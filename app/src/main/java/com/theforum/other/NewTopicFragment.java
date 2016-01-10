@@ -79,8 +79,8 @@ public class NewTopicFragment extends Fragment {
     private void uploadData(){
         topic topic = new topic();
         topic.setmTopic(mTopicText.getText().toString());
-        topic.setmDescription(mDescription.getText().toString());
-        topic.setmUid(User.getInstance().getId());
+        topic.setTopicDescription(mDescription.getText().toString());
+        topic.setUserId(User.getInstance().getId());
 
         CreateTopic topicHelper = new CreateTopic();
         topicHelper.addTopic(topic, new CreateTopic.OnTopicInsertListener() {

@@ -15,16 +15,13 @@ import com.theforum.data.helpers.upvoteDownvoteApi.UPDVRequest;
 import com.theforum.data.helpers.upvoteDownvoteApi.UPDVResponse;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 /**
  * @author  Ashish on 12/31/2015.
  */
 public class OpinionHelper {
 
-    public static OpinionHelper mOpinionHelper;
-
-
+    private static OpinionHelper mOpinionHelper;
     private  MobileServiceTable<opinion> mOpinion;
     private String uid;
 
@@ -122,7 +119,7 @@ public class OpinionHelper {
                 mOpinion.insert(opinion, new TableOperationCallback<opinion>() {
                     @Override
                     public void onCompleted(opinion entity, Exception exception, ServiceFilterResponse response) {
-                        Log.e("opinionAdded", "opinionAdded");
+
                         if(exception == null) {
                             listener.onCompleted(entity);
                         }

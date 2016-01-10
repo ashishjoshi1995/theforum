@@ -16,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.theforum.Constants;
 import com.theforum.R;
@@ -37,12 +38,13 @@ import butterknife.ButterKnife;
  */
 public class OpinionsFragment extends Fragment {
 
-    @Bind(R.id.opinion_recycler_view) RecyclerView mRecyclerView;
-    @Bind(R.id.opinion_toolbar) Toolbar mToolbar;
-    @Bind(R.id.opinion_collapsing_toolbar) CollapsingToolbarLayout mCollapsingToolbarLayout;
+    @Bind(R.id.opinion_recycler_view) RecyclerView recyclerView;
+    @Bind(R.id.opinion_toolbar) Toolbar toolbar;
+    @Bind(R.id.opinion_collapsing_toolbar) CollapsingToolbarLayout collapsingToolbarLayout;
+    @Bind(R.id.opinion_topic_description) TextView topicDescription;
     @Bind(R.id.opinion_fab) FloatingActionButton fab;
 
-    private topic topicModel;
+    private topic mTopicModel;
     private boolean first;
 
     @Override
@@ -51,7 +53,7 @@ public class OpinionsFragment extends Fragment {
         setHasOptionsMenu(true);
 
         if(getArguments()!=null){
-            topicModel = (topic) getArguments().getSerializable(Constants.TOPIC_MODEL);
+            mTopicModel = (topic) getArguments().getSerializable(Constants.TOPIC_MODEL);
         }
     }
 
@@ -65,33 +67,34 @@ public class OpinionsFragment extends Fragment {
 
         ButterKnife.bind(this, view);
 
-        mToolbar.setTitle("#Take Them back");
-        ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
-        mToolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        toolbar.setTitle(mTopicModel.getmTopic());
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_action_navigation_arrow_back);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().finish();
             }
         });
 
-        mCollapsingToolbarLayout.post(new Runnable() {
+        collapsingToolbarLayout.post(new Runnable() {
             @Override
             public void run() {
-                mRecyclerView.setPadding(0, mCollapsingToolbarLayout.getHeight(), 0, 0);
-                mRecyclerView.setClipToPadding(false);
+                recyclerView.setPadding(0, collapsingToolbarLayout.getHeight(), 0, 0);
+                recyclerView.setClipToPadding(false);
             }
         });
 
+        topicDescription.setText(mTopicModel.getTopicDescription());
 
         List<opinion> mFeeds = new ArrayList<>();
         for (int i=0;i<10;i++){
             mFeeds.add(new opinion());
         }
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        mRecyclerView.addItemDecoration(new DividerItemDecorator(getActivity(), R.drawable.recycler_view_divider));
-        mRecyclerView.setAdapter(new OpinionsListAdapter(getActivity(), mFeeds));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        recyclerView.addItemDecoration(new DividerItemDecorator(getActivity(), R.drawable.recycler_view_divider));
+        recyclerView.setAdapter(new OpinionsListAdapter(getActivity(), mFeeds));
         RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -100,13 +103,13 @@ public class OpinionsFragment extends Fragment {
             }
         };
 
-       // mRecyclerView.addOnScrollListener(onScrollListener);
+       // recyclerView.addOnScrollListener(onScrollListener);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CommonUtils.openContainerActivity(getActivity(), Constants.NEW_OPINION_FRAGMENT,
-                        Pair.create(Constants.TOPIC_MODEL, (Serializable)topicModel));
+                        Pair.create(Constants.TOPIC_MODEL, (Serializable) mTopicModel));
             }
         });
     }
