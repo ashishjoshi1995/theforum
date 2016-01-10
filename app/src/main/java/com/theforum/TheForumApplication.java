@@ -3,7 +3,7 @@ package com.theforum;
 import android.app.Application;
 
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
-import com.theforum.data.local.ProfileUtils;
+import com.theforum.utils.ProfileUtils;
 import com.theforum.data.local.SettingsUtils;
 
 import java.net.MalformedURLException;

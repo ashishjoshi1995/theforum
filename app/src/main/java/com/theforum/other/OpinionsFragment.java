@@ -18,7 +18,7 @@ import android.view.ViewGroup;
 
 import com.theforum.Constants;
 import com.theforum.R;
-import com.theforum.home.TopicsModel;
+import com.theforum.data.dataModels.opinion;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.customViews.DividerItemDecorator;
 
@@ -70,16 +70,15 @@ public class OpinionsFragment extends Fragment {
         mCollapsingToolbarLayout.post(new Runnable() {
             @Override
             public void run() {
-                Log.e("runnable",""+mCollapsingToolbarLayout.getHeight());
                 mRecyclerView.setPadding(0, mCollapsingToolbarLayout.getHeight(), 0, 0);
                 mRecyclerView.setClipToPadding(false);
             }
         });
 
 
-        List<TopicsModel> mFeeds = new ArrayList<>();
+        List<opinion> mFeeds = new ArrayList<>();
         for (int i=0;i<10;i++){
-            mFeeds.add(new TopicsModel());
+            mFeeds.add(new opinion());
         }
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));

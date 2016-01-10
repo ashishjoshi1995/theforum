@@ -48,7 +48,7 @@
         <service android:name=".notification.NotificationService" />
 
         <activity
-            android:name=".LoginActivity"
+            android:name=".login.LoginActivity"
             android:label="@string/title_activity_login" >
 
         </activity>

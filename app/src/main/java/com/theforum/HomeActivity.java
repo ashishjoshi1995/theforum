@@ -1,18 +1,22 @@
 package com.theforum;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.theforum.home.HomeFragment;
+import com.theforum.login.LoginActivity;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.OnHomeUiChangeListener;
+import com.theforum.utils.ProfileUtils;
 import com.theforum.utils.TypefaceSpan;
 import com.theforum.utils.customViews.MaterialSearchView;
 
@@ -36,8 +40,10 @@ public class HomeActivity extends AppCompatActivity implements OnHomeUiChangeLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-       // startActivity(new Intent(this,LoginActivity.class));
-       // finish();
+        if(!ProfileUtils.getInstance().contains(ProfileUtils.USER_ID)){
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        }
 
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);

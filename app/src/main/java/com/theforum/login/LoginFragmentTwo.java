@@ -1,5 +1,6 @@
 package com.theforum.login;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.theforum.HomeActivity;
 import com.theforum.R;
 import com.theforum.User;
 import com.theforum.data.dataModels.user;
@@ -47,24 +49,44 @@ public class LoginFragmentTwo extends Fragment {
             public void onClick(View v) {
 
                 if(!mAge.getText().toString().equals("")){
-                    register();
+
+                    register(Integer.parseInt(mAge.getText().toString()));
+
                 }else CommonUtils.showToast(getContext(),"PLease enter your age. Don't Panic!!");
             }
         });
 
     }
 
-    private void register() {
+    private void register(final int age) {
         user user = new user();
-        user.setAge(Integer.parseInt(mAge.getText().toString()));
+        user.setAge(age);
 
         LoginHelper loginHelper = new LoginHelper();
         loginHelper.login(user, new LoginHelper.OnLoginCompleteListener() {
                     @Override
                     public void onCompleted(user user) {
-                        Log.e("success","");
-                        CommonUtils.showToast(getContext(),"Successfully Registered");
+                        CommonUtils.showToast(getContext(), "Successfully Registered");
 
+                        /*
+                         *  updates the local database
+                         */
+                        User localUser = User.getInstance();
+                        localUser.setId(user.getmUid());
+                        localUser.setServerId(user.getmId());
+                        localUser.setAge(age);
+                        localUser.setStatus("Rookie");
+                        localUser.setPointCollected(0);
+                        localUser.setTopicsCreated(0);
+                        Log.e("login",""+user.getmUid()+"/"+user.getmId());
+
+                        /*
+                         *  show home UI
+                         */
+
+                        Intent intent = new Intent(getContext(),HomeActivity.class);
+                        startActivity(intent);
+                        getActivity().finish();
                     }
 
                     @Override

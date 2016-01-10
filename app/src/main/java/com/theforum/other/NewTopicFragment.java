@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.theforum.R;
+import com.theforum.User;
 import com.theforum.data.dataModels.topic;
 import com.theforum.data.helpers.CreateTopic;
 import com.theforum.utils.CommonUtils;
@@ -79,13 +80,14 @@ public class NewTopicFragment extends Fragment {
         topic topic = new topic();
         topic.setmTopic(mTopicText.getText().toString());
         topic.setmDescription(mDescription.getText().toString());
-        topic.setmUid("qweenc");
+        topic.setmUid(User.getInstance().getId());
 
         CreateTopic topicHelper = new CreateTopic();
         topicHelper.addTopic(topic, new CreateTopic.OnTopicInsertListener() {
             @Override
             public void onCompleted(topic topic) {
                 CommonUtils.showToast(getActivity(),"Topic created");
+                //TODO: save data to local db
             }
 
             @Override

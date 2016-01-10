@@ -1,8 +1,9 @@
 package com.theforum.data.dataModels;
 
 /**
- * Created by Ashish on 12/31/2015.
+ * @author Ashish on 12/31/2015.
  */
+
 public class topic {
     @com.google.gson.annotations.SerializedName("id")
     private String mId;
@@ -32,7 +33,7 @@ public class topic {
     private String mTopic;
 
     @com.google.gson.annotations.SerializedName("notif_new_opinions")
-    private int mNotifOpinionIds;
+    private int mNotifOpinions;
 
     @com.google.gson.annotations.SerializedName("notif_new_renewal_request")
     private int mNotifRenewalRequests;
@@ -44,6 +45,7 @@ public class topic {
     private int mPoints;
 
 
+    private boolean isRenewed = false;
 
     public String getmId() {
         return mId;
@@ -109,12 +111,12 @@ public class topic {
         this.mTopic = mTopic;
     }
 
-    public int getmNotifOpinionIds() {
-        return mNotifOpinionIds;
+    public int getmNotifOpinions() {
+        return mNotifOpinions;
     }
 
-    public void setmNotifOpinionIds(int mNotifOpinionIds) {
-        this.mNotifOpinionIds = mNotifOpinionIds;
+    public void setmNotifOpinions(int mNotifOpinionIds) {
+        this.mNotifOpinions = mNotifOpinionIds;
     }
 
     public int getmNotifRenewalRequests() {
@@ -149,4 +151,14 @@ public class topic {
     public void setmPoints(int mPoints) {
         this.mPoints = mPoints;
     }
+
+
+    public boolean getIsRenewed() {
+        return isRenewed;
+    }
+
+    public void setIsRenewed(boolean isRenewed) {
+        this.isRenewed = isRenewed;
+    }
+
 }

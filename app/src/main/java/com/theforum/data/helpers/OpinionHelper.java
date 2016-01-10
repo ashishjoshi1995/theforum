@@ -6,6 +6,7 @@ import android.os.Build;
 import android.util.Log;
 
 import com.microsoft.windowsazure.mobileservices.ApiOperationCallback;
+import com.microsoft.windowsazure.mobileservices.table.query.QueryOrder;
 import com.theforum.TheForumApplication;
 import com.theforum.data.dataModels.opinion;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
@@ -18,6 +19,7 @@ import com.theforum.data.dataModels.topic;
 import com.theforum.data.helpers.upvoteDownvoteApi.UPDVRequest;
 import com.theforum.data.helpers.upvoteDownvoteApi.UPDVResponse;
 
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -43,7 +45,7 @@ public class OpinionHelper {
    }
 
 
-    public void getAllOpinions(){
+    public void getTrendingOpinions(final OnOpinionsReceivedListener listener){
         AsyncTask<Void, Void, MobileServiceList<opinion>> task = new AsyncTask<Void, Void, MobileServiceList<opinion>>() {
 
 
@@ -51,21 +53,47 @@ public class OpinionHelper {
             protected MobileServiceList<opinion> doInBackground(Void... voids) {
                 MobileServiceList<opinion> result = null;
                 try {
-                   result = mOpinion.execute().get();
+                   result = mOpinion.orderBy("upvotes", QueryOrder.Descending).execute().get();
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    listener.onError(e.getMessage());
                 } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (MobileServiceException e) {
-                    e.printStackTrace();
+                    listener.onError(e.getMessage());
                 }
+
                 return result;
             }
 
             @Override
             protected void onPostExecute(MobileServiceList<opinion> opinions) {
                 super.onPostExecute(opinions);
-                //UI update
+                listener.onCompleted(opinions);
+            }
+        };
+        runAsyncTask2(task);
+    }
+
+    public void getTopicSpecificOpinions(final String topic_id, final OnOpinionsReceivedListener listener){
+        AsyncTask<Void, Void, MobileServiceList<opinion>> task = new AsyncTask<Void, Void, MobileServiceList<opinion>>() {
+
+
+            @Override
+            protected MobileServiceList<opinion> doInBackground(Void... voids) {
+                MobileServiceList<opinion> result = null;
+                try {
+                    result = mOpinion.where().field("topic_id").eq(topic_id).execute().get();
+                } catch (InterruptedException e) {
+                    listener.onError(e.getMessage());
+                } catch (ExecutionException e) {
+                    listener.onError(e.getMessage());
+                }
+
+                return result;
+            }
+
+            @Override
+            protected void onPostExecute(MobileServiceList<opinion> opinions) {
+                super.onPostExecute(opinions);
+                listener.onCompleted(opinions);
             }
         };
         runAsyncTask2(task);
@@ -154,6 +182,15 @@ public class OpinionHelper {
          * @param  opinion opinion data model with updated params
          */
         void onCompleted(opinion opinion);
+        void onError(String error);
+    }
+
+    public interface OnOpinionsReceivedListener{
+        /**
+         *
+         * @param  opinions opinion data model with updated params
+         */
+        void onCompleted(ArrayList<opinion> opinions);
         void onError(String error);
     }
 }
