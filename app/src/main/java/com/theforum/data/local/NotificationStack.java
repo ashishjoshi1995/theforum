@@ -1,5 +1,7 @@
 package com.theforum.data.local;
 
+import com.theforum.data.dataModels.NotificationDataModel;
+
 import java.util.Stack;
 
 /**

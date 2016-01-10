@@ -25,9 +25,6 @@ public class opinion {
     @com.google.gson.annotations.SerializedName("topic_id")
     private String mTopicId;
 
-    @com.google.gson.annotations.SerializedName("topic_description")
-    private String mTopicDescription;
-
     @com.google.gson.annotations.SerializedName("notif_count")
     private int mNotifCount;
 
@@ -155,11 +152,4 @@ public class opinion {
         this.mTopic = mTopic;
     }
 
-    public String getmTopicDescription() {
-        return mTopicDescription;
-    }
-
-    public void setmTopicDescription(String mTopicDescription) {
-        this.mTopicDescription = mTopicDescription;
-    }
 }

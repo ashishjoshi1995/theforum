@@ -2,6 +2,7 @@ package com.theforum.home;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +11,12 @@ import android.widget.TextView;
 
 import com.theforum.Constants;
 import com.theforum.R;
+import com.theforum.data.dataModels.opinion;
+import com.theforum.data.dataModels.topic;
 import com.theforum.utils.CommonUtils;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -29,10 +34,10 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
     private Context mContext;
 
     /* list of feed data */
-    private List<TrendsModel> mFeeds;
+    private List<opinion> mFeeds;
 
 
-    public TrendsListAdapter(Context context, List<TrendsModel> feeds){
+    public TrendsListAdapter(Context context, List<opinion> feeds){
         mContext = context;
         mFeeds = feeds;
     }
@@ -53,8 +58,10 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
             super(v);
             ButterKnife.bind(this, v);
 
-            upVoteBtn.setCompoundDrawablesWithIntrinsicBounds(null, CommonUtils.tintDrawable(upvote, "#adadad"), null, null);
-            downVoteBtn.setCompoundDrawablesWithIntrinsicBounds(null, CommonUtils.tintDrawable(downvote,"#adadad"), null,null);
+            upVoteBtn.setCompoundDrawablesWithIntrinsicBounds(null, CommonUtils.tintDrawable(upvote, "#adadad"),
+                    null, null);
+            downVoteBtn.setCompoundDrawablesWithIntrinsicBounds(null, CommonUtils.tintDrawable(downvote,"#adadad"),
+                    null,null);
 
             v.setOnClickListener(this);
         }
@@ -62,7 +69,14 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
 
         @Override
         public void onClick(View v) {
-            CommonUtils.openContainerActivity(mContext, Constants.OPINIONS_FRAGMENT);
+            opinion opinion = mFeeds.get(getLayoutPosition());
+
+            topic topicModel = new topic();
+            topicModel.setmTopic(opinion.getmTopic());
+            topicModel.setTopicId(opinion.getmTopicId());
+
+            CommonUtils.openContainerActivity(mContext, Constants.OPINIONS_FRAGMENT,
+                    Pair.create(Constants.TOPIC_MODEL,(Serializable)topicModel));
         }
     }
 
@@ -78,11 +92,14 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
     }
 
 
-    public void addFeedItem(TrendsModel trendsDataModel){
-        mFeeds.add(0,trendsDataModel);
+    public void addTrendItem(opinion trendsDataModel, int position){
+        mFeeds.add(position,trendsDataModel);
         notifyDataSetChanged();
     }
 
+    public void addAllTrends(ArrayList<opinion> trends){
+        mFeeds.addAll(trends);
+    }
 
     @Override
     public int getItemCount() {return mFeeds.size();}

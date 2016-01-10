@@ -1,4 +1,4 @@
-package com.theforum.data.local;
+package com.theforum.data.dataModels;
 
 import com.theforum.Constants;
 

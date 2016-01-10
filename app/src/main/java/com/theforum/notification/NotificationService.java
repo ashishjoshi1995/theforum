@@ -1,6 +1,5 @@
 package com.theforum.notification;
 
-import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -8,7 +7,6 @@ import android.app.Service;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.util.Log;
@@ -21,7 +19,7 @@ import com.theforum.data.dataModels.opinion;
 import com.theforum.data.dataModels.topic;
 import com.theforum.data.helpers.NotificationHelper;
 import com.theforum.data.interfaces.NotificationIfAny;
-import com.theforum.data.local.NotificationDataModel;
+import com.theforum.data.dataModels.NotificationDataModel;
 import com.theforum.data.local.NotificationStack;
 
 import java.util.List;

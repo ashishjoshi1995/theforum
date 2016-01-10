@@ -47,7 +47,7 @@ public class OpinionsFragment extends Fragment {
 
     private OpinionsListAdapter mAdapter;
     private topic mTopicModel;
-    private boolean first;
+    //private boolean first;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

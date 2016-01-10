@@ -124,6 +124,7 @@ public class NewOpinionFragment extends Fragment {
         opinion.setmTopicId(topicModel.getTopicId());
         opinion.setmTopic(topicModel.getmTopic());
         opinion.setmUid(User.getInstance().getId());
+       // opinion.setmTopicDescription(topicModel.getTopicDescription());
 
         OpinionHelper.getHelper().addOpinion(opinion, new OpinionHelper.OnOpinionAddListener() {
             @Override
