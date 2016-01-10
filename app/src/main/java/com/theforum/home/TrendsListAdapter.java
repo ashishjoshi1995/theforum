@@ -88,6 +88,12 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
 
     @Override
     public void onBindViewHolder(TrendsItemViewHolder holder, int position) {
+        opinion opinionModel = mFeeds.get(position);
+
+        holder.topicName.setText(opinionModel.getmTopic());
+        holder.description.setText(opinionModel.getmOpinion());
+        holder.upVoteBtn.setText(String.valueOf(opinionModel.getmUpVotes()));
+        holder.downVoteBtn.setText(String.valueOf(opinionModel.getmDownVotes()));
 
     }
 
@@ -99,6 +105,7 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
 
     public void addAllTrends(ArrayList<opinion> trends){
         mFeeds.addAll(trends);
+        notifyDataSetChanged();
     }
 
     @Override
