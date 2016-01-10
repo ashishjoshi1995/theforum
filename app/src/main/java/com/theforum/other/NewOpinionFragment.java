@@ -122,7 +122,7 @@ public class NewOpinionFragment extends Fragment {
     private void uploadData(){
         opinion opinion = new opinion(mUploadText.getText().toString());
         opinion.setmTopicId(topicModel.getTopicId());
-        opinion.setmTopicId(topicModel.getmTopic());
+        opinion.setmTopic(topicModel.getmTopic());
         opinion.setmUid(User.getInstance().getId());
 
         OpinionHelper.getHelper().addOpinion(opinion, new OpinionHelper.OnOpinionAddListener() {

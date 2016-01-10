@@ -22,6 +22,7 @@ import com.theforum.Constants;
 import com.theforum.R;
 import com.theforum.data.dataModels.opinion;
 import com.theforum.data.dataModels.topic;
+import com.theforum.data.helpers.OpinionHelper;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.customViews.DividerItemDecorator;
 
@@ -44,6 +45,7 @@ public class OpinionsFragment extends Fragment {
     @Bind(R.id.opinion_topic_description) TextView topicDescription;
     @Bind(R.id.opinion_fab) FloatingActionButton fab;
 
+    private OpinionsListAdapter mAdapter;
     private topic mTopicModel;
     private boolean first;
 
@@ -55,6 +57,7 @@ public class OpinionsFragment extends Fragment {
         if(getArguments()!=null){
             mTopicModel = (topic) getArguments().getSerializable(Constants.TOPIC_MODEL);
         }
+        getOpinionsFromServer();
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -88,13 +91,13 @@ public class OpinionsFragment extends Fragment {
         topicDescription.setText(mTopicModel.getTopicDescription());
 
         List<opinion> mFeeds = new ArrayList<>();
-        for (int i=0;i<10;i++){
-            mFeeds.add(new opinion());
-        }
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new DividerItemDecorator(getActivity(), R.drawable.recycler_view_divider));
-        recyclerView.setAdapter(new OpinionsListAdapter(getActivity(), mFeeds));
+
+        mAdapter = new OpinionsListAdapter(getActivity(), mFeeds);
+        recyclerView.setAdapter(mAdapter);
+        /*
         RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -104,12 +107,32 @@ public class OpinionsFragment extends Fragment {
         };
 
        // recyclerView.addOnScrollListener(onScrollListener);
+       */
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CommonUtils.openContainerActivity(getActivity(), Constants.NEW_OPINION_FRAGMENT,
                         Pair.create(Constants.TOPIC_MODEL, (Serializable) mTopicModel));
+            }
+        });
+
+    }
+
+
+    private void getOpinionsFromServer(){
+        OpinionHelper.getHelper().getTopicSpecificOpinions(mTopicModel.getTopicId(),
+                new OpinionHelper.OnOpinionsReceivedListener() {
+            @Override
+            public void onCompleted(ArrayList<opinion> opinions) {
+                if(opinions!=null){
+                    mAdapter.addOpinions(opinions);
+                }
+            }
+
+            @Override
+            public void onError(String error) {
+                Log.e("error",error);
             }
         });
     }
