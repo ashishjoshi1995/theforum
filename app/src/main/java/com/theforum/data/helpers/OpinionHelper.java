@@ -82,7 +82,7 @@ public class OpinionHelper {
         runAsyncTask2(task);
     }
 
-    public void upvoteDownvote(Boolean ifUpvote,opinion opinion1){
+    public void upvoteDownvote(Boolean ifUpvote,opinion opinion1, final OnUVDVOperationCompleteListener listener){
         UPDVRequest updvRequest= new UPDVRequest();
         updvRequest.opinion_id = opinion1.getmOpinionId();
         updvRequest.opinion_owner_id = opinion1.getmUid();
@@ -103,7 +103,12 @@ public class OpinionHelper {
         TheForumApplication.getClient().invokeApi("upvote", updvRequest, UPDVResponse.class, new ApiOperationCallback<UPDVResponse>() {
             @Override
             public void onCompleted(UPDVResponse result, Exception exception, ServiceFilterResponse response) {
+                if(exception == null){
+                    listener.onCompleteMessage("The process has fucking been completed");
                 Log.e("message UpdvAPi", result.message);
+            }else {
+                    listener.onCompleteMessage(exception.getMessage());
+                }
             }
         });
 
@@ -163,5 +168,13 @@ public class OpinionHelper {
          */
         void onCompleted(ArrayList<opinion> opinions);
         void onError(String error);
+    }
+
+    public interface OnUVDVOperationCompleteListener{
+        /**
+         *
+         * @param  message opinion data model with updated params
+         */
+        void onCompleteMessage(String message);
     }
 }
