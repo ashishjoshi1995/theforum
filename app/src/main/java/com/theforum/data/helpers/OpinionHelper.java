@@ -1,22 +1,16 @@
 package com.theforum.data.helpers;
 
-import android.annotation.TargetApi;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.util.Log;
 
 import com.microsoft.windowsazure.mobileservices.ApiOperationCallback;
-import com.microsoft.windowsazure.mobileservices.table.query.QueryOrder;
-import com.theforum.TheForumApplication;
-import com.theforum.data.dataModels.OpinionNotification;
-import com.theforum.data.dataModels.opinion;
-import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
-import com.microsoft.windowsazure.mobileservices.MobileServiceException;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.microsoft.windowsazure.mobileservices.table.TableOperationCallback;
-import com.theforum.data.dataModels.topic;
+import com.microsoft.windowsazure.mobileservices.table.query.QueryOrder;
+import com.theforum.TheForumApplication;
+import com.theforum.data.dataModels.opinion;
 import com.theforum.data.helpers.upvoteDownvoteApi.UPDVRequest;
 import com.theforum.data.helpers.upvoteDownvoteApi.UPDVResponse;
 
@@ -24,31 +18,35 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 /**
- * Created by Ashish on 12/31/2015.
+ * @author  Ashish on 12/31/2015.
  */
 public class OpinionHelper {
-    //create Opinion, get opinions, upvoteDownvote
-    private static MobileServiceClient mClient;
-    private static MobileServiceTable<opinion> mOpinion;
-    //opinion opinion;
+
+    public static OpinionHelper mOpinionHelper;
+
+
+    private  MobileServiceTable<opinion> mOpinion;
     private String uid;
-    public OpinionHelper(){}
-    private static void getTable(){
-       mOpinion = mClient.getTable(opinion.class);
-   }
+
+    public static OpinionHelper getHelper(){
+        if(mOpinionHelper==null) mOpinionHelper = new OpinionHelper();
+        return mOpinionHelper;
+    }
+
+    private OpinionHelper(){
+        mOpinion = TheForumApplication.getClient().getTable(opinion.class);
+    }
+
 
     public void getTrendingOpinions(final OnOpinionsReceivedListener listener){
-        mClient = TheForumApplication.getClient();
-        getTable();
+
         AsyncTask<Void, Void, MobileServiceList<opinion>> task = new AsyncTask<Void, Void, MobileServiceList<opinion>>() {
             @Override
             protected MobileServiceList<opinion> doInBackground(Void... voids) {
                 MobileServiceList<opinion> result = null;
                 try {
                    result = mOpinion.orderBy("upvotes", QueryOrder.Descending).execute().get();
-                } catch (InterruptedException e) {
-                    listener.onError(e.getMessage());
-                } catch (ExecutionException e) {
+                } catch (Exception e) {
                     listener.onError(e.getMessage());
                 }
                 return result;
@@ -63,9 +61,8 @@ public class OpinionHelper {
         runAsyncTask2(task);
     }
 
-    public static void getTopicSpecificOpinions(final String topic_id, final OnOpinionsReceivedListener listener){
-        mClient = TheForumApplication.getClient();
-        getTable();
+    public  void getTopicSpecificOpinions(final String topic_id, final OnOpinionsReceivedListener listener){
+
         AsyncTask<Void, Void, MobileServiceList<opinion>> task = new AsyncTask<Void, Void, MobileServiceList<opinion>>() {
 
 
@@ -74,9 +71,7 @@ public class OpinionHelper {
                 MobileServiceList<opinion> result = null;
                 try {
                     result = mOpinion.where().field("topic_id").eq(topic_id).execute().get();
-                } catch (InterruptedException e) {
-                    listener.onError(e.getMessage());
-                } catch (ExecutionException e) {
+                } catch (Exception e) {
                     listener.onError(e.getMessage());
                 }
                 return result;
@@ -108,19 +103,18 @@ public class OpinionHelper {
         //update server
 
 
-        mClient.invokeApi("upvote", updvRequest, UPDVResponse.class, new ApiOperationCallback<UPDVResponse>() {
+        TheForumApplication.getClient().invokeApi("upvote", updvRequest, UPDVResponse.class, new ApiOperationCallback<UPDVResponse>() {
             @Override
             public void onCompleted(UPDVResponse result, Exception exception, ServiceFilterResponse response) {
-                Log.e("message UpdvAPi",result.message);
+                Log.e("message UpdvAPi", result.message);
             }
         });
 
     }
 
-    public static  void addOpinion(final opinion opinion , final OnOpinionAddListener listener){
-        mClient = TheForumApplication.getClient();
-        getTable();
-    AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
+    public void addOpinion(final opinion opinion , final OnOpinionAddListener listener){
+
+     AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -148,7 +142,8 @@ public class OpinionHelper {
     runAsyncTask(task);
     }
 
-    private static AsyncTask<Void, Void, MobileServiceList<opinion>> runAsyncTask2(AsyncTask<Void, Void, MobileServiceList<opinion>> task) {
+    private AsyncTask<Void, Void, MobileServiceList<opinion>> runAsyncTask2(AsyncTask<Void, Void,
+            MobileServiceList<opinion>> task) {
         return task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
     private static AsyncTask<Void, Void,Void> runAsyncTask(AsyncTask<Void, Void, Void> task) {
