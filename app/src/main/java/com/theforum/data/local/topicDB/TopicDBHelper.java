@@ -31,7 +31,7 @@ public class TopicDBHelper {
     }
 
     public void addTopic(topic topic , int j){
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = topicDB.getWritableDatabase();
 
         ContentValues values = new ContentValues();
 
@@ -56,7 +56,7 @@ public class TopicDBHelper {
     }
 
     public void addTopicFromServer(topic topic){
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = topicDB.getWritableDatabase();
         ContentValues values = new ContentValues();
 
         Cursor c=db.rawQuery("SELECT * FROM user WHERE" + TopicDBConstants.KEY_TOPIC_ID + "=" + topic.getTopicId(), null);
