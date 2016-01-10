@@ -8,6 +8,7 @@ import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
+import com.microsoft.windowsazure.mobileservices.table.TableOperationCallback;
 import com.microsoft.windowsazure.mobileservices.table.query.QueryOrder;
 import com.theforum.Constants;
 import com.theforum.TheForumApplication;
@@ -44,6 +45,41 @@ public class LoadTopicHelper {
         this.mClient = TheForumApplication.getClient();
         mTopic = mClient.getTable(topic.class);
         mUid = User.getInstance().getId();
+    }
+
+
+    public void addTopic(final topic topic, final OnTopicInsertListener onTopicInsertListener) {
+
+        AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+                    mTopic.insert(topic, new TableOperationCallback<topic>() {
+                        @Override
+                        public void onCompleted(topic entity, Exception exception, ServiceFilterResponse response) {
+
+                            if(exception == null){
+                                onTopicInsertListener.onCompleted(entity);
+                            }
+                            else{
+                                onTopicInsertListener.onError(exception.getMessage());
+                            }
+                            //TODO: add file to the local db
+                        }
+                    });
+
+                } catch (Exception e) {
+                    onTopicInsertListener.onError(e.getMessage());
+                }
+
+                return null;
+            }
+
+
+        };
+
+        runAsyncTask2(task);
     }
 
 
@@ -132,6 +168,7 @@ public class LoadTopicHelper {
                 super.onPostExecute(topics);
                 listener.onCompleted(topics);
 
+
             }
 
         };
@@ -148,7 +185,7 @@ public class LoadTopicHelper {
         mClient.invokeApi("addrenewalrequest", request, Response.class, new ApiOperationCallback<Response>() {
             @Override
             public void onCompleted(Response result, Exception exception, ServiceFilterResponse response) {
-                Log.e("result",""+result.message);
+                Log.e("result", "" + result.message);
                 if (exception == null) {
                     if (result.message > 1) {
 
@@ -170,6 +207,11 @@ public class LoadTopicHelper {
         return task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
+    private AsyncTask<Void, Void,Void> runAsyncTask2(AsyncTask<Void, Void, Void> task) {
+        return task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+
     public interface OnTopicsReceiveListener{
         /**
          *
@@ -187,5 +229,15 @@ public class LoadTopicHelper {
         void response(String s);
 
     }
+
+    public interface OnTopicInsertListener{
+        /**
+         *
+         * @param topic topic data model with updated params
+         */
+        void onCompleted(topic topic);
+        void onError(String error);
+    }
+
 
 }
