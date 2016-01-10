@@ -107,8 +107,7 @@ public class NewOpinionFragment extends Fragment {
         opinion opinion = new opinion(mUploadText.getText().toString());
        // opinion.
 
-        OpinionHelper opinionHelper = new OpinionHelper();
-        opinionHelper.addOpinion(opinion, new OpinionHelper.OnOpinionAddListener() {
+        OpinionHelper.getHelper().addOpinion(opinion, new OpinionHelper.OnOpinionAddListener() {
             @Override
             public void onCompleted(opinion opinion) {
 
