@@ -77,14 +77,14 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
         holder.upVoteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OpinionHelper.getHelper().upvoteDownvote(true,opinionModel);
+               // OpinionHelper.getHelper().upvoteDownvote(true,opinionModel);
             }
         });
 
         holder.downVoteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OpinionHelper.getHelper().upvoteDownvote(false,opinionModel);
+               // OpinionHelper.getHelper().upvoteDownvote(false,opinionModel);
             }
         });
     }
