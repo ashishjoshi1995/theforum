@@ -2,7 +2,11 @@ package com.theforum.home;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,11 +20,11 @@ import com.theforum.data.dataModels.topic;
 import com.theforum.data.helpers.LoadTopicHelper;
 import com.theforum.utils.CommonUtils;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.BindDrawable;
 import butterknife.ButterKnife;
 
 /**
@@ -35,12 +39,15 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
 
     /* list of feed data */
     private List<topic> mTopics;
+
     Resources resources;
+    Drawable renewIcon;
 
     public TopicsListAdapter(Context context, List<topic> feeds){
         mContext = context;
         mTopics = feeds;
         resources = mContext.getResources();
+        renewIcon = resources.getDrawable(R.drawable.renew_icon);
     }
 
 
@@ -50,22 +57,18 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
         @Bind(R.id.topics_time_holder) TextView timeHolder;
         @Bind(R.id.topics_renew_btn)TextView renewCountBtn;
 
-        @BindDrawable(R.drawable.renew_icon) Drawable renewIcon;
-
-        Drawable unRenewIcon;
-
+        String renewedColor = "#000000";
+        String unrenewedColor = "#ffffff";
 
         public TopicsItemViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, v);
-            unRenewIcon = renewIcon;
-            renewIcon = CommonUtils.tintDrawable(renewIcon, "#30ed17");
-            unRenewIcon = CommonUtils.tintDrawable(unRenewIcon, "#adadad");
 
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    CommonUtils.openContainerActivity(mContext, Constants.OPINIONS_FRAGMENT);
+                    CommonUtils.openContainerActivity(mContext, Constants.OPINIONS_FRAGMENT,
+                            Pair.create(Constants.TOPIC_MODEL, (Serializable) mTopics.get(getLayoutPosition())));
                 }
             });
 
@@ -75,7 +78,9 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
                     topic topic = mTopics.get(getLayoutPosition());
                     Log.e("I m called",""+topic.getIsRenewed()+"/"+getLayoutPosition());
                     if(!topic.getIsRenewed()) {
-                        renewCountBtn.setCompoundDrawablesWithIntrinsicBounds(null, renewIcon, null, null);
+
+                        renewCountBtn.setCompoundDrawablesWithIntrinsicBounds(null, tintDrawable(renewedColor),
+                                null, null);
                         topic.setIsRenewed(true);
 
                         LoadTopicHelper.getHelper().addRenewalRequest(topic.getmTopicId(),
@@ -108,9 +113,12 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
                 topic.getmRenewedCount()));
 
         if(topic.getIsRenewed()){
-            holder.renewCountBtn.setCompoundDrawablesWithIntrinsicBounds(null, holder.renewIcon, null, null);
-        }else
-            holder.renewCountBtn.setCompoundDrawablesWithIntrinsicBounds(null, holder.unRenewIcon, null, null);
+            holder.renewCountBtn.setCompoundDrawablesWithIntrinsicBounds(null, tintDrawable(holder.renewedColor),
+                    null, null);
+        }else {
+            holder.renewCountBtn.setCompoundDrawablesWithIntrinsicBounds(null, tintDrawable(holder.unrenewedColor),
+                    null, null);
+        }
 
     }
 
@@ -132,5 +140,10 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
 
     @Override
     public int getItemCount() {return mTopics.size();}
+
+    public Drawable tintDrawable(String color){
+        renewIcon.mutate().setColorFilter(new PorterDuffColorFilter(Color.parseColor(color), PorterDuff.Mode.MULTIPLY));
+        return renewIcon;
+    }
 
 }

@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import com.theforum.Constants;
 import com.theforum.R;
 import com.theforum.data.dataModels.opinion;
+import com.theforum.data.dataModels.topic;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.customViews.DividerItemDecorator;
 
@@ -39,12 +40,18 @@ public class OpinionsFragment extends Fragment {
     @Bind(R.id.opinion_collapsing_toolbar) CollapsingToolbarLayout mCollapsingToolbarLayout;
     @Bind(R.id.opinion_fab) FloatingActionButton fab;
 
+    private topic topicModel;
     private boolean first;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        if(getArguments()!=null){
+            topicModel = (topic) getArguments().getSerializable(Constants.TOPIC_MODEL);
+            Log.e("topicId",""+topicModel.getmTopicId());
+        }
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

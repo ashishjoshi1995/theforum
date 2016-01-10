@@ -1,10 +1,12 @@
 package com.theforum.data.dataModels;
 
+import java.io.Serializable;
+
 /**
  * @author Ashish on 12/31/2015.
  */
 
-public class topic {
+public class topic implements Serializable{
     @com.google.gson.annotations.SerializedName("id")
     private String mId;
 

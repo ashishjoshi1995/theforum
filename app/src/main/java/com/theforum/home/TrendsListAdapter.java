@@ -53,10 +53,8 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
             super(v);
             ButterKnife.bind(this, v);
 
-            upVoteBtn.setCompoundDrawablesWithIntrinsicBounds(null, CommonUtils.tintDrawable(upvote, "#adadad"),
-                    null, null);
-            downVoteBtn.setCompoundDrawablesWithIntrinsicBounds(null, CommonUtils.tintDrawable(downvote,"#adadad"),
-                    null,null);
+            upVoteBtn.setCompoundDrawablesWithIntrinsicBounds(null, CommonUtils.tintDrawable(upvote, "#adadad"), null, null);
+            downVoteBtn.setCompoundDrawablesWithIntrinsicBounds(null, CommonUtils.tintDrawable(downvote,"#adadad"), null,null);
 
             v.setOnClickListener(this);
         }

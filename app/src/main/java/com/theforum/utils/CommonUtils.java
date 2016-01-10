@@ -14,11 +14,15 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.Parcelable;
 import android.support.v4.util.Pair;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.theforum.ContainerActivity;
+
+import java.io.Serializable;
 
 
 public class CommonUtils {
@@ -53,7 +57,7 @@ public class CommonUtils {
         context.startActivity(intent);
     }
 
-    public static void openContainerActivity(Context context,int idValue,Pair<String,String> extras){
+    public static void openContainerActivity(Context context,int idValue,Pair<String,Serializable> extras){
         if(extras==null){
             openContainerActivity(context, idValue);
         }else{

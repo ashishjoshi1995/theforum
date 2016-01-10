@@ -42,6 +42,9 @@ public class TopicsFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         ArrayList<topic> mFeeds = new ArrayList<>();
+     /*   for(int i=0;i<9;i++){
+            mFeeds.add(new topic());
+        }*/
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new DividerItemDecorator(getActivity(), R.drawable.recycler_view_divider));

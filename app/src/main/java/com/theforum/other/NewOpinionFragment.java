@@ -96,7 +96,7 @@ public class NewOpinionFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(!mUploadText.getText().toString().equals("")){
-                 //   uploadData();
+                 //git git   uploadData();
                 }else CommonUtils.showToast(getContext(),"Opinion Empty");
             }
         });
