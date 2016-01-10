@@ -13,7 +13,7 @@ import com.theforum.data.dataModels.topic;
 import java.util.ArrayList;
 
 /**
- * Created by Ashish on 1/2/2016.
+ * @author  Ashish on 1/2/2016.
  */
 public class TopicDB extends SQLiteOpenHelper {
 
@@ -98,14 +98,13 @@ public class TopicDB extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
         Cursor c=db.rawQuery("SELECT * FROM user WHERE" + KEY_TOPIC_ID + "=" + topic.getTopicId(), null);
-        if(c.moveToFirst())
-        {
+        if(c.moveToFirst()) {
             Log.e("Error", "Record exist");
         }
-        else
-        {
+        else {
             addTopic(topic,Constants.ADD_MY_TOPIC);
         }
+        c.close();
         db.close();
     }
 

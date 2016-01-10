@@ -97,7 +97,6 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
 
     }
 
-
     public void addTrendItem(opinion trendsDataModel, int position){
         mFeeds.add(position,trendsDataModel);
         notifyDataSetChanged();
