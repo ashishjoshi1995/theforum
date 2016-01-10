@@ -40,6 +40,9 @@ public class topic {
     @com.google.gson.annotations.SerializedName("hours_left")
     private int mHoursLeft;
 
+    @com.google.gson.annotations.SerializedName("points")
+    private int mPoints;
+
 
 
     public String getmId() {
@@ -137,5 +140,13 @@ public class topic {
 
     public void setmRenewedCount(int mRenewedCount) {
         this.mRenewedCount = mRenewedCount;
+    }
+
+    public int getmPoints() {
+        return mPoints;
+    }
+
+    public void setmPoints(int mPoints) {
+        this.mPoints = mPoints;
     }
 }
