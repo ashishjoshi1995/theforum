@@ -38,7 +38,8 @@ public class ContainerActivity extends AppCompatActivity {
                 break;
 
             case Constants.NEW_OPINION_FRAGMENT:
-                fragmentTransaction.replace(R.id.menu_fragment_container, new NewOpinionFragment());
+                fragmentTransaction.replace(R.id.menu_fragment_container, Fragment.instantiate(this,
+                        NewOpinionFragment.class.getName(), getIntent().getExtras()));
                 break;
 
             case Constants.SETTINGS_FRAGMENT:

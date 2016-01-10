@@ -72,13 +72,13 @@ public class TopicDB extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
 
-        values.put(KEY_SERVER_ID,topic.getmId());
-        values.put(KEY_OPINION_IDS,topic.getmOpinionIds());
-        values.put(KEY_TOPIC_ID,topic.getmTopicId());
+        values.put(KEY_SERVER_ID,topic.getServerId());
+        values.put(KEY_OPINION_IDS,topic.getOpinionIds());
+        values.put(KEY_TOPIC_ID,topic.getTopicId());
         values.put(KEY_TOPIC,topic.getmTopic());
-        values.put(KEY_DESCRIPTION,topic.getmDescription());
-        values.put(KEY_RENEWAL_REQUEST, topic.getmRenewalRequests());
-        values.put(KEY_TOTAL_OPINIONS, topic.getmTotalOpinions());
+        values.put(KEY_DESCRIPTION,topic.getTopicDescription());
+        values.put(KEY_RENEWAL_REQUEST, topic.getRenewalRequests());
+        values.put(KEY_TOTAL_OPINIONS, topic.getTotalOpinions());
         values.put(KEY_TIME, "datetime(now)");
 
         // Inserting Row
@@ -97,7 +97,7 @@ public class TopicDB extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        Cursor c=db.rawQuery("SELECT * FROM user WHERE" + KEY_TOPIC_ID + "=" + topic.getmTopicId(), null);
+        Cursor c=db.rawQuery("SELECT * FROM user WHERE" + KEY_TOPIC_ID + "=" + topic.getTopicId(), null);
         if(c.moveToFirst())
         {
             Log.e("Error", "Record exist");

@@ -8,28 +8,28 @@ import java.io.Serializable;
 
 public class topic implements Serializable{
     @com.google.gson.annotations.SerializedName("id")
-    private String mId;
+    private String serverId;
 
     @com.google.gson.annotations.SerializedName("opinion_ids")
-    private String mOpinionIds;
+    private String opinionIds;
 
     @com.google.gson.annotations.SerializedName("renewal_requests")
-    private int mRenewalRequests;
+    private int renewalRequests;
 
     @com.google.gson.annotations.SerializedName("renewed_count")
-    private int mRenewedCount;
+    private int renewedCount;
 
     @com.google.gson.annotations.SerializedName("topic_id")
-    private String mTopicId;
+    private String topicId;
 
     @com.google.gson.annotations.SerializedName("total_opinions")
-    private int mTotalOpinions;
+    private int totalOpinions;
 
     @com.google.gson.annotations.SerializedName("description")
-    private String mDescription;
+    private String topicDescription;
 
     @com.google.gson.annotations.SerializedName("uid")
-    private String mUid;
+    private String userId;
 
     @com.google.gson.annotations.SerializedName("topic")
     private String mTopic;
@@ -49,60 +49,60 @@ public class topic implements Serializable{
 
     private boolean isRenewed = false;
 
-    public String getmId() {
-        return mId;
+    public String getServerId() {
+        return serverId;
     }
 
-    public void setmId(String mId) {
-        this.mId = mId;
+    public void setServerId(String serverId) {
+        this.serverId = serverId;
     }
 
-    public String getmOpinionIds() {
-        return mOpinionIds;
+    public String getOpinionIds() {
+        return opinionIds;
     }
 
-    public void setmOpinionIds(String mOpinionIds) {
-        this.mOpinionIds = mOpinionIds;
+    public void setOpinionIds(String opinionIds) {
+        this.opinionIds = opinionIds;
     }
 
-    public int getmRenewalRequests() {
-        return mRenewalRequests;
+    public int getRenewalRequests() {
+        return renewalRequests;
     }
 
-    public void setmRenewalRequests(int mRenewalRequests) {
-        this.mRenewalRequests = mRenewalRequests;
+    public void setRenewalRequests(int renewalRequests) {
+        this.renewalRequests = renewalRequests;
     }
 
-    public String getmTopicId() {
-        return mTopicId;
+    public String getTopicId() {
+        return topicId;
     }
 
-    public void setmTopicId(String mTopicId) {
-        this.mTopicId = mTopicId;
+    public void setTopicId(String topicId) {
+        this.topicId = topicId;
     }
 
-    public int getmTotalOpinions() {
-        return mTotalOpinions;
+    public int getTotalOpinions() {
+        return totalOpinions;
     }
 
-    public void setmTotalOpinions(int mTotalOpinions) {
-        this.mTotalOpinions = mTotalOpinions;
+    public void setTotalOpinions(int totalOpinions) {
+        this.totalOpinions = totalOpinions;
     }
 
-    public String getmDescription() {
-        return mDescription;
+    public String getTopicDescription() {
+        return topicDescription;
     }
 
-    public void setmDescription(String mDescription) {
-        this.mDescription = mDescription;
+    public void setTopicDescription(String topicDescription) {
+        this.topicDescription = topicDescription;
     }
 
-    public String getmUid() {
-        return mUid;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setmUid(String mUid) {
-        this.mUid = mUid;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getmTopic() {
@@ -138,12 +138,12 @@ public class topic implements Serializable{
     }
 
 
-    public int getmRenewedCount() {
-        return mRenewedCount;
+    public int getRenewedCount() {
+        return renewedCount;
     }
 
-    public void setmRenewedCount(int mRenewedCount) {
-        this.mRenewedCount = mRenewedCount;
+    public void setRenewedCount(int renewedCount) {
+        this.renewedCount = renewedCount;
     }
 
     public int getmPoints() {

@@ -49,7 +49,7 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder
 
         holder.customFontTextView.setText(mDataset.get(position).getmTopic());
         int a  = mDataset.get(position).getmHoursLeft();
-        int b = mDataset.get(position).getmRenewedCount();
+        int b = mDataset.get(position).getRenewedCount();
         String c = a + "hrs left to decay |"+ b + "renewal";
         holder.mTextView.setText(c);
 

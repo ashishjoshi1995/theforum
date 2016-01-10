@@ -83,7 +83,7 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
                                 null, null);
                         topic.setIsRenewed(true);
 
-                        LoadTopicHelper.getHelper().addRenewalRequest(topic.getmTopicId(),
+                        LoadTopicHelper.getHelper().addRenewalRequest(topic.getTopicId(),
                                 new LoadTopicHelper.OnRenewalRequestAddedListener() {
                                     @Override
                                     public void response(String s) {
@@ -108,9 +108,9 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
         final topic topic = mTopics.get(position);
 
         holder.topicName.setText(topic.getmTopic());
-        holder.renewCountBtn.setText(String.valueOf(topic.getmRenewalRequests()));
+        holder.renewCountBtn.setText(String.valueOf(topic.getRenewalRequests()));
         holder.timeHolder.setText(resources.getString(R.string.time_holder_message, topic.getmHoursLeft(),
-                topic.getmRenewedCount()));
+                topic.getRenewedCount()));
 
         if(topic.getIsRenewed()){
             holder.renewCountBtn.setCompoundDrawablesWithIntrinsicBounds(null, tintDrawable(holder.renewedColor),

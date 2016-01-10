@@ -7,7 +7,7 @@ import com.theforum.utils.ProfileUtils;
  */
 public class User {
 
-    public static User mUser;
+    private static User mUser;
     ProfileUtils profileUtils;
 
     private String mUid;

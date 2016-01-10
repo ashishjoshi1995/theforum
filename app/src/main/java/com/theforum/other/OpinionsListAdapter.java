@@ -10,8 +10,10 @@ import android.widget.TextView;
 
 import com.theforum.R;
 import com.theforum.data.dataModels.opinion;
+import com.theforum.data.helpers.OpinionHelper;
 import com.theforum.utils.CommonUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -29,18 +31,18 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
     private Context mContext;
 
     /* list of data */
-    private List<opinion> mFeeds;
+    private List<opinion> mOpinionList;
 
 
     public OpinionsListAdapter(Context context, List<opinion> feeds){
         mContext = context;
-        mFeeds = feeds;
+        mOpinionList = feeds;
     }
 
 
     public class OpinionsItemViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.opinion_opinion) TextView opinion;
+        @Bind(R.id.opinion_opinion) TextView opinionText;
         @Bind(R.id.upvote_btn) TextView upVoteBtn;
         @Bind(R.id.downvote_btn) TextView downVoteBtn;
 
@@ -55,7 +57,6 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
                     null, null);
             downVoteBtn.setCompoundDrawablesWithIntrinsicBounds(null, CommonUtils.tintDrawable(downvote, "#adadad"),
                     null, null);
-
         }
 
     }
@@ -68,16 +69,38 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
 
     @Override
     public void onBindViewHolder(OpinionsItemViewHolder holder, int position) {
+        final opinion opinionModel = mOpinionList.get(position);
+        holder.opinionText.setText(opinionModel.getmOpinion());
+        holder.upVoteBtn.setText(String.valueOf(opinionModel.getmUpVotes()));
+        holder.downVoteBtn.setText(String.valueOf(opinionModel.getmDownVotes()));
 
+        holder.upVoteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OpinionHelper.getHelper().upvoteDownvote(true,opinionModel);
+            }
+        });
+
+        holder.downVoteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OpinionHelper.getHelper().upvoteDownvote(false,opinionModel);
+            }
+        });
     }
 
 
-    public void addFeedItem(opinion opinionDataModel){
-        mFeeds.add(0,opinionDataModel);
+    public void addFeedItem(opinion opinionDataModel, int position){
+        mOpinionList.add(position, opinionDataModel);
+        notifyDataSetChanged();
+    }
+
+    public void addOpinions(ArrayList<opinion> list){
+        mOpinionList.addAll(list);
         notifyDataSetChanged();
     }
 
 
     @Override
-    public int getItemCount() {return mFeeds.size();}
+    public int getItemCount() {return mOpinionList.size();}
 }
