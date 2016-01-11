@@ -55,8 +55,6 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
             super(v);
             ButterKnife.bind(this, v);
 
-            upVoteBtn.setCompoundDrawablesWithIntrinsicBounds(null,upVoteIcon, null, null);
-            downVoteBtn.setCompoundDrawablesWithIntrinsicBounds(null, downVoteIcon, null, null);
         }
 
     }
@@ -74,13 +72,19 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
         holder.upVoteBtn.setText(String.valueOf(opinionModel.getUpVotes()));
         holder.downVoteBtn.setText(String.valueOf(opinionModel.getDownVotes()));
 
+
+        if(opinionModel.getVoteStatus()== opinion.VoteStatus.NONE){
+
+        }
+
         holder.upVoteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 OpinionHelper.getHelper().upvoteDownvote(true, opinionModel, new OpinionHelper.OnUVDVOperationCompleteListener() {
                     @Override
                     public void onCompleteMessage(String message) {
-                        CommonUtils.showToast(mContext,message);
+                        CommonUtils.showToast(mContext, message);
                     }
                 });
             }

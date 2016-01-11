@@ -4,6 +4,13 @@ package com.theforum.data.dataModels;
  * @author  Ashish on 12/31/2015.
  */
 public class opinion {
+
+    public enum VoteStatus{
+        UPVOTED,
+        DOWNVOTED,
+        NONE
+    }
+
     @com.google.gson.annotations.SerializedName("id")
     private String serverId;
 
@@ -35,11 +42,10 @@ public class opinion {
     private int mNotifNewUpvotes;
 
     @com.google.gson.annotations.SerializedName("topic")
-    private String mTopic;
+    private String topicName;
 
-    private boolean isUpVoted;
+    private VoteStatus voteStatus = VoteStatus.NONE;
 
-    private boolean isDownVoted;
 
     public opinion(){}
     
@@ -103,22 +109,6 @@ public class opinion {
         this.topicId = topicId;
     }
 
-    public boolean isUpVoted() {
-        return isUpVoted;
-    }
-
-    public void setUpVoted(boolean upVoted) {
-        this.isUpVoted = upVoted;
-    }
-
-    public boolean isDownVoted() {
-        return isDownVoted;
-    }
-
-    public void setDownVoted(boolean downVoted) {
-        this.isDownVoted = downVoted;
-    }
-
     public int getmNotifCount() {
         return mNotifCount;
     }
@@ -143,12 +133,28 @@ public class opinion {
         this.mNotifNewUpvotes = mNotifNewUpvotes;
     }
 
-    public String getmTopic() {
-        return mTopic;
+    public String getTopicName() {
+        return topicName;
     }
 
-    public void setmTopic(String mTopic) {
-        this.mTopic = mTopic;
+    public void setTopicName(String topicName) {
+        this.topicName = topicName;
+    }
+
+
+    public VoteStatus getVoteStatus() {
+        return voteStatus;
+    }
+
+    /**
+     * @param voteStatus 
+     *
+     * UPVOTED when opinion is upVoted
+     * DOWNVOTED when opinion is downVoted
+     * NONE for nothing is done
+     */
+    public void setVoteStatus(VoteStatus voteStatus) {
+        this.voteStatus = voteStatus;
     }
 
 }

@@ -72,7 +72,7 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
             opinion opinion = mFeeds.get(getLayoutPosition());
 
             topic topicModel = new topic();
-            topicModel.setmTopic(opinion.getmTopic());
+            topicModel.setmTopic(opinion.getTopicName());
             topicModel.setTopicId(opinion.getTopicId());
 
             CommonUtils.openContainerActivity(mContext, Constants.OPINIONS_FRAGMENT,
@@ -90,7 +90,7 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
     public void onBindViewHolder(TrendsItemViewHolder holder, int position) {
         opinion opinionModel = mFeeds.get(position);
 
-        holder.topicName.setText(opinionModel.getmTopic());
+        holder.topicName.setText(opinionModel.getTopicName());
         holder.description.setText(opinionModel.getOpinionName());
         holder.upVoteBtn.setText(String.valueOf(opinionModel.getUpVotes()));
         holder.downVoteBtn.setText(String.valueOf(opinionModel.getDownVotes()));

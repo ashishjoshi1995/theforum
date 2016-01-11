@@ -79,7 +79,7 @@ public class OpinionDB extends SQLiteOpenHelper {
             values.put(KEY_OPINION,opinion.getOpinionName());
             values.put(KEY_OPINION_ID,opinion.getOpinionId());
             values.put(KEY_UPVOTES, opinion.getUpVotes());
-            values.put(KEY_TOPIC,opinion.getmTopic());
+            values.put(KEY_TOPIC,opinion.getTopicName());
             values.put(KEY_TOPIC_ID,opinion.getTopicId());
             values.put(KEY_TIME,"datetime(now)");
 
