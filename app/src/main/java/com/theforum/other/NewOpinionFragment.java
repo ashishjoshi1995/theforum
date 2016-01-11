@@ -121,9 +121,9 @@ public class NewOpinionFragment extends Fragment {
 
     private void uploadData(){
         opinion opinion = new opinion(mUploadText.getText().toString());
-        opinion.setmTopicId(topicModel.getTopicId());
+        opinion.setTopicId(topicModel.getTopicId());
         opinion.setmTopic(topicModel.getmTopic());
-        opinion.setmUid(User.getInstance().getId());
+        opinion.setUserId(User.getInstance().getId());
        // opinion.setmTopicDescription(topicModel.getTopicDescription());
 
         OpinionHelper.getHelper().addOpinion(opinion, new OpinionHelper.OnOpinionAddListener() {

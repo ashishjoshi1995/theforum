@@ -1,29 +1,29 @@
 package com.theforum.data.dataModels;
 
 /**
- * Created by Ashish on 12/31/2015.
+ * @author  Ashish on 12/31/2015.
  */
 public class opinion {
     @com.google.gson.annotations.SerializedName("id")
-    private String mId;
+    private String serverId;
 
     @com.google.gson.annotations.SerializedName("downvotes")
-    private int mDownVotes;
+    private int downVotes;
 
     @com.google.gson.annotations.SerializedName("upvotes")
-    private int mUpVotes;
+    private int upVotes;
 
     @com.google.gson.annotations.SerializedName("opinion")
-    private String mOpinion;
+    private String opinionName;
 
     @com.google.gson.annotations.SerializedName("opinion_id")
-    private String mOpinionId;
+    private String opinionId;
 
     @com.google.gson.annotations.SerializedName("uid")
-    private String mUid;
+    private String userId;
 
     @com.google.gson.annotations.SerializedName("topic_id")
-    private String mTopicId;
+    private String topicId;
 
     @com.google.gson.annotations.SerializedName("notif_count")
     private int mNotifCount;
@@ -37,87 +37,86 @@ public class opinion {
     @com.google.gson.annotations.SerializedName("topic")
     private String mTopic;
 
-    private boolean upvoted;
-    private boolean downvoted;
+    private boolean isUpVoted;
 
-    public opinion(){
+    private boolean isDownVoted;
 
-    }
+    public opinion(){}
     
-    public opinion(String opinion){
-        this.mOpinion = opinion;
+    public opinion(String opinionName){
+        this.opinionName = opinionName;
     }
 
-    public String getmUid() {
-        return mUid;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setmUid(String mUid) {
-        this.mUid = mUid;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
-    public String getmOpinionId() {
-        return mOpinionId;
+    public String getOpinionId() {
+        return opinionId;
     }
 
-    public void setmOpinionId(String mOpinionId) {
-        this.mOpinionId = mOpinionId;
+    public void setOpinionId(String opinionId) {
+        this.opinionId = opinionId;
     }
 
-    public String getmOpinion() {
-        return mOpinion;
+    public String getOpinionName() {
+        return opinionName;
     }
 
-    public void setmOpinion(String mOpinion) {
-        this.mOpinion = mOpinion;
+    public void setOpinionName(String opinionName) {
+        this.opinionName = opinionName;
     }
 
-    public int getmUpVotes() {
-        return mUpVotes;
+    public int getUpVotes() {
+        return upVotes;
     }
 
-    public void setmUpVotes(int mUpVotes) {
-        this.mUpVotes = mUpVotes;
+    public void setUpVotes(int upVotes) {
+        this.upVotes = upVotes;
     }
 
-    public int getmDownVotes() {
-        return mDownVotes;
+    public int getDownVotes() {
+        return downVotes;
     }
 
-    public void setmDownVotes(int mDownVotes) {
-        this.mDownVotes = mDownVotes;
+    public void setDownVotes(int downVotes) {
+        this.downVotes = downVotes;
     }
 
-    public String getmId() {
-        return mId;
+    public String getServerId() {
+        return serverId;
     }
 
-    public void setmId(String mId) {
-        this.mId = mId;
+    public void setServerId(String serverId) {
+        this.serverId = serverId;
     }
 
-    public String getmTopicId() {
-        return mTopicId;
+    public String getTopicId() {
+        return topicId;
     }
 
-    public void setmTopicId(String mTopicId) {
-        this.mTopicId = mTopicId;
+    public void setTopicId(String topicId) {
+        this.topicId = topicId;
     }
 
-    public boolean isUpvoted() {
-        return upvoted;
+    public boolean isUpVoted() {
+        return isUpVoted;
     }
 
-    public void setUpvoted(boolean upvoted) {
-        this.upvoted = upvoted;
+    public void setUpVoted(boolean upVoted) {
+        this.isUpVoted = upVoted;
     }
 
-    public boolean isDownvoted() {
-        return downvoted;
+    public boolean isDownVoted() {
+        return isDownVoted;
     }
 
-    public void setDownvoted(boolean downvoted) {
-        this.downvoted = downvoted;
+    public void setDownVoted(boolean downVoted) {
+        this.isDownVoted = downVoted;
     }
 
     public int getmNotifCount() {

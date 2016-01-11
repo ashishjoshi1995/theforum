@@ -63,24 +63,24 @@ public class OpinionDB extends SQLiteOpenHelper {
     public void addOpinion(opinion opinion){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        Cursor c=db.rawQuery("SELECT * FROM user WHERE"+ KEY_OPINION_ID +"="+opinion.getmOpinionId(), null);
+        Cursor c=db.rawQuery("SELECT * FROM user WHERE"+ KEY_OPINION_ID +"="+opinion.getOpinionId(), null);
         if(c.moveToFirst())
         {
             Log.e("Error", "Record exist");
         }
         else
         {
-            values.put(KEY_ID,opinion.getmId());
-            values.put(KEY_DOWNVOTES,opinion.getmDownVotes());
-            values.put(KEY_FORUM_ID,opinion.getmUid());
+            values.put(KEY_ID,opinion.getServerId());
+            values.put(KEY_DOWNVOTES,opinion.getDownVotes());
+            values.put(KEY_FORUM_ID,opinion.getUserId());
             values.put(KEY_NOTIF_COUNT,opinion.getmNotifCount());
             values.put(KEY_NOTIF_NEW_DOWNVOTES,opinion.getmNotifNewDownvotes());
             values.put(KEY_NOTIF_NEW_UPVOTES,opinion.getmNotifNewUpvotes());
-            values.put(KEY_OPINION,opinion.getmOpinion());
-            values.put(KEY_OPINION_ID,opinion.getmOpinionId());
-            values.put(KEY_UPVOTES, opinion.getmUpVotes());
+            values.put(KEY_OPINION,opinion.getOpinionName());
+            values.put(KEY_OPINION_ID,opinion.getOpinionId());
+            values.put(KEY_UPVOTES, opinion.getUpVotes());
             values.put(KEY_TOPIC,opinion.getmTopic());
-            values.put(KEY_TOPIC_ID,opinion.getmTopicId());
+            values.put(KEY_TOPIC_ID,opinion.getTopicId());
             values.put(KEY_TIME,"datetime(now)");
 
 
