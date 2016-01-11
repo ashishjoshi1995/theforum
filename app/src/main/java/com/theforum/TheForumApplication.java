@@ -1,6 +1,7 @@
 package com.theforum;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.theforum.utils.ProfileUtils;
@@ -16,10 +17,12 @@ import java.net.MalformedURLException;
 public class TheForumApplication extends Application {
 
     private static MobileServiceClient mClient;
+    private static Context context;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        context = getApplicationContext();
         try {
             mClient = new MobileServiceClient(
                     "https://theforum.azure-mobile.net/",
@@ -39,4 +42,5 @@ public class TheForumApplication extends Application {
     public static MobileServiceClient getClient(){
         return mClient;
     }
+    public static Context getAppContext(){return context;}
 }

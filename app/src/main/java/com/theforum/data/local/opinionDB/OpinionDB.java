@@ -1,4 +1,4 @@
-package com.theforum.data.local;
+package com.theforum.data.local.opinionDB;
 
 import android.content.ContentValues;
 import android.content.Context;

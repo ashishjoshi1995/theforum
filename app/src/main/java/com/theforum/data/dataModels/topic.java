@@ -48,6 +48,7 @@ public class topic implements Serializable{
 
 
     private boolean isRenewed = false;
+    private boolean alreadyStored = false;
 
     public String getServerId() {
         return serverId;
@@ -163,4 +164,11 @@ public class topic implements Serializable{
         this.isRenewed = isRenewed;
     }
 
+    public boolean isAlreadyStored() {
+        return alreadyStored;
+    }
+
+    public void setAlreadyStored(boolean alreadyStored) {
+        this.alreadyStored = alreadyStored;
+    }
 }

@@ -11,7 +11,6 @@ public class TopicDBConstants {
     public static final String DATABASE_NAME = "TOPIC_DB";
 
     public static final String TABLE_NAME = "TOPICS_TABLE_FEED";
-    public static final String MY_DATA_TABLE = "MY_ADDED_TOPICS";
 
 
     //statistics table coloumn
@@ -23,4 +22,5 @@ public class TopicDBConstants {
     public static final String KEY_DESCRIPTION="description";
     public static final String KEY_TOPIC="topic";
     public static final String KEY_TIME = "time";
+    public static final String KEY_IF_RENEWED = "if_renewed";
 }

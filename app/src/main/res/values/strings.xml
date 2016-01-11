@@ -10,5 +10,8 @@
 
     <!-- please do not delete below strings -->
     <string name="time_holder_message">%1$s hrs left to decay | %2$d renewal</string>
+    <string name="title_activity_splash">SplashActivity</string>
+
+    <string name="hello_world">Hello world!</string>
 
 </resources>
