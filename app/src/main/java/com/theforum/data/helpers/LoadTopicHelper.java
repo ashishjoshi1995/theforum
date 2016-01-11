@@ -155,10 +155,10 @@ public class LoadTopicHelper {
                         });
                         break;
                     case Constants.SORT_BASIS_LEAST_RENEWAL:
-                        topics = mTopic.orderBy("renewal_request",QueryOrder.Ascending).execute().get();
+                        topics = mTopic.orderBy("renewal_requests",QueryOrder.Ascending).execute().get();
                         break;
                     case Constants.SORT_BASIS_MOST_RENEWAL:
-                        topics = mTopic.orderBy("renewal_request",QueryOrder.Descending).execute().get();
+                        topics = mTopic.orderBy("renewal_requests",QueryOrder.Descending).execute().get();
                         break;
 
                 }
