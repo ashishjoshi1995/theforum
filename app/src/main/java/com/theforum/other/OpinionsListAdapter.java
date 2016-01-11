@@ -46,17 +46,15 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
         @Bind(R.id.upvote_btn) TextView upVoteBtn;
         @Bind(R.id.downvote_btn) TextView downVoteBtn;
 
-        @BindDrawable(R.drawable.upvote) Drawable upvote;
-        @BindDrawable(R.drawable.downvote) Drawable downvote;
+        @BindDrawable(R.drawable.upvote) Drawable upVoteIcon;
+        @BindDrawable(R.drawable.upvote_on) Drawable upvotedIcon;
+        @BindDrawable(R.drawable.downvote) Drawable downVoteIcon;
+        @BindDrawable(R.drawable.downvote_on) Drawable downVotedIcon;
 
         public OpinionsItemViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, v);
 
-            upVoteBtn.setCompoundDrawablesWithIntrinsicBounds(null, CommonUtils.tintDrawable(upvote, "#adadad"),
-                    null, null);
-            downVoteBtn.setCompoundDrawablesWithIntrinsicBounds(null, CommonUtils.tintDrawable(downvote, "#adadad"),
-                    null, null);
         }
 
     }
@@ -70,17 +68,23 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
     @Override
     public void onBindViewHolder(OpinionsItemViewHolder holder, int position) {
         final opinion opinionModel = mOpinionList.get(position);
-        holder.opinionText.setText(opinionModel.getmOpinion());
-        holder.upVoteBtn.setText(String.valueOf(opinionModel.getmUpVotes()));
-        holder.downVoteBtn.setText(String.valueOf(opinionModel.getmDownVotes()));
+        holder.opinionText.setText(opinionModel.getOpinionName());
+        holder.upVoteBtn.setText(String.valueOf(opinionModel.getUpVotes()));
+        holder.downVoteBtn.setText(String.valueOf(opinionModel.getDownVotes()));
+
+
+        if(opinionModel.getVoteStatus()== opinion.VoteStatus.NONE){
+
+        }
 
         holder.upVoteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 OpinionHelper.getHelper().upvoteDownvote(true, opinionModel, new OpinionHelper.OnUVDVOperationCompleteListener() {
                     @Override
                     public void onCompleteMessage(String message) {
-                        CommonUtils.showToast(mContext,message);
+                        CommonUtils.showToast(mContext, message);
                     }
                 });
             }

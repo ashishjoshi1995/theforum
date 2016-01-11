@@ -84,8 +84,8 @@ public class OpinionHelper {
 
     public void upvoteDownvote(Boolean ifUpvote,opinion opinion1, final OnUVDVOperationCompleteListener listener){
         UPDVRequest updvRequest= new UPDVRequest();
-        updvRequest.opinion_id = opinion1.getmOpinionId();
-        updvRequest.opinion_owner_id = opinion1.getmUid();
+        updvRequest.opinion_id = opinion1.getOpinionId();
+        updvRequest.opinion_owner_id = opinion1.getUserId();
         if(ifUpvote){
             //update UI
             //update Local db
