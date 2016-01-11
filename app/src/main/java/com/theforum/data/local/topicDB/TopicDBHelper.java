@@ -53,8 +53,8 @@ public class TopicDBHelper {
 
         ContentValues values = new ContentValues();
 
-        Cursor c= topicDatabase.rawQuery("SELECT * FROM "+TopicDBConstants.TABLE_NAME+" WHERE" +
-                TopicDBConstants.KEY_TOPIC_ID + "=" + topic.getTopicId(), null);
+        Cursor c= topicDatabase.rawQuery("SELECT FROM "+TopicDBConstants.TABLE_NAME+" WHERE " +
+                TopicDBConstants.KEY_TOPIC_ID + " = " + topic.getTopicId(), null);
         if(c.moveToFirst()) {
             Log.e("Error", "Record exist");
         }
@@ -67,7 +67,7 @@ public class TopicDBHelper {
 
     public void addTopicsFromServer(ArrayList<topic> topics){
         for (int k = 0; k<topics.size();k++){
-            addTopicFromServer(topics.get(k));
+            addTopic(topics.get(k));
         }
         closeDataBase();
     }
