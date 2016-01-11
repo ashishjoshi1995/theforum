@@ -38,6 +38,7 @@ public class LoadTopicHelper {
     private String mUid;
     private ArrayList<topic> topicArrayList;
     private OnTopicsReceiveListener topicsReceiveListener;
+    private boolean topicsReceived = false;
 
     public static LoadTopicHelper getHelper(){
         if(mLoadTopicHelper==null) mLoadTopicHelper = new LoadTopicHelper();
@@ -82,19 +83,23 @@ public class LoadTopicHelper {
 
     public void getTopics(OnTopicsReceiveListener listener){
         topicsReceiveListener = listener;
+        Log.e("topics receiver2","called");
+        if(topicsReceived){
+            topicsReceiveListener.onCompleted(topicArrayList);
+            Log.e("topics send2", "called");
+        }
     }
 
 
     public void loadTopics(final int sortMode) {
-
+        Log.e("load topics","called");
         AsyncTask<Void, Void, ArrayList<topic>> task = new AsyncTask<Void, Void, ArrayList<topic>>() {
             MobileServiceList<topic> topics = null;
 
             @Override
             protected ArrayList<topic> doInBackground(Void... params) {
                 try {
-                switch (sortMode)
-                {
+                switch (sortMode) {
                     case Constants.SORT_BASIS_MOST_POPULAR:
                         topics = mTopic.orderBy("points", QueryOrder.Descending).execute().get();
                         break;
@@ -169,10 +174,20 @@ public class LoadTopicHelper {
             protected void onPostExecute(ArrayList<topic> topics) {
                 super.onPostExecute(topics);
 
-                topicArrayList = topics;
-                topicsReceiveListener.onCompleted(topics);
-                TopicDBHelper.getTopicDBHelper(TheForumApplication.getAppContext()).deleteAll();
-                TopicDBHelper.getTopicDBHelper(TheForumApplication.getAppContext()).addTopicsFromServer(topics);
+                if(topics!=null) {
+                    Log.e("postexec",""+topics.size());
+                    topicsReceived = true;
+                    topicArrayList = topics;
+                    Log.e("topics received","called");
+
+                    if (topicsReceiveListener != null) {
+                        Log.e("topics send", "called");
+                        topicsReceiveListener.onCompleted(topics);
+                    }
+
+                    TopicDBHelper.getTopicDBHelper(TheForumApplication.getAppContext()).deleteAll();
+                    TopicDBHelper.getTopicDBHelper(TheForumApplication.getAppContext()).addTopicsFromServer(topics);
+                }
 
             }
         };

@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.theforum.Constants;
 import com.theforum.data.dataModels.topic;
 
 import java.util.ArrayList;
@@ -19,7 +18,9 @@ public class TopicDBHelper {
 
     private TopicDB topicDB;
     private static TopicDBHelper topicDBHelper;
-    private static Context context;
+    private SQLiteDatabase topicDatabase;
+    private  Context context;
+
 
     public static TopicDBHelper getTopicDBHelper(Context context){
         if(topicDBHelper == null) topicDBHelper = new TopicDBHelper(context);
@@ -28,10 +29,10 @@ public class TopicDBHelper {
 
     private TopicDBHelper(Context context){
         topicDB = new TopicDB(context);
+        topicDatabase = topicDB.getWritableDatabase();
     }
 
     public void addTopic(topic topic){
-        SQLiteDatabase db = topicDB.getWritableDatabase();
 
         ContentValues values = new ContentValues();
 
@@ -44,16 +45,16 @@ public class TopicDBHelper {
         values.put(TopicDBConstants.KEY_TIME, "datetime(now)");
 
         // Inserting Row
-                db.insert(TopicDBConstants.TABLE_NAME, null, values);
-            db.close(); // Closing database connection
+                topicDatabase.insert(TopicDBConstants.TABLE_NAME, null, values);
 
     }
 
     public void addTopicFromServer(topic topic){
-        SQLiteDatabase db = topicDB.getWritableDatabase();
+
         ContentValues values = new ContentValues();
 
-        Cursor c=db.rawQuery("SELECT * FROM user WHERE" + TopicDBConstants.KEY_TOPIC_ID + "=" + topic.getTopicId(), null);
+        Cursor c= topicDatabase.rawQuery("SELECT * FROM "+TopicDBConstants.TABLE_NAME+" WHERE" +
+                TopicDBConstants.KEY_TOPIC_ID + "=" + topic.getTopicId(), null);
         if(c.moveToFirst()) {
             Log.e("Error", "Record exist");
         }
@@ -61,7 +62,6 @@ public class TopicDBHelper {
             addTopic(topic);
         }
         c.close();
-        db.close();
     }
 
 
@@ -69,6 +69,7 @@ public class TopicDBHelper {
         for (int k = 0; k<topics.size();k++){
             addTopicFromServer(topics.get(k));
         }
+        closeDataBase();
     }
 
     public void deleteTopic(){
@@ -78,11 +79,8 @@ public class TopicDBHelper {
         db.execSQL(sql);
     }
 
-    public void deleteAll()
-    {
-        SQLiteDatabase db = topicDB.getWritableDatabase();
-//        db.execSQL("DELETE * from"+ TopicDBConstants.TABLE_NAME);
-        db.close();
+    public void deleteAll() {
+        topicDatabase.execSQL("DELETE from " + TopicDBConstants.TABLE_NAME);
     }
 
     public ArrayList<String> getMyTopicId(){
@@ -98,5 +96,9 @@ public class TopicDBHelper {
         }
 
         return s;
+    }
+
+    public void closeDataBase(){
+        topicDatabase.close(); // Closing database connection
     }
 }
