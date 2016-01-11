@@ -1,16 +1,8 @@
 package com.theforum.data.local.topicDB;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-
-import com.theforum.Constants;
-import com.theforum.data.dataModels.topic;
-
-import java.util.ArrayList;
 
 /**
  * @author  Ashish on 1/2/2016.
@@ -26,31 +18,24 @@ public class TopicDB extends SQLiteOpenHelper {
         super(context, name, factory, version);
     }
     public TopicDB(Context context){
-        super(context,DATABASE_NAME,null,DATABASE_VERSION);
+        super(context,TopicDBConstants.DATABASE_NAME,null,TopicDBConstants.DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_TOPIC_TABLE = "CREATE TABLE " +TABLE_NAME + "("
-                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_SERVER_ID + " TEXT,"+KEY_TOPIC_ID+" TEXT,"
-                +KEY_TOPIC+" TEXT,"  + KEY_DESCRIPTION+ " TEXT,"  + KEY_RENEWAL_REQUEST + " INTEGER,"
-                + KEY_TOTAL_OPINIONS + " INTEGER," + KEY_TIME + " INTEGER)";
+        String CREATE_TOPIC_TABLE = "CREATE TABLE " +TopicDBConstants.TABLE_NAME + "("
+                + TopicDBConstants.KEY_ID + " INTEGER PRIMARY KEY," + TopicDBConstants.KEY_SERVER_ID + " TEXT,"+TopicDBConstants.KEY_TOPIC_ID+" TEXT,"
+                +TopicDBConstants.KEY_TOPIC+" TEXT,"  + TopicDBConstants.KEY_DESCRIPTION+ " TEXT,"  + TopicDBConstants.KEY_RENEWAL_REQUEST + " INTEGER,"
+                + TopicDBConstants.KEY_TOTAL_OPINIONS + " INTEGER," + TopicDBConstants.KEY_TIME + " INTEGER,"
+                +TopicDBConstants.KEY_IF_RENEWED+" INTEGER)";
         db.execSQL(CREATE_TOPIC_TABLE);
-
-        String CREATE_MY_TOPIC_TABLE = "CREATE TABLE " +MY_DATA_TABLE + "("
-                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_SERVER_ID + " TEXT,"+KEY_TOPIC_ID+" TEXT,"
-                +KEY_TOPIC+" TEXT,"  + KEY_DESCRIPTION+ " TEXT,"  + KEY_RENEWAL_REQUEST + " INTEGER,"
-                + KEY_TOTAL_OPINIONS + " INTEGER," + KEY_TIME + " INTEGER)";
-        db.execSQL(CREATE_MY_TOPIC_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS" + TABLE_NAME);
-        db.execSQL("DROP TABLE IF EXISTS" + MY_DATA_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS" + TopicDBConstants.TABLE_NAME);
         // Create tables again
         onCreate(db);
     }
-
 
 }

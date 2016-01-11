@@ -18,6 +18,7 @@ import com.theforum.data.helpers.renewalRequestApi.Request;
 import com.theforum.data.helpers.renewalRequestApi.Response;
 import com.theforum.data.helpers.sortBasisCreatedByMe.InputClass;
 import com.theforum.data.helpers.sortBasisCreatedByMe.ResponseClass;
+import com.theforum.data.local.topicDB.TopicDBHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,6 +36,8 @@ public class LoadTopicHelper {
     private MobileServiceClient mClient;
     private MobileServiceTable<topic> mTopic;
     private String mUid;
+    private ArrayList<topic> topicArrayList;
+    private OnTopicsReceiveListener topicsReceiveListener;
 
     public static LoadTopicHelper getHelper(){
         if(mLoadTopicHelper==null) mLoadTopicHelper = new LoadTopicHelper();
@@ -58,7 +61,6 @@ public class LoadTopicHelper {
                     mTopic.insert(topic, new TableOperationCallback<topic>() {
                         @Override
                         public void onCompleted(topic entity, Exception exception, ServiceFilterResponse response) {
-
                             if(exception == null){
                                 onTopicInsertListener.onCompleted(entity);
                             }
@@ -68,22 +70,22 @@ public class LoadTopicHelper {
                             //TODO: add file to the local db
                         }
                     });
-
                 } catch (Exception e) {
                     onTopicInsertListener.onError(e.getMessage());
                 }
-
                 return null;
             }
-
-
         };
-
         runAsyncTask2(task);
     }
 
 
-    public void loadTopics( final int sortMode , final OnTopicsReceiveListener listener) {
+    public void getTopics(OnTopicsReceiveListener listener){
+        topicsReceiveListener = listener;
+    }
+
+
+    public void loadTopics(final int sortMode) {
 
         AsyncTask<Void, Void, ArrayList<topic>> task = new AsyncTask<Void, Void, ArrayList<topic>>() {
             MobileServiceList<topic> topics = null;
@@ -134,13 +136,13 @@ public class LoadTopicHelper {
                                                 Log.e("ashish", topics.get(i).getServerId());
                                             }
 
-                                        } else listener.onError("empty JSON");
+                                        } //else listener.onError("empty JSON");
                                     } catch (JSONException e) {
-                                        listener.onError(e.getMessage());
+                                   //     listener.onError(e.getMessage());
                                     }
                             }
                                 else {
-                                    listener.onError(exception.getMessage());
+                                 //   listener.onError(exception.getMessage());
                                 }
 
 
@@ -156,9 +158,9 @@ public class LoadTopicHelper {
 
                 }
                 } catch (InterruptedException e) {
-                    listener.onError(e.getMessage());
+                    //listener.onError(e.getMessage());
                 } catch (ExecutionException e) {
-                    listener.onError(e.getMessage());
+                    //listener.onError(e.getMessage());
                 }
                 return topics;
             }
@@ -166,11 +168,13 @@ public class LoadTopicHelper {
             @Override
             protected void onPostExecute(ArrayList<topic> topics) {
                 super.onPostExecute(topics);
-                listener.onCompleted(topics);
 
+                topicArrayList = topics;
+                topicsReceiveListener.onCompleted(topics);
+                TopicDBHelper.getTopicDBHelper(TheForumApplication.getAppContext()).deleteAll();
+                TopicDBHelper.getTopicDBHelper(TheForumApplication.getAppContext()).addTopicsFromServer(topics);
 
             }
-
         };
         runAsyncTask(task);
     }

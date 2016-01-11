@@ -30,7 +30,7 @@ public class TopicDBHelper {
         topicDB = new TopicDB(context);
     }
 
-    public void addTopic(topic topic , int j){
+    public void addTopic(topic topic){
         SQLiteDatabase db = topicDB.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -44,14 +44,8 @@ public class TopicDBHelper {
         values.put(TopicDBConstants.KEY_TIME, "datetime(now)");
 
         // Inserting Row
-        switch (j) {
-            case Constants.ADD_TOPICS_ALL:
                 db.insert(TopicDBConstants.TABLE_NAME, null, values);
-                break;
-            case Constants.ADD_MY_TOPIC:
-                db.insert(TopicDBConstants.MY_DATA_TABLE, null, values);
-                break;
-        }    db.close(); // Closing database connection
+            db.close(); // Closing database connection
 
     }
 
@@ -64,7 +58,7 @@ public class TopicDBHelper {
             Log.e("Error", "Record exist");
         }
         else {
-            addTopic(topic,Constants.ADD_MY_TOPIC);
+            addTopic(topic);
         }
         c.close();
         db.close();
@@ -78,18 +72,23 @@ public class TopicDBHelper {
     }
 
     public void deleteTopic(){
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = topicDB.getWritableDatabase();
         String sql = "DELETE FROM "+TopicDBConstants.TABLE_NAME +" WHERE "+ TopicDBConstants.KEY_TIME +" <= date('now','-2 day')";
-        String sql2 = "DELETE FROM "+TopicDBConstants.MY_DATA_TABLE +" WHERE "+ TopicDBConstants.KEY_TIME +" <= date('now','-2 day')";
         //  SELECT * FROM test WHERE age <= datetime('now', '-5 minutes')
         db.execSQL(sql);
-        db.execSQL(sql2);
+    }
+
+    public void deleteAll()
+    {
+        SQLiteDatabase db = topicDB.getWritableDatabase();
+//        db.execSQL("DELETE * from"+ TopicDBConstants.TABLE_NAME);
+        db.close();
     }
 
     public ArrayList<String> getMyTopicId(){
         ArrayList<String> s = new ArrayList<String>();
-        SQLiteDatabase db = this.getWritableDatabase();
-        String readTopicId = "SELECT DISTINCT" + TopicDBConstants.KEY_TOPIC_ID +"FROM" + TopicDBConstants.MY_DATA_TABLE;
+        SQLiteDatabase db = topicDB.getWritableDatabase();
+        String readTopicId = "SELECT DISTINCT" + TopicDBConstants.KEY_TOPIC_ID +"FROM" + TopicDBConstants.TABLE_NAME;
         Cursor c = db.rawQuery(readTopicId,null);
         if(c!=null){
             c.moveToFirst();
