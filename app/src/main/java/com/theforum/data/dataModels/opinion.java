@@ -147,7 +147,7 @@ public class opinion {
     }
 
     /**
-     * @param voteStatus 
+     * @param voteStatus
      *
      * UPVOTED when opinion is upVoted
      * DOWNVOTED when opinion is downVoted
