@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.theforum.data.dataModels.opinion;
-import com.theforum.data.local.topicDB.TopicDB;
 
 import java.util.ArrayList;
 
@@ -60,7 +59,7 @@ public class OpinionDBHelper {
 
     }
 
-    public void addOpinions(ArrayList<opinion> opinions){
+     public void addOpinions(ArrayList<opinion> opinions){
         for(int j = 0;j<opinions.size();j++){
             addOpinion(opinions.get(j));
         }

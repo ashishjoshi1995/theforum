@@ -81,7 +81,7 @@ public class TopicDBHelper {
     public void deleteAll()
     {
         SQLiteDatabase db = topicDB.getWritableDatabase();
-        db.execSQL("DELETE * from"+ TopicDBConstants.TABLE_NAME);
+//        db.execSQL("DELETE * from"+ TopicDBConstants.TABLE_NAME);
         db.close();
     }
 
