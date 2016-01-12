@@ -13,7 +13,7 @@ import com.theforum.Constants;
 import com.theforum.HomePagerAdapter;
 import com.theforum.R;
 import com.theforum.utils.CommonUtils;
-import com.theforum.utils.OnHomeUiChangeListener;
+import com.theforum.utils.listeners.OnHomeUiChangeListener;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

@@ -7,7 +7,7 @@ import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.microsoft.windowsazure.mobileservices.table.TableQueryCallback;
 import com.theforum.TheForumApplication;
-import com.theforum.User;
+import com.theforum.utils.User;
 import com.theforum.data.dataModels.opinion;
 import com.theforum.data.dataModels.topic;
 import com.theforum.data.interfaces.NotificationIfAny;

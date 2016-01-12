@@ -1,6 +1,4 @@
-package com.theforum;
-
-import com.theforum.utils.ProfileUtils;
+package com.theforum.utils;
 
 /**
  * @author Ashish on 1/2/2016.

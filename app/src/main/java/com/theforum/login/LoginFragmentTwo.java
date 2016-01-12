@@ -13,7 +13,7 @@ import android.widget.EditText;
 
 import com.theforum.HomeActivity;
 import com.theforum.R;
-import com.theforum.User;
+import com.theforum.utils.User;
 import com.theforum.data.dataModels.user;
 import com.theforum.data.helpers.LoginHelper;
 import com.theforum.utils.CommonUtils;

@@ -16,12 +16,12 @@ import android.widget.RelativeLayout;
 
 import com.theforum.Constants;
 import com.theforum.R;
-import com.theforum.User;
+import com.theforum.utils.User;
 import com.theforum.data.dataModels.opinion;
 import com.theforum.data.dataModels.topic;
 import com.theforum.data.helpers.OpinionHelper;
 import com.theforum.utils.CommonUtils;
-import com.theforum.utils.SoftKeyboardStateWatcher;
+import com.theforum.utils.listeners.SoftKeyboardStateWatcher;
 import com.theforum.utils.customViews.KeyboardListenerEditText;
 
 import butterknife.Bind;

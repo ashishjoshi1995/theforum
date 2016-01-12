@@ -17,7 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.theforum.utils.CommonUtils;
-import com.theforum.utils.OnListItemClickListener;
+import com.theforum.utils.listeners.OnListItemClickListener;
 
 import java.util.ArrayList;
 

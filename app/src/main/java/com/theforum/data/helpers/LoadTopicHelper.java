@@ -12,7 +12,7 @@ import com.microsoft.windowsazure.mobileservices.table.TableOperationCallback;
 import com.microsoft.windowsazure.mobileservices.table.query.QueryOrder;
 import com.theforum.Constants;
 import com.theforum.TheForumApplication;
-import com.theforum.User;
+import com.theforum.utils.User;
 import com.theforum.data.dataModels.topic;
 import com.theforum.data.helpers.renewalRequestApi.Request;
 import com.theforum.data.helpers.renewalRequestApi.Response;
