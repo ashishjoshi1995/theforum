@@ -2,6 +2,7 @@ package com.theforum.home;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -28,11 +29,14 @@ public class TopicsFragment extends Fragment {
     @Bind(R.id.home_recycler_view)
     RecyclerView recyclerView;
 
+    @Bind(R.id.topics_swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
+
     private TopicsListAdapter mAdapter;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.recycler_view, container, false);
+        return inflater.inflate(R.layout.fragment_topics, container, false);
     }
 
     @Override
@@ -51,16 +55,17 @@ public class TopicsFragment extends Fragment {
         mAdapter = new TopicsListAdapter(getActivity(), mFeeds);
         recyclerView.setAdapter(mAdapter);
 
-        getTopicsFromServer();
+        getTopics();
 
     }
 
-    private void getTopicsFromServer(){
+    private void getTopics(){
 
-
+            swipeRefreshLayout.setRefreshing(true);
             LoadTopicHelper.getHelper().getTopics(new LoadTopicHelper.OnTopicsReceiveListener() {
                 @Override
                 public void onCompleted(ArrayList<topic> topics) {
+                    swipeRefreshLayout.setRefreshing(false);
                     Log.e("ui ui ui","data received"+topics.size());
                         mAdapter.addTopics(topics);
                 }
@@ -73,8 +78,5 @@ public class TopicsFragment extends Fragment {
 
     }
 
-    //TODO: Also load topics from local database to inflate layout
-    private void getTopicsFromDataBase(){
 
-    }
 }
