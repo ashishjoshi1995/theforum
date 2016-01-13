@@ -60,7 +60,7 @@ public class NotificationService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.e("NotificationService","onStartCommand");
         //TODO remove the below comment
-        //handleIntent(intent);
+        handleIntent(intent);
         return START_NOT_STICKY;
     }
 
@@ -94,6 +94,7 @@ public class NotificationService extends Service {
                         inflatorItemDataRenewal.notificationType = Constants.NOTIFICATION_TYPE_RENEWAL_REQUEST;
                         NotificationStack.pushNotificationInflatorItemData(inflatorItemDataRenewal);
                         jaiHo++;
+                        Log.e("salma",""+jaiHo);
 
                         NotificationDataModel inflatorItemDataOpinions = new NotificationDataModel();
                         inflatorItemDataOpinions.notificationType = Constants.NOTIFICATION_TYPE_OPINIONS;
@@ -103,11 +104,11 @@ public class NotificationService extends Service {
                         NotificationStack.pushNotificationInflatorItemData(inflatorItemDataOpinions);
                         jaiHo++;
                     }
-                    if(stop){
+                    //if(stop){
                         Notify(jaiHo);
-                        stop = false;
-                    }
-                    stop= true;
+                     //   stop = false;
+                   // }
+                   // stop= true;
                 }
                 @Override
                 public void opinionNotif(List<opinion> opinions) {
@@ -121,12 +122,13 @@ public class NotificationService extends Service {
                             inflatorItemData.opinionText = opinions.get(j).getOpinionName();
                             NotificationStack.pushNotificationInflatorItemData(inflatorItemData);
                             jaiHo++;
+                            Log.e("salma2",""+jaiHo);
                         }
-                    if(stop){
+                    //if(stop){
                         Notify(jaiHo);
-                        stop = false;
-                    }
-                    stop= true;
+                        //stop = false;
+                    //}
+                    //stop= true;
                 }
             });
             return null;
@@ -142,6 +144,7 @@ public class NotificationService extends Service {
         }
 
         private void Notify(int j){
+            Log.e("notify method",""+j);
             long when = System.currentTimeMillis();
             Notification notification = new Notification(R.mipmap.ic_launcher, "theforum", when);
 

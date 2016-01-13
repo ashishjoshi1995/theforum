@@ -1,7 +1,10 @@
 package com.theforum;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,6 +16,7 @@ import android.view.View;
 
 import com.theforum.home.HomeFragment;
 import com.theforum.login.LoginActivity;
+import com.theforum.notification.NotificationService;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.listeners.OnHomeUiChangeListener;
 import com.theforum.utils.ProfileUtils;
@@ -78,8 +82,8 @@ public class HomeActivity extends AppCompatActivity implements OnHomeUiChangeLis
     @Override
     protected void onResume() {
         super.onResume();
-/*
-        int minutes = 100;
+
+        int minutes = 10000;
 
         AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
         Intent i = new Intent(this, NotificationService.class);
@@ -91,7 +95,7 @@ public class HomeActivity extends AppCompatActivity implements OnHomeUiChangeLis
                     SystemClock.elapsedRealtime() + minutes * 60 * 1000,
                     minutes * 60 * 1000, pi);
 
-        }*/
+        }
     }
 
 
