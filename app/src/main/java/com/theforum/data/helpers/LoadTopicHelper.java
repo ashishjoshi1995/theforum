@@ -46,7 +46,7 @@ public class LoadTopicHelper {
 
     private LoadTopicHelper(){
         this.mClient = TheForumApplication.getClient();
-
+        mTopicTable = mClient.getTable(topic.class);
         mUid = User.getInstance().getId();
     }
 
@@ -91,7 +91,7 @@ public class LoadTopicHelper {
 
 
     public void loadTopics(final int sortMode) {
-        mTopicTable = mClient.getTable(topic.class);
+
         AsyncTask<Void, Void, ArrayList<topic>> task = new AsyncTask<Void, Void, ArrayList<topic>>() {
             MobileServiceList<topic> topics = null;
 
