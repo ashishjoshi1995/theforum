@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.theforum.data.dataModels.topic;
 
@@ -50,10 +49,11 @@ public class TopicDBHelper {
 
     public void addTopicFromServer(topic topic){
 
-        Cursor c= topicDatabase.rawQuery("SELECT FROM "+TopicDBConstants.TABLE_NAME+" WHERE " +
-                TopicDBConstants.KEY_TOPIC_ID + " = " + topic.getTopicId(), null);
+        Cursor c= topicDatabase.rawQuery("SELECT * FROM "+ TopicDBConstants.TABLE_NAME+ " WHERE " +
+                TopicDBConstants.KEY_TOPIC_ID + " =?", new String[] {topic.getTopicId()});
+
         if(c.moveToFirst()) {
-            Log.e("Error", "Record exist");
+            updateTopic(topic);
         }
         else {
             addTopic(topic);
@@ -61,12 +61,28 @@ public class TopicDBHelper {
         c.close();
     }
 
-
+    /**
+     * This methods add the topics into the db and also updates the topic if it
+     * already exists in db.
+     *
+     * @param topics list of topics that you want to save into db.
+     *
+     */
     public void addTopicsFromServer(ArrayList<topic> topics){
         for (int k = 0; k<topics.size();k++){
-            addTopic(topics.get(k));
+            addTopicFromServer(topics.get(k));
         }
+    }
 
+    public void updateTopic(topic topic){
+        ContentValues values = new ContentValues();
+
+        values.put(TopicDBConstants.KEY_RENEWAL_REQUEST, topic.getRenewalRequests());
+        values.put(TopicDBConstants.KEY_TOTAL_OPINIONS, topic.getTotalOpinions());
+        values.put(TopicDBConstants.KEY_TIME, "datetime(now)");
+
+        topicDatabase.update(TopicDBConstants.TABLE_NAME, values, TopicDBConstants.KEY_TOPIC_ID
+                +" = ?", new String[]{topic.getTopicId()});
     }
 
     public void deleteTopic(){
