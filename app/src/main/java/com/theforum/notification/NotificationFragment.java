@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.theforum.R;
 import com.theforum.data.dataModels.NotificationDataModel;
+import com.theforum.data.local.NotificationStack;
 import com.theforum.utils.customViews.DividerItemDecorator;
 
 import java.util.ArrayList;
@@ -60,8 +61,8 @@ public class NotificationFragment extends Fragment {
 
     private ArrayList<NotificationDataModel> getListData(){
         ArrayList<NotificationDataModel> list = new ArrayList<>();
-        for (int i=0;i<10;i++) {
-            list.add(new NotificationDataModel());
+        for (int i=0;i<NotificationStack.notificationStack.size();i++) {
+            list.add((NotificationDataModel) NotificationStack.notificationStack.pop());
         }
         return list;
     }
