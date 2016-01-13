@@ -8,11 +8,18 @@ import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.microsoft.windowsazure.mobileservices.table.TableOperationCallback;
-import com.microsoft.windowsazure.mobileservices.table.query.QueryOrder;
 import com.theforum.TheForumApplication;
 import com.theforum.data.dataModels.opinion;
+import com.theforum.data.dataModels.topic;
+import com.theforum.data.helpers.trendinOpinionApi.TrendingInput;
+import com.theforum.data.helpers.trendinOpinionApi.TrendingResponse;
 import com.theforum.data.helpers.upvoteDownvoteApi.UPDVRequest;
 import com.theforum.data.helpers.upvoteDownvoteApi.UPDVResponse;
+import com.theforum.utils.User;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -35,28 +42,101 @@ public class OpinionHelper {
     }
 
 
-    public void getTrendingOpinions(final OnOpinionsReceivedListener listener){
+    public void getTrendingOpinions(final OnTrendingReceiveListener listener){
 
-        if(mOpinion == null) mOpinion = TheForumApplication.getClient().getTable(opinion.class);
-        AsyncTask<Void, Void, MobileServiceList<opinion>> task = new AsyncTask<Void, Void, MobileServiceList<opinion>>() {
+        AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
+            MobileServiceList<topic> topics = null;
+            MobileServiceList<opinion> opinions = null;
+
+
             @Override
-            protected MobileServiceList<opinion> doInBackground(Void... voids) {
-                MobileServiceList<opinion> result = null;
+            protected Void doInBackground(Void... voids) {
+
                 try {
-                   result = mOpinion.orderBy("upvotes", QueryOrder.Descending).execute().get();
+                    TrendingInput inputClass = new TrendingInput();
+                    inputClass.uid = User.getInstance().getId();
+                    TheForumApplication.getClient().invokeApi("trendingopinion", inputClass, TrendingResponse.class,
+                            new ApiOperationCallback<TrendingResponse>() {
+                                @Override
+                                public void onCompleted(TrendingResponse result, Exception exception, ServiceFilterResponse response) {
+                                    Log.e("herewego", "herewego");
+                                    if (exception == null) {
+                                        try {
+                                            //JSONObject jsnobject = new JSONObject(result.message);
+                                            String[] a = result.message.split("3");
+                                            JSONArray jsonArray = new JSONArray(a[1]);
+                                            JSONArray jsonArray1 = new JSONArray(a[0]);
+                                            // ArrayList<topic> topicList = new ArrayList<topic>();
+                                            //JSONArray jArray = (JSONArray)jsonObject;
+                                            if (jsonArray != null) {
+                                                for (int i = 0; i < jsonArray.length(); i++) {
+                                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                                    topic topic = new topic();
+                                                    topic.setServerId(jsonObject.get("id").toString());
+                                                    topic.setTopicDescription(jsonObject.get("description").toString());
+                                                    topic.setmHoursLeft(Integer.parseInt(jsonObject.get("hours_left").toString()));
+                                                    topic.setOpinionIds(jsonObject.get("opinion_ids").toString());
+                                                    topic.setRenewalRequests(Integer.parseInt(jsonObject.get("renewal_request").toString()));
+                                                    topic.setmTopic(jsonObject.get("topic").toString());
+                                                    topic.setTopicId(jsonObject.get("topic_id").toString());
+                                                    topic.setUserId(jsonObject.get("uid").toString());
+                                                    topic.setRenewedCount(Integer.parseInt(jsonObject.get("renewed_count").toString()));
+                                                    topic.setTotalOpinions(Integer.parseInt(jsonObject.get("total_opinions").toString()));
+                                                    topic.setmNotifRenewalRequests(Integer.parseInt(jsonObject.get("notif_new_renewal_request").toString()));
+                                                    topic.setmNotifOpinions(Integer.parseInt(jsonObject.get("notif_new_opinions").toString()));
+                                                    topic.setmPoints(Integer.parseInt(jsonObject.get("points").toString()));
+
+                                                    topics.add(topic);
+                                                    Log.e("ashish", topics.get(i).getServerId());
+                                                }
+
+                                            } else listener.onError("empty JSON");
+                                            if (jsonArray1 != null) {
+                                                for (int i = 0; i < jsonArray1.length(); i++) {
+                                                    JSONObject jsonObject1 = jsonArray1.getJSONObject(i);
+                                                    opinion opinion = new opinion();
+                                                    opinion.setServerId(jsonObject1.get("id").toString());
+                                                    opinion.setDownVotes(Integer.parseInt(jsonObject1.get("downvotes").toString()));
+                                                    opinion.setUpVotes(Integer.parseInt(jsonObject1.get("upvotes").toString()));
+                                                    opinion.setmNotifCount(Integer.parseInt(jsonObject1.get("notif_count").toString()));
+                                                    opinion.setmNotifNewDownvotes(Integer.parseInt(jsonObject1.get("notif_newdownvotes").toString()));
+                                                    opinion.setmNotifNewUpvotes(Integer.parseInt(jsonObject1.get("notif_newupvotes").toString()));
+                                                    opinion.setOpinionName(jsonObject1.get("opinion").toString());
+                                                    opinion.setOpinionId(jsonObject1.get("opinion_id").toString());
+                                                    opinion.setUserId(jsonObject1.get("uid").toString());
+                                                    opinion.setTopicId(jsonObject1.get("topic_id").toString());
+                                                    opinion.setTopicName(jsonObject1.get("topic").toString());
+
+
+                                                    opinions.add(opinion);
+                                                    Log.e("ashish", topics.get(i).getServerId());
+                                                }
+
+                                            } else listener.onError("empty JSON");
+                                        } catch (JSONException e) {
+                                            listener.onError(e.getMessage());
+                                        }
+                                    } else {
+                                        listener.onError(exception.getMessage());
+                                    }
+
+
+                                }
+                            });
                 } catch (Exception e) {
                     listener.onError(e.getMessage());
                 }
-                return result;
+
+                return null;
             }
 
             @Override
-            protected void onPostExecute(MobileServiceList<opinion> opinions) {
-                super.onPostExecute(opinions);
-                listener.onCompleted(opinions);
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                listener.onCompleted(topics,opinions);
             }
         };
-        runAsyncTask2(task);
+        runAsyncTask(task);
     }
 
     public  void getTopicSpecificOpinions(final String topic_id, final OnOpinionsReceivedListener listener){
@@ -179,5 +259,13 @@ public class OpinionHelper {
          * @param  message opinion data model with updated params
          */
         void onCompleteMessage(String message);
+    }
+    public interface OnTrendingReceiveListener{
+        /**
+         *
+         * @param  topics model with updated params
+         */
+        void onCompleted(ArrayList<topic> topics ,ArrayList<opinion> opinions);
+        void onError(String error);
     }
 }

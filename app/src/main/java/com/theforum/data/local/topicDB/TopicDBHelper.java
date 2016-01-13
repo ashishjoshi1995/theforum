@@ -50,8 +50,6 @@ public class TopicDBHelper {
 
     public void addTopicFromServer(topic topic){
 
-        ContentValues values = new ContentValues();
-
         Cursor c= topicDatabase.rawQuery("SELECT FROM "+TopicDBConstants.TABLE_NAME+" WHERE " +
                 TopicDBConstants.KEY_TOPIC_ID + " = " + topic.getTopicId(), null);
         if(c.moveToFirst()) {
@@ -68,7 +66,7 @@ public class TopicDBHelper {
         for (int k = 0; k<topics.size();k++){
             addTopic(topics.get(k));
         }
-        //closeDataBase();
+
     }
 
     public void deleteTopic(){

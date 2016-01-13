@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.theforum.R;
 import com.theforum.data.dataModels.opinion;
+import com.theforum.data.dataModels.topic;
 import com.theforum.data.helpers.OpinionHelper;
 import com.theforum.utils.customViews.DividerItemDecorator;
 
@@ -52,17 +53,17 @@ public class TrendsFragment extends Fragment {
     }
 
     private void getDataFromServer(){
-        OpinionHelper.getHelper().getTrendingOpinions(new OpinionHelper.OnOpinionsReceivedListener() {
+        OpinionHelper.getHelper().getTrendingOpinions(new OpinionHelper.OnTrendingReceiveListener() {
             @Override
-            public void onCompleted(ArrayList<opinion> opinions) {
-                if(opinions!= null){
+            public void onCompleted(ArrayList<topic> topics, ArrayList<opinion> opinions) {
+                if(opinions!=null){
                     mAdapter.addAllTrends(opinions);
                 }
             }
 
             @Override
             public void onError(String error) {
-                Log.e("error",error);
+                Log.e("trends error",error);
             }
         });
     }

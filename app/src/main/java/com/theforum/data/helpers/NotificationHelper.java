@@ -35,7 +35,10 @@ public class NotificationHelper {
     public void readNotification(final NotificationIfAny notificationIfAny){
         final boolean[] one = {false};
 //        boolean two = false;
+
+
        opinion.where().field("uid").eq(User.getInstance().getId()).and().field("notif_count").ge(0).execute(new TableQueryCallback<opinion>() {
+
             @Override
             public void onCompleted(List<opinion> result, int count, Exception exception, ServiceFilterResponse response) {
                 Log.e("readNotif opi", String.valueOf(count));
