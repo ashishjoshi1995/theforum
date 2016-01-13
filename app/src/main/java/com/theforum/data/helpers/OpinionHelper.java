@@ -37,6 +37,7 @@ public class OpinionHelper {
 
     public void getTrendingOpinions(final OnOpinionsReceivedListener listener){
 
+        if(mOpinion == null) mOpinion = TheForumApplication.getClient().getTable(opinion.class);
         AsyncTask<Void, Void, MobileServiceList<opinion>> task = new AsyncTask<Void, Void, MobileServiceList<opinion>>() {
             @Override
             protected MobileServiceList<opinion> doInBackground(Void... voids) {
@@ -60,8 +61,9 @@ public class OpinionHelper {
 
     public  void getTopicSpecificOpinions(final String topic_id, final OnOpinionsReceivedListener listener){
 
-        AsyncTask<Void, Void, MobileServiceList<opinion>> task = new AsyncTask<Void, Void, MobileServiceList<opinion>>() {
+        if(mOpinion == null) mOpinion = TheForumApplication.getClient().getTable(opinion.class);
 
+        AsyncTask<Void, Void, MobileServiceList<opinion>> task = new AsyncTask<Void, Void, MobileServiceList<opinion>>() {
 
             @Override
             protected MobileServiceList<opinion> doInBackground(Void... voids) {
@@ -73,6 +75,7 @@ public class OpinionHelper {
                 }
                 return result;
             }
+
             @Override
             protected void onPostExecute(MobileServiceList<opinion> opinions) {
                 super.onPostExecute(opinions);

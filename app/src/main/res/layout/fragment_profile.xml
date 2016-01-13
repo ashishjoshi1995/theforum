@@ -13,99 +13,112 @@
         android:layout_height="45dp"
         android:text="Notifications" />
 
-    <!-- status holder-->
-    <FrameLayout
-        android:id="@+id/profile_status_holder"
-        android:layout_width="match_parent"
+    <!-- status -->
+
+    <TextView android:id="@+id/profile_status_header"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/profile_notification_btn"
-        android:layout_marginTop="16dp">
-        <ImageView
-            android:id="@+id/profile_status_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="14dp"
-            android:scaleType="center"
-            android:src="@drawable/status"
-            android:background="@drawable/profile_circle_drawable"/>
+        android:layout_marginLeft="56dp"
+        android:layout_marginTop="16dp"
+        android:textSize="12sp"
+        android:text="@string/status_header"/>
 
-        <TextView
-            android:id="@+id/profile_status"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="56dp"
-            android:drawableBottom="@drawable/recycler_view_divider"
-            android:hint="Your Status"
-            android:textColorHint="#585858"
-            android:textSize="32sp" />
-
-    </FrameLayout>
-
-    <!--points holder -->
-
-    <FrameLayout
-        android:id="@+id/profile_points_holder"
+    <TextView
+        style="?android:listSeparatorTextViewStyle"
+        android:id="@+id/profile_status"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/profile_status_holder">
+        android:layout_below="@id/profile_status_header"
+        android:layout_alignLeft="@id/profile_status_header"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="0dp"
+        android:textSize="32sp"
+        android:textStyle="normal"
+        android:textAllCaps="false" />
 
-        <ImageView
-            android:id="@+id/profile_points_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="14dp"
-            android:scaleType="center"
-            android:src="@drawable/points"
-            android:background="@drawable/profile_circle_drawable"/>
-
-        <TextView android:id="@+id/profile_points"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="56dp"
-            android:drawableBottom="@drawable/recycler_view_divider"
-            android:hint="Point Collected"
-            android:textSize="32sp" />
+    <ImageView
+        android:id="@+id/profile_status_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/profile_status"
+        android:scaleType="center"
+        android:src="@drawable/status"
+        android:background="@drawable/profile_circle_drawable"/>
 
 
-    </FrameLayout>
+    <!--points  -->
 
-    <!--topics holder-->
-    <FrameLayout
-        android:id="@+id/profile_topics_holder"
+    <TextView android:id="@+id/profile_points_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profile_status"
+        android:layout_alignLeft="@id/profile_status_header"
+        android:layout_marginTop="16dp"
+        android:textSize="12sp"
+        android:text="@string/points_header"/>
+
+    <TextView style="?android:listSeparatorTextViewStyle"
+        android:id="@+id/profile_points"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/profile_points_holder">
-        <ImageView
-            android:id="@+id/profile_topics_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="14dp"
-            android:scaleType="center"
-            android:src="@drawable/topics_created"
-            android:background="@drawable/profile_circle_drawable"/>
+        android:layout_below="@id/profile_points_header"
+        android:layout_alignLeft="@id/profile_status_header"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="0dp"
+        android:textSize="32sp"
+        android:textStyle="normal"
+        android:textAllCaps="false" />
 
-        <TextView
-            android:id="@+id/profile_topics"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="56dp"
-            android:drawableBottom="@drawable/recycler_view_divider"
-            android:hint="Topics Created"
-            android:textSize="32sp"/>
+    <ImageView
+        android:id="@+id/profile_points_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/profile_points"
+        android:scaleType="center"
+        android:src="@drawable/points"
+        android:background="@drawable/profile_circle_drawable"/>
 
-    </FrameLayout>
+    <!--topics -->
 
-<ImageView
+    <TextView android:id="@+id/profile_topics_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profile_points"
+        android:layout_alignLeft="@id/profile_status_header"
+        android:layout_marginTop="16dp"
+        android:textSize="12sp"
+        android:text="@string/topics_header"/>
+
+    <TextView style="?android:listSeparatorTextViewStyle"
+        android:id="@+id/profile_topics"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profile_topics_header"
+        android:layout_alignLeft="@id/profile_status_header"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="0dp"
+        android:textSize="32sp"
+        android:textStyle="normal"
+        android:textAllCaps="false"/>
+
+    <ImageView
+        android:id="@+id/profile_topics_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/profile_topics"
+        android:scaleType="center"
+        android:src="@drawable/topics_created"
+        android:background="@drawable/profile_circle_drawable"/>
+
+    <!-- frog -->
+
+    <ImageView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/frog"
     android:layout_alignParentBottom="true"
     android:layout_centerHorizontal="true"
     android:layout_marginBottom="-80dp" />
-
-
 
 </RelativeLayout>

@@ -3,6 +3,7 @@ package com.theforum.other;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -128,8 +129,8 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
         holder.upVoteBtn.setText(String.valueOf(opinionModel.getUpVotes()));
         holder.downVoteBtn.setText(String.valueOf(opinionModel.getDownVotes()));
 
-
-        if(opinionModel.getVoteStatus()== opinion.VoteStatus.NONE){
+        Log.e("vote Status",""+ opinionModel.getVoteStatus());
+        if(opinionModel.getVoteStatus() == opinion.VoteStatus.NONE){
             setCompoundDrawables(holder.upVoteBtn, holder.upVoteIcon);
             setCompoundDrawables(holder.downVoteBtn, holder.downVoteIcon);
         }else if(opinionModel.getVoteStatus()== opinion.VoteStatus.UPVOTED){

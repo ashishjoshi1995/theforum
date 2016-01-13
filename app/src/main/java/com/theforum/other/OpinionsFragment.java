@@ -57,7 +57,6 @@ public class OpinionsFragment extends Fragment {
         if(getArguments()!=null){
             mTopicModel = (topic) getArguments().getSerializable(Constants.TOPIC_MODEL);
         }
-        getOpinionsFromServer();
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -97,6 +96,7 @@ public class OpinionsFragment extends Fragment {
 
         mAdapter = new OpinionsListAdapter(getActivity(), mFeeds);
         recyclerView.setAdapter(mAdapter);
+        getOpinionsFromServer();
         /*
         RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
             @Override
@@ -132,7 +132,7 @@ public class OpinionsFragment extends Fragment {
 
             @Override
             public void onError(String error) {
-                Log.e("error",error);
+                Log.e("error Opinion",error);
             }
         });
     }

@@ -1,4 +1,4 @@
-package com.theforum.utils;
+package com.theforum.utils.listeners;
 
 /**
  * @author DEEPANKAR
@@ -9,6 +9,8 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.view.View;
 import android.view.ViewTreeObserver;
+
+import com.theforum.utils.CommonUtils;
 
 
 public class SoftKeyboardStateWatcher implements ViewTreeObserver.OnGlobalLayoutListener {

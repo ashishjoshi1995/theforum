@@ -19,7 +19,6 @@ public class TopicDBHelper {
     private TopicDB topicDB;
     private static TopicDBHelper topicDBHelper;
     private SQLiteDatabase topicDatabase;
-    private  Context context;
 
 
     public static TopicDBHelper getTopicDBHelper(Context context){
@@ -45,7 +44,7 @@ public class TopicDBHelper {
         values.put(TopicDBConstants.KEY_TIME, "datetime(now)");
 
         // Inserting Row
-                topicDatabase.insert(TopicDBConstants.TABLE_NAME, null, values);
+        topicDatabase.insert(TopicDBConstants.TABLE_NAME, null, values);
 
     }
 
@@ -69,7 +68,7 @@ public class TopicDBHelper {
         for (int k = 0; k<topics.size();k++){
             addTopic(topics.get(k));
         }
-        closeDataBase();
+        //closeDataBase();
     }
 
     public void deleteTopic(){
@@ -84,10 +83,10 @@ public class TopicDBHelper {
     }
 
     public ArrayList<String> getMyTopicId(){
-        ArrayList<String> s = new ArrayList<String>();
-        SQLiteDatabase db = topicDB.getWritableDatabase();
+        topicDatabase = topicDB.getWritableDatabase();
+        ArrayList<String> s = new ArrayList<>();
         String readTopicId = "SELECT DISTINCT" + TopicDBConstants.KEY_TOPIC_ID +"FROM" + TopicDBConstants.TABLE_NAME;
-        Cursor c = db.rawQuery(readTopicId,null);
+        Cursor c = topicDatabase.rawQuery(readTopicId,null);
         if(c!=null){
             c.moveToFirst();
         }

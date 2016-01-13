@@ -16,31 +16,38 @@ import java.net.MalformedURLException;
  */
 public class TheForumApplication extends Application {
 
-    private static MobileServiceClient mClient;
+    private static MobileServiceClient mServerClient;
     private static Context context;
 
     @Override
     public void onCreate() {
         super.onCreate();
+
         context = getApplicationContext();
-        try {
-            mClient = new MobileServiceClient(
-                    "https://theforum.azure-mobile.net/",
-                    "XxfUFnBzgZmLkJrRXmjnMvwMzYnznB23",
-                    this);
-        } catch (MalformedURLException e) {
-            mClient = null;
-            e.printStackTrace();
-        }
+        initializeServerClient();
 
-        ProfileUtils.initialize(this.getApplicationContext());
-        SettingsUtils.initialize(this.getApplicationContext());
-
-
+        ProfileUtils.initialize(context);
+        SettingsUtils.initialize(context);
     }
+
 
     public static MobileServiceClient getClient(){
-        return mClient;
+        if(mServerClient==null) initializeServerClient();
+
+        return mServerClient;
     }
+
     public static Context getAppContext(){return context;}
+
+    private static void initializeServerClient(){
+        try {
+            mServerClient = new MobileServiceClient(
+                    "https://theforum.azure-mobile.net/",
+                    "XxfUFnBzgZmLkJrRXmjnMvwMzYnznB23",
+                    context);
+        } catch (MalformedURLException e) {
+            mServerClient = null;
+        }
+    }
+
 }
