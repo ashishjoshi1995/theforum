@@ -46,8 +46,9 @@ public class topic implements Serializable{
     @com.google.gson.annotations.SerializedName("points")
     private int mPoints;
 
+    @com.google.gson.annotations.SerializedName("notif_count")
+    private int mNotifCount;
 
-    private boolean isRenewed = false;
 
     public String getServerId() {
         return serverId;
@@ -154,13 +155,11 @@ public class topic implements Serializable{
         this.mPoints = mPoints;
     }
 
-
-    public boolean getIsRenewed() {
-        return isRenewed;
+    public int getmNotifCount() {
+        return mNotifCount;
     }
 
-    public void setIsRenewed(boolean isRenewed) {
-        this.isRenewed = isRenewed;
+    public void setmNotifCount(int mNotifCount) {
+        this.mNotifCount = mNotifCount;
     }
-
 }

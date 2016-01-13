@@ -13,9 +13,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.theforum.R;
-import com.theforum.User;
+import com.theforum.utils.User;
 import com.theforum.data.dataModels.topic;
-import com.theforum.data.helpers.CreateTopic;
+import com.theforum.data.helpers.LoadTopicHelper;
 import com.theforum.utils.CommonUtils;
 
 import butterknife.Bind;
@@ -82,17 +82,17 @@ public class NewTopicFragment extends Fragment {
         topic.setTopicDescription(mDescription.getText().toString());
         topic.setUserId(User.getInstance().getId());
 
-        CreateTopic topicHelper = new CreateTopic();
-        topicHelper.addTopic(topic, new CreateTopic.OnTopicInsertListener() {
+
+        LoadTopicHelper.getHelper().addTopic(topic, new LoadTopicHelper.OnTopicInsertListener() {
             @Override
             public void onCompleted(topic topic) {
-                CommonUtils.showToast(getActivity(),"Topic created");
+                CommonUtils.showToast(getActivity(), "Topic created");
                 //TODO: save data to local db
             }
 
             @Override
             public void onError(String error) {
-                Log.e("error",""+error);
+                Log.e("error", "" + error);
             }
         });
     }

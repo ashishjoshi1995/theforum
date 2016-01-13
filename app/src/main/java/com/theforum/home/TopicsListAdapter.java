@@ -8,7 +8,6 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,6 @@ import android.widget.TextView;
 import com.theforum.Constants;
 import com.theforum.R;
 import com.theforum.data.dataModels.topic;
-import com.theforum.data.helpers.LoadTopicHelper;
 import com.theforum.utils.CommonUtils;
 
 import java.io.Serializable;
@@ -76,7 +74,7 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
                 @Override
                 public void onClick(View v) {
                     topic topic = mTopics.get(getLayoutPosition());
-                    Log.e("I m called",""+topic.getIsRenewed()+"/"+getLayoutPosition());
+                 /*   Log.e("I m called",""+topic.getIsRenewed()+"/"+getLayoutPosition());
                     if(!topic.getIsRenewed()) {
 
                         renewCountBtn.setCompoundDrawablesWithIntrinsicBounds(null, tintDrawable(renewedColor),
@@ -90,9 +88,10 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
                                         Log.e("response", s);
                                     }
                                 });
-                    }
+                    }*/
                 }
             });
+
         }
 
     }
@@ -112,13 +111,13 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
         holder.timeHolder.setText(resources.getString(R.string.time_holder_message, topic.getmHoursLeft(),
                 topic.getRenewedCount()));
 
-        if(topic.getIsRenewed()){
+      /*  if(topic.getIsRenewed()){
             holder.renewCountBtn.setCompoundDrawablesWithIntrinsicBounds(null, tintDrawable(holder.renewedColor),
                     null, null);
         }else {
             holder.renewCountBtn.setCompoundDrawablesWithIntrinsicBounds(null, tintDrawable(holder.unrenewedColor),
                     null, null);
-        }
+        }*/
 
     }
 
@@ -128,6 +127,7 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
     }
 
     public void addTopics(ArrayList<topic> topics){
+        mTopics.clear();
         mTopics.addAll(topics);
         notifyDataSetChanged();
     }

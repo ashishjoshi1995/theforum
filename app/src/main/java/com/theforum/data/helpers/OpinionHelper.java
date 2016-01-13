@@ -9,13 +9,13 @@ import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.microsoft.windowsazure.mobileservices.table.TableOperationCallback;
 import com.theforum.TheForumApplication;
-import com.theforum.User;
 import com.theforum.data.dataModels.opinion;
 import com.theforum.data.dataModels.topic;
 import com.theforum.data.helpers.trendinOpinionApi.TrendingInput;
 import com.theforum.data.helpers.trendinOpinionApi.TrendingResponse;
 import com.theforum.data.helpers.upvoteDownvoteApi.UPDVRequest;
 import com.theforum.data.helpers.upvoteDownvoteApi.UPDVResponse;
+import com.theforum.utils.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,6 +47,7 @@ public class OpinionHelper {
         AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
             MobileServiceList<topic> topics = null;
             MobileServiceList<opinion> opinions = null;
+
 
             @Override
             protected Void doInBackground(Void... voids) {
@@ -94,17 +95,17 @@ public class OpinionHelper {
                                                 for (int i = 0; i < jsonArray1.length(); i++) {
                                                     JSONObject jsonObject1 = jsonArray1.getJSONObject(i);
                                                     opinion opinion = new opinion();
-                                                    opinion.setmId(jsonObject1.get("id").toString());
-                                                    opinion.setmDownVotes(Integer.parseInt(jsonObject1.get("downvotes").toString()));
-                                                    opinion.setmUpVotes(Integer.parseInt(jsonObject1.get("upvotes").toString()));
+                                                    opinion.setServerId(jsonObject1.get("id").toString());
+                                                    opinion.setDownVotes(Integer.parseInt(jsonObject1.get("downvotes").toString()));
+                                                    opinion.setUpVotes(Integer.parseInt(jsonObject1.get("upvotes").toString()));
                                                     opinion.setmNotifCount(Integer.parseInt(jsonObject1.get("notif_count").toString()));
                                                     opinion.setmNotifNewDownvotes(Integer.parseInt(jsonObject1.get("notif_newdownvotes").toString()));
                                                     opinion.setmNotifNewUpvotes(Integer.parseInt(jsonObject1.get("notif_newupvotes").toString()));
-                                                    opinion.setmOpinion(jsonObject1.get("opinion").toString());
-                                                    opinion.setmOpinionId(jsonObject1.get("opinion_id").toString());
-                                                    opinion.setmUid(jsonObject1.get("uid").toString());
-                                                    opinion.setmTopicId(jsonObject1.get("topic_id").toString());
-                                                    opinion.setmTopic(jsonObject1.get("topic").toString());
+                                                    opinion.setOpinionName(jsonObject1.get("opinion").toString());
+                                                    opinion.setOpinionId(jsonObject1.get("opinion_id").toString());
+                                                    opinion.setUserId(jsonObject1.get("uid").toString());
+                                                    opinion.setTopicId(jsonObject1.get("topic_id").toString());
+                                                    opinion.setTopicName(jsonObject1.get("topic").toString());
 
 
                                                     opinions.add(opinion);
@@ -140,8 +141,9 @@ public class OpinionHelper {
 
     public  void getTopicSpecificOpinions(final String topic_id, final OnOpinionsReceivedListener listener){
 
-        AsyncTask<Void, Void, MobileServiceList<opinion>> task = new AsyncTask<Void, Void, MobileServiceList<opinion>>() {
+        if(mOpinion == null) mOpinion = TheForumApplication.getClient().getTable(opinion.class);
 
+        AsyncTask<Void, Void, MobileServiceList<opinion>> task = new AsyncTask<Void, Void, MobileServiceList<opinion>>() {
 
             @Override
             protected MobileServiceList<opinion> doInBackground(Void... voids) {
@@ -153,6 +155,7 @@ public class OpinionHelper {
                 }
                 return result;
             }
+
             @Override
             protected void onPostExecute(MobileServiceList<opinion> opinions) {
                 super.onPostExecute(opinions);
@@ -164,8 +167,8 @@ public class OpinionHelper {
 
     public void upvoteDownvote(Boolean ifUpvote,opinion opinion1, final OnUVDVOperationCompleteListener listener){
         UPDVRequest updvRequest= new UPDVRequest();
-        updvRequest.opinion_id = opinion1.getmOpinionId();
-        updvRequest.opinion_owner_id = opinion1.getmUid();
+        updvRequest.opinion_id = opinion1.getOpinionId();
+        updvRequest.opinion_owner_id = opinion1.getUserId();
         if(ifUpvote){
             //update UI
             //update Local db

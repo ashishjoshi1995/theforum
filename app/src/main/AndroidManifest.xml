@@ -15,23 +15,24 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".HomeActivity"
+            android:label="@string/app_name" />
+
+        <activity
+            android:name=".ContainerActivity"
+            android:label="@string/app_name" />
+
+        <activity
+            android:name=".SplashActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-            <meta-data
-                android:name="android.app.default_searchable"
-                android:value=".HandleSearchResult" />
         </activity>
+
         <activity
-            android:name=".ContainerActivity"
+            android:name=".login.LoginActivity"
             android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="com.theforum.ContainerActivity" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
         </activity>
 
         <receiver android:name=".notification.BootReceiver" >
@@ -47,11 +48,7 @@
 
         <service android:name=".notification.NotificationService" />
 
-        <activity
-            android:name=".login.LoginActivity"
-            android:label="@string/title_activity_login" >
 
-        </activity>
     </application>
 
 </manifest>

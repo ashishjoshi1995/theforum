@@ -16,12 +16,12 @@ import android.widget.RelativeLayout;
 
 import com.theforum.Constants;
 import com.theforum.R;
-import com.theforum.User;
+import com.theforum.utils.User;
 import com.theforum.data.dataModels.opinion;
 import com.theforum.data.dataModels.topic;
 import com.theforum.data.helpers.OpinionHelper;
 import com.theforum.utils.CommonUtils;
-import com.theforum.utils.SoftKeyboardStateWatcher;
+import com.theforum.utils.listeners.SoftKeyboardStateWatcher;
 import com.theforum.utils.customViews.KeyboardListenerEditText;
 
 import butterknife.Bind;
@@ -121,9 +121,9 @@ public class NewOpinionFragment extends Fragment {
 
     private void uploadData(){
         opinion opinion = new opinion(mUploadText.getText().toString());
-        opinion.setmTopicId(topicModel.getTopicId());
-        opinion.setmTopic(topicModel.getmTopic());
-        opinion.setmUid(User.getInstance().getId());
+        opinion.setTopicId(topicModel.getTopicId());
+        opinion.setTopicName(topicModel.getmTopic());
+        opinion.setUserId(User.getInstance().getId());
        // opinion.setmTopicDescription(topicModel.getTopicDescription());
 
         OpinionHelper.getHelper().addOpinion(opinion, new OpinionHelper.OnOpinionAddListener() {

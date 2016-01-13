@@ -3,6 +3,7 @@ package com.theforum.other;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,25 +41,79 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
     }
 
 
-    public class OpinionsItemViewHolder extends RecyclerView.ViewHolder {
+    public class OpinionsItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         @Bind(R.id.opinion_opinion) TextView opinionText;
         @Bind(R.id.upvote_btn) TextView upVoteBtn;
         @Bind(R.id.downvote_btn) TextView downVoteBtn;
 
-        @BindDrawable(R.drawable.upvote) Drawable upvote;
-        @BindDrawable(R.drawable.downvote) Drawable downvote;
+        @BindDrawable(R.drawable.upvote) Drawable upVoteIcon;
+        @BindDrawable(R.drawable.upvote_on) Drawable upVotedIcon;
+        @BindDrawable(R.drawable.downvote) Drawable downVoteIcon;
+        @BindDrawable(R.drawable.downvote_on) Drawable downVotedIcon;
 
         public OpinionsItemViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, v);
 
-            upVoteBtn.setCompoundDrawablesWithIntrinsicBounds(null, CommonUtils.tintDrawable(upvote, "#adadad"),
-                    null, null);
-            downVoteBtn.setCompoundDrawablesWithIntrinsicBounds(null, CommonUtils.tintDrawable(downvote, "#adadad"),
-                    null, null);
+            upVoteBtn.setOnClickListener(this);
+            downVoteBtn.setOnClickListener(this);
         }
 
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.upvote_btn:
+                    opinion opinionModel = mOpinionList.get(getLayoutPosition());
+                    if(opinionModel.getVoteStatus() == opinion.VoteStatus.NONE) {
+                        int upvotes = opinionModel.getUpVotes();
+                        upvotes = upvotes+1;
+
+                        upVoteBtn.setText(String.valueOf(upvotes));
+                        setCompoundDrawables(upVoteBtn, upVotedIcon);
+                        opinionModel.setUpVotes(upvotes);
+                        opinionModel.setVoteStatus(opinion.VoteStatus.UPVOTED);
+
+                        /*
+                         *  send the request to server to increase the count
+                         */
+                        OpinionHelper.getHelper().upvoteDownvote(true, opinionModel,
+                                new OpinionHelper.OnUVDVOperationCompleteListener() {
+                                    @Override
+                                    public void onCompleteMessage(String message) {
+                                        CommonUtils.showToast(mContext, message);
+                                    }
+                                });
+                    }else CommonUtils.showToast(mContext, "Cannot UpVote");
+                    break;
+
+                case R.id.downvote_btn:
+                    final opinion opinionModel2 = mOpinionList.get(getLayoutPosition());
+                    if(opinionModel2.getVoteStatus() == opinion.VoteStatus.NONE) {
+
+                        int downvotes = opinionModel2.getDownVotes();
+                        downvotes = downvotes + 1;
+                        downVoteBtn.setText(String.valueOf(downvotes));
+                        setCompoundDrawables(downVoteBtn, downVotedIcon);
+                        opinionModel2.setDownVotes(downvotes);
+                        opinionModel2.setVoteStatus(opinion.VoteStatus.DOWNVOTED);
+
+                        /*
+                         *  send the request to server to decrease the count
+                         */
+                        OpinionHelper.getHelper().upvoteDownvote(true, opinionModel2,
+                                new OpinionHelper.OnUVDVOperationCompleteListener() {
+                                    @Override
+                                    public void onCompleteMessage(String message) {
+                                        CommonUtils.showToast(mContext, message);
+                                    }
+                                });
+
+                    }else CommonUtils.showToast(mContext, "Cannot DownVote");
+
+                    break;
+            }
+        }
     }
 
     @Override
@@ -68,35 +123,28 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
     }
 
     @Override
-    public void onBindViewHolder(OpinionsItemViewHolder holder, int position) {
+    public void onBindViewHolder(final OpinionsItemViewHolder holder, final int position) {
         final opinion opinionModel = mOpinionList.get(position);
-        holder.opinionText.setText(opinionModel.getmOpinion());
-        holder.upVoteBtn.setText(String.valueOf(opinionModel.getmUpVotes()));
-        holder.downVoteBtn.setText(String.valueOf(opinionModel.getmDownVotes()));
+        holder.opinionText.setText(opinionModel.getOpinionName());
+        holder.upVoteBtn.setText(String.valueOf(opinionModel.getUpVotes()));
+        holder.downVoteBtn.setText(String.valueOf(opinionModel.getDownVotes()));
 
-        holder.upVoteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                OpinionHelper.getHelper().upvoteDownvote(true, opinionModel, new OpinionHelper.OnUVDVOperationCompleteListener() {
-                    @Override
-                    public void onCompleteMessage(String message) {
-                        CommonUtils.showToast(mContext,message);
-                    }
-                });
-            }
-        });
+        Log.e("vote Status",""+ opinionModel.getVoteStatus());
+        if(opinionModel.getVoteStatus() == opinion.VoteStatus.NONE){
+            setCompoundDrawables(holder.upVoteBtn, holder.upVoteIcon);
+            setCompoundDrawables(holder.downVoteBtn, holder.downVoteIcon);
+        }else if(opinionModel.getVoteStatus()== opinion.VoteStatus.UPVOTED){
+            setCompoundDrawables(holder.upVoteBtn, holder.upVotedIcon);
+            setCompoundDrawables(holder.downVoteBtn, holder.downVoteIcon);
+        }else {
+            setCompoundDrawables(holder.upVoteBtn, holder.upVoteIcon);
+            setCompoundDrawables(holder.downVoteBtn, holder.downVotedIcon);
+        }
 
-        holder.downVoteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                OpinionHelper.getHelper().upvoteDownvote(false, opinionModel, new OpinionHelper.OnUVDVOperationCompleteListener() {
-                    @Override
-                    public void onCompleteMessage(String message) {
-                        CommonUtils.showToast(mContext,message);
-                    }
-                });
-            }
-        });
+    }
+
+    private void setCompoundDrawables(TextView textView, Drawable drawable){
+        textView.setCompoundDrawablesWithIntrinsicBounds(null, drawable, null,null);
     }
 
 

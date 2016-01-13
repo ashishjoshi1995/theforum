@@ -1,6 +1,5 @@
 package com.theforum.home;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -14,7 +13,7 @@ import com.theforum.Constants;
 import com.theforum.HomePagerAdapter;
 import com.theforum.R;
 import com.theforum.utils.CommonUtils;
-import com.theforum.utils.OnHomeUiChangeListener;
+import com.theforum.utils.listeners.OnHomeUiChangeListener;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -48,6 +47,7 @@ public class HomeFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         mViewPager.setAdapter(new HomePagerAdapter(getChildFragmentManager()));
+        mViewPager.setOffscreenPageLimit(2);
         mTabLayout.setupWithViewPager(mViewPager);
 
        // mFab.hide();

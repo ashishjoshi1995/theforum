@@ -1,6 +1,7 @@
 package com.theforum;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.theforum.utils.ProfileUtils;
@@ -15,28 +16,38 @@ import java.net.MalformedURLException;
  */
 public class TheForumApplication extends Application {
 
-    private static MobileServiceClient mClient;
+    private static MobileServiceClient mServerClient;
+    private static Context context;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        try {
-            mClient = new MobileServiceClient(
-                    "https://theforum.azure-mobile.net/",
-                    "XxfUFnBzgZmLkJrRXmjnMvwMzYnznB23",
-                    this);
-        } catch (MalformedURLException e) {
-            mClient = null;
-            e.printStackTrace();
-        }
 
-        ProfileUtils.initialize(this.getApplicationContext());
-        SettingsUtils.initialize(this.getApplicationContext());
+        context = getApplicationContext();
+        initializeServerClient();
 
-
+        ProfileUtils.initialize(context);
+        SettingsUtils.initialize(context);
     }
+
 
     public static MobileServiceClient getClient(){
-        return mClient;
+        if(mServerClient==null) initializeServerClient();
+
+        return mServerClient;
     }
+
+    public static Context getAppContext(){return context;}
+
+    private static void initializeServerClient(){
+        try {
+            mServerClient = new MobileServiceClient(
+                    "https://theforum.azure-mobile.net/",
+                    "XxfUFnBzgZmLkJrRXmjnMvwMzYnznB23",
+                    context);
+        } catch (MalformedURLException e) {
+            mServerClient = null;
+        }
+    }
+
 }

@@ -13,7 +13,7 @@ import android.widget.EditText;
 
 import com.theforum.HomeActivity;
 import com.theforum.R;
-import com.theforum.User;
+import com.theforum.utils.User;
 import com.theforum.data.dataModels.user;
 import com.theforum.data.helpers.LoginHelper;
 import com.theforum.utils.CommonUtils;
@@ -61,7 +61,7 @@ public class LoginFragmentTwo extends Fragment {
     private void register(final int age) {
         user user = new user();
         user.setAge(age);
-
+        Log.e("register called","");
         LoginHelper loginHelper = new LoginHelper();
         loginHelper.login(user, new LoginHelper.OnLoginCompleteListener() {
                     @Override
@@ -91,7 +91,7 @@ public class LoginFragmentTwo extends Fragment {
 
                     @Override
                     public void onError(String error) {
-                        Log.e("error",error);
+                        Log.e("error register",error);
                     }
                 });
     }
