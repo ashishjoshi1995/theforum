@@ -61,7 +61,7 @@ public class TopicsFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                LoadTopicHelper.getHelper().loadTopics(Constants.SORT_BASIS_LATEST);
+                LoadTopicHelper.getHelper().loadTopics(1,Constants.SORT_BASIS_LATEST);
                 getTopics();
             }
         });
