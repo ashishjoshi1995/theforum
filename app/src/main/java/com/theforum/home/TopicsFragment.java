@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.theforum.Constants;
 import com.theforum.R;
 import com.theforum.data.dataModels.topic;
 import com.theforum.data.helpers.LoadTopicHelper;
@@ -57,22 +58,30 @@ public class TopicsFragment extends Fragment {
 
         getTopics();
 
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                LoadTopicHelper.getHelper().loadTopics(Constants.SORT_BASIS_LATEST);
+                getTopics();
+            }
+        });
+
     }
 
     private void getTopics(){
 
-            swipeRefreshLayout.setRefreshing(true);
+
             LoadTopicHelper.getHelper().getTopics(new LoadTopicHelper.OnTopicsReceiveListener() {
                 @Override
                 public void onCompleted(ArrayList<topic> topics) {
                     swipeRefreshLayout.setRefreshing(false);
-                    Log.e("ui ui ui","data received"+topics.size());
+                    Log.e("ui ui","data received "+topics.size());
                         mAdapter.addTopics(topics);
                 }
 
                 @Override
                 public void onError(String error) {
-                    Log.e("TopicsFragment", "onError");
+                    Log.e("TopicsFragment error", error);
                 }
             });
 

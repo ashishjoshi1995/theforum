@@ -68,7 +68,7 @@ public class TopicDBHelper {
         for (int k = 0; k<topics.size();k++){
             addTopic(topics.get(k));
         }
-        closeDataBase();
+        //closeDataBase();
     }
 
     public void deleteTopic(){
