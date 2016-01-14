@@ -38,8 +38,6 @@ public class TopicsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private OnLoadMoreListener loadMoreListener;
     public boolean allTopicsLoaded = false;
 
-    Drawable renewIcon;
-
     private final static int VIEW_TYPE_TOPIC = 0;
     private final static int VIEW_TYPE_LOAD_MORE_BTN = 1;
 
@@ -48,6 +46,7 @@ public class TopicsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         mTopics = feeds;
        // renewIcon = resources.getDrawable(R.drawable.renew_icon);
     }
+
 
     public void setOnLoadMoreListener(OnLoadMoreListener loadMoreListener){
         this.loadMoreListener = loadMoreListener;
@@ -58,7 +57,6 @@ public class TopicsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         @Bind(R.id.topics_name) TextView topicName;
         @Bind(R.id.topics_time_holder) TextView timeHolder;
         @Bind(R.id.topics_renew_btn)TextView renewCountBtn;
-
 
         public TopicsItemViewHolder(View v) {
             super(v);
@@ -115,6 +113,7 @@ public class TopicsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             });
         }
     }
+
 
     @Override
     public int getItemViewType(int position) {
