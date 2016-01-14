@@ -32,7 +32,7 @@ public class SearchHelper {
             @Override
             protected ArrayList<topic> doInBackground(Void... voids) {
                 try {
-                    ash = mTopicTable.where().field("uid").eq(field).orderBy("points", QueryOrder.Descending).execute().get();
+                    ash = mTopicTable.where().field("").eq(field).orderBy("points", QueryOrder.Descending).execute().get();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {
@@ -44,11 +44,11 @@ public class SearchHelper {
             @Override
             protected void onPostExecute(ArrayList<topic> topics) {
                 super.onPostExecute(topics);
-
-
             }
         };
         return null;
     }
+
+
 
 }

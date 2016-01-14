@@ -19,6 +19,10 @@ public class TopicDBHelper {
     private static TopicDBHelper topicDBHelper;
     private SQLiteDatabase topicDatabase;
 
+    public TopicDB getTopicDB(){
+        return this.topicDB;
+    }
+
 
     public static TopicDBHelper getHelper(){
         if(topicDBHelper == null) topicDBHelper = new TopicDBHelper();
@@ -28,6 +32,11 @@ public class TopicDBHelper {
     private TopicDBHelper(){
         topicDB = new TopicDB(TheForumApplication.getAppContext());
         topicDatabase = topicDB.getWritableDatabase();
+    }
+
+    public TopicDBHelper getTopicDBHelper(){
+        if(topicDBHelper == null) topicDBHelper = new TopicDBHelper();
+        return topicDBHelper;
     }
 
     public void addTopic(TopicDataModel topic){

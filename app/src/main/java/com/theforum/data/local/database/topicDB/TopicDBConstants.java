@@ -14,6 +14,7 @@ public class TopicDBConstants {
 
     // Table name
     public static final String TABLE_NAME = "TOPICS_TABLE";
+    public static final String TABLE_TWO_NAME = "RENEW_REQUEST_TOPIC_TABLE";
 
 
     // table coloumn keys
@@ -27,4 +28,6 @@ public class TopicDBConstants {
     public static final String KEY_RENEWED_COUNT="renewed_count";
     public static final String KEY_HOURS_LEFT = "hours_left";
     public static final String KEY_IF_RENEWED = "if_renewed";
+
+
 }
