@@ -136,7 +136,6 @@ public class TopicDBHelper {
         for(int i =0; i<c.getCount();i++){
             s.add(c.getString(0));
         }
-
         return s;
     }
 

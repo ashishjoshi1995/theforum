@@ -82,7 +82,7 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
                         topic.setIsRenewed(true);
 
                         LoadTopicHelper.getHelper().addRenewalRequest(topic.getTopicId(),
-                                new LoadTopicHelper.OnRenewalRequestAddedListener() {
+                                new LoadTopicHelper.OnRenewalRequestListener() {
                                     @Override
                                     public void response(String s) {
                                         Log.e("response", s);

@@ -181,7 +181,7 @@ public class LoadTopicHelper {
                         topicsReceiveListener.onCompleted(topics);
                         topicsReceived = false;
                     }
-
+                    TopicDBHelper.getTopicDBHelper(TheForumApplication.getAppContext()).deleteAll();
                     TopicDBHelper.getTopicDBHelper(TheForumApplication.getAppContext()).addTopicsFromServer(topics);
                 }
 
@@ -274,7 +274,7 @@ public class LoadTopicHelper {
                 if(topics!=null) {
                     topicsReceived = true;
                     topicArrayList = topics;
-                    Log.e("topics received","called");
+                    Log.e("topics received", "called");
 
                     if (topicsReceiveListener != null) {
                         Log.e("topics send", "called");
@@ -282,7 +282,6 @@ public class LoadTopicHelper {
                         topicsReceived = false;
                     }
 
-                    TopicDBHelper.getTopicDBHelper(TheForumApplication.getAppContext()).deleteAll();
                     TopicDBHelper.getTopicDBHelper(TheForumApplication.getAppContext()).addTopicsFromServer(topics);
                 }
 
@@ -291,7 +290,7 @@ public class LoadTopicHelper {
         runAsyncTask(task);
     }
 
-    public void addRenewalRequest(String topic_id , final OnRenewalRequestAddedListener listener) {
+    public void addRenewalRequest(String topic_id , final OnRenewalRequestListener listener) {
         final Request request = new Request();
         request.topic_id = topic_id;
         request.uid = mUid;
@@ -337,7 +336,7 @@ public class LoadTopicHelper {
         void onError(String error);
     }
 
-    public interface OnRenewalRequestAddedListener{
+    public interface OnRenewalRequestListener {
         /**
          *
          * @param  s model with updated params

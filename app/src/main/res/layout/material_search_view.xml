@@ -10,7 +10,7 @@
         android:id="@+id/search_bar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="@android:color/darker_gray">
+        android:background="@color/colorPrimary">
 
         <EditText
             android:id="@+id/searchTextView"
@@ -23,8 +23,8 @@
             android:paddingLeft="72dp"
             android:paddingRight="56dp"
             android:singleLine="true"
-            android:textColor="#212121"
-            android:textColorHint="#727272"
+            android:textColor="#fff"
+            android:textColorHint="#e0ffffff"
             android:textSize="16sp" />
 
 
