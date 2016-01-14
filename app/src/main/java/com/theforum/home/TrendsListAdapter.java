@@ -87,7 +87,7 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
             });
 
 
-            topic topicModel = new topic();
+            TopicDataModel topicModel = new TopicDataModel();
             topicModel.setTopicName(opinion.getTopicName());
             topicModel.setTopicId(opinion.getTopicId());
 
