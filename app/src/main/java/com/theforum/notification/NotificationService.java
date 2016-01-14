@@ -84,7 +84,7 @@ public class NotificationService extends Service {
             boolean stop = false;
                 @Override
                 public void topicNotif(List<topic> topics) {
-                    List<NotificationDataModel> inflatorItemDatas;
+                    List<NotificationDataModel> inflatorItemDatas = null;
                     for(int j =0; j<topics.size();j++){
                         NotificationDataModel inflatorItemDataRenewal = new NotificationDataModel();
                         inflatorItemDataRenewal.hoursLeft = topics.get(j).getHoursLeft();
@@ -92,7 +92,7 @@ public class NotificationService extends Service {
                         inflatorItemDataRenewal.topicText = topics.get(j).getTopicName();
                         inflatorItemDataRenewal.renewalRequest = topics.get(j).getRenewalRequests();
                         inflatorItemDataRenewal.notificationType = Constants.NOTIFICATION_TYPE_RENEWAL_REQUEST;
-                        NotificationStack.pushNotificationInflatorItemData(inflatorItemDataRenewal);
+                        inflatorItemDatas.add(inflatorItemDataRenewal);
                         jaiHo++;
                         Log.e("salma",""+jaiHo);
 
@@ -102,10 +102,12 @@ public class NotificationService extends Service {
                         inflatorItemDataOpinions.topicText = topics.get(j).getTopicName();
                         inflatorItemDataOpinions.opinions = topics.get(j).getTotalOpinions();
                         NotificationStack.pushNotificationInflatorItemData(inflatorItemDataOpinions);
+                        inflatorItemDatas.add(inflatorItemDataRenewal);
                         jaiHo++;
                     }
                     //if(stop){
                         Notify(jaiHo);
+
                      //   stop = false;
                    // }
                    // stop= true;

@@ -66,6 +66,5 @@ public class NotificationDBHelper {
 
     public void deleteNotification(){
         //delete notification from table when the entries exceed a certain fixed number
-
     }
 }
