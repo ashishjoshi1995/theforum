@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 
 import com.theforum.Constants;
 import com.theforum.R;
+import com.theforum.data.helpers.OpinionHelper;
+import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.data.server.opinion;
 import com.theforum.data.server.topic;
 import com.theforum.utils.CommonUtils;
@@ -70,6 +73,19 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
         @Override
         public void onClick(View v) {
             opinion opinion = mFeeds.get(getLayoutPosition());
+            //getting the topic data from server
+            OpinionHelper.getHelper().getTopicDetails(opinion.getTopicId(), new OpinionHelper.OnTopicDetailReceived() {
+                @Override
+                public void onCompleted(topic topic) {
+                    TopicDataModel topicDataModel = new TopicDataModel(topic);
+                }
+
+                @Override
+                public void onError(String error) {
+                    Log.e("onErrorTrendListAdapter",error);
+                }
+            });
+
 
             topic topicModel = new topic();
             topicModel.setTopicName(opinion.getTopicName());
