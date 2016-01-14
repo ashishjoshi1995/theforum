@@ -122,17 +122,13 @@ public class OpinionHelper {
                                     } else {
                                         listener.onError(exception.getMessage());
                                     }
-
-
                                 }
                             });
                 } catch (Exception e) {
                     listener.onError(e.getMessage());
                 }
-
                 return null;
             }
-
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
@@ -144,9 +140,7 @@ public class OpinionHelper {
     }
 
     public  void getTopicSpecificOpinions(final String topic_id, final OnOpinionsReceivedListener listener){
-
         if(mOpinion == null) mOpinion = TheForumApplication.getClient().getTable(opinion.class);
-
         AsyncTask<Void, Void, MobileServiceList<opinion>> task = new AsyncTask<Void, Void, MobileServiceList<opinion>>() {
 
             @Override
@@ -179,7 +173,6 @@ public class OpinionHelper {
             updvRequest.operation_chosen = 1;
         }
         else{
-
             //update UI
             //update Local db
             updvRequest.operation_chosen = 0;
@@ -198,7 +191,6 @@ public class OpinionHelper {
                 }
             }
         });
-
     }
 
     public void addOpinion(final opinion opinion , final OnOpinionAddListener listener){
