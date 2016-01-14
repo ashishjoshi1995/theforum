@@ -97,7 +97,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder,final int position) {
-Log.e("test2",mData.get(position).toString());
+        Log.e("test2",mData.get(position).toString());
         if(holder.getItemViewType()== VIEW_TYPE_ONE){
             Log.e("test3",mData.get(position).toString());
             final ViewHolderOne viewHolderOne = (ViewHolderOne) holder;

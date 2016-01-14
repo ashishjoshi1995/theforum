@@ -22,11 +22,17 @@ public class TopicDB extends SQLiteOpenHelper {
                 + TopicDBConstants.KEY_RENEWED_COUNT + " INTEGER," + TopicDBConstants.KEY_HOURS_LEFT + " INTEGER,"
                 +TopicDBConstants.KEY_IF_RENEWED+" INTEGER)";
         db.execSQL(CREATE_TOPIC_TABLE);
+
+        String CREATE_RENEW_REQUEST_TOPIC_TABLE = "CREATE TABLE" + TopicDBConstants.TABLE_TWO_NAME + "("
+                + TopicDBConstants.KEY_ID + " INTEGER PRIMARY KEY," + TopicDBConstants.KEY_TOPIC_ID + " TEXT)";
+
+        db.execSQL(CREATE_RENEW_REQUEST_TOPIC_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS" + TopicDBConstants.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS" + TopicDBConstants.TABLE_TWO_NAME);
         onCreate(db);
     }
 
