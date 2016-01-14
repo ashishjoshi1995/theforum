@@ -7,5 +7,4 @@
 
     <include layout="@layout/recycler_view" />
 
-
 </android.support.v4.widget.SwipeRefreshLayout>

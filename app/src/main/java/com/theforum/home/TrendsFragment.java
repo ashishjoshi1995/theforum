@@ -10,9 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.theforum.R;
-import com.theforum.data.server.opinion;
-import com.theforum.data.server.topic;
 import com.theforum.data.helpers.OpinionHelper;
+import com.theforum.data.server.opinion;
 import com.theforum.utils.customViews.DividerItemDecorator;
 
 import java.util.ArrayList;
@@ -57,6 +56,7 @@ public class TrendsFragment extends Fragment {
 
             @Override
             public void onCompleted(ArrayList<opinion> opinions) {
+                if(opinions!=null)
                 mAdapter.addAllTrends(opinions);
             }
 

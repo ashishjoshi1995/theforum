@@ -1,19 +1,20 @@
 package com.theforum.home;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.theforum.Constants;
 import com.theforum.R;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.utils.CommonUtils;
+import com.theforum.utils.listeners.OnLoadMoreListener;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -28,32 +29,34 @@ import butterknife.ButterKnife;
  */
 
 @SuppressWarnings("deprecation")
-public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.TopicsItemViewHolder> {
+public class TopicsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
 
-    /* list of feed data */
+    /* list of topics data */
     private List<TopicDataModel> mTopics;
+    private OnLoadMoreListener loadMoreListener;
+    public boolean allTopicsLoaded = false;
 
-    Resources resources;
-    Drawable renewIcon;
+    private final static int VIEW_TYPE_TOPIC = 0;
+    private final static int VIEW_TYPE_LOAD_MORE_BTN = 1;
 
     public TopicsListAdapter(Context context, List<TopicDataModel> feeds){
         mContext = context;
         mTopics = feeds;
-        resources = mContext.getResources();
-        renewIcon = resources.getDrawable(R.drawable.renew_icon);
+       // renewIcon = resources.getDrawable(R.drawable.renew_icon);
     }
 
+
+    public void setOnLoadMoreListener(OnLoadMoreListener loadMoreListener){
+        this.loadMoreListener = loadMoreListener;
+    }
 
     public class TopicsItemViewHolder extends RecyclerView.ViewHolder {
 
         @Bind(R.id.topics_name) TextView topicName;
         @Bind(R.id.topics_time_holder) TextView timeHolder;
         @Bind(R.id.topics_renew_btn)TextView renewCountBtn;
-
-        String renewedColor = "#000000";
-        String unrenewedColor = "#ffffff";
 
         public TopicsItemViewHolder(View v) {
             super(v);
@@ -93,20 +96,53 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
 
     }
 
+    public class LoadMoreItemViewHolder extends RecyclerView.ViewHolder{
+
+        Button loadMore;
+
+        public LoadMoreItemViewHolder(View itemView) {
+            super(itemView);
+            loadMore = (Button)itemView;
+            loadMore.setText("LOAD MORE");
+
+            loadMore.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(!allTopicsLoaded) loadMoreListener.loadMore();
+                }
+            });
+        }
+    }
+
+
     @Override
-    public TopicsItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new TopicsItemViewHolder(LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.topics_list_item, parent, false));
+    public int getItemViewType(int position) {
+        if(position < mTopics.size() ){
+            return VIEW_TYPE_TOPIC;
+        }else return VIEW_TYPE_LOAD_MORE_BTN;
     }
 
     @Override
-    public void onBindViewHolder(final TopicsItemViewHolder holder, int position) {
-        final TopicDataModel topic = mTopics.get(position);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if(viewType== VIEW_TYPE_TOPIC) {
+            return new TopicsItemViewHolder(LayoutInflater.from(parent.getContext()).inflate(
+                    R.layout.topics_list_item, parent, false));
+        }else return new LoadMoreItemViewHolder(new Button(mContext));
+    }
 
-        holder.topicName.setText(topic.getTopicName());
-        holder.renewCountBtn.setText(String.valueOf(topic.getRenewalRequests()));
-        holder.timeHolder.setText(resources.getString(R.string.time_holder_message, topic.getHoursLeft(),
-                topic.getRenewedCount()));
+    @Override
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+
+        if(holder.getItemViewType() == VIEW_TYPE_TOPIC){
+            TopicsItemViewHolder topicsItemViewHolder = (TopicsItemViewHolder)holder;
+            final TopicDataModel topic = mTopics.get(position);
+
+            topicsItemViewHolder.topicName.setText(topic.getTopicName());
+            topicsItemViewHolder.renewCountBtn.setText(String.valueOf(topic.getRenewalRequests()));
+            topicsItemViewHolder.timeHolder.setText(mContext.getResources().getString(R.string.time_holder_message,
+                    topic.getHoursLeft(), topic.getRenewedCount()));
+        }
+
 
       /*  if(topic.getIsRenewed()){
             holder.renewCountBtn.setCompoundDrawablesWithIntrinsicBounds(null, tintDrawable(holder.renewedColor),
@@ -132,7 +168,9 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
     public void addTopics(ArrayList<TopicDataModel> topics, boolean start){
         if(start){
             mTopics.addAll(0,topics);
-        }else mTopics.addAll(topics);
+        }else {
+            mTopics.addAll(mTopics.size() - 1, topics);
+        }
 
         notifyDataSetChanged();
     }
@@ -142,9 +180,18 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
         notifyDataSetChanged();
     }
 
+    public void removeAllTopics(){
+        mTopics.clear();
+        notifyDataSetChanged();
+    }
+
+    public void setAllTopicsLoaded(boolean allTopicsLoaded){
+        this.allTopicsLoaded = allTopicsLoaded;
+    }
+
 
     @Override
-    public int getItemCount() {return mTopics.size();}
+    public int getItemCount() {return mTopics.size()+1;}
 
 
 }
