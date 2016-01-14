@@ -12,8 +12,8 @@ import android.view.ViewGroup;
 
 import com.theforum.Constants;
 import com.theforum.R;
-import com.theforum.data.server.topic;
 import com.theforum.data.helpers.LoadTopicHelper;
+import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.utils.customViews.DividerItemDecorator;
 
 import java.util.ArrayList;
@@ -45,7 +45,7 @@ public class TopicsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        ArrayList<topic> mFeeds = new ArrayList<>();
+        ArrayList<TopicDataModel> mFeeds = new ArrayList<>();
      /*   for(int i=0;i<9;i++){
             mFeeds.add(new topic());
         }*/
@@ -73,7 +73,7 @@ public class TopicsFragment extends Fragment {
 
             LoadTopicHelper.getHelper().getTopics(new LoadTopicHelper.OnTopicsReceiveListener() {
                 @Override
-                public void onCompleted(ArrayList<topic> topics) {
+                public void onCompleted(ArrayList<TopicDataModel> topics) {
                     swipeRefreshLayout.setRefreshing(false);
                     Log.e("ui ui","data received "+topics.size());
                         mAdapter.addTopics(topics);

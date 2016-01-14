@@ -13,6 +13,8 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Parcelable;
 import android.support.v4.util.Pair;
@@ -21,6 +23,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.theforum.ContainerActivity;
+import com.theforum.TheForumApplication;
 
 import java.io.Serializable;
 
@@ -68,6 +71,27 @@ public class CommonUtils {
         }
     }
 
+    /**
+     * Checking for all possible internet providers
+     *
+     * @return status of the connection, true if net is available
+     */
+
+    public static boolean isInternetAvailable(){
+
+        ConnectivityManager connectivity = (ConnectivityManager) TheForumApplication.getAppContext()
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivity != null) {
+            NetworkInfo[] info = connectivity.getAllNetworkInfo();
+            if (info != null)
+                for (int i = 0; i < info.length; i++)
+                    if (info[i].getState() == NetworkInfo.State.CONNECTED) {
+                        return true;
+                    }
+
+        }
+        return false;
+    }
 
 
     public static void setStatusBarColor(Activity activity, int color){

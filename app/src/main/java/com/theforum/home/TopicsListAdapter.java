@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.theforum.Constants;
 import com.theforum.R;
-import com.theforum.data.server.topic;
+import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.utils.CommonUtils;
 
 import java.io.Serializable;
@@ -36,12 +36,12 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
     private Context mContext;
 
     /* list of feed data */
-    private List<topic> mTopics;
+    private List<TopicDataModel> mTopics;
 
     Resources resources;
     Drawable renewIcon;
 
-    public TopicsListAdapter(Context context, List<topic> feeds){
+    public TopicsListAdapter(Context context, List<TopicDataModel> feeds){
         mContext = context;
         mTopics = feeds;
         resources = mContext.getResources();
@@ -73,7 +73,7 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
             renewCountBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    topic topic = mTopics.get(getLayoutPosition());
+                    TopicDataModel topic = mTopics.get(getLayoutPosition());
                  /*   Log.e("I m called",""+topic.getIsRenewed()+"/"+getLayoutPosition());
                     if(!topic.getIsRenewed()) {
 
@@ -104,7 +104,7 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
 
     @Override
     public void onBindViewHolder(final TopicsItemViewHolder holder, int position) {
-        final topic topic = mTopics.get(position);
+        final TopicDataModel topic = mTopics.get(position);
 
         holder.topicName.setText(topic.getTopicName());
         holder.renewCountBtn.setText(String.valueOf(topic.getRenewalRequests()));
@@ -121,17 +121,17 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
 
     }
 
-    public void addTopic(topic topicDataModel, int position){
+    public void addTopic(TopicDataModel topicDataModel, int position){
         mTopics.add(position, topicDataModel);
         notifyDataSetChanged();
     }
 
-    public void addTopics(ArrayList<topic> topics){
+    public void addTopics(ArrayList<TopicDataModel> topics){
         mTopics.addAll(topics);
         notifyDataSetChanged();
     }
 
-    public void removeTopic(topic topicDataModel){
+    public void removeTopic(TopicDataModel topicDataModel){
         mTopics.remove(topicDataModel);
         notifyDataSetChanged();
     }

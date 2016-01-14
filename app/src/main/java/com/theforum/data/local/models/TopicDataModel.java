@@ -1,11 +1,13 @@
 package com.theforum.data.local.models;
 
+import java.io.Serializable;
+
 /**
  * @author  Deepankar
  * @since  1/6/2016.
  */
 
-public class TopicDataModel {
+public class TopicDataModel implements Serializable{
 
     private String serverId;
     private String topicId;

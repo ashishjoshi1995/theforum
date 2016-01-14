@@ -6,7 +6,7 @@ import java.io.Serializable;
  * @author Ashish on 12/31/2015.
  */
 
-public class topic implements Serializable{
+public class topic {
     @com.google.gson.annotations.SerializedName("id")
     private String serverId;
 
@@ -48,8 +48,6 @@ public class topic implements Serializable{
 
     @com.google.gson.annotations.SerializedName("notif_count")
     private int mNotifCount;
-
-    private boolean isRenewed;
 
 
     public String getServerId() {
@@ -165,11 +163,4 @@ public class topic implements Serializable{
         this.mNotifCount = mNotifCount;
     }
 
-    public boolean isRenewed() {
-        return isRenewed;
-    }
-
-    public void setIsRenewed(boolean isRenewed) {
-        this.isRenewed = isRenewed;
-    }
 }
