@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.theforum.Constants;
 import com.theforum.R;
+import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.data.server.opinion;
 import com.theforum.data.server.topic;
 import com.theforum.data.helpers.OpinionHelper;
@@ -46,7 +47,7 @@ public class OpinionsFragment extends Fragment {
     @Bind(R.id.opinion_fab) FloatingActionButton fab;
 
     private OpinionsListAdapter mAdapter;
-    private topic mTopicModel;
+    private TopicDataModel mTopicModel;
     //private boolean first;
 
     @Override
@@ -55,7 +56,7 @@ public class OpinionsFragment extends Fragment {
         setHasOptionsMenu(true);
 
         if(getArguments()!=null){
-            mTopicModel = (topic) getArguments().getSerializable(Constants.TOPIC_MODEL);
+            mTopicModel = (TopicDataModel) getArguments().getSerializable(Constants.TOPIC_MODEL);
         }
     }
 
