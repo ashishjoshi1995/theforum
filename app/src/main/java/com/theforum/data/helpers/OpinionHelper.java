@@ -55,19 +55,22 @@ public class OpinionHelper {
                 try {
                     TrendingInput inputClass = new TrendingInput();
                     inputClass.uid = User.getInstance().getId();
-                    TheForumApplication.getClient().invokeApi("trendingopinion", inputClass, TrendingResponse.class,
+                    TheForumApplication.getClient().invokeApi("trendingopininos", inputClass, TrendingResponse.class,
                             new ApiOperationCallback<TrendingResponse>() {
                                 @Override
                                 public void onCompleted(TrendingResponse result, Exception exception, ServiceFilterResponse response) {
-                                    Log.e("herewego", "herewego");
+                                    Log.e("herewadhwanigo", result.message);
                                     if (exception == null) {
                                         try {
                                             //JSONObject jsnobject = new JSONObject(result.message);
-                                            String[] a = result.message.split("3");
+                                            String[] a = result.message.split("|||||");
+                                            Log.e("asasas",a[1].toString());
+                                            Log.e("wewewe",a[0].toString());
                                             JSONArray jsonArray = new JSONArray(a[1]);
                                             JSONArray jsonArray1 = new JSONArray(a[0]);
                                             // ArrayList<topic> topicList = new ArrayList<topic>();
                                             //JSONArray jArray = (JSONArray)jsonObject;
+                                            Log.e("test1","test");
                                             if (jsonArray != null) {
                                                 for (int i = 0; i < jsonArray.length(); i++) {
                                                     JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -106,7 +109,7 @@ public class OpinionHelper {
                                                     opinion.setUserId(jsonObject1.get("uid").toString());
                                                     opinion.setTopicId(jsonObject1.get("topic_id").toString());
                                                     opinion.setTopicName(jsonObject1.get("topic").toString());
-
+                                                    Log.e("test2", "test");
 
                                                     opinions.add(opinion);
                                                     Log.e("ashish", topics.get(i).getServerId());
@@ -133,7 +136,8 @@ public class OpinionHelper {
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-                listener.onCompleted(topics,opinions);
+                listener.onCompleted(topics, opinions);
+                Log.e("test3", "test");
             }
         };
         runAsyncTask(task);

@@ -91,7 +91,7 @@ public class LoadTopicHelper {
 
 
     public void loadTopicsOnPull(final int sortMode) {
-
+Log.e("mmmm","mmmmmmmmmm");
         AsyncTask<Void, Void, ArrayList<topic>> task = new AsyncTask<Void, Void, ArrayList<topic>>() {
             MobileServiceList<topic> topics = null;
 
@@ -111,8 +111,9 @@ public class LoadTopicHelper {
                         mClient.invokeApi("getmytopics", inputClass, ResponseClass.class, new ApiOperationCallback<ResponseClass>() {
                             @Override
                             public void onCompleted(ResponseClass result, Exception exception, ServiceFilterResponse response) {
-                                Log.e("herewego", "herewego");
+                                Log.e("herewego", result.message);
                                 if (exception == null){
+
                                     try {
                                         JSONArray jsonArray = new JSONArray(result.message);
                                         // ArrayList<topic> topicList = new ArrayList<topic>();
@@ -213,7 +214,7 @@ public class LoadTopicHelper {
                             mClient.invokeApi("getmytopics", inputClass, ResponseClass.class, new ApiOperationCallback<ResponseClass>() {
                                 @Override
                                 public void onCompleted(ResponseClass result, Exception exception, ServiceFilterResponse response) {
-                                    Log.e("herewego", "herewego");
+                                    Log.e("qwertyu", ""+result.message);
                                     if (exception == null){
                                         try {
                                             JSONArray jsonArray = new JSONArray(result.message);
