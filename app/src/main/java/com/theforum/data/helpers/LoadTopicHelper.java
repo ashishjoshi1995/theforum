@@ -92,8 +92,7 @@ public class LoadTopicHelper {
     }
 
 
-
-    public void loadTopics(int times, final int sortMode){
+    public void loadTopics(final int times, final int sortMode){
 
         final int n = times*20;
 
@@ -189,14 +188,15 @@ public class LoadTopicHelper {
                     if(topics!=null) {
                         topicsReceived = true;
                         convertDataModel(topics);
-                        Log.e("topics received", "called");
 
                         if (topicsReceiveListener != null) {
                             Log.e("topics send", "called");
                             topicsReceiveListener.onCompleted(topicArrayList);
                             topicsReceived = false;
                         }
-
+                        if(times==0){
+                            TopicDBHelper.getHelper().deleteAll();
+                        }
                         TopicDBHelper.getHelper().addTopicsFromServer(topicArrayList);
                     }
 
@@ -206,13 +206,18 @@ public class LoadTopicHelper {
             runAsyncTask(task);
 
         }else {
+            if(times==0) {
+                topicArrayList = TopicDBHelper.getHelper().getAllTopics();
+                topicsReceived = true;
 
-            topicArrayList = TopicDBHelper.getHelper().getAllTopics();
-            topicsReceived = true;
-
-            if(topicsReceiveListener!= null){
-                topicsReceiveListener.onCompleted(topicArrayList);
-                topicsReceived = false;
+                if (topicsReceiveListener != null) {
+                    topicsReceiveListener.onCompleted(topicArrayList);
+                    topicsReceived = false;
+                }
+            }else {
+                if (topicsReceiveListener != null) {
+                    topicsReceiveListener.onError("Check Your Internet Connection");
+                }
             }
         }
 

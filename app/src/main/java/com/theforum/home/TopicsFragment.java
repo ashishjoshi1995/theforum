@@ -73,7 +73,7 @@ public class TopicsFragment extends Fragment {
                 public void onCompleted(ArrayList<TopicDataModel> topics) {
                     swipeRefreshLayout.setRefreshing(false);
                     Log.e("ui ui","data received "+ topics.size());
-                        mAdapter.addTopics(topics, true);
+                    mAdapter.addTopics(topics, true);
                 }
 
                 @Override

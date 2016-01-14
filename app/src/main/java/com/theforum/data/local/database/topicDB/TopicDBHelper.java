@@ -1,7 +1,6 @@
 package com.theforum.data.local.database.topicDB;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -72,7 +71,7 @@ public class TopicDBHelper {
      */
     public void addTopicsFromServer(ArrayList<TopicDataModel> topics){
         for (int k = 0; k<topics.size();k++){
-            addTopicFromServer(topics.get(k));
+            addTopic(topics.get(k));
         }
     }
 
