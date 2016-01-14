@@ -10,6 +10,9 @@ public class topic implements Serializable{
     @com.google.gson.annotations.SerializedName("id")
     private String serverId;
 
+    @com.google.gson.annotations.SerializedName("topic_id")
+    private String topicId;
+
     @com.google.gson.annotations.SerializedName("opinion_ids")
     private String opinionIds;
 
@@ -18,9 +21,6 @@ public class topic implements Serializable{
 
     @com.google.gson.annotations.SerializedName("renewed_count")
     private int renewedCount;
-
-    @com.google.gson.annotations.SerializedName("topic_id")
-    private String topicId;
 
     @com.google.gson.annotations.SerializedName("total_opinions")
     private int totalOpinions;
@@ -32,7 +32,10 @@ public class topic implements Serializable{
     private String userId;
 
     @com.google.gson.annotations.SerializedName("topic")
-    private String mTopic;
+    private String topicName;
+
+    @com.google.gson.annotations.SerializedName("hours_left")
+    private int hoursLeft;
 
     @com.google.gson.annotations.SerializedName("notif_new_opinions")
     private int mNotifOpinions;
@@ -40,14 +43,13 @@ public class topic implements Serializable{
     @com.google.gson.annotations.SerializedName("notif_new_renewal_request")
     private int mNotifRenewalRequests;
 
-    @com.google.gson.annotations.SerializedName("hours_left")
-    private int mHoursLeft;
-
     @com.google.gson.annotations.SerializedName("points")
     private int mPoints;
 
     @com.google.gson.annotations.SerializedName("notif_count")
     private int mNotifCount;
+
+    private boolean isRenewed;
 
 
     public String getServerId() {
@@ -106,12 +108,12 @@ public class topic implements Serializable{
         this.userId = userId;
     }
 
-    public String getmTopic() {
-        return mTopic;
+    public String getTopicName() {
+        return topicName;
     }
 
-    public void setmTopic(String mTopic) {
-        this.mTopic = mTopic;
+    public void setTopicName(String topicName) {
+        this.topicName = topicName;
     }
 
     public int getmNotifOpinions() {
@@ -130,12 +132,12 @@ public class topic implements Serializable{
         this.mNotifRenewalRequests = mNotifRenewalRequests;
     }
 
-    public int getmHoursLeft() {
-        return mHoursLeft;
+    public int getHoursLeft() {
+        return hoursLeft;
     }
 
-    public void setmHoursLeft(int mHoursLeft) {
-        this.mHoursLeft = mHoursLeft;
+    public void setHoursLeft(int hoursLeft) {
+        this.hoursLeft = hoursLeft;
     }
 
 
@@ -161,5 +163,13 @@ public class topic implements Serializable{
 
     public void setmNotifCount(int mNotifCount) {
         this.mNotifCount = mNotifCount;
+    }
+
+    public boolean isRenewed() {
+        return isRenewed;
+    }
+
+    public void setIsRenewed(boolean isRenewed) {
+        this.isRenewed = isRenewed;
     }
 }

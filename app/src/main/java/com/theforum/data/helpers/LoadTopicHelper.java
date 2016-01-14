@@ -124,10 +124,10 @@ Log.e("mmmm","mmmmmmmmmm");
                                             topic topic = new topic();
                                             topic.setServerId(jsonObject.get("id").toString());
                                             topic.setTopicDescription(jsonObject.get("description").toString());
-                                            topic.setmHoursLeft(Integer.parseInt(jsonObject.get("hours_left").toString()));
+                                            topic.setHoursLeft(Integer.parseInt(jsonObject.get("hours_left").toString()));
                                             topic.setOpinionIds(jsonObject.get("opinion_ids").toString());
                                             topic.setRenewalRequests(Integer.parseInt(jsonObject.get("renewal_request").toString()));
-                                            topic.setmTopic(jsonObject.get("topic").toString());
+                                            topic.setTopicName(jsonObject.get("topic").toString());
                                             topic.setTopicId(jsonObject.get("topic_id").toString());
                                             topic.setUserId(jsonObject.get("uid").toString());
                                             topic.setRenewedCount(Integer.parseInt(jsonObject.get("renewed_count").toString()));
@@ -175,14 +175,13 @@ Log.e("mmmm","mmmmmmmmmm");
                 if(topics!=null) {
                     topicsReceived = true;
                     topicArrayList = topics;
-                    Log.e("topics received","called");
+                    Log.e("topics received", "called");
 
                     if (topicsReceiveListener != null) {
                         Log.e("topics send", "called");
                         topicsReceiveListener.onCompleted(topics);
                         topicsReceived = false;
                     }
-
                     TopicDBHelper.getTopicDBHelper(TheForumApplication.getAppContext()).deleteAll();
                     TopicDBHelper.getTopicDBHelper(TheForumApplication.getAppContext()).addTopicsFromServer(topics);
                 }
@@ -225,10 +224,10 @@ Log.e("mmmm","mmmmmmmmmm");
                                                 topic topic = new topic();
                                                 topic.setServerId(jsonObject.get("id").toString());
                                                 topic.setTopicDescription(jsonObject.get("description").toString());
-                                                topic.setmHoursLeft(Integer.parseInt(jsonObject.get("hours_left").toString()));
+                                                topic.setHoursLeft(Integer.parseInt(jsonObject.get("hours_left").toString()));
                                                 topic.setOpinionIds(jsonObject.get("opinion_ids").toString());
                                                 topic.setRenewalRequests(Integer.parseInt(jsonObject.get("renewal_request").toString()));
-                                                topic.setmTopic(jsonObject.get("topic").toString());
+                                                topic.setTopicName(jsonObject.get("topic").toString());
                                                 topic.setTopicId(jsonObject.get("topic_id").toString());
                                                 topic.setUserId(jsonObject.get("uid").toString());
                                                 topic.setRenewedCount(Integer.parseInt(jsonObject.get("renewed_count").toString()));
@@ -276,7 +275,7 @@ Log.e("mmmm","mmmmmmmmmm");
                 if(topics!=null) {
                     topicsReceived = true;
                     topicArrayList = topics;
-                    Log.e("topics received","called");
+                    Log.e("topics received", "called");
 
                     if (topicsReceiveListener != null) {
                         Log.e("topics send", "called");
@@ -284,7 +283,6 @@ Log.e("mmmm","mmmmmmmmmm");
                         topicsReceived = false;
                     }
 
-                    TopicDBHelper.getTopicDBHelper(TheForumApplication.getAppContext()).deleteAll();
                     TopicDBHelper.getTopicDBHelper(TheForumApplication.getAppContext()).addTopicsFromServer(topics);
                 }
 
@@ -293,7 +291,7 @@ Log.e("mmmm","mmmmmmmmmm");
         runAsyncTask(task);
     }
 
-    public void addRenewalRequest(String topic_id , final OnRenewalRequestAddedListener listener) {
+    public void addRenewalRequest(String topic_id , final OnRenewalRequestListener listener) {
         final Request request = new Request();
         request.topic_id = topic_id;
         request.uid = mUid;
@@ -339,7 +337,7 @@ Log.e("mmmm","mmmmmmmmmm");
         void onError(String error);
     }
 
-    public interface OnRenewalRequestAddedListener{
+    public interface OnRenewalRequestListener {
         /**
          *
          * @param  s model with updated params

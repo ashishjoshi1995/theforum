@@ -47,8 +47,8 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        holder.customFontTextView.setText(mDataset.get(position).getmTopic());
-        int a  = mDataset.get(position).getmHoursLeft();
+        holder.customFontTextView.setText(mDataset.get(position).getTopicName());
+        int a  = mDataset.get(position).getHoursLeft();
         int b = mDataset.get(position).getRenewedCount();
         String c = a + "hrs left to decay |"+ b + "renewal";
         holder.mTextView.setText(c);
