@@ -69,7 +69,7 @@ public class OpinionsFragment extends Fragment {
 
         ButterKnife.bind(this, view);
 
-        toolbar.setTitle(mTopicModel.getmTopic());
+        toolbar.setTitle(mTopicModel.getTopicName());
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_action_navigation_arrow_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {

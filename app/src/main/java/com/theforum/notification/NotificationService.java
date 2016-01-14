@@ -87,9 +87,9 @@ public class NotificationService extends Service {
                     List<NotificationDataModel> inflatorItemDatas;
                     for(int j =0; j<topics.size();j++){
                         NotificationDataModel inflatorItemDataRenewal = new NotificationDataModel();
-                        inflatorItemDataRenewal.hoursLeft = topics.get(j).getmHoursLeft();
+                        inflatorItemDataRenewal.hoursLeft = topics.get(j).getHoursLeft();
                         inflatorItemDataRenewal.topicId = topics.get(j).getTopicId();
-                        inflatorItemDataRenewal.topicText = topics.get(j).getmTopic();
+                        inflatorItemDataRenewal.topicText = topics.get(j).getTopicName();
                         inflatorItemDataRenewal.renewalRequest = topics.get(j).getRenewalRequests();
                         inflatorItemDataRenewal.notificationType = Constants.NOTIFICATION_TYPE_RENEWAL_REQUEST;
                         NotificationStack.pushNotificationInflatorItemData(inflatorItemDataRenewal);
@@ -98,8 +98,8 @@ public class NotificationService extends Service {
 
                         NotificationDataModel inflatorItemDataOpinions = new NotificationDataModel();
                         inflatorItemDataOpinions.notificationType = Constants.NOTIFICATION_TYPE_OPINIONS;
-                        inflatorItemDataOpinions.hoursLeft = topics.get(j).getmHoursLeft();
-                        inflatorItemDataOpinions.topicText = topics.get(j).getmTopic();
+                        inflatorItemDataOpinions.hoursLeft = topics.get(j).getHoursLeft();
+                        inflatorItemDataOpinions.topicText = topics.get(j).getTopicName();
                         inflatorItemDataOpinions.opinions = topics.get(j).getTotalOpinions();
                         NotificationStack.pushNotificationInflatorItemData(inflatorItemDataOpinions);
                         jaiHo++;

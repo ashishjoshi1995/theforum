@@ -74,10 +74,10 @@ public class OpinionHelper {
                                                     topic topic = new topic();
                                                     topic.setServerId(jsonObject.get("id").toString());
                                                     topic.setTopicDescription(jsonObject.get("description").toString());
-                                                    topic.setmHoursLeft(Integer.parseInt(jsonObject.get("hours_left").toString()));
+                                                    topic.setHoursLeft(Integer.parseInt(jsonObject.get("hours_left").toString()));
                                                     topic.setOpinionIds(jsonObject.get("opinion_ids").toString());
                                                     topic.setRenewalRequests(Integer.parseInt(jsonObject.get("renewal_request").toString()));
-                                                    topic.setmTopic(jsonObject.get("topic").toString());
+                                                    topic.setTopicName(jsonObject.get("topic").toString());
                                                     topic.setTopicId(jsonObject.get("topic_id").toString());
                                                     topic.setUserId(jsonObject.get("uid").toString());
                                                     topic.setRenewedCount(Integer.parseInt(jsonObject.get("renewed_count").toString()));

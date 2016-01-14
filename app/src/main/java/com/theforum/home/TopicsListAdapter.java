@@ -106,9 +106,9 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
     public void onBindViewHolder(final TopicsItemViewHolder holder, int position) {
         final topic topic = mTopics.get(position);
 
-        holder.topicName.setText(topic.getmTopic());
+        holder.topicName.setText(topic.getTopicName());
         holder.renewCountBtn.setText(String.valueOf(topic.getRenewalRequests()));
-        holder.timeHolder.setText(resources.getString(R.string.time_holder_message, topic.getmHoursLeft(),
+        holder.timeHolder.setText(resources.getString(R.string.time_holder_message, topic.getHoursLeft(),
                 topic.getRenewedCount()));
 
       /*  if(topic.getIsRenewed()){
@@ -127,7 +127,6 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
     }
 
     public void addTopics(ArrayList<topic> topics){
-        mTopics.clear();
         mTopics.addAll(topics);
         notifyDataSetChanged();
     }

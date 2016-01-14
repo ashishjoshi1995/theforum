@@ -72,7 +72,7 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
             opinion opinion = mFeeds.get(getLayoutPosition());
 
             topic topicModel = new topic();
-            topicModel.setmTopic(opinion.getTopicName());
+            topicModel.setTopicName(opinion.getTopicName());
             topicModel.setTopicId(opinion.getTopicId());
 
             CommonUtils.openContainerActivity(mContext, Constants.OPINIONS_FRAGMENT,
