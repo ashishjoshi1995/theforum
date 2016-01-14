@@ -3,7 +3,7 @@ package com.theforum.data.local.models;
 /**
  * Created by Ashish on 1/6/2016.
  */
-public class OpinionNotification {
+public class OpinionDataModel {
     @com.google.gson.annotations.SerializedName("id")
     private String mId;
 

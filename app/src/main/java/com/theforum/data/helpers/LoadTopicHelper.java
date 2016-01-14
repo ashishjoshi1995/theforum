@@ -91,7 +91,7 @@ public class LoadTopicHelper {
 
 
     public void loadTopicsOnPull(final int sortMode) {
-Log.e("mmmm","mmmmmmmmmm");
+    Log.e("mmmm","mmmmmmmmmm");
         AsyncTask<Void, Void, ArrayList<topic>> task = new AsyncTask<Void, Void, ArrayList<topic>>() {
             MobileServiceList<topic> topics = null;
 
