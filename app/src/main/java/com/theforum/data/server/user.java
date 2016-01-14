@@ -29,6 +29,19 @@ public class user {
     @com.google.gson.annotations.SerializedName("country")
     private String country;
 
+    @com.google.gson.annotations.SerializedName("total_downvotes_on_opinions")
+    private int totalDownvotesOnOpinionsTillDate;
+
+    @com.google.gson.annotations.SerializedName("total_renewalrequests_on_topics")
+    private int totalRenewalRequestsOnTopics;
+
+    @com.google.gson.annotations.SerializedName("total_renewals_received_on_topics")
+    private int totalRenewalsReceivedOnTopics;
+
+    @com.google.gson.annotations.SerializedName("total_upvotes_on_opinions")
+    private int totalUpvotesOnOpinions;
+
+
 
     public String getmUid() {
         return mUid;
@@ -92,5 +105,38 @@ public class user {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+
+    public int getTotalDownvotesOnOpinionsTillDate() {
+        return totalDownvotesOnOpinionsTillDate;
+    }
+
+    public void setTotalDownvotesOnOpinionsTillDate(int totalDownvotesOnOpinionsTillDate) {
+        this.totalDownvotesOnOpinionsTillDate = totalDownvotesOnOpinionsTillDate;
+    }
+
+    public int getTotalRenewalRequestsOnTopics() {
+        return totalRenewalRequestsOnTopics;
+    }
+
+    public void setTotalRenewalRequestsOnTopics(int totalRenewalRequestsOnTopics) {
+        this.totalRenewalRequestsOnTopics = totalRenewalRequestsOnTopics;
+    }
+
+    public int getTotalRenewalsReceivedOnTopics() {
+        return totalRenewalsReceivedOnTopics;
+    }
+
+    public void setTotalRenewalsReceivedOnTopics(int totalRenewalsReceivedOnTopics) {
+        this.totalRenewalsReceivedOnTopics = totalRenewalsReceivedOnTopics;
+    }
+
+    public int getTotalUpvotesOnOpinions() {
+        return totalUpvotesOnOpinions;
+    }
+
+    public void setTotalUpvotesOnOpinions(int totalUpvotesOnOpinions) {
+        this.totalUpvotesOnOpinions = totalUpvotesOnOpinions;
     }
 }

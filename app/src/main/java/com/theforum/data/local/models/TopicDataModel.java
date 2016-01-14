@@ -1,5 +1,6 @@
 package com.theforum.data.local.models;
 
+import com.theforum.data.server.topic;
 import java.io.Serializable;
 
 /**
@@ -17,6 +18,19 @@ public class TopicDataModel implements Serializable{
     private int renewedCount;
     private int hoursLeft;
     private boolean isRenewed;
+
+    public TopicDataModel(){}
+
+    public TopicDataModel(topic topic){
+        this.serverId = topic.getServerId();
+        this.topicId = topic.getTopicId();
+        this.topicName = topic.getTopicName();
+        this.topicDescription = topic.getTopicDescription();
+        this.renewalRequests = topic.getRenewalRequests();
+        this.renewedCount = topic.getRenewedCount();
+        this.hoursLeft = topic.getHoursLeft();
+
+    }
 
 
     public String getServerId() {

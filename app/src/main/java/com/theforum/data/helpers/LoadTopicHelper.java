@@ -251,16 +251,9 @@ public class LoadTopicHelper {
 
     private void convertDataModel(ArrayList<topic> topics){
         topicArrayList = new ArrayList<>();
-        topic topic ;
+
         for(int i=0; i<topics.size();i++) {
-            TopicDataModel topicDataModel = new TopicDataModel();
-            topic = topics.get(i);
-            topicDataModel.setServerId(topic.getServerId());
-            topicDataModel.setTopicId(topic.getTopicId());
-            topicDataModel.setTopicName(topic.getTopicName());
-            topicDataModel.setTopicDescription(topic.getTopicDescription());
-            topicDataModel.setRenewalRequests(topic.getRenewalRequests());
-            topicDataModel.setRenewedCount(topic.getRenewedCount());
+            TopicDataModel topicDataModel = new TopicDataModel(topics.get(i));
             topicDataModel.setIsRenewed(false);
             topicArrayList.add(topicDataModel);
         }
