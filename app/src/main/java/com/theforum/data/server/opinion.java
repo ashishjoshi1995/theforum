@@ -1,4 +1,4 @@
-package com.theforum.data.dataModels;
+package com.theforum.data.server;
 
 /**
  * @author  Ashish on 12/31/2015.

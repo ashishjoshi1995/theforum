@@ -1,11 +1,11 @@
-package com.theforum.data.local.topicDB;
+package com.theforum.data.local.database.topicDB;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.theforum.data.dataModels.topic;
+import com.theforum.data.server.topic;
 
 import java.util.ArrayList;
 

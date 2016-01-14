@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.theforum.Constants;
 import com.theforum.R;
-import com.theforum.data.dataModels.NotificationDataModel;
+import com.theforum.data.server.NotificationDataModel;
 
 import java.util.ArrayList;
 

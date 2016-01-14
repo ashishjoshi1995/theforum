@@ -20,8 +20,8 @@ import android.widget.TextView;
 
 import com.theforum.Constants;
 import com.theforum.R;
-import com.theforum.data.dataModels.opinion;
-import com.theforum.data.dataModels.topic;
+import com.theforum.data.server.opinion;
+import com.theforum.data.server.topic;
 import com.theforum.data.helpers.OpinionHelper;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.customViews.DividerItemDecorator;

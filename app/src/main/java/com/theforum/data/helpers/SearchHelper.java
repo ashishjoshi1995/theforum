@@ -7,8 +7,7 @@ import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.microsoft.windowsazure.mobileservices.table.query.QueryOrder;
 import com.theforum.TheForumApplication;
-import com.theforum.data.dataModels.topic;
-import com.theforum.data.dataModels.user;
+import com.theforum.data.server.topic;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;

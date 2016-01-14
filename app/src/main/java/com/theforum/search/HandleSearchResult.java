@@ -1,19 +1,17 @@
 package com.theforum.search;
 
 import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 
 import com.theforum.R;
-import com.theforum.data.dataModels.topic;
+import com.theforum.data.server.topic;
 import com.theforum.data.helpers.SearchHelper;
 
 import java.util.ArrayList;

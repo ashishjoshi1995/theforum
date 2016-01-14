@@ -1,4 +1,4 @@
-package com.theforum.data.local.topicDB;
+package com.theforum.data.local.database.topicDB;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

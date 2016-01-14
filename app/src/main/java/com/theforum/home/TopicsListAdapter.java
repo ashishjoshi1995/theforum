@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.theforum.Constants;
 import com.theforum.R;
-import com.theforum.data.dataModels.topic;
+import com.theforum.data.server.topic;
 import com.theforum.utils.CommonUtils;
 
 import java.io.Serializable;

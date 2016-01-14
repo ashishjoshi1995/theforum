@@ -1,7 +1,7 @@
-package com.theforum.data.dataModels;
+package com.theforum.data.server;
 
 /**
- * Created by Ashish on 12/31/2015.
+ * @author Ashish on 12/31/2015.
  */
 public class user {
 
