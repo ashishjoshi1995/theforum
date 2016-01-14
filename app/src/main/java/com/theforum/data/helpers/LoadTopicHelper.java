@@ -12,12 +12,12 @@ import com.microsoft.windowsazure.mobileservices.table.TableOperationCallback;
 import com.microsoft.windowsazure.mobileservices.table.query.QueryOrder;
 import com.theforum.Constants;
 import com.theforum.TheForumApplication;
-import com.theforum.data.dataModels.topic;
+import com.theforum.data.server.topic;
 import com.theforum.data.helpers.renewalRequestApi.Request;
 import com.theforum.data.helpers.renewalRequestApi.Response;
 import com.theforum.data.helpers.sortBasisCreatedByMe.InputClass;
 import com.theforum.data.helpers.sortBasisCreatedByMe.ResponseClass;
-import com.theforum.data.local.topicDB.TopicDBHelper;
+import com.theforum.data.local.database.topicDB.TopicDBHelper;
 import com.theforum.utils.User;
 
 import org.json.JSONArray;
@@ -187,11 +187,13 @@ public class LoadTopicHelper {
 
             }
         };
+
         runAsyncTask(task);
     }
 
     public void loadTopics(int e, final int sortMode){
         final int n = e*5;
+
         AsyncTask<Void, Void, ArrayList<topic>> task = new AsyncTask<Void, Void, ArrayList<topic>>() {
             MobileServiceList<topic> topics = null;
 
@@ -287,6 +289,7 @@ public class LoadTopicHelper {
 
             }
         };
+
         runAsyncTask(task);
     }
 
@@ -316,6 +319,8 @@ public class LoadTopicHelper {
             }
         });
     }
+
+
 
 
     private AsyncTask<Void, Void,ArrayList<topic>> runAsyncTask(AsyncTask<Void, Void, ArrayList<topic>> task) {

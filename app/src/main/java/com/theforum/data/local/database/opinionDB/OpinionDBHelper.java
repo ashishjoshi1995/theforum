@@ -1,4 +1,4 @@
-package com.theforum.data.local.opinionDB;
+package com.theforum.data.local.database.opinionDB;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.theforum.data.dataModels.opinion;
+import com.theforum.data.server.opinion;
 
 import java.util.ArrayList;
 

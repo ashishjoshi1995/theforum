@@ -1,4 +1,4 @@
-package com.theforum.data.dataModels;
+package com.theforum.data.local.models;
 
 /**
  * Created by Ashish on 1/6/2016.

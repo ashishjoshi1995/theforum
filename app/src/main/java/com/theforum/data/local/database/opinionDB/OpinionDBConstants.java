@@ -1,4 +1,4 @@
-package com.theforum.data.local.opinionDB;
+package com.theforum.data.local.database.opinionDB;
 
 /**
  * @author Ashish

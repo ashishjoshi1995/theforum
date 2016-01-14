@@ -4,13 +4,11 @@ import android.annotation.TargetApi;
 import android.os.AsyncTask;
 import android.os.Build;
 
-import com.theforum.data.dataModels.topic;
-import com.theforum.data.dataModels.user;
+import com.theforum.data.server.user;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 
-import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 /**

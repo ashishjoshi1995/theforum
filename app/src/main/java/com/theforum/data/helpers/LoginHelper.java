@@ -6,7 +6,7 @@ import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.microsoft.windowsazure.mobileservices.table.TableOperationCallback;
 import com.theforum.TheForumApplication;
-import com.theforum.data.dataModels.user;
+import com.theforum.data.server.user;
 
 
 
@@ -27,7 +27,7 @@ public class LoginHelper {
         AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>(){
             @Override
             protected Void doInBackground(Void... params) {
-                mUser.insert(user, new TableOperationCallback<com.theforum.data.dataModels.user>() {
+                mUser.insert(user, new TableOperationCallback<com.theforum.data.server.user>() {
                     @Override
                     public void onCompleted(user entity, Exception exception, ServiceFilterResponse response) {
                         if(exception == null){

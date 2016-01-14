@@ -1,15 +1,8 @@
-package com.theforum.data.local.opinionDB;
+package com.theforum.data.local.database.opinionDB;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-
-import com.theforum.data.dataModels.opinion;
-
-import java.util.ArrayList;
 
 /**
  * @author Ashish
