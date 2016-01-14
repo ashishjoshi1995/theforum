@@ -41,6 +41,7 @@ public class LoadTopicHelper {
     private OnTopicsReceiveListener topicsReceiveListener;
     private boolean topicsReceived = false;
 
+    
     public static LoadTopicHelper getHelper(){
         if(mLoadTopicHelper==null) mLoadTopicHelper = new LoadTopicHelper();
         return mLoadTopicHelper;
@@ -87,7 +88,6 @@ public class LoadTopicHelper {
         if(topicsReceived){
             topicsReceiveListener.onCompleted(topicArrayList);
             topicsReceived= false;
-            Log.e("topics send2", "called");
         }
     }
 
@@ -174,9 +174,11 @@ public class LoadTopicHelper {
                                 break;
 
                         }
+
                     } catch (Exception e) {
-                        if(topicsReceiveListener!= null)
+                        if(topicsReceiveListener!= null) {
                             topicsReceiveListener.onError(e.getCause().getMessage());
+                        }
                     }
                     return topics;
                 }
@@ -190,13 +192,10 @@ public class LoadTopicHelper {
                         convertDataModel(topics);
 
                         if (topicsReceiveListener != null) {
-                            Log.e("topics send", "called");
                             topicsReceiveListener.onCompleted(topicArrayList);
                             topicsReceived = false;
                         }
-                        if(times==0){
-                            TopicDBHelper.getHelper().deleteAll();
-                        }
+                        if(times==0) TopicDBHelper.getHelper().deleteAll();
                         TopicDBHelper.getHelper().addTopicsFromServer(topicArrayList);
                     }
 
@@ -206,7 +205,7 @@ public class LoadTopicHelper {
             runAsyncTask(task);
 
         }else {
-            if(times==0) {
+            if(topicArrayList==null) {
                 topicArrayList = TopicDBHelper.getHelper().getAllTopics();
                 topicsReceived = true;
 
@@ -300,109 +299,5 @@ public class LoadTopicHelper {
         void onCompleted(topic topic);
         void onError(String error);
     }
-
-    /*
-    public void loadTopicsOnPull(final int sortMode) {
-    Log.e("mmmm","mmmmmmmmmm");
-        AsyncTask<Void, Void, ArrayList<topic>> task = new AsyncTask<Void, Void, ArrayList<topic>>() {
-            MobileServiceList<topic> topics = null;
-
-            @Override
-            protected ArrayList<topic> doInBackground(Void... params) {
-                try {
-                switch (sortMode) {
-                    case Constants.SORT_BASIS_MOST_POPULAR:
-                        topics = mTopicTable.orderBy("points", QueryOrder.Descending).top(5).execute().get();
-                        break;
-                    case Constants.SORT_BASIS_LATEST:
-                        topics = mTopicTable.orderBy("hours_left", QueryOrder.Ascending).top(5).execute().get();
-                        break;
-                    case Constants.SORT_BASIS_CREATED_BY_ME:
-                        InputClass inputClass = new InputClass();
-                        inputClass.uid = User.getInstance().getId();
-                        mClient.invokeApi("getmytopics", inputClass, ResponseClass.class, new ApiOperationCallback<ResponseClass>() {
-                            @Override
-                            public void onCompleted(ResponseClass result, Exception exception, ServiceFilterResponse response) {
-                                Log.e("herewego", result.message);
-                                if (exception == null){
-
-                                    try {
-                                        JSONArray jsonArray = new JSONArray(result.message);
-                                        // ArrayList<topic> topicList = new ArrayList<topic>();
-                                        //JSONArray jArray = (JSONArray)jsonObject;
-
-                                        for (int i = 0; i < jsonArray.length(); i++) {
-                                            JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                            topic topic = new topic();
-                                            topic.setServerId(jsonObject.get("id").toString());
-                                            topic.setTopicDescription(jsonObject.get("description").toString());
-                                            topic.setHoursLeft(Integer.parseInt(jsonObject.get("hours_left").toString()));
-                                            topic.setOpinionIds(jsonObject.get("opinion_ids").toString());
-                                            topic.setRenewalRequests(Integer.parseInt(jsonObject.get("renewal_request").toString()));
-                                            topic.setTopicName(jsonObject.get("topic").toString());
-                                            topic.setTopicId(jsonObject.get("topic_id").toString());
-                                            topic.setUserId(jsonObject.get("uid").toString());
-                                            topic.setRenewedCount(Integer.parseInt(jsonObject.get("renewed_count").toString()));
-                                            topic.setTotalOpinions(Integer.parseInt(jsonObject.get("total_opinions").toString()));
-                                            topic.setmNotifRenewalRequests(Integer.parseInt(jsonObject.get("notif_new_renewal_request").toString()));
-                                            topic.setmNotifOpinions(Integer.parseInt(jsonObject.get("notif_new_opinions").toString()));
-                                            topic.setmPoints(Integer.parseInt(jsonObject.get("points").toString()));
-
-                                            topics.add(topic);
-                                            Log.e("ashish", topics.get(i).getServerId());
-                                        }
-
-                                    } catch (JSONException e) {
-                                        if(topicsReceiveListener!= null)
-                                        topicsReceiveListener.onError(e.getMessage());
-                                    }
-
-                            } else {
-                                    if(topicsReceiveListener!= null)
-                                        topicsReceiveListener.onError(exception.getMessage());
-                                }
-
-                            }
-                        });
-                        break;
-                    case Constants.SORT_BASIS_LEAST_RENEWAL:
-                        topics = mTopicTable.orderBy("renewal_requests",QueryOrder.Ascending).top(5).execute().get();
-                        break;
-                    case Constants.SORT_BASIS_MOST_RENEWAL:
-                        topics = mTopicTable.orderBy("renewal_requests",QueryOrder.Descending).top(5).execute().get();
-                        break;
-
-                }
-                } catch (Exception e) {
-                    if(topicsReceiveListener!= null)
-                        topicsReceiveListener.onError(e.getCause().getMessage());
-                }
-                return topics;
-            }
-
-            @Override
-            protected void onPostExecute(ArrayList<topic> topics) {
-                super.onPostExecute(topics);
-
-                if(topics!=null) {
-                    topicsReceived = true;
-                    convertDataModel(topics);
-                    Log.e("topics received", "called");
-
-                    if (topicsReceiveListener != null) {
-                        Log.e("topics send", "called");
-                        topicsReceiveListener.onCompleted(topicArrayList);
-                        topicsReceived = false;
-                    }
-                    TopicDBHelper.getTopicDBHelper(TheForumApplication.getAppContext()).deleteAll();
-                    TopicDBHelper.getTopicDBHelper(TheForumApplication.getAppContext()).addTopicsFromServer(topics);
-                }
-
-            }
-        };
-
-        runAsyncTask(task);
-    }*/
-
 
 }
