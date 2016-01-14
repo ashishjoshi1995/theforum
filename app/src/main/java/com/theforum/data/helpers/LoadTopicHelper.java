@@ -216,7 +216,7 @@ public class LoadTopicHelper {
                 }
             }else {
                 if (topicsReceiveListener != null) {
-                    topicsReceiveListener.onError("Check Your Internet Connection");
+                    topicsReceiveListener.onError("404");
                 }
             }
         }

@@ -14,7 +14,9 @@ import com.theforum.Constants;
 import com.theforum.R;
 import com.theforum.data.helpers.LoadTopicHelper;
 import com.theforum.data.local.models.TopicDataModel;
+import com.theforum.utils.CommonUtils;
 import com.theforum.utils.customViews.DividerItemDecorator;
+import com.theforum.utils.listeners.OnLoadMoreListener;
 
 import java.util.ArrayList;
 
@@ -34,6 +36,7 @@ public class TopicsFragment extends Fragment {
     SwipeRefreshLayout swipeRefreshLayout;
 
     private TopicsListAdapter mAdapter;
+    public  int times = 0;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,12 +48,10 @@ public class TopicsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        ArrayList<TopicDataModel> mFeeds = new ArrayList<>();
-
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new DividerItemDecorator(getActivity(), R.drawable.recycler_view_divider));
 
-        mAdapter = new TopicsListAdapter(getActivity(), mFeeds);
+        mAdapter = new TopicsListAdapter(getActivity(), new ArrayList<TopicDataModel>());
         recyclerView.setAdapter(mAdapter);
 
         getTopics();
@@ -58,8 +59,15 @@ public class TopicsFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                LoadTopicHelper.getHelper().loadTopics(0,Constants.SORT_BASIS_LATEST);
-                getTopics();
+                LoadTopicHelper.getHelper().loadTopics(0, Constants.SORT_BASIS_LATEST);
+                times = 0;
+            }
+        });
+
+        mAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void loadMore() {
+                LoadTopicHelper.getHelper().loadTopics(times, Constants.SORT_BASIS_LATEST);
             }
         });
 
@@ -67,18 +75,33 @@ public class TopicsFragment extends Fragment {
 
     private void getTopics(){
 
-
             LoadTopicHelper.getHelper().getTopics(new LoadTopicHelper.OnTopicsReceiveListener() {
                 @Override
                 public void onCompleted(ArrayList<TopicDataModel> topics) {
                     swipeRefreshLayout.setRefreshing(false);
-                    Log.e("ui ui","data received "+ topics.size());
-                    mAdapter.addTopics(topics, true);
+                    Log.e("ui ui", "data received " + topics.size());
+                    if(times==0){
+                        mAdapter.removeAllTopics();
+                        mAdapter.addTopics(topics, true);
+                    }else {
+                        mAdapter.addTopics(topics, false);
+                    }
+
+                    if(topics.size()<20) {
+                        mAdapter.setAllTopicsLoaded(true);
+                    }
+                    times++;
+
                 }
 
                 @Override
                 public void onError(String error) {
+                    swipeRefreshLayout.setRefreshing(false);
                     Log.e("TopicsFragment error", error);
+
+                    if(error.equals("404")){
+                        CommonUtils.showToast(getContext(),"Check Your Internet Connection");
+                    }
                 }
             });
 
