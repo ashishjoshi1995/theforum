@@ -2,6 +2,7 @@ package com.theforum.notification;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,10 +83,13 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        Log.e("test5","test");
         if(viewType== VIEW_TYPE_ONE){
+            Log.e("test7","test");
             return new ViewHolderOne(LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.notifications_list_item_one, parent, false));
         }else{
+            Log.e("test6","test");
             return new ViewHolderTwo(LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.notifications_list_item_two, parent, false));
         }
@@ -93,21 +97,45 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder,final int position) {
-
+Log.e("test2",mData.get(position).toString());
         if(holder.getItemViewType()== VIEW_TYPE_ONE){
+            Log.e("test3",mData.get(position).toString());
+            final ViewHolderOne viewHolderOne = (ViewHolderOne) holder;
+            if(mData.get(position).notificationType == Constants.NOTIFICATION_TYPE_OPINION_UP_VOTES) {
+                String tempText = "Your Opinion on " + mData.get(position).topicText + " received";
+                viewHolderOne.header.setText(tempText);
 
+                tempText = mData.get(position).newCount + " more Upvotes";
+                viewHolderOne.mainText.setText(tempText);
+
+                tempText = mData.get(position).opinionText;
+                viewHolderOne.description.setText(tempText);
+
+                tempText = mData.get(position).hoursLeft + "hrs left to decay | 01:30 PM Today";
+                viewHolderOne.timeHolder.setText(tempText);
+            }
         }else {
+            Log.e("test4",mData.get(position).toString());
             final ViewHolderTwo viewHolderTwo = (ViewHolderTwo)holder;
-
+            int j = mData.get(position).notificationType;
+            String tempText = "Your Topic " + mData.get(position).topicText + " recieved";
+            viewHolderTwo.header.setText(tempText);
+            switch (j){
+                case Constants.NOTIFICATION_TYPE_OPINIONS:
+                    tempText = mData.get(position).opinions + " Opinions";
+                    viewHolderTwo.mainText.setText(tempText);
+                    break;
+                case Constants.NOTIFICATION_TYPE_RENEWAL_REQUEST:
+                    tempText = mData.get(position).renewalRequest+ " Renewal Requests";
+                    viewHolderTwo.mainText.setText(tempText);
+                    break;
+                case Constants.NOTIFICATION_TYPE_RENEWED:
+                    tempText = mData.get(position).renewedCount + " Renewal";
+                    viewHolderTwo.mainText.setText(tempText);
+                    break;
+            }
+            tempText = mData.get(position).hoursLeft +"hrs left to decay | 01:30 PM Today";
+            viewHolderTwo.timeHolder.setText(tempText);
             }
         }
-
-
     }
-
-
-
-
-
-
-

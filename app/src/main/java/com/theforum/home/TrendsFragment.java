@@ -53,12 +53,11 @@ public class TrendsFragment extends Fragment {
     }
 
     private void getDataFromServer(){
-        OpinionHelper.getHelper().getTrendingOpinions(new OpinionHelper.OnTrendingReceiveListener() {
+        OpinionHelper.getHelper().getTrendingOpinions(new OpinionHelper.OnOpinionsReceivedListener() {
+
             @Override
-            public void onCompleted(ArrayList<topic> topics, ArrayList<opinion> opinions) {
-                if(opinions!=null){
-                    mAdapter.addAllTrends(opinions);
-                }
+            public void onCompleted(ArrayList<opinion> opinions) {
+                mAdapter.addAllTrends(opinions);
             }
 
             @Override
