@@ -5,7 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.theforum.data.server.topic;
+import com.theforum.TheForumApplication;
+import com.theforum.data.local.models.TopicDataModel;
 
 import java.util.ArrayList;
 
@@ -20,17 +21,17 @@ public class TopicDBHelper {
     private SQLiteDatabase topicDatabase;
 
 
-    public static TopicDBHelper getTopicDBHelper(Context context){
-        if(topicDBHelper == null) topicDBHelper = new TopicDBHelper(context);
+    public static TopicDBHelper getHelper(){
+        if(topicDBHelper == null) topicDBHelper = new TopicDBHelper();
         return topicDBHelper;
     }
 
-    private TopicDBHelper(Context context){
-        topicDB = new TopicDB(context);
+    private TopicDBHelper(){
+        topicDB = new TopicDB(TheForumApplication.getAppContext());
         topicDatabase = topicDB.getWritableDatabase();
     }
 
-    public void addTopic(topic topic){
+    public void addTopic(TopicDataModel topic){
 
         ContentValues values = new ContentValues();
 
@@ -48,7 +49,7 @@ public class TopicDBHelper {
 
     }
 
-    public void addTopicFromServer(topic topic){
+    public void addTopicFromServer(TopicDataModel topic){
 
         Cursor c= topicDatabase.rawQuery("SELECT * FROM "+ TopicDBConstants.TABLE_NAME+ " WHERE " +
                 TopicDBConstants.KEY_TOPIC_ID + " =?", new String[] {topic.getTopicId()});
@@ -69,31 +70,31 @@ public class TopicDBHelper {
      * @param topics list of topics that you want to save into db.
      *
      */
-    public void addTopicsFromServer(ArrayList<topic> topics){
+    public void addTopicsFromServer(ArrayList<TopicDataModel> topics){
         for (int k = 0; k<topics.size();k++){
             addTopicFromServer(topics.get(k));
         }
     }
 
-    public void updateTopic(topic topic){
+    public void updateTopic(TopicDataModel topic){
         ContentValues values = new ContentValues();
 
         values.put(TopicDBConstants.KEY_RENEWAL_REQUEST, topic.getRenewalRequests());
-        values.put(TopicDBConstants.KEY_RENEWED_COUNT, topic.getTotalOpinions());
+        values.put(TopicDBConstants.KEY_RENEWED_COUNT, topic.getRenewedCount());
         values.put(TopicDBConstants.KEY_HOURS_LEFT, topic.getHoursLeft());
 
         topicDatabase.update(TopicDBConstants.TABLE_NAME, values, TopicDBConstants.KEY_TOPIC_ID
                 +" = ?", new String[]{topic.getTopicId()});
     }
 
-    public ArrayList<topic> getAllTopics(){
-        ArrayList<topic> topics = new ArrayList<>();
+    public ArrayList<TopicDataModel> getAllTopics(){
+        ArrayList<TopicDataModel> topics = new ArrayList<>();
         Cursor cursor = topicDatabase.rawQuery("SELECT  * FROM " + TopicDBConstants.TABLE_NAME, null);
 
         if(cursor!=null){
             if (cursor.moveToFirst()) {
                 do {
-                    topic obj = new topic();
+                    TopicDataModel obj = new TopicDataModel();
                     obj.setServerId(cursor.getString(1));
                     obj.setTopicId(cursor.getString(2));
                     obj.setTopicName(cursor.getString(3));

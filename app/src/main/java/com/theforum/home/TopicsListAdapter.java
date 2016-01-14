@@ -2,9 +2,6 @@ package com.theforum.home;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
@@ -126,8 +123,17 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
         notifyDataSetChanged();
     }
 
-    public void addTopics(ArrayList<TopicDataModel> topics){
-        mTopics.addAll(topics);
+    /**
+     *
+     * @param topics list of topics to update ui
+     * @param start true to add the topics at the top of the list
+     */
+
+    public void addTopics(ArrayList<TopicDataModel> topics, boolean start){
+        if(start){
+            mTopics.addAll(0,topics);
+        }else mTopics.addAll(topics);
+
         notifyDataSetChanged();
     }
 
@@ -140,9 +146,5 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
     @Override
     public int getItemCount() {return mTopics.size();}
 
-    public Drawable tintDrawable(String color){
-        renewIcon.mutate().setColorFilter(new PorterDuffColorFilter(Color.parseColor(color), PorterDuff.Mode.MULTIPLY));
-        return renewIcon;
-    }
 
 }

@@ -98,7 +98,7 @@ public class LoadTopicHelper {
         final int n = times*20;
 
         if(CommonUtils.isInternetAvailable()){
-            Log.e("yay net","true");
+
             AsyncTask<Void, Void, ArrayList<topic>> task = new AsyncTask<Void, Void, ArrayList<topic>>() {
                 MobileServiceList<topic> topics = null;
 
@@ -197,7 +197,7 @@ public class LoadTopicHelper {
                             topicsReceived = false;
                         }
 
-                        TopicDBHelper.getTopicDBHelper(TheForumApplication.getAppContext()).addTopicsFromServer(topics);
+                        TopicDBHelper.getHelper().addTopicsFromServer(topicArrayList);
                     }
 
                 }
@@ -206,7 +206,14 @@ public class LoadTopicHelper {
             runAsyncTask(task);
 
         }else {
-            Log.e("oops no net","load data from local db");
+
+            topicArrayList = TopicDBHelper.getHelper().getAllTopics();
+            topicsReceived = true;
+
+            if(topicsReceiveListener!= null){
+                topicsReceiveListener.onCompleted(topicArrayList);
+                topicsReceived = false;
+            }
         }
 
 
@@ -243,6 +250,7 @@ public class LoadTopicHelper {
 
 
     private void convertDataModel(ArrayList<topic> topics){
+        topicArrayList = new ArrayList<>();
         topic topic ;
         for(int i=0; i<topics.size();i++) {
             TopicDataModel topicDataModel = new TopicDataModel();

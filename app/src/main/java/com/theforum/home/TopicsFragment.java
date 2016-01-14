@@ -46,9 +46,6 @@ public class TopicsFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         ArrayList<TopicDataModel> mFeeds = new ArrayList<>();
-     /*   for(int i=0;i<9;i++){
-            mFeeds.add(new topic());
-        }*/
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new DividerItemDecorator(getActivity(), R.drawable.recycler_view_divider));
@@ -61,7 +58,7 @@ public class TopicsFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                LoadTopicHelper.getHelper().loadTopics(1,Constants.SORT_BASIS_LATEST);
+                LoadTopicHelper.getHelper().loadTopics(0,Constants.SORT_BASIS_LATEST);
                 getTopics();
             }
         });
@@ -75,8 +72,8 @@ public class TopicsFragment extends Fragment {
                 @Override
                 public void onCompleted(ArrayList<TopicDataModel> topics) {
                     swipeRefreshLayout.setRefreshing(false);
-                    Log.e("ui ui","data received "+topics.size());
-                        mAdapter.addTopics(topics);
+                    Log.e("ui ui","data received "+ topics.size());
+                        mAdapter.addTopics(topics, true);
                 }
 
                 @Override

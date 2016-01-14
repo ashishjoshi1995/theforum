@@ -15,7 +15,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        LoadTopicHelper.getHelper().loadTopicsOnPull(Constants.SORT_BASIS_CREATED_BY_ME);
+        LoadTopicHelper.getHelper().loadTopics(0,Constants.SORT_BASIS_LATEST);
 
 
         new Handler().postDelayed(new Runnable() {
