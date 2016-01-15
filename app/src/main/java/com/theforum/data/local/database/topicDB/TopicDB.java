@@ -23,7 +23,7 @@ public class TopicDB extends SQLiteOpenHelper {
                 +TopicDBConstants.KEY_MY_TOPIC+" INTEGER)";
         db.execSQL(CREATE_TOPIC_TABLE);
 
-        String CREATE_RENEW_REQUEST_TOPIC_TABLE = "CREATE TABLE" + TopicDBConstants.TABLE_TWO_NAME + "("
+        String CREATE_RENEW_REQUEST_TOPIC_TABLE = "CREATE TABLE " + TopicDBConstants.TABLE_TWO_NAME + "("
                 + TopicDBConstants.KEY_ID + " INTEGER PRIMARY KEY," + TopicDBConstants.KEY_TOPIC_ID + " TEXT)";
 
         db.execSQL(CREATE_RENEW_REQUEST_TOPIC_TABLE);

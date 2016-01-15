@@ -59,8 +59,8 @@ public class TopicsFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                LoadTopicHelper.getHelper().loadTopics(times, Constants.SORT_BASIS_LATEST);
                 times = 0;
+                LoadTopicHelper.getHelper().loadTopics(times, Constants.SORT_BASIS_LATEST);
                 mAdapter.setAllTopicsLoaded(false);
             }
         });
@@ -80,7 +80,7 @@ public class TopicsFragment extends Fragment {
                 @Override
                 public void onCompleted(ArrayList<TopicDataModel> topics) {
                     swipeRefreshLayout.setRefreshing(false);
-                    Log.e("ui ui", "data received " + topics.size());
+                    Log.e("ui ui", "data received " + topics.size()+"/"+times);
                     if(topics.size()== 1 && topics.get(0).isMyTopic()) {
                         mAdapter.addTopic(topics.get(0),0);
                     }else {
@@ -91,6 +91,7 @@ public class TopicsFragment extends Fragment {
                             mAdapter.addTopics(topics, false);
                         }
                         if (topics.size() < 20) mAdapter.setAllTopicsLoaded(true);
+
                         times++;
                     }
                 }
