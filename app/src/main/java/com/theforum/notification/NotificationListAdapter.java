@@ -103,6 +103,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
             Log.e("test3",mData.get(position).toString());
             final ViewHolderOne viewHolderOne = (ViewHolderOne) holder;
             if(mData.get(position).getNotificationType() == Constants.NOTIFICATION_TYPE_OPINION_UP_VOTES) {
+                Log.e(mData.get(position).getHeader()+mData.get(position).getMainText(),mData.get(position).getDescription()+mData.get(position).getTimeHolder());
                 viewHolderOne.header.setText(mData.get(position).getHeader());
                 viewHolderOne.mainText.setText(mData.get(position).getMainText());
                 viewHolderOne.description.setText(mData.get(position).getDescription());
@@ -124,6 +125,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
                     break;
             }
             viewHolderTwo.timeHolder.setText(mData.get(position).getTimeHolder());
+            Log.e(mData.get(position).getHeader()+mData.get(position).getTimeHolder(),mData.get(position).getMainText());
             }
         }
     }
