@@ -33,20 +33,14 @@ public class NotificationHelper {
     }
 
     public void readNotification(final NotificationIfAny notificationIfAny){
-        final boolean[] one = {false};
-//        boolean two = false;
-
-
-       opinion.where().field("uid").eq(User.getInstance().getId()).and().field("notif_count").ge(0).execute(new TableQueryCallback<opinion>() {
+       opinion.where().field("uid").eq(User.getInstance().getId()).and().field("notif_count").ge(0).
+               execute(new TableQueryCallback<opinion>() {
 
             @Override
             public void onCompleted(List<opinion> result, int count, Exception exception, ServiceFilterResponse response) {
                 Log.e("readNotif opi", String.valueOf(count));
-                if(count>0)
-                {
-                    //NotificationStack.pushNotificationInflatorItemData(result);
+                if(count>0) {
                     notificationIfAny.opinionNotif(result);
-
                 }
             }
 
@@ -57,10 +51,8 @@ public class NotificationHelper {
             public void onCompleted(List<topic> result, int count, Exception exception, ServiceFilterResponse response) {
                 Log.e("readNotif topic", String.valueOf(count));
                 if(count>0){
-                   // NotificationStack.pushNotificationInflatorItemData(result);
                     notificationIfAny.topicNotif(result);
                 }
-
             }
         });
     }

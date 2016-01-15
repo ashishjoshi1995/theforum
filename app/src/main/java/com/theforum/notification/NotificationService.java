@@ -21,8 +21,8 @@ import com.theforum.data.server.topic;
 import com.theforum.data.helpers.NotificationHelper;
 import com.theforum.data.interfaces.NotificationIfAny;
 import com.theforum.data.server.NotificationDataModel;
-import com.theforum.data.local.NotificationStack;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -85,7 +85,7 @@ public class NotificationService extends Service {
             boolean stop = false;
                 @Override
                 public void topicNotif(List<topic> topics) {
-                    List<NotificationDataModel> inflatorItemDatas = null;
+                    ArrayList<NotificationDataModel> inflatorItemDatas = new ArrayList<NotificationDataModel>();
                     for(int j =0; j<topics.size();j++){
                         NotificationDataModel inflatorItemDataRenewal = new NotificationDataModel();
                         inflatorItemDataRenewal.hoursLeft = topics.get(j).getHoursLeft();
@@ -118,7 +118,7 @@ public class NotificationService extends Service {
                 }
                 @Override
                 public void opinionNotif(List<opinion> opinions) {
-                    List<NotificationDataModel> inflatorItemDatas = null;
+                    ArrayList<NotificationDataModel> inflatorItemDatas = new ArrayList<NotificationDataModel>();
                         for(int j=0;j<opinions.size();j++){
                             NotificationDataModel inflatorItemData = new NotificationDataModel();
                             inflatorItemData.notificationType = Constants.NOTIFICATION_TYPE_OPINION_UP_VOTES;

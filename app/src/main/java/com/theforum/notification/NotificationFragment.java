@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +13,6 @@ import android.view.ViewGroup;
 import com.theforum.R;
 import com.theforum.data.local.database.notificationDB.NotificationDBHelper;
 import com.theforum.data.local.models.NotificationInflatorModel;
-import com.theforum.data.server.NotificationDataModel;
-import com.theforum.data.local.NotificationStack;
 import com.theforum.utils.customViews.DividerItemDecorator;
 
 import java.util.ArrayList;
