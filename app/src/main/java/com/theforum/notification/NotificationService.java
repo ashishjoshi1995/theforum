@@ -15,6 +15,7 @@ import android.widget.RemoteViews;
 import com.theforum.Constants;
 import com.theforum.HomeActivity;
 import com.theforum.R;
+import com.theforum.data.local.database.notificationDB.NotificationDBHelper;
 import com.theforum.data.server.opinion;
 import com.theforum.data.server.topic;
 import com.theforum.data.helpers.NotificationHelper;
@@ -101,12 +102,15 @@ public class NotificationService extends Service {
                         inflatorItemDataOpinions.hoursLeft = topics.get(j).getHoursLeft();
                         inflatorItemDataOpinions.topicText = topics.get(j).getTopicName();
                         inflatorItemDataOpinions.opinions = topics.get(j).getTotalOpinions();
-                        NotificationStack.pushNotificationInflatorItemData(inflatorItemDataOpinions);
+
                         inflatorItemDatas.add(inflatorItemDataRenewal);
                         jaiHo++;
                     }
                     //if(stop){
+                    if(inflatorItemDatas.size()>0) {
+                        NotificationDBHelper.getNotificationDBHelper().addNotifications(inflatorItemDatas);
                         Notify(jaiHo);
+                    }
 
                      //   stop = false;
                    // }
@@ -114,6 +118,7 @@ public class NotificationService extends Service {
                 }
                 @Override
                 public void opinionNotif(List<opinion> opinions) {
+                    List<NotificationDataModel> inflatorItemDatas = null;
                         for(int j=0;j<opinions.size();j++){
                             NotificationDataModel inflatorItemData = new NotificationDataModel();
                             inflatorItemData.notificationType = Constants.NOTIFICATION_TYPE_OPINION_UP_VOTES;
@@ -122,12 +127,15 @@ public class NotificationService extends Service {
                             inflatorItemData.totalUpvotes = opinions.get(j).getUpVotes();
                             inflatorItemData.totalDownvotes = opinions.get(j).getDownVotes();
                             inflatorItemData.opinionText = opinions.get(j).getOpinionName();
-                            NotificationStack.pushNotificationInflatorItemData(inflatorItemData);
+                            inflatorItemDatas.add(inflatorItemData);
                             jaiHo++;
                             Log.e("salma2",""+jaiHo);
                         }
                     //if(stop){
+
+                    if(inflatorItemDatas.size()>0){
                         Notify(jaiHo);
+                    NotificationDBHelper.getNotificationDBHelper().addNotifications(inflatorItemDatas);}
                         //stop = false;
                     //}
                     //stop= true;

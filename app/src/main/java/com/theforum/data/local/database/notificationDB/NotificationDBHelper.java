@@ -1,12 +1,15 @@
 package com.theforum.data.local.database.notificationDB;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.theforum.Constants;
 import com.theforum.TheForumApplication;
+import com.theforum.data.local.models.NotificationInflatorModel;
 import com.theforum.data.server.NotificationDataModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -67,4 +70,30 @@ public class NotificationDBHelper {
     public void deleteNotification(){
         //delete notification from table when the entries exceed a certain fixed number
     }
+
+    public ArrayList<NotificationInflatorModel> getAllNotifications(){
+        ArrayList<NotificationInflatorModel> notifications = new ArrayList<>();
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT  * FROM " + NotificationDBConstants.TABLE_NAME, null);
+
+        if(cursor!=null){
+            if (cursor.moveToFirst()) {
+                do {
+                    NotificationInflatorModel obj = new NotificationInflatorModel();
+
+                    obj.setNotificationType(cursor.getInt(1));
+                    obj.setViewType(cursor.getInt(2));
+                    obj.setTimeHolder(cursor.getString(3));
+                    obj.setMainText(cursor.getString(4));
+                    obj.setHeader(cursor.getString(5));
+                    obj.setDescription(cursor.getString(6));
+
+                    notifications.add(obj);
+
+                } while (cursor.moveToNext());
+            }
+        }
+
+        return notifications;
+    }
+
 }

@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.theforum.R;
+import com.theforum.data.local.database.notificationDB.NotificationDBHelper;
+import com.theforum.data.local.models.NotificationInflatorModel;
 import com.theforum.data.server.NotificationDataModel;
 import com.theforum.data.local.NotificationStack;
 import com.theforum.utils.customViews.DividerItemDecorator;
@@ -60,12 +62,8 @@ public class NotificationFragment extends Fragment {
 
     }
 
-    private ArrayList<NotificationDataModel> getListData(){
-        ArrayList<NotificationDataModel> list = new ArrayList<>();
-        for (int i=0;i<NotificationStack.notificationStack.size();i++) {
-            list.add((NotificationDataModel) NotificationStack.notificationStack.pop());
-            Log.e("test", String.valueOf(list.get(i).hoursLeft));
-        }
+    private ArrayList<NotificationInflatorModel> getListData(){
+        ArrayList<NotificationInflatorModel> list = NotificationDBHelper.getNotificationDBHelper().getAllNotifications();
         return list;
     }
 }

@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.theforum.Constants;
 import com.theforum.R;
+import com.theforum.data.local.models.NotificationInflatorModel;
 import com.theforum.data.server.NotificationDataModel;
 
 import java.util.ArrayList;
@@ -26,13 +27,13 @@ import butterknife.ButterKnife;
 
 public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private ArrayList<NotificationDataModel> mData;
+    private ArrayList<NotificationInflatorModel> mData;
     private Context mContext;
 
     private final static int VIEW_TYPE_ONE = 0;
     private final static int VIEW_TYPE_TWO = 1;
 
-    public NotificationListAdapter(Context context, ArrayList<NotificationDataModel> dataSet) {
+    public NotificationListAdapter(Context context, ArrayList<NotificationInflatorModel> dataSet) {
         mData = dataSet;
         mContext = context;
     }
@@ -76,7 +77,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public int getItemViewType(int position) {
-        if(mData.get(position).notificationType == Constants.NOTIFICATION_TYPE_OPINION_UP_VOTES){
+        if(mData.get(position).getNotificationType() == Constants.NOTIFICATION_TYPE_OPINION_UP_VOTES){
             return VIEW_TYPE_ONE;
         }else return VIEW_TYPE_TWO;
     }
@@ -97,45 +98,32 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder,final int position) {
-        Log.e("test2",mData.get(position).toString());
+
         if(holder.getItemViewType()== VIEW_TYPE_ONE){
             Log.e("test3",mData.get(position).toString());
             final ViewHolderOne viewHolderOne = (ViewHolderOne) holder;
-            if(mData.get(position).notificationType == Constants.NOTIFICATION_TYPE_OPINION_UP_VOTES) {
-                String tempText = "Your Opinion on " + mData.get(position).topicText + " received";
-                viewHolderOne.header.setText(tempText);
-
-                tempText = mData.get(position).newCount + " more Upvotes";
-                viewHolderOne.mainText.setText(tempText);
-
-                tempText = mData.get(position).opinionText;
-                viewHolderOne.description.setText(tempText);
-
-                tempText = mData.get(position).hoursLeft + "hrs left to decay | 01:30 PM Today";
-                viewHolderOne.timeHolder.setText(tempText);
+            if(mData.get(position).getNotificationType() == Constants.NOTIFICATION_TYPE_OPINION_UP_VOTES) {
+                viewHolderOne.header.setText(mData.get(position).getHeader());
+                viewHolderOne.mainText.setText(mData.get(position).getMainText());
+                viewHolderOne.description.setText(mData.get(position).getDescription());
+                viewHolderOne.timeHolder.setText(mData.get(position).getTimeHolder());
             }
         }else {
-            Log.e("test4",mData.get(position).toString());
             final ViewHolderTwo viewHolderTwo = (ViewHolderTwo)holder;
-            int j = mData.get(position).notificationType;
-            String tempText = "Your Topic " + mData.get(position).topicText + " recieved";
-            viewHolderTwo.header.setText(tempText);
-            switch (j){
+            int j = mData.get(position).getNotificationType();
+            viewHolderTwo.header.setText(mData.get(position).getHeader());
+            switch (j) {
                 case Constants.NOTIFICATION_TYPE_OPINIONS:
-                    tempText = mData.get(position).opinions + " Opinions";
-                    viewHolderTwo.mainText.setText(tempText);
+                    viewHolderTwo.mainText.setText(mData.get(position).getMainText());
                     break;
                 case Constants.NOTIFICATION_TYPE_RENEWAL_REQUEST:
-                    tempText = mData.get(position).renewalRequest+ " Renewal Requests";
-                    viewHolderTwo.mainText.setText(tempText);
+                    viewHolderTwo.mainText.setText(mData.get(position).getMainText());
                     break;
                 case Constants.NOTIFICATION_TYPE_RENEWED:
-                    tempText = mData.get(position).renewedCount + " Renewal";
-                    viewHolderTwo.mainText.setText(tempText);
+                    viewHolderTwo.mainText.setText(mData.get(position).getMainText());
                     break;
             }
-            tempText = mData.get(position).hoursLeft +"hrs left to decay | 01:30 PM Today";
-            viewHolderTwo.timeHolder.setText(tempText);
+            viewHolderTwo.timeHolder.setText(mData.get(position).getTimeHolder());
             }
         }
     }
