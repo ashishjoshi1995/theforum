@@ -12,12 +12,12 @@ public class TopicDBConstants {
     // Database Name
     public static final String DATABASE_NAME = "TOPIC_DATABASE";
 
-    // Table name
+    // Table names
     public static final String TABLE_NAME = "TOPICS_TABLE";
-    public static final String TABLE_TWO_NAME = "RENEW_REQUEST_TOPIC_TABLE";
+    public static final String TABLE_TWO_NAME = "ASSOCIATED_TOPIC_TABLE";
 
 
-    // table coloumn keys
+    // table one column keys
 
     public static final String KEY_ID = "id";
     public static final String KEY_SERVER_ID="server_id";
@@ -29,5 +29,12 @@ public class TopicDBConstants {
     public static final String KEY_HOURS_LEFT = "hours_left";
     public static final String KEY_IF_RENEWED = "if_renewed";
 
+
+    /*
+        Table Two column keys
+     */
+
+    //public static final String KEY_TOPIC_ID="topic_id";
+    public static final String KEY_MY_TOPIC = "my_topic";
 
 }

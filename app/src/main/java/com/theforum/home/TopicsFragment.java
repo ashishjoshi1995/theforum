@@ -59,8 +59,9 @@ public class TopicsFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                LoadTopicHelper.getHelper().loadTopics(0, Constants.SORT_BASIS_LATEST);
+                LoadTopicHelper.getHelper().loadTopics(times, Constants.SORT_BASIS_LATEST);
                 times = 0;
+                mAdapter.setAllTopicsLoaded(false);
             }
         });
 
@@ -87,20 +88,23 @@ public class TopicsFragment extends Fragment {
                         mAdapter.addTopics(topics, false);
                     }
 
-                    if(topics.size()<20) {
-                        mAdapter.setAllTopicsLoaded(true);
-                    }
+                    if(topics.size()<20) mAdapter.setAllTopicsLoaded(true);
                     times++;
-
                 }
 
                 @Override
                 public void onError(String error) {
-                    swipeRefreshLayout.setRefreshing(false);
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
+                    });
+
                     Log.e("TopicsFragment error", error);
 
                     if(error.equals("404")){
-                        CommonUtils.showToast(getContext(),"Check Your Internet Connection");
+                        CommonUtils.showToast(getContext(), "Check Your Internet Connection");
                     }
                 }
             });
