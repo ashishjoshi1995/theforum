@@ -64,11 +64,25 @@ public class LoadTopicHelper {
                         @Override
                         public void onCompleted(topic entity, Exception exception, ServiceFilterResponse response) {
                             if (exception == null) {
-                                onTopicInsertListener.onCompleted(entity);
+                                /*
+                                   saving topic to local dataBase
+                                 */
+                                TopicDataModel topicDataModel = new TopicDataModel(entity);
+                                topicDataModel.setIsMyTopic(true);
+                                TopicDBHelper.getHelper().addTopic(topicDataModel);
+
+                                if(topicsReceiveListener!=null){
+                                    topicArrayList.clear();
+                                    topicArrayList.add(topicDataModel);
+                                    topicsReceiveListener.onCompleted(topicArrayList);
+                                }
+
+                                onTopicInsertListener.onCompleted();
+
                             } else {
                                 onTopicInsertListener.onError(exception.getMessage());
                             }
-                            //TODO: add file to the local db
+
                         }
                     });
                 } catch (Exception e) {
@@ -124,8 +138,6 @@ public class LoadTopicHelper {
                                         if (exception == null){
                                             try {
                                                 JSONArray jsonArray = new JSONArray(result.message);
-                                                // ArrayList<topic> topicList = new ArrayList<topic>();
-                                                //JSONArray jArray = (JSONArray)jsonObject;
 
                                                 for (int i = 0; i < jsonArray.length(); i++) {
                                                     JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -219,8 +231,6 @@ public class LoadTopicHelper {
             }
         }
 
-
-
     }
 
 
@@ -291,12 +301,10 @@ public class LoadTopicHelper {
     }
 
     public interface OnTopicInsertListener{
-        /**
-         *
-         * @param topic topic data model with updated params
-         */
-        void onCompleted(topic topic);
+        void onCompleted();
         void onError(String error);
     }
+
+
 
 }

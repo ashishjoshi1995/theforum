@@ -18,6 +18,7 @@ public class TopicDataModel implements Serializable{
     private int renewedCount;
     private int hoursLeft;
     private boolean isRenewed;
+    private boolean isMyTopic;
 
     public TopicDataModel(){}
 
@@ -95,5 +96,13 @@ public class TopicDataModel implements Serializable{
 
     public void setIsRenewed(boolean isRenewed) {
         this.isRenewed = isRenewed;
+    }
+
+    public boolean isMyTopic() {
+        return isMyTopic;
+    }
+
+    public void setIsMyTopic(boolean isMyTopic) {
+        this.isMyTopic = isMyTopic;
     }
 }

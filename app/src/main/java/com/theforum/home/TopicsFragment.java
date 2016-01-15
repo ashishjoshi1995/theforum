@@ -81,15 +81,18 @@ public class TopicsFragment extends Fragment {
                 public void onCompleted(ArrayList<TopicDataModel> topics) {
                     swipeRefreshLayout.setRefreshing(false);
                     Log.e("ui ui", "data received " + topics.size());
-                    if(times==0){
-                        mAdapter.removeAllTopics();
-                        mAdapter.addTopics(topics, true);
+                    if(topics.size()== 1 && topics.get(0).isMyTopic()) {
+                        mAdapter.addTopic(topics.get(0),0);
                     }else {
-                        mAdapter.addTopics(topics, false);
+                        if (times == 0) {
+                            mAdapter.removeAllTopics();
+                            mAdapter.addTopics(topics, true);
+                        } else {
+                            mAdapter.addTopics(topics, false);
+                        }
+                        if (topics.size() < 20) mAdapter.setAllTopicsLoaded(true);
+                        times++;
                     }
-
-                    if(topics.size()<20) mAdapter.setAllTopicsLoaded(true);
-                    times++;
                 }
 
                 @Override
