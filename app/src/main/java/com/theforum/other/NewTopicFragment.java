@@ -92,7 +92,7 @@ public class NewTopicFragment extends Fragment {
 
             @Override
             public void onError(String error) {
-                Log.e("error", "" + error);
+                Log.e("UploadTopic error", "" + error);
             }
         });
     }

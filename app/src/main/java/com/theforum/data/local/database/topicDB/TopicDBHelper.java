@@ -3,6 +3,7 @@ package com.theforum.data.local.database.topicDB;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.theforum.TheForumApplication;
 import com.theforum.data.local.models.TopicDataModel;
@@ -95,6 +96,11 @@ public class TopicDBHelper {
                 +" = ?", new String[]{topic.getTopicId()});
     }
 
+    /**
+     *
+     * @return array list of topics stored in local database
+     */
+
     public ArrayList<TopicDataModel> getAllTopics(){
         ArrayList<TopicDataModel> topics = new ArrayList<>();
         Cursor cursor = topicDatabase.rawQuery("SELECT  * FROM " + TopicDBConstants.TABLE_NAME, null);
@@ -103,6 +109,7 @@ public class TopicDBHelper {
             if (cursor.moveToFirst()) {
                 do {
                     TopicDataModel obj = new TopicDataModel();
+                    Log.e("id",""+cursor.getInt(0));
                     obj.setServerId(cursor.getString(1));
                     obj.setTopicId(cursor.getString(2));
                     obj.setTopicName(cursor.getString(3));
