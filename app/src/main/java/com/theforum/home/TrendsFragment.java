@@ -10,12 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.theforum.R;
-import com.theforum.data.helpers.OpinionHelper;
-import com.theforum.data.server.opinion;
+import com.theforum.data.helpers.TrendsHelper;
+import com.theforum.data.local.models.TrendsDataModel;
 import com.theforum.utils.customViews.DividerItemDecorator;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -40,24 +39,21 @@ public class TrendsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        List<opinion> mFeeds = new ArrayList<>();
-
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new DividerItemDecorator(getActivity(), R.drawable.recycler_view_divider));
 
-        mAdapter = new TrendsListAdapter(getActivity(), mFeeds);
+        mAdapter = new TrendsListAdapter(getActivity(), new ArrayList<TrendsDataModel>());
         recyclerView.setAdapter(mAdapter);
 
         getDataFromServer();
     }
 
     private void getDataFromServer(){
-        OpinionHelper.getHelper().getTrendingOpinions(new OpinionHelper.OnOpinionsReceivedListener() {
+        TrendsHelper.getHelper().getTrendingOpinions(new TrendsHelper.OnTrendsReceivedListener() {
 
             @Override
-            public void onCompleted(ArrayList<opinion> opinions) {
-                if(opinions!=null)
-                mAdapter.addAllTrends(opinions);
+            public void onCompleted(ArrayList<TrendsDataModel> trends) {
+                mAdapter.addAllTrends(trends);
             }
 
             @Override

@@ -13,8 +13,9 @@ import android.widget.TextView;
 import com.theforum.Constants;
 import com.theforum.R;
 import com.theforum.data.helpers.OpinionHelper;
+import com.theforum.data.helpers.TrendsHelper;
 import com.theforum.data.local.models.TopicDataModel;
-import com.theforum.data.server.opinion;
+import com.theforum.data.local.models.TrendsDataModel;
 import com.theforum.data.server.topic;
 import com.theforum.utils.CommonUtils;
 
@@ -37,10 +38,10 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
     private Context mContext;
 
     /* list of feed data */
-    private List<opinion> mFeeds;
+    private List<TrendsDataModel> mFeeds;
 
 
-    public TrendsListAdapter(Context context, List<opinion> feeds){
+    public TrendsListAdapter(Context context, List<TrendsDataModel> feeds){
         mContext = context;
         mFeeds = feeds;
     }
@@ -72,27 +73,23 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
 
         @Override
         public void onClick(View v) {
-            opinion opinion = mFeeds.get(getLayoutPosition());
+            TrendsDataModel trends = mFeeds.get(getLayoutPosition());
             //getting the topic data from server
-            OpinionHelper.getHelper().getTopicDetails(opinion.getTopicId(), new OpinionHelper.OnTopicDetailReceived() {
+            TrendsHelper.getHelper().getTopicDetails(trends.getTopicId(), new TrendsHelper.OnTopicDetailReceived() {
                 @Override
-                public void onCompleted(topic topic) {
-                    TopicDataModel topicDataModel = new TopicDataModel(topic);
+                public void onCompleted(TopicDataModel topic) {
+
+                    CommonUtils.openContainerActivity(mContext, Constants.OPINIONS_FRAGMENT,
+                            Pair.create(Constants.TOPIC_MODEL, (Serializable) topic));
                 }
 
                 @Override
                 public void onError(String error) {
-                    Log.e("onErrorTrendListAdapter",error);
+                    Log.e("onErrorTrendListAdapter", error);
                 }
             });
 
 
-            TopicDataModel topicModel = new TopicDataModel();
-            topicModel.setTopicName(opinion.getTopicName());
-            topicModel.setTopicId(opinion.getTopicId());
-
-            CommonUtils.openContainerActivity(mContext, Constants.OPINIONS_FRAGMENT,
-                    Pair.create(Constants.TOPIC_MODEL,(Serializable)topicModel));
         }
     }
 
@@ -104,21 +101,21 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
 
     @Override
     public void onBindViewHolder(TrendsItemViewHolder holder, int position) {
-        opinion opinionModel = mFeeds.get(position);
+        TrendsDataModel trendsDataModel = mFeeds.get(position);
 
-        holder.topicName.setText(opinionModel.getTopicName());
-        holder.description.setText(opinionModel.getOpinionName());
-        holder.upVoteBtn.setText(String.valueOf(opinionModel.getUpVotes()));
-        holder.downVoteBtn.setText(String.valueOf(opinionModel.getDownVotes()));
+        holder.topicName.setText(trendsDataModel.getTopicName());
+        holder.description.setText(trendsDataModel.getOpinionText());
+        holder.upVoteBtn.setText(String.valueOf(trendsDataModel.getUpVoteCount()));
+        holder.downVoteBtn.setText(String.valueOf(trendsDataModel.getDownVoteCount()));
 
     }
 
-    public void addTrendItem(opinion trendsDataModel, int position){
+    public void addTrendItem(TrendsDataModel trendsDataModel, int position){
         mFeeds.add(position,trendsDataModel);
         notifyDataSetChanged();
     }
 
-    public void addAllTrends(ArrayList<opinion> trends){
+    public void addAllTrends(ArrayList<TrendsDataModel> trends){
         mFeeds.addAll(trends);
         notifyDataSetChanged();
     }

@@ -7,42 +7,49 @@ import com.microsoft.windowsazure.mobileservices.ApiOperationCallback;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
-import com.microsoft.windowsazure.mobileservices.table.TableOperationCallback;
+import com.microsoft.windowsazure.mobileservices.table.query.QueryOrder;
 import com.theforum.TheForumApplication;
 import com.theforum.data.helpers.upvoteDownvoteApi.UPDVRequest;
 import com.theforum.data.helpers.upvoteDownvoteApi.UPDVResponse;
+import com.theforum.data.local.models.TopicDataModel;
+import com.theforum.data.local.models.TrendsDataModel;
 import com.theforum.data.server.opinion;
+import com.theforum.data.server.topic;
 
 import java.util.ArrayList;
 
 /**
- * @author  Ashish on 12/31/2015.
+ * @author DEEPANKAR
+ * @since 19-01-2016.
  */
-public class OpinionHelper {
+public class TrendsHelper {
 
-    private static OpinionHelper mOpinionHelper;
-    private  MobileServiceTable<opinion> mOpinion;
+    private static TrendsHelper trendsHelper;
+    private MobileServiceTable<opinion> mOpinion;
+    private MobileServiceTable<topic> mTopic;
+
+    private ArrayList<TrendsDataModel> trends;
 
 
-    public static OpinionHelper getHelper(){
-        if(mOpinionHelper==null) mOpinionHelper = new OpinionHelper();
-        return mOpinionHelper;
+    public static TrendsHelper getHelper(){
+        if(trendsHelper ==null) trendsHelper = new TrendsHelper();
+        return trendsHelper;
     }
 
-    private OpinionHelper(){
+    private TrendsHelper(){
         mOpinion = TheForumApplication.getClient().getTable(opinion.class);
+        trends = new ArrayList<>();
     }
 
 
-    public  void getTopicSpecificOpinions(final String topic_id, final OnOpinionsReceivedListener listener){
-        if(mOpinion == null) mOpinion = TheForumApplication.getClient().getTable(opinion.class);
-        AsyncTask<Void, Void, MobileServiceList<opinion>> task = new AsyncTask<Void, Void, MobileServiceList<opinion>>() {
+    public void getTrendingOpinions(final OnTrendsReceivedListener listener){
 
+        AsyncTask<Void, Void, MobileServiceList<opinion>> task = new AsyncTask<Void, Void, MobileServiceList<opinion>>() {
             @Override
             protected MobileServiceList<opinion> doInBackground(Void... voids) {
                 MobileServiceList<opinion> result = null;
                 try {
-                    result = mOpinion.where().field("topic_id").eq(topic_id).execute().get();
+                    result = mOpinion.orderBy("upvotes", QueryOrder.Descending).top(30).execute().get();
                 } catch (Exception e) {
                     listener.onError(e.getMessage());
                 }
@@ -52,11 +59,50 @@ public class OpinionHelper {
             @Override
             protected void onPostExecute(MobileServiceList<opinion> opinions) {
                 super.onPostExecute(opinions);
-                listener.onCompleted(opinions);
+
+                if(opinions!=null) {
+                    for (int i = 0; i < opinions.size(); i++) {
+                        TrendsDataModel trendsDataModel = new TrendsDataModel(opinions.get(i));
+                        trends.add(trendsDataModel);
+                    }
+
+                    listener.onCompleted(trends);
+                }else listener.onError("Check Your Internet Connection");
             }
         };
+
         runAsyncTask2(task);
     }
+
+    public void getTopicDetails(final String topic_id,final OnTopicDetailReceived listener){
+        if(mTopic == null) mTopic = TheForumApplication.getClient().getTable(topic.class);
+        AsyncTask<Void, Void,topic> task= new AsyncTask<Void, Void, topic>() {
+
+            @Override
+            protected topic doInBackground(Void... voids) {
+                MobileServiceList<topic> result = null;
+                try {
+                    result = mTopic.where().field("topic_id").eq(topic_id).execute().get();
+                } catch (Exception e) {
+                    listener.onError(e.getMessage());
+                }
+                return result.get(0);
+            }
+
+            @Override
+            protected void onPostExecute(topic topic) {
+                super.onPostExecute(topic);
+
+                if(topic!=null) {
+                    TopicDataModel topicDataModel = new TopicDataModel(topic);
+                    listener.onCompleted(topicDataModel);
+                }else listener.onError("Check Your Internet Connection");
+            }
+        };
+
+        runAsyncTask3(task);
+    }
+
 
     public void upvoteDownvote(Boolean ifUpvote,opinion opinion1, final OnUVDVOperationCompleteListener listener){
         UPDVRequest updvRequest= new UPDVRequest();
@@ -90,60 +136,26 @@ public class OpinionHelper {
 
     }
 
-    public void addOpinion(final opinion opinion , final OnOpinionAddListener listener){
 
-        AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
-
-            @Override
-            protected Void doInBackground(Void... params) {
-                try {
-                    mOpinion.insert(opinion, new TableOperationCallback<opinion>() {
-                        @Override
-                        public void onCompleted(opinion entity, Exception exception, ServiceFilterResponse response) {
-
-                            if(exception == null) {
-                                listener.onCompleted(entity);
-                            }
-                            else {
-                                listener.onError(exception.getMessage());
-                            }
-                        }
-
-
-                    });
-                } catch (Exception e) {
-                    listener.onError(e.getMessage());
-                }
-                return null;
-            }
-        };
-        runAsyncTask(task);
-    }
 
     private AsyncTask<Void, Void, MobileServiceList<opinion>> runAsyncTask2(AsyncTask<Void, Void,
             MobileServiceList<opinion>> task) {
         return task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
-    private static AsyncTask<Void, Void,Void> runAsyncTask(AsyncTask<Void, Void, Void> task) {
+
+
+    private static AsyncTask<Void, Void,topic> runAsyncTask3(AsyncTask<Void, Void, topic> task) {
         return task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
 
-    public interface OnOpinionAddListener{
-        /**
-         *
-         * @param  opinion opinion data model with updated params
-         */
-        void onCompleted(opinion opinion);
-        void onError(String error);
-    }
 
-    public interface OnOpinionsReceivedListener{
+    public interface OnTrendsReceivedListener {
         /**
          *
-         * @param  opinions opinion data model with updated params
+         * @param  trends trends data model with updated params
          */
-        void onCompleted(ArrayList<opinion> opinions);
+        void onCompleted(ArrayList<TrendsDataModel> trends);
         void onError(String error);
     }
 
@@ -155,5 +167,13 @@ public class OpinionHelper {
         void onCompleteMessage(String message);
     }
 
+    public interface OnTopicDetailReceived{
+        /**
+         *
+         * @param  topic topic data model with updated params
+         */
 
+        void onCompleted(TopicDataModel topic);
+        void onError(String error);
+    }
 }

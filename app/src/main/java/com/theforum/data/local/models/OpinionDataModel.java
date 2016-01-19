@@ -1,86 +1,60 @@
 package com.theforum.data.local.models;
 
 /**
- * Created by Ashish on 1/6/2016.
+ * @author  Deepankar on 1/6/2016.
  */
 public class OpinionDataModel {
-    @com.google.gson.annotations.SerializedName("id")
-    private String mId;
 
-    @com.google.gson.annotations.SerializedName("count")
-    private int mCount;
+    private String serverId;
 
-    @com.google.gson.annotations.SerializedName("newdownvotes")
-    private int mNewDownvotes;
+    private String opinionId;
 
-    @com.google.gson.annotations.SerializedName("newupvotes")
-    private int mNewUpvotes;
+    private String opinionText;
 
-    @com.google.gson.annotations.SerializedName("opinion")
-    private String mOpinion;
+    private int downVoteCount;
 
-    @com.google.gson.annotations.SerializedName("opinion_id")
-    private String mOpinionId;
+    private int upVoteCount;
 
-    @com.google.gson.annotations.SerializedName("uid")
-    private String mUid;
 
-    @com.google.gson.annotations.SerializedName("topic")
-    private String mTopic;
-
-    public String getmId() {
-        return mId;
+    public String getServerId() {
+        return serverId;
     }
 
-    public void setmId(String mId) {
-        this.mId = mId;
+    public void setServerId(String serverId) {
+        this.serverId = serverId;
     }
 
-    public int getmCount() {
-        return mCount;
+    public String getOpinionId() {
+        return opinionId;
     }
 
-    public void setmCount(int mCount) {
-        this.mCount = mCount;
+    public void setOpinionId(String opinionId) {
+        this.opinionId = opinionId;
     }
 
-    public int getmNewDownvotes() {
-        return mNewDownvotes;
+    public String getOpinionText() {
+        return opinionText;
     }
 
-    public void setmNewDownvotes(int mNewDownvotes) {
-        this.mNewDownvotes = mNewDownvotes;
+    public void setOpinionText(String opinionText) {
+        this.opinionText = opinionText;
     }
 
-    public int getmNewUpvotes() {
-        return mNewUpvotes;
+    public int getDownVoteCount() {
+        return downVoteCount;
     }
 
-    public void setmNewUpvotes(int mNewUpvotes) {
-        this.mNewUpvotes = mNewUpvotes;
+    public void setDownVoteCount(int downVoteCount) {
+        this.downVoteCount = downVoteCount;
     }
 
-    public String getmOpinion() {
-        return mOpinion;
+    public int getUpVoteCount() {
+        return upVoteCount;
     }
 
-    public void setmOpinion(String mOpinion) {
-        this.mOpinion = mOpinion;
+    public void setUpVoteCount(int upVoteCount) {
+        this.upVoteCount = upVoteCount;
     }
 
-    public String getmOpinionId() {
-        return mOpinionId;
-    }
 
-    public void setmOpinionId(String mOpinionId) {
-        this.mOpinionId = mOpinionId;
-    }
-
-    public String getmUid() {
-        return mUid;
-    }
-
-    public void setmUid(String mUid) {
-        this.mUid = mUid;
-    }
 }
