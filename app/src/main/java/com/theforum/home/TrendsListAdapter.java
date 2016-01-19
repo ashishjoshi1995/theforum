@@ -120,6 +120,10 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
         notifyDataSetChanged();
     }
 
+    public void clearList(){
+        mFeeds.clear();
+    }
+
     @Override
     public int getItemCount() {return mFeeds.size();}
 }

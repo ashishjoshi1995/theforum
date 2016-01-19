@@ -2,6 +2,7 @@ package com.theforum.home;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -28,10 +29,13 @@ public class TrendsFragment extends Fragment {
     @Bind(R.id.home_recycler_view)
     RecyclerView recyclerView;
 
+    @Bind(R.id.topics_swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
+
     private TrendsListAdapter mAdapter;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.recycler_view, container, false);
+        return inflater.inflate(R.layout.fragment_topics, container, false);
     }
 
     @Override
@@ -45,7 +49,14 @@ public class TrendsFragment extends Fragment {
         mAdapter = new TrendsListAdapter(getActivity(), new ArrayList<TrendsDataModel>());
         recyclerView.setAdapter(mAdapter);
 
-        getDataFromServer();
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getDataFromServer();
+            }
+        });
+
+
     }
 
     private void getDataFromServer(){
@@ -53,6 +64,7 @@ public class TrendsFragment extends Fragment {
 
             @Override
             public void onCompleted(ArrayList<TrendsDataModel> trends) {
+                mAdapter.clearList();
                 mAdapter.addAllTrends(trends);
             }
 
