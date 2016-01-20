@@ -56,6 +56,7 @@ public class TrendsFragment extends Fragment {
             }
         });
 
+        getDataFromServer();
 
     }
 
@@ -66,11 +67,18 @@ public class TrendsFragment extends Fragment {
             public void onCompleted(ArrayList<TrendsDataModel> trends) {
                 mAdapter.clearList();
                 mAdapter.addAllTrends(trends);
+                swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onError(String error) {
                 Log.e("trends error",error);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                });
             }
         });
     }
