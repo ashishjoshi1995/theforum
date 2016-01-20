@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import com.theforum.Constants;
 import com.theforum.R;
-import com.theforum.data.helpers.LoadTopicHelper;
+import com.theforum.data.helpers.TopicHelper;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.customViews.DividerItemDecorator;
@@ -60,7 +60,7 @@ public class TopicsFragment extends Fragment {
             @Override
             public void onRefresh() {
                 times = 0;
-                LoadTopicHelper.getHelper().loadTopics(times, Constants.SORT_BASIS_LATEST);
+                TopicHelper.getHelper().loadTopics(times, Constants.SORT_BASIS_LATEST);
                 mAdapter.setAllTopicsLoaded(false);
             }
         });
@@ -68,7 +68,7 @@ public class TopicsFragment extends Fragment {
         mAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void loadMore() {
-                LoadTopicHelper.getHelper().loadTopics(times, Constants.SORT_BASIS_LATEST);
+                TopicHelper.getHelper().loadTopics(times, Constants.SORT_BASIS_LATEST);
             }
         });
 
@@ -76,7 +76,7 @@ public class TopicsFragment extends Fragment {
 
     private void getTopics(){
 
-            LoadTopicHelper.getHelper().getTopics(new LoadTopicHelper.OnTopicsReceiveListener() {
+            TopicHelper.getHelper().getTopics(new TopicHelper.OnTopicsReceiveListener() {
                 @Override
                 public void onCompleted(ArrayList<TopicDataModel> topics) {
                     swipeRefreshLayout.setRefreshing(false);
