@@ -4,6 +4,7 @@ package com.theforum.utils;
  * @author DEEPANKAR
  * @since 20-01-2016.
  */
+
 public enum RequestStatus {
     /**
      * when the assigned task has been completed. Now the data is available and can
@@ -22,6 +23,6 @@ public enum RequestStatus {
      *  data received by request is consumed and system is ready for another
      *  request.
      */
-
     IDLE
+
 }

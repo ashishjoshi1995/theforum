@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.theforum.TheForumApplication;
 import com.theforum.data.local.models.TrendsDataModel;
 
 import java.util.ArrayList;
@@ -19,13 +20,13 @@ public class TrendsDBHelper {
     private static TrendsDBHelper trendsDBHelper;
 
 
-    public static TrendsDBHelper getHelper(Context context){
-        if(trendsDBHelper == null) trendsDBHelper = new TrendsDBHelper(context);
+    public static TrendsDBHelper getHelper(){
+        if(trendsDBHelper == null) trendsDBHelper = new TrendsDBHelper();
         return trendsDBHelper;
     }
 
-    private TrendsDBHelper(Context context){
-        trendsDB = new TrendsDB(context);
+    private TrendsDBHelper(){
+        trendsDB = new TrendsDB(TheForumApplication.getAppContext());
     }
 
 

@@ -52,7 +52,7 @@ public class TrendsFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getDataFromServer();
+                TrendsHelper.getHelper().loadTrends();
             }
         });
 
@@ -61,7 +61,8 @@ public class TrendsFragment extends Fragment {
     }
 
     private void getDataFromServer(){
-        TrendsHelper.getHelper().getTrendingOpinions(new TrendsHelper.OnTrendsReceivedListener() {
+
+        TrendsHelper.getHelper().getTrends(new TrendsHelper.OnTrendsReceivedListener() {
 
             @Override
             public void onCompleted(ArrayList<TrendsDataModel> trends) {
@@ -72,7 +73,7 @@ public class TrendsFragment extends Fragment {
 
             @Override
             public void onError(String error) {
-                Log.e("trends error",error);
+                Log.e("trends error", error);
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
