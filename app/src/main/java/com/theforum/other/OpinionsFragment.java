@@ -20,10 +20,9 @@ import android.widget.TextView;
 
 import com.theforum.Constants;
 import com.theforum.R;
+import com.theforum.data.helpers.OpinionHelper;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.data.server.opinion;
-import com.theforum.data.server.topic;
-import com.theforum.data.helpers.OpinionHelper;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.customViews.DividerItemDecorator;
 
@@ -98,17 +97,7 @@ public class OpinionsFragment extends Fragment {
         mAdapter = new OpinionsListAdapter(getActivity(), mFeeds);
         recyclerView.setAdapter(mAdapter);
         getOpinionsFromServer();
-        /*
-        RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                Log.e("dy",""+dy);
-            }
-        };
 
-       // recyclerView.addOnScrollListener(onScrollListener);
-       */
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -137,13 +137,17 @@ public class TrendsHelper {
 
             @Override
             protected topic doInBackground(Void... voids) {
-                MobileServiceList<topic> result = null;
+                MobileServiceList<topic> result;
                 try {
                     result = mTopic.where().field("topic_id").eq(topic_id).execute().get();
+                    return result.get(0);
+
                 } catch (Exception e) {
-                    listener.onError(e.getMessage());
+                    listener.onError("Check Your Internet Connection");
+
+                    return null;
                 }
-                return result.get(0);
+
             }
 
             @Override
@@ -153,7 +157,7 @@ public class TrendsHelper {
                 if(topic!=null) {
                     TopicDataModel topicDataModel = new TopicDataModel(topic);
                     listener.onCompleted(topicDataModel);
-                }else listener.onError("Check Your Internet Connection");
+                }
             }
         };
 

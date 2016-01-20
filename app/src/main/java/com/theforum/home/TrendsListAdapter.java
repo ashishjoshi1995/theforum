@@ -1,10 +1,10 @@
 package com.theforum.home;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,13 +34,15 @@ import butterknife.ButterKnife;
 public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.TrendsItemViewHolder> {
 
     private Context mContext;
+    private Activity mActivity;
 
     /* list of feed data */
     private List<TrendsDataModel> mFeeds;
 
 
-    public TrendsListAdapter(Context context, List<TrendsDataModel> feeds){
-        mContext = context;
+    public TrendsListAdapter(Activity activity, List<TrendsDataModel> feeds){
+        mContext = activity;
+        mActivity = activity;
         mFeeds = feeds;
     }
 
@@ -71,6 +73,7 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
 
         @Override
         public void onClick(View v) {
+
             TrendsDataModel trends = mFeeds.get(getLayoutPosition());
             //getting the topic data from server
             TrendsHelper.getHelper().getTopicDetails(trends.getTopicId(), new TrendsHelper.OnTopicDetailReceived() {
@@ -82,8 +85,15 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                 }
 
                 @Override
-                public void onError(String error) {
-                    Log.e("onErrorTrendListAdapter", error);
+                public void onError(final String error) {
+
+                    mActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            CommonUtils.showToast(mContext, error);
+                        }
+                    });
+
                 }
             });
 

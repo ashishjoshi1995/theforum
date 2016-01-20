@@ -1,9 +1,11 @@
 package com.theforum.data.local.models;
 
+import java.io.Serializable;
+
 /**
  * @author  Deepankar on 1/6/2016.
  */
-public class OpinionDataModel {
+public class OpinionDataModel implements Serializable{
 
     private String serverId;
 
