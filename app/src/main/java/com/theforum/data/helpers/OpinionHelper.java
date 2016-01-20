@@ -62,6 +62,7 @@ public class OpinionHelper {
         UPDVRequest updvRequest= new UPDVRequest();
         updvRequest.opinion_id = opinion1.getOpinionId();
         updvRequest.opinion_owner_id = opinion1.getUserId();
+
         if(ifUpvote){
             //update UI
             //update Local db
