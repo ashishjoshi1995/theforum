@@ -32,7 +32,7 @@ public class SearchHelper {
             @Override
             protected ArrayList<topic> doInBackground(Void... voids) {
                 try {
-                    ash = mTopicTable.where().subString("topic", Integer.parseInt(field)).orderBy("points", QueryOrder.Descending).execute().get();
+                    ash = mTopicTable.where().subStringOf("topic",field).orderBy("points", QueryOrder.Descending).execute().get();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {
