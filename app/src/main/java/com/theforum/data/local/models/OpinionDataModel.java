@@ -1,5 +1,7 @@
 package com.theforum.data.local.models;
 
+import com.theforum.utils.enums.VoteStatus;
+
 import java.io.Serializable;
 
 /**
@@ -16,6 +18,8 @@ public class OpinionDataModel implements Serializable{
     private int downVoteCount;
 
     private int upVoteCount;
+
+    private VoteStatus voteStatus = VoteStatus.NONE;
 
 
     public String getServerId() {
@@ -57,6 +61,12 @@ public class OpinionDataModel implements Serializable{
     public void setUpVoteCount(int upVoteCount) {
         this.upVoteCount = upVoteCount;
     }
+    
+    public VoteStatus getVoteStatus() {
+        return voteStatus;
+    }
 
-
+    public void setVoteStatus(VoteStatus voteStatus) {
+        this.voteStatus = voteStatus;
+    }
 }

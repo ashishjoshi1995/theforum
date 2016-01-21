@@ -17,7 +17,7 @@ import com.theforum.data.local.models.TrendsDataModel;
 import com.theforum.data.server.opinion;
 import com.theforum.data.server.topic;
 import com.theforum.utils.CommonUtils;
-import com.theforum.utils.RequestStatus;
+import com.theforum.utils.enums.RequestStatus;
 
 import java.util.ArrayList;
 

@@ -5,12 +5,6 @@ package com.theforum.data.server;
  */
 public class opinion {
 
-    public enum VoteStatus{
-        UPVOTED,
-        DOWNVOTED,
-        NONE
-    }
-
     @com.google.gson.annotations.SerializedName("id")
     private String serverId;
 
@@ -43,8 +37,6 @@ public class opinion {
 
     @com.google.gson.annotations.SerializedName("topic")
     private String topicName;
-
-    private VoteStatus voteStatus = VoteStatus.NONE;
 
 
     public opinion(){}
@@ -141,20 +133,5 @@ public class opinion {
         this.topicName = topicName;
     }
 
-
-    public VoteStatus getVoteStatus() {
-        return voteStatus;
-    }
-
-    /**
-     * @param voteStatus
-     *
-     * UPVOTED when opinion is upVoted
-     * DOWNVOTED when opinion is downVoted
-     * NONE for nothing is done
-     */
-    public void setVoteStatus(VoteStatus voteStatus) {
-        this.voteStatus = voteStatus;
-    }
 
 }

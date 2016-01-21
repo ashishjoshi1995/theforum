@@ -127,7 +127,6 @@ public class NewOpinionFragment extends Fragment {
         OpinionHelper.getHelper().addOpinion(opinion, new OpinionHelper.OnOpinionAddListener() {
             @Override
             public void onCompleted(opinion opinion) {
-                Log.e("success","yay");
                 CommonUtils.showToast(getContext(),"Your Opinion is added");
             }
 
