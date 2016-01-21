@@ -2,6 +2,7 @@ package com.theforum.other;
 
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.util.Pair;
@@ -40,7 +41,7 @@ import butterknife.ButterKnife;
 public class OpinionsFragment extends Fragment {
 
     @Bind(R.id.opinion_swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
-    @Bind(R.id.opinion_recycler_view) RecyclerView recyclerView;
+    @Bind(R.id.home_recycler_view) RecyclerView recyclerView;
     @Bind(R.id.opinion_toolbar) Toolbar toolbar;
     @Bind(R.id.opinion_collapsing_toolbar) CollapsingToolbarLayout collapsingToolbarLayout;
     @Bind(R.id.opinion_topic_description) TextView topicDescription;
@@ -83,8 +84,10 @@ public class OpinionsFragment extends Fragment {
         collapsingToolbarLayout.post(new Runnable() {
             @Override
             public void run() {
-                recyclerView.setPadding(0, collapsingToolbarLayout.getHeight(), 0, 0);
-                recyclerView.setClipToPadding(false);
+                CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams)
+                        swipeRefreshLayout.getLayoutParams();
+                params.setMargins(0, collapsingToolbarLayout.getHeight(), 0, 0);
+                swipeRefreshLayout.setLayoutParams(params);
             }
         });
 
@@ -121,14 +124,22 @@ public class OpinionsFragment extends Fragment {
                 new OpinionHelper.OnOpinionsReceivedListener() {
             @Override
             public void onCompleted(ArrayList<OpinionDataModel> opinions) {
-
+                mAdapter.clearAll();
                 mAdapter.addOpinions(opinions);
+                swipeRefreshLayout.setRefreshing(false);
 
             }
 
             @Override
-            public void onError(String error) {
+            public void onError(final String error) {
                 Log.e("error Opinion",error);
+                
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        CommonUtils.showToast(getContext(),error);
+                    }
+                });
             }
         });
     }

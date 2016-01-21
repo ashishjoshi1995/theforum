@@ -161,6 +161,10 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
         notifyDataSetChanged();
     }
 
+    public void clearAll(){
+        mOpinionList.clear();
+    }
+
 
     @Override
     public int getItemCount() {return mOpinionList.size();}

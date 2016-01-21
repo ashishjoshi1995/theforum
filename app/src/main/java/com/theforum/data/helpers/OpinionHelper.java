@@ -76,6 +76,7 @@ public class OpinionHelper {
         runAsyncTask2(task);
     }
 
+
     public void upVoteDownVote(Boolean ifUpVote,String opinionId,
                                final OnUVDVOperationCompleteListener listener){
 
@@ -111,6 +112,7 @@ public class OpinionHelper {
 
     }
 
+
     public void addOpinion(final opinion opinion , final OnOpinionAddListener listener){
 
         AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
@@ -140,6 +142,8 @@ public class OpinionHelper {
         };
         runAsyncTask(task);
     }
+
+
 
     private AsyncTask<Void, Void, MobileServiceList<opinion>> runAsyncTask2(AsyncTask<Void, Void,
             MobileServiceList<opinion>> task) {
