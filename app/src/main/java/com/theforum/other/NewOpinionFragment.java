@@ -123,7 +123,7 @@ public class NewOpinionFragment extends Fragment {
         opinion.setTopicId(topicModel.getTopicId());
         opinion.setTopicName(topicModel.getTopicName());
         opinion.setUserId(User.getInstance().getId());
-        
+
         OpinionHelper.getHelper().addOpinion(opinion, new OpinionHelper.OnOpinionAddListener() {
             @Override
             public void onCompleted(opinion opinion) {

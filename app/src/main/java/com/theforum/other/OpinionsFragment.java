@@ -5,6 +5,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.util.Pair;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -39,6 +40,7 @@ import butterknife.ButterKnife;
  */
 public class OpinionsFragment extends Fragment {
 
+    @Bind(R.id.opinion_swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
     @Bind(R.id.opinion_recycler_view) RecyclerView recyclerView;
     @Bind(R.id.opinion_toolbar) Toolbar toolbar;
     @Bind(R.id.opinion_collapsing_toolbar) CollapsingToolbarLayout collapsingToolbarLayout;
@@ -47,7 +49,7 @@ public class OpinionsFragment extends Fragment {
 
     private OpinionsListAdapter mAdapter;
     private TopicDataModel mTopicModel;
-    //private boolean first;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -104,6 +106,13 @@ public class OpinionsFragment extends Fragment {
             public void onClick(View v) {
                 CommonUtils.openContainerActivity(getActivity(), Constants.NEW_OPINION_FRAGMENT,
                         Pair.create(Constants.TOPIC_MODEL, (Serializable) mTopicModel));
+            }
+        });
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getOpinionsFromServer();
             }
         });
 
