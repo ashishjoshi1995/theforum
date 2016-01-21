@@ -7,8 +7,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,7 +23,7 @@ import butterknife.ButterKnife;
  */
 public class ProfileFragment extends Fragment {
 
-    @Bind(R.id.profile_notification_btn) Button notifications;
+    @Bind(R.id.profile_notification_btn) TextView notifications;
     @Bind(R.id.profile_status) TextView status;
     @Bind(R.id.profile_points) TextView points;
     @Bind(R.id.profile_topics) TextView topics;
@@ -43,13 +41,15 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        status.setText("Smart");
+        status.setText("120");
         points.setText("930");
         topics.setText("100");
 
         setBackgroundColor(statusIcon, "#313c44");
         setBackgroundColor(pointsIcon,"#d9ab1d");
         setBackgroundColor(topicsIcon,"#643173");
+
+        notifications.getBackground().setColorFilter(Color.parseColor("#d0d4d9"), PorterDuff.Mode.SRC_ATOP);
 
         notifications.setOnClickListener(new View.OnClickListener() {
             @Override

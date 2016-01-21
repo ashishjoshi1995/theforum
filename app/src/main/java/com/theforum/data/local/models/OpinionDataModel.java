@@ -1,86 +1,83 @@
 package com.theforum.data.local.models;
 
+import com.theforum.data.server.opinion;
+import com.theforum.utils.enums.VoteStatus;
+
+import java.io.Serializable;
+
 /**
- * Created by Ashish on 1/6/2016.
+ * @author  Deepankar on 1/6/2016.
  */
-public class OpinionDataModel {
-    @com.google.gson.annotations.SerializedName("id")
-    private String mId;
+public class OpinionDataModel implements Serializable{
 
-    @com.google.gson.annotations.SerializedName("count")
-    private int mCount;
+    private String serverId;
 
-    @com.google.gson.annotations.SerializedName("newdownvotes")
-    private int mNewDownvotes;
+    private String opinionId;
 
-    @com.google.gson.annotations.SerializedName("newupvotes")
-    private int mNewUpvotes;
+    private String opinionText;
 
-    @com.google.gson.annotations.SerializedName("opinion")
-    private String mOpinion;
+    private int downVoteCount;
 
-    @com.google.gson.annotations.SerializedName("opinion_id")
-    private String mOpinionId;
+    private int upVoteCount;
 
-    @com.google.gson.annotations.SerializedName("uid")
-    private String mUid;
+    private VoteStatus voteStatus = VoteStatus.NONE;
 
-    @com.google.gson.annotations.SerializedName("topic")
-    private String mTopic;
+    public OpinionDataModel(){}
 
-    public String getmId() {
-        return mId;
+    public OpinionDataModel(opinion opinion){
+
+        this.serverId = opinion.getServerId();
+        this.opinionId = opinion.getOpinionId();
+        this.opinionText = opinion.getOpinionName();
+        this.upVoteCount = opinion.getUpVotes();
+        this.downVoteCount = opinion.getDownVotes();
     }
 
-    public void setmId(String mId) {
-        this.mId = mId;
+    public String getServerId() {
+        return serverId;
     }
 
-    public int getmCount() {
-        return mCount;
+    public void setServerId(String serverId) {
+        this.serverId = serverId;
     }
 
-    public void setmCount(int mCount) {
-        this.mCount = mCount;
+    public String getOpinionId() {
+        return opinionId;
     }
 
-    public int getmNewDownvotes() {
-        return mNewDownvotes;
+    public void setOpinionId(String opinionId) {
+        this.opinionId = opinionId;
     }
 
-    public void setmNewDownvotes(int mNewDownvotes) {
-        this.mNewDownvotes = mNewDownvotes;
+    public String getOpinionText() {
+        return opinionText;
     }
 
-    public int getmNewUpvotes() {
-        return mNewUpvotes;
+    public void setOpinionText(String opinionText) {
+        this.opinionText = opinionText;
     }
 
-    public void setmNewUpvotes(int mNewUpvotes) {
-        this.mNewUpvotes = mNewUpvotes;
+    public int getDownVoteCount() {
+        return downVoteCount;
     }
 
-    public String getmOpinion() {
-        return mOpinion;
+    public void setDownVoteCount(int downVoteCount) {
+        this.downVoteCount = downVoteCount;
     }
 
-    public void setmOpinion(String mOpinion) {
-        this.mOpinion = mOpinion;
+    public int getUpVoteCount() {
+        return upVoteCount;
     }
 
-    public String getmOpinionId() {
-        return mOpinionId;
+    public void setUpVoteCount(int upVoteCount) {
+        this.upVoteCount = upVoteCount;
     }
 
-    public void setmOpinionId(String mOpinionId) {
-        this.mOpinionId = mOpinionId;
+    public VoteStatus getVoteStatus() {
+        return voteStatus;
     }
 
-    public String getmUid() {
-        return mUid;
-    }
-
-    public void setmUid(String mUid) {
-        this.mUid = mUid;
+    public void setVoteStatus(VoteStatus voteStatus) {
+        this.voteStatus = voteStatus;
     }
 }

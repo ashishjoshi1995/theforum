@@ -2,9 +2,11 @@ package com.theforum.other;
 
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.util.Pair;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,16 +22,14 @@ import android.widget.TextView;
 
 import com.theforum.Constants;
 import com.theforum.R;
-import com.theforum.data.local.models.TopicDataModel;
-import com.theforum.data.server.opinion;
-import com.theforum.data.server.topic;
 import com.theforum.data.helpers.OpinionHelper;
+import com.theforum.data.local.models.OpinionDataModel;
+import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.customViews.DividerItemDecorator;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -40,7 +40,8 @@ import butterknife.ButterKnife;
  */
 public class OpinionsFragment extends Fragment {
 
-    @Bind(R.id.opinion_recycler_view) RecyclerView recyclerView;
+    @Bind(R.id.opinion_swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
+    @Bind(R.id.home_recycler_view) RecyclerView recyclerView;
     @Bind(R.id.opinion_toolbar) Toolbar toolbar;
     @Bind(R.id.opinion_collapsing_toolbar) CollapsingToolbarLayout collapsingToolbarLayout;
     @Bind(R.id.opinion_topic_description) TextView topicDescription;
@@ -48,7 +49,7 @@ public class OpinionsFragment extends Fragment {
 
     private OpinionsListAdapter mAdapter;
     private TopicDataModel mTopicModel;
-    //private boolean first;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -83,38 +84,35 @@ public class OpinionsFragment extends Fragment {
         collapsingToolbarLayout.post(new Runnable() {
             @Override
             public void run() {
-                recyclerView.setPadding(0, collapsingToolbarLayout.getHeight(), 0, 0);
-                recyclerView.setClipToPadding(false);
+                CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams)
+                        swipeRefreshLayout.getLayoutParams();
+                params.setMargins(0, collapsingToolbarLayout.getHeight(), 0, 0);
+                swipeRefreshLayout.setLayoutParams(params);
             }
         });
 
         topicDescription.setText(mTopicModel.getTopicDescription());
 
-        List<opinion> mFeeds = new ArrayList<>();
-
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new DividerItemDecorator(getActivity(), R.drawable.recycler_view_divider));
 
-        mAdapter = new OpinionsListAdapter(getActivity(), mFeeds);
+        mAdapter = new OpinionsListAdapter(getActivity(), new ArrayList<OpinionDataModel>());
         recyclerView.setAdapter(mAdapter);
         getOpinionsFromServer();
-        /*
-        RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                Log.e("dy",""+dy);
-            }
-        };
 
-       // recyclerView.addOnScrollListener(onScrollListener);
-       */
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CommonUtils.openContainerActivity(getActivity(), Constants.NEW_OPINION_FRAGMENT,
                         Pair.create(Constants.TOPIC_MODEL, (Serializable) mTopicModel));
+            }
+        });
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getOpinionsFromServer();
             }
         });
 
@@ -125,15 +123,23 @@ public class OpinionsFragment extends Fragment {
         OpinionHelper.getHelper().getTopicSpecificOpinions(mTopicModel.getTopicId(),
                 new OpinionHelper.OnOpinionsReceivedListener() {
             @Override
-            public void onCompleted(ArrayList<opinion> opinions) {
-                if(opinions!=null){
-                    mAdapter.addOpinions(opinions);
-                }
+            public void onCompleted(ArrayList<OpinionDataModel> opinions) {
+                mAdapter.clearAll();
+                mAdapter.addOpinions(opinions);
+                swipeRefreshLayout.setRefreshing(false);
+
             }
 
             @Override
-            public void onError(String error) {
+            public void onError(final String error) {
                 Log.e("error Opinion",error);
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        CommonUtils.showToast(getContext(),error);
+                    }
+                });
             }
         });
     }

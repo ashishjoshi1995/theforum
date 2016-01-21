@@ -2,40 +2,53 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
-    android:paddingTop="16dp">
+    android:paddingTop="13dp">
 
-    <Button
+    <TextView
         android:id="@+id/profile_notification_btn"
         android:layout_width="match_parent"
         android:layout_height="45dp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:background="@drawable/rounded_button"
+        android:clickable="true"
         android:text="Notifications" />
 
     <!-- status -->
 
-    <TextView android:id="@+id/profile_status_header"
+    <com.theforum.utils.customViews.CustomFontTextView
+        android:id="@+id/profile_status_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/profile_notification_btn"
         android:layout_marginLeft="56dp"
         android:layout_marginTop="16dp"
         android:textSize="12sp"
-        android:text="@string/status_header"/>
+        android:text="@string/status_header"
+        app:fontName="@string/roboto_light"/>
 
-    <TextView
-        style="?android:listSeparatorTextViewStyle"
+    <com.theforum.utils.customViews.CustomFontTextView
         android:id="@+id/profile_status"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/profile_status_header"
         android:layout_alignLeft="@id/profile_status_header"
-        android:layout_marginTop="10dp"
-        android:paddingLeft="0dp"
-        android:textSize="32sp"
-        android:textStyle="normal"
-        android:textAllCaps="false" />
+        android:textSize="36sp"
+        android:textColor="#3e3e3e"
+        app:fontName="@string/roboto_medium"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/profile_status"
+        android:layout_alignLeft="@id/profile_status_header"
+        android:background="@color/divider"/>
 
     <ImageView
         android:id="@+id/profile_status_icon"
@@ -49,26 +62,32 @@
 
     <!--points  -->
 
-    <TextView android:id="@+id/profile_points_header"
+    <com.theforum.utils.customViews.CustomFontTextView
+        android:id="@+id/profile_points_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/profile_status"
         android:layout_alignLeft="@id/profile_status_header"
         android:layout_marginTop="16dp"
         android:textSize="12sp"
-        android:text="@string/points_header"/>
+        android:text="@string/points_header"
+        app:fontName="@string/roboto_light"/>
 
-    <TextView style="?android:listSeparatorTextViewStyle"
+    <com.theforum.utils.customViews.CustomFontTextView
         android:id="@+id/profile_points"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/profile_points_header"
         android:layout_alignLeft="@id/profile_status_header"
-        android:layout_marginTop="10dp"
-        android:paddingLeft="0dp"
-        android:textSize="32sp"
-        android:textStyle="normal"
-        android:textAllCaps="false" />
+        android:textSize="36sp"
+        android:textColor="#3e3e3e"
+        app:fontName="@string/roboto_medium"/>
+
+    <View android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/profile_points"
+        android:layout_alignLeft="@id/profile_status_header"
+        android:background="@color/divider"/>
 
     <ImageView
         android:id="@+id/profile_points_icon"
@@ -81,26 +100,32 @@
 
     <!--topics -->
 
-    <TextView android:id="@+id/profile_topics_header"
+    <com.theforum.utils.customViews.CustomFontTextView
+        android:id="@+id/profile_topics_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/profile_points"
         android:layout_alignLeft="@id/profile_status_header"
         android:layout_marginTop="16dp"
         android:textSize="12sp"
-        android:text="@string/topics_header"/>
+        android:text="@string/topics_header"
+        app:fontName="@string/roboto_light"/>
 
-    <TextView style="?android:listSeparatorTextViewStyle"
+    <com.theforum.utils.customViews.CustomFontTextView
         android:id="@+id/profile_topics"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/profile_topics_header"
         android:layout_alignLeft="@id/profile_status_header"
-        android:layout_marginTop="10dp"
-        android:paddingLeft="0dp"
-        android:textSize="32sp"
-        android:textStyle="normal"
-        android:textAllCaps="false"/>
+        android:textSize="36sp"
+        android:textColor="#3e3e3e"
+        app:fontName="@string/roboto_medium"/>
+
+    <View android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/profile_topics"
+        android:layout_alignLeft="@id/profile_status_header"
+        android:background="@color/divider"/>
 
     <ImageView
         android:id="@+id/profile_topics_icon"

@@ -31,9 +31,9 @@ import java.util.ArrayList;
 /**
  * @author Ashish on 1/5/2016.
  */
-public class LoadTopicHelper {
+public class TopicHelper {
 
-    private static LoadTopicHelper mLoadTopicHelper;
+    private static TopicHelper mTopicHelper;
     private MobileServiceClient mClient;
     private MobileServiceTable<topic> mTopicTable;
     private ArrayList<TopicDataModel> topicArrayList;
@@ -41,12 +41,12 @@ public class LoadTopicHelper {
     private boolean topicsReceived = false;
 
 
-    public static LoadTopicHelper getHelper(){
-        if(mLoadTopicHelper==null) mLoadTopicHelper = new LoadTopicHelper();
-        return mLoadTopicHelper;
+    public static TopicHelper getHelper(){
+        if(mTopicHelper ==null) mTopicHelper = new TopicHelper();
+        return mTopicHelper;
     }
 
-    private LoadTopicHelper(){
+    private TopicHelper(){
         this.mClient = TheForumApplication.getClient();
         mTopicTable = mClient.getTable(topic.class);
 

@@ -13,7 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.theforum.R;
-import com.theforum.data.helpers.LoadTopicHelper;
+import com.theforum.data.helpers.TopicHelper;
 import com.theforum.data.server.topic;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.User;
@@ -83,7 +83,7 @@ public class NewTopicFragment extends Fragment {
         topic.setUserId(User.getInstance().getId());
 
 
-        LoadTopicHelper.getHelper().addTopic(topic, new LoadTopicHelper.OnTopicInsertListener() {
+        TopicHelper.getHelper().addTopic(topic, new TopicHelper.OnTopicInsertListener() {
             @Override
             public void onCompleted() {
                 CommonUtils.showToast(getActivity(), "Topic created");

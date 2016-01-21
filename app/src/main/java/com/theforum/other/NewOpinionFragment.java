@@ -16,13 +16,13 @@ import android.widget.RelativeLayout;
 
 import com.theforum.Constants;
 import com.theforum.R;
-import com.theforum.utils.User;
-import com.theforum.data.server.opinion;
-import com.theforum.data.server.topic;
 import com.theforum.data.helpers.OpinionHelper;
+import com.theforum.data.local.models.TopicDataModel;
+import com.theforum.data.server.opinion;
 import com.theforum.utils.CommonUtils;
-import com.theforum.utils.listeners.SoftKeyboardStateWatcher;
+import com.theforum.utils.User;
 import com.theforum.utils.customViews.KeyboardListenerEditText;
+import com.theforum.utils.listeners.SoftKeyboardStateWatcher;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -47,7 +47,7 @@ public class NewOpinionFragment extends Fragment {
 
     KeyboardListenerEditText mUploadText;
 
-    private topic topicModel;
+    private TopicDataModel topicModel;
 
 
     @Override
@@ -55,8 +55,7 @@ public class NewOpinionFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if(getArguments()!=null){
-            topicModel = (topic) getArguments().getSerializable(Constants.TOPIC_MODEL);
-            Log.e("topicId",""+topicModel.getTopicId());
+            topicModel = (TopicDataModel) getArguments().getSerializable(Constants.TOPIC_MODEL);
         }
     }
 
@@ -124,12 +123,10 @@ public class NewOpinionFragment extends Fragment {
         opinion.setTopicId(topicModel.getTopicId());
         opinion.setTopicName(topicModel.getTopicName());
         opinion.setUserId(User.getInstance().getId());
-       // opinion.setmTopicDescription(topicModel.getTopicDescription());
 
         OpinionHelper.getHelper().addOpinion(opinion, new OpinionHelper.OnOpinionAddListener() {
             @Override
             public void onCompleted(opinion opinion) {
-                Log.e("success","yay");
                 CommonUtils.showToast(getContext(),"Your Opinion is added");
             }
 

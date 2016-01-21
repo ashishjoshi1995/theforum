@@ -52,7 +52,7 @@ public class LoginFragmentTwo extends Fragment {
 
                     register(Integer.parseInt(mAge.getText().toString()));
 
-                }else CommonUtils.showToast(getContext(),"PLease enter your age. Don't Panic!!");
+                }else CommonUtils.showToast(getContext(),"Please enter your age. Don't Panic!!");
             }
         });
 

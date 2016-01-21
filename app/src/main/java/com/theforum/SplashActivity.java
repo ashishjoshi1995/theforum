@@ -5,7 +5,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
-import com.theforum.data.helpers.LoadTopicHelper;
+import com.theforum.data.helpers.TopicHelper;
+import com.theforum.data.helpers.TrendsHelper;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -15,7 +16,9 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        LoadTopicHelper.getHelper().loadTopics(0,Constants.SORT_BASIS_LATEST);
+
+        TopicHelper.getHelper().loadTopics(0, Constants.SORT_BASIS_LATEST);
+        TrendsHelper.getHelper().loadTrends();
 
 
         new Handler().postDelayed(new Runnable() {

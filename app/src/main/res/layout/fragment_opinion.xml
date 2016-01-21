@@ -5,11 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/opinion_recycler_view"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/opinion_swipe_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clipToPadding="false" />
+        android:layout_height="wrap_content">
+
+        <include layout="@layout/recycler_view" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <me.henrytao.smoothappbarlayout.SmoothAppBarLayout
         android:id="@+id/opinion_appbar_layout"

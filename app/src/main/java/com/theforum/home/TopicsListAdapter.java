@@ -81,8 +81,8 @@ public class TopicsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                 null, null);
                         topic.setIsRenewed(true);
 
-                        LoadTopicHelper.getHelper().addRenewalRequest(topic.getTopicId(),
-                                new LoadTopicHelper.OnRenewalRequestListener() {
+                        TopicHelper.getHelper().addRenewalRequest(topic.getTopicId(),
+                                new TopicHelper.OnRenewalRequestListener() {
                                     @Override
                                     public void response(String s) {
                                         Log.e("response", s);

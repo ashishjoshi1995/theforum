@@ -8,6 +8,8 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import com.theforum.Constants;
 import com.theforum.HomePagerAdapter;
@@ -71,10 +73,15 @@ public class HomeFragment extends Fragment {
                     homeUiChangeListener.onPageSelected(position, false);
                 }else if(mPosition==2 && position==1) homeUiChangeListener.onPageSelected(position,true);
 
-            /*    if(position==1){
-                    mFab.show();
-                }else mFab.hide();*/
-
+                if(position!=1){
+                    Animation animFadeOut = AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out);
+                    mFab.setAnimation(animFadeOut);
+                    mFab.setVisibility(View.GONE);
+                }else {
+                    mFab.setVisibility(View.VISIBLE);
+                    Animation animFadeIn = AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in);
+                    mFab.setAnimation(animFadeIn);
+                }
 
                 mPosition = position;
 
