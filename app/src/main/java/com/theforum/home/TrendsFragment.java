@@ -66,6 +66,7 @@ public class TrendsFragment extends Fragment {
 
             @Override
             public void onCompleted(ArrayList<TrendsDataModel> trends) {
+                Log.e("trends list size",""+trends.size());
                 mAdapter.clearList();
                 mAdapter.addAllTrends(trends);
                 swipeRefreshLayout.setRefreshing(false);

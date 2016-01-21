@@ -66,6 +66,7 @@ public class TrendsHelper {
                 if(trendsReceivedListener!= null){
                     trendsReceivedListener.onCompleted(trends);
                     requestStatus = RequestStatus.IDLE;
+                    trends.clear();
                 }
             }
         }
@@ -78,6 +79,7 @@ public class TrendsHelper {
         if(requestStatus == RequestStatus.COMPLETED){
             listener.onCompleted(trends);
             requestStatus = RequestStatus.IDLE;
+            trends.clear();
         }
 
     }
@@ -112,6 +114,7 @@ public class TrendsHelper {
                     if (trendsReceivedListener != null) {
                         trendsReceivedListener.onCompleted(trends);
                         requestStatus = RequestStatus.IDLE;
+                        trends.clear();
                     }
 
                     // save the data to local database.

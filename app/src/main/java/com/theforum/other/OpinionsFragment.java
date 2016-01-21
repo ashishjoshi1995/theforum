@@ -133,7 +133,7 @@ public class OpinionsFragment extends Fragment {
             @Override
             public void onError(final String error) {
                 Log.e("error Opinion",error);
-                
+
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

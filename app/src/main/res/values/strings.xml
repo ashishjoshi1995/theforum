@@ -3,23 +3,28 @@
     
     <string name="explore_message">This is Explore. we are currently developing it to help you see the world.
     Make more flurs and Share the App! Let\'s build a new Atlas Together</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="fragment_login_2_message">Your age and country helps us provide you with a better experience</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
     
     <string name="action_settings">Settings</string>
     <string name="search_hint">Search</string>
-    
-    <string name="fragment_login_2_message">Your age and country helps us provide you with a better experience</string>
+
 
     <!-- please do not delete below strings -->
+
+    <string name="roboto_light">Roboto-Light.ttf</string>
+    <string name="roboto_medium">Roboto-Medium.ttf</string>
+
     <string name="time_holder_message">%1$s hrs left to decay | %2$d renewal</string>
     
-    <string name="hello_world">Hello world!</string>
-    
+
     <!-- profile related strings-->
     <string name="status_header">Your Status</string>
     <string name="points_header">Points Collected</string>
     <string name="topics_header">Topics Created</string>
 
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 </resources>
