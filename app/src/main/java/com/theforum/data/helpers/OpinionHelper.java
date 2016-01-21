@@ -11,7 +11,9 @@ import com.microsoft.windowsazure.mobileservices.table.TableOperationCallback;
 import com.theforum.TheForumApplication;
 import com.theforum.data.helpers.upvoteDownvoteApi.UPDVRequest;
 import com.theforum.data.helpers.upvoteDownvoteApi.UPDVResponse;
+import com.theforum.data.local.models.OpinionDataModel;
 import com.theforum.data.server.opinion;
+import com.theforum.utils.User;
 
 import java.util.ArrayList;
 
@@ -23,6 +25,8 @@ public class OpinionHelper {
     private static OpinionHelper mOpinionHelper;
     private  MobileServiceTable<opinion> mOpinion;
 
+    private ArrayList<OpinionDataModel> opinionList;
+
 
     public static OpinionHelper getHelper(){
         if(mOpinionHelper==null) mOpinionHelper = new OpinionHelper();
@@ -31,18 +35,19 @@ public class OpinionHelper {
 
     private OpinionHelper(){
         mOpinion = TheForumApplication.getClient().getTable(opinion.class);
+        opinionList = new ArrayList<>();
     }
 
 
-    public  void getTopicSpecificOpinions(final String topic_id, final OnOpinionsReceivedListener listener){
-        if(mOpinion == null) mOpinion = TheForumApplication.getClient().getTable(opinion.class);
+    public  void getTopicSpecificOpinions(final String topicId, final OnOpinionsReceivedListener listener){
+
         AsyncTask<Void, Void, MobileServiceList<opinion>> task = new AsyncTask<Void, Void, MobileServiceList<opinion>>() {
 
             @Override
             protected MobileServiceList<opinion> doInBackground(Void... voids) {
                 MobileServiceList<opinion> result = null;
                 try {
-                    result = mOpinion.where().field("topic_id").eq(topic_id).execute().get();
+                    result = mOpinion.where().field("topic_id").eq(topicId).execute().get();
                 } catch (Exception e) {
                     listener.onError(e.getMessage());
                 }
@@ -52,18 +57,33 @@ public class OpinionHelper {
             @Override
             protected void onPostExecute(MobileServiceList<opinion> opinions) {
                 super.onPostExecute(opinions);
-                listener.onCompleted(opinions);
+
+                if(opinions!=null) {
+
+                    OpinionDataModel opinionDataModel;
+                    for (int i = 0; i < opinions.size(); i++) {
+                        opinionDataModel = new OpinionDataModel(opinions.get(i));
+                        opinionList.add(opinionDataModel);
+                    }
+
+                    listener.onCompleted(opinionList);
+                    opinionList.clear();
+                }
             }
+
         };
+
         runAsyncTask2(task);
     }
 
-    public void upvoteDownvote(Boolean ifUpvote,opinion opinion1, final OnUVDVOperationCompleteListener listener){
-        UPDVRequest updvRequest= new UPDVRequest();
-        updvRequest.opinion_id = opinion1.getOpinionId();
-        updvRequest.opinion_owner_id = opinion1.getUserId();
+    public void upVoteDownVote(Boolean ifUpVote,String opinionId,
+                               final OnUVDVOperationCompleteListener listener){
 
-        if(ifUpvote){
+        UPDVRequest updvRequest= new UPDVRequest();
+        updvRequest.opinion_id = opinionId;
+        updvRequest.opinion_owner_id = User.getInstance().getId();
+
+        if(ifUpVote){
             //update UI
             //update Local db
             updvRequest.operation_chosen = 1;
@@ -71,13 +91,13 @@ public class OpinionHelper {
         else{
 
             //update UI
-            //update Local db
             updvRequest.operation_chosen = 0;
         }
         //update server
 
 
-        TheForumApplication.getClient().invokeApi("upvote", updvRequest, UPDVResponse.class, new ApiOperationCallback<UPDVResponse>() {
+        TheForumApplication.getClient().invokeApi("upvote", updvRequest, UPDVResponse.class,
+                new ApiOperationCallback<UPDVResponse>() {
             @Override
             public void onCompleted(UPDVResponse result, Exception exception, ServiceFilterResponse response) {
                 if (exception == null) {
@@ -144,7 +164,7 @@ public class OpinionHelper {
          *
          * @param  opinions opinion data model with updated params
          */
-        void onCompleted(ArrayList<opinion> opinions);
+        void onCompleted(ArrayList<OpinionDataModel> opinions);
         void onError(String error);
     }
 

@@ -10,9 +10,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.theforum.R;
-import com.theforum.data.server.opinion;
 import com.theforum.data.helpers.OpinionHelper;
+import com.theforum.data.local.models.OpinionDataModel;
 import com.theforum.utils.CommonUtils;
+import com.theforum.utils.enums.VoteStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,10 +33,10 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
     private Context mContext;
 
     /* list of data */
-    private List<opinion> mOpinionList;
+    private List<OpinionDataModel> mOpinionList;
 
 
-    public OpinionsListAdapter(Context context, List<opinion> feeds){
+    public OpinionsListAdapter(Context context, List<OpinionDataModel> feeds){
         mContext = context;
         mOpinionList = feeds;
     }
@@ -64,20 +65,21 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
         public void onClick(View v) {
             switch (v.getId()){
                 case R.id.upvote_btn:
-                    opinion opinionModel = mOpinionList.get(getLayoutPosition());
-                    if(opinionModel.getVoteStatus() == opinion.VoteStatus.NONE) {
-                        int upvotes = opinionModel.getUpVotes();
+                    OpinionDataModel opinionModel = mOpinionList.get(getLayoutPosition());
+
+                    if(opinionModel.getVoteStatus() == VoteStatus.NONE) {
+                        int upvotes = opinionModel.getUpVoteCount();
                         upvotes = upvotes+1;
 
                         upVoteBtn.setText(String.valueOf(upvotes));
                         setCompoundDrawables(upVoteBtn, upVotedIcon);
-                        opinionModel.setUpVotes(upvotes);
-                        opinionModel.setVoteStatus(opinion.VoteStatus.UPVOTED);
+                        opinionModel.setUpVoteCount(upvotes);
+                        opinionModel.setVoteStatus(VoteStatus.UPVOTED);
 
                         /*
                          *  send the request to server to increase the count
                          */
-                        OpinionHelper.getHelper().upvoteDownvote(true, opinionModel,
+                        OpinionHelper.getHelper().upVoteDownVote(true, opinionModel.getOpinionId(),
                                 new OpinionHelper.OnUVDVOperationCompleteListener() {
                                     @Override
                                     public void onCompleteMessage(String message) {
@@ -88,20 +90,20 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
                     break;
 
                 case R.id.downvote_btn:
-                    final opinion opinionModel2 = mOpinionList.get(getLayoutPosition());
-                    if(opinionModel2.getVoteStatus() == opinion.VoteStatus.NONE) {
+                    final OpinionDataModel opinionModel2 = mOpinionList.get(getLayoutPosition());
+                    if(opinionModel2.getVoteStatus() == VoteStatus.NONE) {
 
-                        int downvotes = opinionModel2.getDownVotes();
+                        int downvotes = opinionModel2.getDownVoteCount();
                         downvotes = downvotes + 1;
                         downVoteBtn.setText(String.valueOf(downvotes));
                         setCompoundDrawables(downVoteBtn, downVotedIcon);
-                        opinionModel2.setDownVotes(downvotes);
-                        opinionModel2.setVoteStatus(opinion.VoteStatus.DOWNVOTED);
+                        opinionModel2.setDownVoteCount(downvotes);
+                        opinionModel2.setVoteStatus(VoteStatus.DOWNVOTED);
 
                         /*
                          *  send the request to server to decrease the count
                          */
-                        OpinionHelper.getHelper().upvoteDownvote(true, opinionModel2,
+                        OpinionHelper.getHelper().upVoteDownVote(true, opinionModel2.getOpinionId(),
                                 new OpinionHelper.OnUVDVOperationCompleteListener() {
                                     @Override
                                     public void onCompleteMessage(String message) {
@@ -124,16 +126,17 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
 
     @Override
     public void onBindViewHolder(final OpinionsItemViewHolder holder, final int position) {
-        final opinion opinionModel = mOpinionList.get(position);
-        holder.opinionText.setText(opinionModel.getOpinionName());
-        holder.upVoteBtn.setText(String.valueOf(opinionModel.getUpVotes()));
-        holder.downVoteBtn.setText(String.valueOf(opinionModel.getDownVotes()));
+
+        final OpinionDataModel opinionModel = mOpinionList.get(position);
+        holder.opinionText.setText(opinionModel.getOpinionText());
+        holder.upVoteBtn.setText(String.valueOf(opinionModel.getUpVoteCount()));
+        holder.downVoteBtn.setText(String.valueOf(opinionModel.getDownVoteCount()));
 
         Log.e("vote Status",""+ opinionModel.getVoteStatus());
-        if(opinionModel.getVoteStatus() == opinion.VoteStatus.NONE){
+        if(opinionModel.getVoteStatus() == VoteStatus.NONE){
             setCompoundDrawables(holder.upVoteBtn, holder.upVoteIcon);
             setCompoundDrawables(holder.downVoteBtn, holder.downVoteIcon);
-        }else if(opinionModel.getVoteStatus()== opinion.VoteStatus.UPVOTED){
+        }else if(opinionModel.getVoteStatus()== VoteStatus.UPVOTED){
             setCompoundDrawables(holder.upVoteBtn, holder.upVotedIcon);
             setCompoundDrawables(holder.downVoteBtn, holder.downVoteIcon);
         }else {
@@ -148,12 +151,12 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
     }
 
 
-    public void addFeedItem(opinion opinionDataModel, int position){
+    public void addOpinion(OpinionDataModel opinionDataModel, int position){
         mOpinionList.add(position, opinionDataModel);
         notifyDataSetChanged();
     }
 
-    public void addOpinions(ArrayList<opinion> list){
+    public void addOpinions(ArrayList<OpinionDataModel> list){
         mOpinionList.addAll(list);
         notifyDataSetChanged();
     }
