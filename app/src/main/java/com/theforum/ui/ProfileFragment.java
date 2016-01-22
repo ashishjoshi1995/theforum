@@ -2,6 +2,7 @@ package com.theforum.ui;
 
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -32,7 +33,7 @@ public class ProfileFragment extends Fragment {
     @Bind(R.id.profile_points_icon) ImageView pointsIcon;
     @Bind(R.id.profile_topics_icon) ImageView topicsIcon;
 
-    @Bind(R.id.profile_frog_body) ImageView frogBody;
+    @Bind(R.id.frog_body) ImageView frogBody;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_profile, container, false);
@@ -52,7 +53,7 @@ public class ProfileFragment extends Fragment {
         setBackgroundColor(topicsIcon,"#643173");
 
 
-        frogBody.getBackground().setColorFilter(Color.parseColor("#a56c1f"), PorterDuff.Mode.SRC_ATOP);
+        ((GradientDrawable)frogBody.getBackground()).setColor(Color.parseColor("#a56c1f"));
         notifications.getBackground().setColorFilter(Color.parseColor("#d0d4d9"), PorterDuff.Mode.SRC_ATOP);
 
         notifications.setOnClickListener(new View.OnClickListener() {

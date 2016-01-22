@@ -3,6 +3,7 @@ package com.theforum;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -19,7 +20,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private int SPLASH_TIME_OUT = 2000;
 
-    @Bind(R.id.splash_frog_face) ImageView frogBody;
+    @Bind(R.id.frog_body) ImageView frogBody;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +32,7 @@ public class SplashActivity extends AppCompatActivity {
         TopicHelper.getHelper().loadTopics(0, Constants.SORT_BASIS_LATEST);
         TrendsHelper.getHelper().loadTrends();
 
-        frogBody.getBackground().setColorFilter(Color.parseColor("#30ed17"), PorterDuff.Mode.SRC_ATOP);
+        ((GradientDrawable)frogBody.getBackground()).setColor(Color.parseColor("#30ed17"));
 
 
         new Handler().postDelayed(new Runnable() {
