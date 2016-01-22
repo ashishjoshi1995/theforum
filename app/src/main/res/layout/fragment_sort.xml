@@ -10,7 +10,7 @@
     <TextView android:id="@+id/sort_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
+        android:layout_marginLeft="72dp"
         android:layout_marginTop="74dp"
         android:textSize="24sp"
         android:text="Sort"

@@ -3,17 +3,10 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimary">
 
-    <ImageView android:id="@+id/splash_frog_face"
-        android:layout_width="wrap_content"
+    <include layout="@layout/frog"
         android:layout_height="wrap_content"
-        android:background="@drawable/frog"
+        android:layout_width="wrap_content"
         android:layout_gravity="center_horizontal|bottom"
-        android:layout_marginBottom="-88dp" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/frog_face"
-        android:layout_gravity="center_horizontal|bottom" />
+        android:layout_marginBottom="-88dp"/>
 
 </FrameLayout>

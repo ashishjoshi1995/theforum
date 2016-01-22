@@ -138,19 +138,11 @@
 
     <!-- frog -->
 
-    <ImageView android:id="@+id/profile_frog_body"
-        android:layout_width="wrap_content"
+    <include layout="@layout/frog"
         android:layout_height="wrap_content"
-        android:background="@drawable/frog"
-        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="-88dp" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/frog_face"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_marginBottom="-88dp"/>
 
 </RelativeLayout>

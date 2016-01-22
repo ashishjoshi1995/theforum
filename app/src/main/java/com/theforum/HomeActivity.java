@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.theforum.home.HomeFragment;
-import com.theforum.login.LoginActivity;
 import com.theforum.notification.NotificationService;
 import com.theforum.other.search.SearchResultFragment;
 import com.theforum.utils.CommonUtils;

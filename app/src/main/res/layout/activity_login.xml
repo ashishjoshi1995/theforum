@@ -3,26 +3,52 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimary">
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/login_view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <com.theforum.utils.views.ViewPagerIndicator
-        android:id="@+id/login_view_pager_indicator"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorPrimary">
+
+        <EditText
+            android:id="@+id/fragment_login_age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Your Age"
+            android:layout_marginBottom="2dp" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="GET STARTED"
+            android:textColor="#fff"
+            android:id="@+id/fragment_login_button"
+            android:background="@color/colorPrimaryDark"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:id="@+id/fragment_login2_country"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:text="@string/fragment_login_2_message"
+            android:id="@+id/fragment_login2_message" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/fragment_login2_termsandpolicy"
+            />
+    </LinearLayout>
+
+    <include layout="@layout/frog"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="90dp"/>
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/frog"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="-80dp" />
+        android:layout_marginBottom="-88dp"/>
 
 
 </RelativeLayout>
