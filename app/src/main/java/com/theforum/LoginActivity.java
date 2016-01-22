@@ -1,12 +1,15 @@
 package com.theforum;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.theforum.data.helpers.LoginHelper;
 import com.theforum.data.server.user;
@@ -19,11 +22,14 @@ import butterknife.ButterKnife;
 
 public class LoginActivity extends AppCompatActivity {
 
-    @Bind(R.id.fragment_login_age)
+    @Bind(R.id.login_age)
     EditText mAge;
 
-    @Bind(R.id.fragment_login_button)
+    @Bind(R.id.login_button)
     Button mLogin;
+
+    @Bind(R.id.frog_body)
+    ImageView frogBody;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +37,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         ButterKnife.bind(this);
+
+        ((GradientDrawable)frogBody.getBackground()).setColor(Color.parseColor("#30ed17"));
 
         mLogin.setOnClickListener(new View.OnClickListener() {
             @Override

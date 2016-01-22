@@ -55,7 +55,6 @@
             android:layout_height="wrap_content"
             android:hint="Description"
             android:textColor="@android:color/white"
-            android:textSize="16sp"
             android:inputType="text|textMultiLine"
             app:fontName = "@string/roboto_light"/>
     </android.support.design.widget.TextInputLayout>
@@ -65,7 +64,6 @@
         android:layout_height="48dp"
         android:layout_alignParentBottom="true"
         android:textColor="@android:color/white"
-        android:textSize="16sp"
         android:text="UPLOAD"
         android:background="@color/colorPrimaryDark"/>
 </RelativeLayout>
