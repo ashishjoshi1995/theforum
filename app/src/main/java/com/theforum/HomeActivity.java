@@ -36,8 +36,7 @@ public class HomeActivity extends AppCompatActivity implements OnHomeUiChangeLis
 
     private FragmentTransaction mFragmentTransaction;
 
-    private boolean changeMenuItem;
-    private boolean setSearch;
+    private int currentViewPagerPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +60,8 @@ public class HomeActivity extends AppCompatActivity implements OnHomeUiChangeLis
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         mToolbar.setTitle(spannableString);
 
-        mFragmentTransaction = getSupportFragmentManager().beginTransaction()
-                .replace(R.id.home_fragment_container, new HomeFragment());
-        mFragmentTransaction.commit();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.home_fragment_container, new HomeFragment()).commit();
 
         mMaterialSearchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
             @Override
@@ -106,6 +104,7 @@ public class HomeActivity extends AppCompatActivity implements OnHomeUiChangeLis
         return true;
     }
 
+    /*
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
 
@@ -122,6 +121,7 @@ public class HomeActivity extends AppCompatActivity implements OnHomeUiChangeLis
 
         return super.onPrepareOptionsMenu(menu);
     }
+    */
 
 
 
@@ -140,8 +140,6 @@ public class HomeActivity extends AppCompatActivity implements OnHomeUiChangeLis
             case R.id.action_search:
                 mMaterialSearchView.showSearch();
                 break;
-            case R.id.action_share:
-                break;
 
         }
 
@@ -149,10 +147,9 @@ public class HomeActivity extends AppCompatActivity implements OnHomeUiChangeLis
     }
 
     @Override
-    public void onPageSelected(int position, boolean setSearchEnabled) {
-        changeMenuItem = true;
-        setSearch = setSearchEnabled;
-        supportInvalidateOptionsMenu();
+    public void onPageSelected(int position) {
+
+        currentViewPagerPosition = position;
     }
 
 }

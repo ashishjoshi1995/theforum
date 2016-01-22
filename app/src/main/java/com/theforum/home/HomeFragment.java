@@ -69,9 +69,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onPageSelected(int position) {
-                if(mPosition==1&& position==2) {
-                    homeUiChangeListener.onPageSelected(position, false);
-                }else if(mPosition==2 && position==1) homeUiChangeListener.onPageSelected(position,true);
+                homeUiChangeListener.onPageSelected(position);
 
                 if(position!=1){
                     Animation animFadeOut = AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out);

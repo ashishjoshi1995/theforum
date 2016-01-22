@@ -8,8 +8,7 @@ package com.theforum.utils.listeners;
 public interface OnHomeUiChangeListener {
     /**
      * @param position current position of view pager
-     * @param setSearchEnabled if position is 1 or 2 search will be shown and at 3 shareOption will
-     *                         be shown.
+     *
      */
-    void onPageSelected(int position, boolean setSearchEnabled);
+    void onPageSelected(int position);
 }

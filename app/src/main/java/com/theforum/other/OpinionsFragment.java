@@ -85,6 +85,7 @@ public class OpinionsFragment extends Fragment {
             public void run() {
 
                 swipeRefreshLayout.setPadding(0, collapsingToolbarLayout.getHeight(), 0, 0);
+                
             }
         });
 

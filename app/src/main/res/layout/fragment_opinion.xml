@@ -7,9 +7,10 @@
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/opinion_swipe_refresh_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clipToPadding="false">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingTop="160dp">
 
         <include layout="@layout/recycler_view" />
 
@@ -85,8 +86,7 @@
         android:layout_marginBottom="16dp"
         android:src="@drawable/addopinion"
         app:rippleColor="@color/colorPrimaryDark"
-        app:backgroundTint="@color/colorPrimary"
-        />
+        app:backgroundTint="@color/colorPrimary" />
 
 </android.support.design.widget.CoordinatorLayout>
 
