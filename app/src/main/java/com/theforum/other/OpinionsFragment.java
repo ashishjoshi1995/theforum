@@ -2,7 +2,6 @@ package com.theforum.other;
 
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.util.Pair;
@@ -84,10 +83,8 @@ public class OpinionsFragment extends Fragment {
         collapsingToolbarLayout.post(new Runnable() {
             @Override
             public void run() {
-                CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams)
-                        swipeRefreshLayout.getLayoutParams();
-                params.setMargins(0, collapsingToolbarLayout.getHeight(), 0, 0);
-                swipeRefreshLayout.setLayoutParams(params);
+
+                swipeRefreshLayout.setPadding(0, collapsingToolbarLayout.getHeight(), 0, 0);
             }
         });
 

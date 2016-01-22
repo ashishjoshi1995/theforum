@@ -132,7 +132,6 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
         holder.upVoteBtn.setText(String.valueOf(opinionModel.getUpVoteCount()));
         holder.downVoteBtn.setText(String.valueOf(opinionModel.getDownVoteCount()));
 
-        Log.e("vote Status",""+ opinionModel.getVoteStatus());
         if(opinionModel.getVoteStatus() == VoteStatus.NONE){
             setCompoundDrawables(holder.upVoteBtn, holder.upVoteIcon);
             setCompoundDrawables(holder.downVoteBtn, holder.downVoteIcon);
