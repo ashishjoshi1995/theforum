@@ -1,7 +1,6 @@
 package com.theforum.home;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

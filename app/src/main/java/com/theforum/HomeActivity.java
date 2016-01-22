@@ -5,7 +5,7 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
@@ -17,10 +17,11 @@ import android.view.View;
 import com.theforum.home.HomeFragment;
 import com.theforum.login.LoginActivity;
 import com.theforum.notification.NotificationService;
+import com.theforum.other.search.SearchResultFragment;
 import com.theforum.utils.CommonUtils;
-import com.theforum.utils.listeners.OnHomeUiChangeListener;
 import com.theforum.utils.ProfileUtils;
 import com.theforum.utils.TypefaceSpan;
+import com.theforum.utils.listeners.OnHomeUiChangeListener;
 import com.theforum.utils.views.MaterialSearchView;
 
 import butterknife.Bind;
@@ -34,8 +35,9 @@ public class HomeActivity extends AppCompatActivity implements OnHomeUiChangeLis
     @Bind(R.id.home_material_search_view)
     MaterialSearchView mMaterialSearchView;
 
-    private FragmentTransaction mFragmentTransaction;
+    private FragmentManager mFragmentManager;
 
+    private SearchResultFragment mSearchResultFragment;
     private int currentViewPagerPosition;
 
     @Override
@@ -60,18 +62,23 @@ public class HomeActivity extends AppCompatActivity implements OnHomeUiChangeLis
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         mToolbar.setTitle(spannableString);
 
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.home_fragment_container, new HomeFragment()).commit();
+        mFragmentManager = getSupportFragmentManager();
+        mFragmentManager.beginTransaction().replace(R.id.home_fragment_container, new HomeFragment()).commit();
 
         mMaterialSearchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
             @Override
             public void onSearchViewShown() {
                 mToolbar.setVisibility(View.GONE);
+
+                mSearchResultFragment = new SearchResultFragment();
+                mFragmentManager.beginTransaction().add(R.id.home_fragment_container, mSearchResultFragment).commit();
             }
 
             @Override
             public void onSearchViewClosed() {
                 mToolbar.setVisibility(View.VISIBLE);
+
+                mFragmentManager.beginTransaction().remove(mSearchResultFragment).commit();
             }
         });
     }

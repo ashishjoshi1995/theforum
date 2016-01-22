@@ -1,4 +1,4 @@
-package com.theforum.other;
+package com.theforum.other.opinion;
 
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;

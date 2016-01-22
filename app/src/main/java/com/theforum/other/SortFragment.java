@@ -2,12 +2,13 @@ package com.theforum.other;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
+import android.widget.RadioGroup;
 
 import com.theforum.R;
 
@@ -18,11 +19,17 @@ import butterknife.ButterKnife;
  * @author Ashish
  * @since 1/8/2016
  */
-public class SortFragment extends Fragment implements CheckBox.OnCheckedChangeListener, View.OnClickListener {
 
-   // @Bind(R.id.fragment_sort_latest)RadioGroup sortSelection;
+public class SortFragment extends Fragment implements RadioGroup.OnCheckedChangeListener {
 
-    @Bind(R.id.sort_done_btn)Button button;
+    @Bind(R.id.toolbar)
+    Toolbar mToolbar;
+
+    @Bind(R.id.sort_radio_group)
+    RadioGroup radioGroup;
+
+    @Bind(R.id.sort_done_btn)
+    Button done;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -35,35 +42,43 @@ public class SortFragment extends Fragment implements CheckBox.OnCheckedChangeLi
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-     /*   checkBoxLatest.setOnCheckedChangeListener(this);
-        checkBoxCreatedByMe.setOnCheckedChangeListener(this);
-        checkBoxLeastRenewal.setOnCheckedChangeListener(this);
-        checkBoxMostRenewal.setOnCheckedChangeListener(this);*/
+        mToolbar.setTitle("");
+        mToolbar.setNavigationIcon(R.drawable.ic_action_navigation_arrow_back);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
 
-        button.setOnClickListener(this);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
+
+        radioGroup.setOnCheckedChangeListener(this);
+
+        done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
     }
+
 
     @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        /*
-        if(isChecked){
-        checkBoxLeastRenewal.setChecked(false);
-        checkBoxMostRenewal.setChecked(false);
-        checkBoxCreatedByMe.setChecked(false);
-        checkBoxLatest.setChecked(false);
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
 
-        buttonView.setChecked(true);
-    }
-        else {
-          //  checkBoxMostRenewal.setChecked(true);
+        switch (checkedId){
+            case R.id.sort_relevance_btn:
+                break;
+            case R.id.sort_latest_btn:
+                break;
+            case R.id.sort_created_by_me_btn:
+                break;
+            case R.id.sort_most_renewal_btn:
+                break;
+            case R.id.sort_least_renewal_btn:
+                break;
         }
-        */
-    }
-
-    @Override
-    public void onClick(View v) {
-        //commit the change in shared preference
-        getActivity().finish();
     }
 }
 
