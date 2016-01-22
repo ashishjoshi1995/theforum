@@ -71,11 +71,11 @@ public class HomeFragment extends Fragment {
             public void onPageSelected(int position) {
                 homeUiChangeListener.onPageSelected(position);
 
-                if(position!=1){
+                if (position != 1) {
                     Animation animFadeOut = AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out);
                     mFab.setAnimation(animFadeOut);
                     mFab.setVisibility(View.GONE);
-                }else {
+                } else {
                     mFab.setVisibility(View.VISIBLE);
                     Animation animFadeIn = AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in);
                     mFab.setAnimation(animFadeIn);
