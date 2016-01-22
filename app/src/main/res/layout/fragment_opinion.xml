@@ -36,7 +36,7 @@
                 android:paddingRight="@dimen/default_margin"
                 android:paddingBottom="9dp">
 
-                <com.theforum.utils.customViews.CustomFontTextView
+                <com.theforum.utils.views.customFont.TextView
                     android:id="@+id/opinion_topic_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

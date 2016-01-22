@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import com.theforum.R;
 import com.theforum.data.helpers.TrendsHelper;
 import com.theforum.data.local.models.TrendsDataModel;
-import com.theforum.utils.customViews.DividerItemDecorator;
+import com.theforum.utils.views.DividerItemDecorator;
 
 import java.util.ArrayList;
 

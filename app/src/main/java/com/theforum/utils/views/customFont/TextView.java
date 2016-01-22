@@ -1,4 +1,4 @@
-package com.theforum.utils.customViews;
+package com.theforum.utils.views.customFont;
 
 
 import android.annotation.TargetApi;
@@ -6,28 +6,28 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.widget.TextView;
 
 import com.theforum.R;
 
 
-public class CustomFontTextView extends TextView{
-    public CustomFontTextView(Context context) {
+public class TextView extends android.widget.TextView{
+
+    public TextView(Context context) {
         super(context);
     }
 
-    public CustomFontTextView(Context context, AttributeSet attrs) {
+    public TextView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(attrs);
     }
 
-    public CustomFontTextView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public TextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(attrs);
     }
 
     @TargetApi(21)
-    public CustomFontTextView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public TextView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(attrs);
     }

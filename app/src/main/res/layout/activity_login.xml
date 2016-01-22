@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <com.theforum.utils.customViews.ViewPagerIndicator
+    <com.theforum.utils.views.ViewPagerIndicator
         android:id="@+id/login_view_pager_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

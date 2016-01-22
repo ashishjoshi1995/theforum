@@ -1,4 +1,4 @@
-package com.theforum.utils.customViews;
+package com.theforum.utils.views;
 
 import android.content.Context;
 import android.graphics.Canvas;

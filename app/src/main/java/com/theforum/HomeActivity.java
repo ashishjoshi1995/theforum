@@ -21,7 +21,7 @@ import com.theforum.utils.CommonUtils;
 import com.theforum.utils.listeners.OnHomeUiChangeListener;
 import com.theforum.utils.ProfileUtils;
 import com.theforum.utils.TypefaceSpan;
-import com.theforum.utils.customViews.MaterialSearchView;
+import com.theforum.utils.views.MaterialSearchView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

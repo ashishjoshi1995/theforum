@@ -21,7 +21,7 @@ import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.data.server.opinion;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.User;
-import com.theforum.utils.customViews.KeyboardListenerEditText;
+import com.theforum.utils.views.KeyboardListenerEditText;
 import com.theforum.utils.listeners.SoftKeyboardStateWatcher;
 
 import butterknife.Bind;

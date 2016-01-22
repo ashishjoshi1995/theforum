@@ -15,7 +15,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginTop="66dp"
         android:textColorHint="@android:color/white">
-        <com.theforum.utils.customViews.KeyboardListenerEditText
+        <com.theforum.utils.views.KeyboardListenerEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusable="true"

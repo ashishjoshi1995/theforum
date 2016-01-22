@@ -15,7 +15,7 @@ import com.theforum.R;
 import com.theforum.data.helpers.TopicHelper;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.utils.CommonUtils;
-import com.theforum.utils.customViews.DividerItemDecorator;
+import com.theforum.utils.views.DividerItemDecorator;
 import com.theforum.utils.listeners.OnLoadMoreListener;
 
 import java.util.ArrayList;

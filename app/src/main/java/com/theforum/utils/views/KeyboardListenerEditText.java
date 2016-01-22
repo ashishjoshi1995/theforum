@@ -1,6 +1,5 @@
-package com.theforum.utils.customViews;
+package com.theforum.utils.views;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.KeyEvent;

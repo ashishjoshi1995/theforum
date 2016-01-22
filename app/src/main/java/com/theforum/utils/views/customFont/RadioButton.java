@@ -1,4 +1,4 @@
-package com.theforum.utils.customViews;
+package com.theforum.utils.views.customFont;
 
 
 import android.annotation.TargetApi;
@@ -6,29 +6,28 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import com.theforum.R;
 
 
-public class CustomFontEditText extends EditText{
-    public CustomFontEditText(Context context) {
+public class RadioButton extends android.widget.RadioButton{
+
+    public RadioButton(Context context) {
         super(context);
     }
 
-    public CustomFontEditText(Context context, AttributeSet attrs) {
+    public RadioButton(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(attrs);
     }
 
-    public CustomFontEditText(Context context, AttributeSet attrs, int defStyleAttr) {
+    public RadioButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(attrs);
     }
 
     @TargetApi(21)
-    public CustomFontEditText(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public RadioButton(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(attrs);
     }

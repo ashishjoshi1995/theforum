@@ -25,7 +25,7 @@ import com.theforum.data.helpers.OpinionHelper;
 import com.theforum.data.local.models.OpinionDataModel;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.utils.CommonUtils;
-import com.theforum.utils.customViews.DividerItemDecorator;
+import com.theforum.utils.views.DividerItemDecorator;
 
 import java.io.Serializable;
 import java.util.ArrayList;

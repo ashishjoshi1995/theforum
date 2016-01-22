@@ -6,7 +6,7 @@
     android:background="?android:selectableItemBackground"
     android:padding="@dimen/default_margin">
 
-    <com.theforum.utils.customViews.CustomFontTextView
+    <com.theforum.utils.views.customFont.TextView
         android:id="@+id/trends_topic_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,7 +15,7 @@
         android:textColor="@color/blue"
         app:fontName="Roboto-Light.ttf" />
 
-    <com.theforum.utils.customViews.CustomFontTextView
+    <com.theforum.utils.views.customFont.TextView
         android:id="@+id/trends_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

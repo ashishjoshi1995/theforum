@@ -4,11 +4,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.theforum.R;
 import com.theforum.data.server.topic;
-import com.theforum.utils.customViews.CustomFontTextView;
 
 import java.util.ArrayList;
 
@@ -21,11 +19,11 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView mTextView;
-        public CustomFontTextView customFontTextView;
+        public TextView textView;
         public ViewHolder(View v) {
             super(v);
             mTextView = (TextView) v.findViewById(R.id.search_result_element_textView);
-            customFontTextView = (CustomFontTextView) v.findViewById(R.id.search_result_element_topic);
+            textView = (TextView) v.findViewById(R.id.search_result_element_topic);
         }
     }
 
@@ -47,7 +45,7 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        holder.customFontTextView.setText(mDataset.get(position).getTopicName());
+        holder.textView.setText(mDataset.get(position).getTopicName());
         int a  = mDataset.get(position).getHoursLeft();
         int b = mDataset.get(position).getRenewedCount();
         String c = a + "hrs left to decay |"+ b + "renewal";

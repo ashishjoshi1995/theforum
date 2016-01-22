@@ -22,7 +22,7 @@
 
     <!-- status -->
 
-    <com.theforum.utils.customViews.CustomFontTextView
+    <com.theforum.utils.views.customFont.TextView
         android:id="@+id/profile_status_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
         android:text="@string/status_header"
         app:fontName="@string/roboto_light"/>
 
-    <com.theforum.utils.customViews.CustomFontTextView
+    <com.theforum.utils.views.customFont.TextView
         android:id="@+id/profile_status"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
 
     <!--points  -->
 
-    <com.theforum.utils.customViews.CustomFontTextView
+    <com.theforum.utils.views.customFont.TextView
         android:id="@+id/profile_points_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -73,7 +73,7 @@
         android:text="@string/points_header"
         app:fontName="@string/roboto_light"/>
 
-    <com.theforum.utils.customViews.CustomFontTextView
+    <com.theforum.utils.views.customFont.TextView
         android:id="@+id/profile_points"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -100,7 +100,7 @@
 
     <!--topics -->
 
-    <com.theforum.utils.customViews.CustomFontTextView
+    <com.theforum.utils.views.customFont.TextView
         android:id="@+id/profile_topics_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -111,7 +111,7 @@
         android:text="@string/topics_header"
         app:fontName="@string/roboto_light"/>
 
-    <com.theforum.utils.customViews.CustomFontTextView
+    <com.theforum.utils.views.customFont.TextView
         android:id="@+id/profile_topics"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:padding="@dimen/default_margin">
 
-    <com.theforum.utils.customViews.CustomFontTextView
+    <com.theforum.utils.views.customFont.TextView
         android:id="@+id/opinion_opinion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

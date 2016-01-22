@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import com.theforum.R;
 import com.theforum.data.local.database.notificationDB.NotificationDBHelper;
 import com.theforum.data.local.models.NotificationInflatorModel;
-import com.theforum.utils.customViews.DividerItemDecorator;
+import com.theforum.utils.views.DividerItemDecorator;
 
 import java.util.ArrayList;
 
