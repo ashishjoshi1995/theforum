@@ -84,8 +84,10 @@ public class OpinionsFragment extends Fragment {
             @Override
             public void run() {
 
-                swipeRefreshLayout.setPadding(0, collapsingToolbarLayout.getHeight(), 0, 0);
-              //  swipeRefreshLayout.setProgressViewOffset(true,collapsingToolbarLayout.getHeight(),)
+                int actionBarSize = (int)CommonUtils.convertDpToPixel(56,getContext());
+                int progressViewStart = collapsingToolbarLayout.getHeight() - actionBarSize;
+                int progressViewEnd = progressViewStart + (int) (actionBarSize * 1.2f);
+                swipeRefreshLayout.setProgressViewOffset(true,progressViewStart,progressViewEnd);
             }
         });
 

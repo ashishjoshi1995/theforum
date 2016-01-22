@@ -34,6 +34,7 @@
     <style name="EditTextTheme">
         <!-- Used for the bottom line when not selected / focused -->
         <item name="colorControlNormal">@color/colorAccentSecondary</item>
+        <item name="android:textColor">@color/colorAccentSecondary</item>
     </style>
 
 </resources>

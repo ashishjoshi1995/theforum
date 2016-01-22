@@ -1,5 +1,6 @@
 package com.theforum.other;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
@@ -50,10 +51,21 @@ public class NewTopicFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
+        mToolbar.setTitle("");
+        mToolbar.setNavigationIcon(R.drawable.ic_action_navigation_arrow_back);
         ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
+
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
+
 
         mTopicText = mTopicNameHolder.getEditText();
 
+        mUpload.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/Roboto-Medium.ttf"));
         mUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
