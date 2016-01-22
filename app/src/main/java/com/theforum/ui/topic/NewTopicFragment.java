@@ -1,4 +1,4 @@
-package com.theforum.other;
+package com.theforum.ui.topic;
 
 import android.graphics.Typeface;
 import android.os.Bundle;

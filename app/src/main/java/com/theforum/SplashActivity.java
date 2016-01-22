@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 import com.theforum.data.helpers.TopicHelper;
 import com.theforum.data.helpers.TrendsHelper;
+import com.theforum.ui.home.HomeActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

@@ -1,4 +1,4 @@
-package com.theforum.other;
+package com.theforum.ui.settings;
 
 /**
  * @author DEEPANKAR

@@ -1,4 +1,4 @@
-package com.theforum.home;
+package com.theforum.ui.trend;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

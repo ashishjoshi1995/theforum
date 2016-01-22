@@ -1,4 +1,4 @@
-package com.theforum.home;
+package com.theforum.ui.home;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -12,7 +12,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import com.theforum.Constants;
-import com.theforum.HomePagerAdapter;
 import com.theforum.R;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.listeners.OnHomeUiChangeListener;

@@ -13,7 +13,7 @@ import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.theforum.Constants;
-import com.theforum.HomeActivity;
+import com.theforum.ui.home.HomeActivity;
 import com.theforum.R;
 import com.theforum.data.local.database.notificationDB.NotificationDBHelper;
 import com.theforum.data.server.opinion;

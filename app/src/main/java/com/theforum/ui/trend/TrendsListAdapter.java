@@ -1,4 +1,4 @@
-package com.theforum.home;
+package com.theforum.ui.trend;
 
 import android.app.Activity;
 import android.content.Context;

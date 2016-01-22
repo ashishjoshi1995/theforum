@@ -1,12 +1,12 @@
-package com.theforum;
+package com.theforum.ui.home;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.theforum.home.ProfileFragment;
-import com.theforum.home.TopicsFragment;
-import com.theforum.home.TrendsFragment;
+import com.theforum.ui.ProfileFragment;
+import com.theforum.ui.topic.TopicsFragment;
+import com.theforum.ui.trend.TrendsFragment;
 
 /**
  * @author DEEPANKAR

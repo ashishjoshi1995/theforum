@@ -1,4 +1,4 @@
-package com.theforum.other;
+package com.theforum.ui;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

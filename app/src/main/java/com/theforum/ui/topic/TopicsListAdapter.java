@@ -1,4 +1,4 @@
-package com.theforum.home;
+package com.theforum.ui.topic;
 
 import android.content.Context;
 import android.support.v4.util.Pair;

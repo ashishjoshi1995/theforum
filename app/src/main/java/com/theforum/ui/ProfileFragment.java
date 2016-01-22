@@ -1,4 +1,4 @@
-package com.theforum.home;
+package com.theforum.ui;
 
 import android.graphics.Color;
 import android.graphics.PorterDuff;

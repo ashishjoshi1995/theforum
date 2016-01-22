@@ -8,10 +8,10 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.theforum.notification.NotificationFragment;
 import com.theforum.other.opinion.NewOpinionFragment;
-import com.theforum.other.NewTopicFragment;
+import com.theforum.ui.topic.NewTopicFragment;
 import com.theforum.other.opinion.OpinionsFragment;
-import com.theforum.other.SettingsFragment;
-import com.theforum.other.SortFragment;
+import com.theforum.ui.settings.SettingsFragment;
+import com.theforum.ui.SortFragment;
 
 public class ContainerActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.theforum;
+package com.theforum.ui.home;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -14,7 +14,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.theforum.home.HomeFragment;
+import com.theforum.Constants;
+import com.theforum.LoginActivity;
+import com.theforum.R;
+import com.theforum.ui.home.HomeFragment;
 import com.theforum.notification.NotificationService;
 import com.theforum.other.search.SearchResultFragment;
 import com.theforum.utils.CommonUtils;
@@ -138,7 +141,7 @@ public class HomeActivity extends AppCompatActivity implements OnHomeUiChangeLis
 
         switch (id){
             case R.id.action_settings:
-                CommonUtils.openContainerActivity(this,Constants.SETTINGS_FRAGMENT);
+                CommonUtils.openContainerActivity(this, Constants.SETTINGS_FRAGMENT);
                 break;
             case R.id.action_add_opinion:
                 CommonUtils.openContainerActivity(this, Constants.NEW_TOPIC_FRAGMENT);
