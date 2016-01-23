@@ -32,7 +32,6 @@
             android:text="Relevance"
             android:button="@null"
             android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-            android:textSize="16sp"
             android:textColor="#fff"
             app:fontName = "@string/roboto_light"/>
 
@@ -48,7 +47,6 @@
             android:id="@+id/sort_latest_btn"
             android:button="@null"
             android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-            android:textSize="16sp"
             android:textColor="#fff"
             app:fontName = "@string/roboto_light"/>
         <View
@@ -63,7 +61,6 @@
             android:button="@null"
             android:id="@+id/sort_created_by_me_btn"
             android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-            android:textSize="16sp"
             android:textColor="#fff"
             app:fontName = "@string/roboto_light"/>
 
@@ -79,7 +76,6 @@
             android:button="@null"
             android:id="@+id/sort_most_renewal_btn"
             android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-            android:textSize="16sp"
             android:textColor="#fff"
             app:fontName = "@string/roboto_light"/>
 
@@ -95,7 +91,6 @@
             android:button="@null"
             android:id="@+id/sort_least_renewal_btn"
             android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-            android:textSize="16sp"
             android:textColor="#fff"
             app:fontName = "@string/roboto_light"/>
 

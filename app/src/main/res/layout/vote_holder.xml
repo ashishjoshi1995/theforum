@@ -10,7 +10,8 @@
         android:gravity="center"
         android:drawablePadding="8dp"
         android:clickable="true"
-        android:text="1254"/>
+        android:textSize="14sp" />
+
     <TextView
         android:id="@+id/downvote_btn"
         android:layout_width="wrap_content"
@@ -19,5 +20,5 @@
         android:gravity="center"
         android:drawablePadding="8dp"
         android:clickable="true"
-        android:text="1254"/>
+        android:textSize="14sp" />
 </LinearLayout>

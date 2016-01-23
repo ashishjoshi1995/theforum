@@ -24,8 +24,7 @@
             android:paddingRight="56dp"
             android:singleLine="true"
             android:textColor="#fff"
-            android:textColorHint="#e0ffffff"
-            android:textSize="16sp" />
+            android:textColorHint="#e0ffffff" />
 
 
         <ImageButton
