@@ -133,6 +133,38 @@ public class TrendsHelper {
 
         runAsyncTask2(task);
     }
+    public void getTopicByName(final String topic_name,final OnTopicDetailReceived listener){
+        if(mTopic == null) mTopic = TheForumApplication.getClient().getTable(topic.class);
+        AsyncTask<Void, Void,topic> task= new AsyncTask<Void, Void, topic>() {
+
+            @Override
+            protected topic doInBackground(Void... voids) {
+                MobileServiceList<topic> result;
+                try {
+                    result = mTopic.where().field("topic").eq(topic_name).execute().get();
+                    return result.get(0);
+
+                } catch (Exception e) {
+                    listener.onError("Check Your Internet Connection");
+
+                    return null;
+                }
+
+            }
+
+            @Override
+            protected void onPostExecute(topic topic) {
+                super.onPostExecute(topic);
+
+                if(topic!=null) {
+                    TopicDataModel topicDataModel = new TopicDataModel(topic);
+                    listener.onCompleted(topicDataModel);
+                }
+            }
+        };
+
+        runAsyncTask3(task);
+    }
 
     public void getTopicDetails(final String topic_id,final OnTopicDetailReceived listener){
         if(mTopic == null) mTopic = TheForumApplication.getClient().getTable(topic.class);

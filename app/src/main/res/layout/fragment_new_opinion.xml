@@ -21,7 +21,6 @@
             android:focusable="true"
             android:hint="Your Opinion On #TakeThenBack"
             android:textColor="@android:color/white"
-            android:textSize="16sp"
             android:inputType="text|textMultiLine"
             android:maxLines="6"/>
     </android.support.design.widget.TextInputLayout>
@@ -31,7 +30,6 @@
         android:layout_height="48dp"
         android:layout_alignParentBottom="true"
         android:textColor="@android:color/white"
-        android:textSize="16sp"
         android:text="UPLOAD"
         android:background="@color/colorPrimaryDark"/>
 </RelativeLayout>

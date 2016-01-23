@@ -1,46 +1,80 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorPrimary">
 
     <LinearLayout
-        android:orientation="vertical" android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary">
+        android:background="@color/colorPrimary"
+        android:layout_margin="40dp">
 
-        <EditText
-            android:id="@+id/fragment_login_age"
-            android:layout_width="wrap_content"
+        <EditText android:theme="@style/EditTextTheme"
+            android:id="@+id/login_age"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Your Age"
-            android:layout_marginBottom="2dp" />
+            android:textSize="22sp"
+            android:hint="Please fill your Correct Age"
+            android:textColorHint="#6d7175"/>
+
         <Button
-            android:layout_width="wrap_content"
+            android:id="@+id/login_button"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="31dp"
             android:text="GET STARTED"
             android:textColor="#fff"
-            android:id="@+id/fragment_login_button"
-            android:background="@color/colorPrimaryDark" />
-        <TextView
+            android:background="@drawable/rounded_button" />
+
+        <com.theforum.utils.views.customFont.TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/login_country"
+            android:textColor="#fff"
+            android:text="Location: India You can always change this in Options"
+            android:layout_marginTop="30dp"
+            app:fontName = "@string/roboto_light"/>
+
+        <com.theforum.utils.views.customFont.TextView
+            android:id="@+id/login_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#fff"
-            android:id="@+id/fragment_login2_country"
-            />
+            android:text="@string/login_message"
+            android:layout_marginTop="30dp"
+            app:fontName = "@string/roboto_light"/>
 
-        <TextView
+        <TableRow
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#fff"
-            android:text="@string/fragment_login_2_message"
-            android:id="@+id/fragment_login2_message" />
+            android:orientation="horizontal"
+            android:layout_marginTop="36dp"
+            android:layout_gravity="center_horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/fragment_login2_termsandpolicy"
-            />
+            <TextView android:textColor="#17afe8"
+                android:text="Terms  "/>
+
+            <View android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"/>
+
+            <TextView android:textColor="#17afe8"
+                android:text="  Privacy  " />
+
+            <View android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"/>
+
+            <TextView android:textColor="#17afe8"
+                android:text="  Contact" />
+
+        </TableRow>
+
+
     </LinearLayout>
+
 
     <include layout="@layout/frog"
         android:layout_height="wrap_content"

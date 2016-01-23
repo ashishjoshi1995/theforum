@@ -9,7 +9,7 @@
         <item name="colorAccent">@color/colorAccent</item>
 
         <item name="android:textColor">@color/colorTextMain</item>
-        <item name="android:windowBackground">@null</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <style name="ToolbarTheme" parent="Theme.AppCompat.NoActionBar">
