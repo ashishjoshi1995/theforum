@@ -2,11 +2,15 @@ package com.theforum.data.helpers;
 
 import android.util.Log;
 
+import com.microsoft.windowsazure.mobileservices.ApiOperationCallback;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.microsoft.windowsazure.mobileservices.table.TableQueryCallback;
+import com.theforum.Constants;
 import com.theforum.TheForumApplication;
+import com.theforum.data.helpers.notificationClearApi.NotificationClearApiRequest;
+import com.theforum.data.helpers.notificationClearApi.NotificationClearApiResponse;
 import com.theforum.utils.User;
 import com.theforum.data.server.opinion;
 import com.theforum.data.server.topic;
@@ -24,6 +28,8 @@ public class NotificationHelper {
     MobileServiceClient mobileServiceClient;
     MobileServiceTable<topic>topic;
     MobileServiceTable<opinion>opinion;
+    Boolean one = false;
+    Boolean two = false;
 
 
     public NotificationHelper(){
@@ -39,8 +45,12 @@ public class NotificationHelper {
             @Override
             public void onCompleted(List<opinion> result, int count, Exception exception, ServiceFilterResponse response) {
                 Log.e("readNotif opi", String.valueOf(count));
+                one = true;
                 if(count>0) {
                     notificationIfAny.opinionNotif(result);
+                }
+                if(one && two){
+                    cleanItUP();
                 }
             }
 
@@ -50,9 +60,25 @@ public class NotificationHelper {
             @Override
             public void onCompleted(List<topic> result, int count, Exception exception, ServiceFilterResponse response) {
                 Log.e("readNotif topic", String.valueOf(count));
-                if(count>0){
+                two = true;
+                if (count > 0) {
                     notificationIfAny.topicNotif(result);
                 }
+                if (one && two) {
+                    cleanItUP();
+                }
+            }
+        });
+    }
+
+    void cleanItUP(){
+        NotificationClearApiRequest request = new NotificationClearApiRequest();
+        request.uid = User.getInstance().getId();
+
+        mobileServiceClient.invokeApi("notificationclearapi", request, NotificationClearApiResponse.class, new ApiOperationCallback<NotificationClearApiResponse>() {
+            @Override
+            public void onCompleted(NotificationClearApiResponse result, Exception exception, ServiceFilterResponse response) {
+                Log.e("final on clear msg","result.resMessage");
             }
         });
     }

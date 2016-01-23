@@ -90,7 +90,7 @@ public class HomeActivity extends AppCompatActivity implements OnHomeUiChangeLis
     protected void onResume() {
         super.onResume();
 
-        int minutes = 10000000;
+        int minutes = 1;
 
         AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
         Intent i = new Intent(this, NotificationService.class);

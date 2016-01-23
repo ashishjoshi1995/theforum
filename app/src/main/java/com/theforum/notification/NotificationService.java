@@ -109,7 +109,7 @@ public class NotificationService extends Service {
                     //if(stop){
                     if(inflatorItemDatas.size()>0) {
                         NotificationDBHelper.getNotificationDBHelper().addNotifications(inflatorItemDatas);
-                        //Notify(jaiHo);
+                        Notify(jaiHo);
                     }
 
                      //   stop = false;
@@ -134,7 +134,7 @@ public class NotificationService extends Service {
                     //if(stop){
 
                     if(inflatorItemDatas.size()>0){
-                       // Notify(jaiHo);
+                        Notify(jaiHo);
                     NotificationDBHelper.getNotificationDBHelper().addNotifications(inflatorItemDatas);}
                         //stop = false;
                     //}
