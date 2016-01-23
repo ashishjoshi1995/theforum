@@ -55,7 +55,7 @@ public class TopicHelper {
 
 
     public void addTopic(final topic topic, final OnTopicInsertListener onTopicInsertListener) {
-        Boolean 
+        Boolean name_exist=false;
         List<String> topic_name= TopicDBHelper.getHelper().getMyTopicText();
         Log.e("string ",topic.toString());
         String products[] = new String[topic_name.size()];
