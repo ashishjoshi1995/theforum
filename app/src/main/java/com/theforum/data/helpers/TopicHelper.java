@@ -27,6 +27,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Ashish on 1/5/2016.
@@ -54,7 +55,13 @@ public class TopicHelper {
 
 
     public void addTopic(final topic topic, final OnTopicInsertListener onTopicInsertListener) {
-
+        Boolean name_exist=false;
+        List<String> topic_name= TopicDBHelper.getHelper().getMyTopicText();
+        Log.e("string ",topic.toString());
+        String products[] = new String[topic_name.size()];
+        for (int i = 0; i < topic_name.size(); i++) {
+            products[i]= topic_name.get(i);
+        }
         AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
 
             @Override

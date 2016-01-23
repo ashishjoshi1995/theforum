@@ -144,6 +144,7 @@ public class TopicDBHelper {
         topicDatabase.execSQL("DELETE from " + TopicDBConstants.TABLE_NAME);
     }
 
+
     public ArrayList<String> getMyTopicId(){
         topicDatabase = topicDB.getWritableDatabase();
         ArrayList<String> s = new ArrayList<>();
@@ -154,6 +155,20 @@ public class TopicDBHelper {
         }
         for(int i =0; i<c.getCount();i++){
             s.add(c.getString(0));
+        }
+        return s;
+    }
+    public ArrayList<String> getMyTopicText(){
+        topicDatabase = topicDB.getWritableDatabase();
+        ArrayList<String> s = new ArrayList<>();
+        String readTopicId = "SELECT DISTINCT " + TopicDBConstants.KEY_TOPIC +" FROM " + TopicDBConstants.TABLE_NAME;
+        Cursor c = topicDatabase.rawQuery(readTopicId,null);
+        if(c!=null){
+            c.moveToFirst();
+        }
+        for(int i =0; i<c.getCount();i++){
+            s.add(c.getString(0));
+            c.moveToNext();
         }
         return s;
     }
