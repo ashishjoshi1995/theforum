@@ -105,7 +105,7 @@ public class TopicHelper {
             runAsyncTask2(task);
         }
         else{
-            
+            Log.e("already","nam pehle se he");
         }
         }
 
