@@ -55,51 +55,61 @@ public class TopicHelper {
 
 
     public void addTopic(final topic topic, final OnTopicInsertListener onTopicInsertListener) {
-        Boolean name_exist=false;
-        List<String> topic_name= TopicDBHelper.getHelper().getMyTopicText();
-        Log.e("string ",topic.toString());
-        String products[] = new String[topic_name.size()];
+        Boolean name_exist = false;
+        List<String> topic_name = TopicDBHelper.getHelper().getMyTopicText();
+        Log.e("string ", topic.toString());
+        //String products[] = new String[topic_name.size()];
         for (int i = 0; i < topic_name.size(); i++) {
-            products[i]= topic_name.get(i);
+            if (topic.getTopicName() == topic_name.get(i)) {
+                name_exist = true;
+                break;
+            }
         }
-        AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
+        if (!name_exist) {
+            AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
 
-            @Override
-            protected Void doInBackground(Void... params) {
-                try {
-                    mTopicTable.insert(topic, new TableOperationCallback<topic>() {
-                        @Override
-                        public void onCompleted(topic entity, Exception exception, ServiceFilterResponse response) {
-                            if (exception == null) {
+                @Override
+                protected Void doInBackground(Void... params) {
+                    try {
+                        mTopicTable.insert(topic, new TableOperationCallback<topic>() {
+                            @Override
+                            public void onCompleted(topic entity, Exception exception, ServiceFilterResponse response) {
+                                if (exception == null) {
                                 /*
                                    saving topic to local dataBase
                                  */
-                                TopicDataModel topicDataModel = new TopicDataModel(entity);
-                                topicDataModel.setIsMyTopic(true);
-                                TopicDBHelper.getHelper().addTopic(topicDataModel);
+                                    TopicDataModel topicDataModel = new TopicDataModel(entity);
+                                    topicDataModel.setIsMyTopic(true);
+                                    TopicDBHelper.getHelper().addTopic(topicDataModel);
 
-                                if(topicsReceiveListener!=null){
-                                    topicArrayList.clear();
-                                    topicArrayList.add(topicDataModel);
-                                    topicsReceiveListener.onCompleted(topicArrayList);
+                                    if (topicsReceiveListener != null) {
+                                        topicArrayList.clear();
+                                        topicArrayList.add(topicDataModel);
+                                        topicsReceiveListener.onCompleted(topicArrayList);
+                                    }
+
+                                    onTopicInsertListener.onCompleted();
+
+                                } else {
+                                    onTopicInsertListener.onError(exception.getMessage());
                                 }
 
-                                onTopicInsertListener.onCompleted();
-
-                            } else {
-                                onTopicInsertListener.onError(exception.getMessage());
                             }
-
-                        }
-                    });
-                } catch (Exception e) {
-                    onTopicInsertListener.onError(e.getMessage());
+                        });
+                    } catch (Exception e) {
+                        onTopicInsertListener.onError(e.getMessage());
+                    }
+                    return null;
                 }
-                return null;
-            }
-        };
-        runAsyncTask2(task);
-    }
+            };
+            runAsyncTask2(task);
+        }
+        else{
+            
+        }
+        }
+
+
 
 
     public void getTopics(OnTopicsReceiveListener listener){
