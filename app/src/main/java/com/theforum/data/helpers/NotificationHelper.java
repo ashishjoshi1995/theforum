@@ -7,14 +7,13 @@ import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.microsoft.windowsazure.mobileservices.table.TableQueryCallback;
-import com.theforum.Constants;
 import com.theforum.TheForumApplication;
 import com.theforum.data.helpers.notificationClearApi.NotificationClearApiRequest;
 import com.theforum.data.helpers.notificationClearApi.NotificationClearApiResponse;
-import com.theforum.utils.User;
+import com.theforum.data.interfaces.NotificationIfAny;
 import com.theforum.data.server.opinion;
 import com.theforum.data.server.topic;
-import com.theforum.data.interfaces.NotificationIfAny;
+import com.theforum.utils.User;
 
 import java.util.List;
 

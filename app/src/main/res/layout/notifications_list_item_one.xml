@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/notification_description"
         android:layout_marginTop="20dp"
-        android:text="New Text"/>
+        />
 
     <include layout="@layout/vote_holder"
         android:layout_width="wrap_content"

@@ -27,7 +27,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginRight="56dp"
         android:textSize="16sp"
-        android:text="with 984 renewal requests"/>
+        />
 
     <TextView android:id="@+id/notification_decay_time"
         android:layout_width="wrap_content"
