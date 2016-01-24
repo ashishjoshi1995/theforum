@@ -30,7 +30,8 @@ import java.util.List;
  */
 public class NotificationService extends Service {
     private PowerManager.WakeLock mWakeLock;
-
+    private Boolean temp = false;
+    private int count = 0;
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -79,13 +80,14 @@ public class NotificationService extends Service {
             // do stuff!
             // here we need to query the two tables and transfer the data to on post execute
             Log.e("PollTask doinbackground","notficationhelper called");
-            NotificationHelper helper = new NotificationHelper();
+            final NotificationHelper helper = new NotificationHelper();
             helper.readNotification(new NotificationIfAny() {
             int jaiHo = 0;
             boolean stop = false;
                 @Override
                 public void topicNotif(List<topic> topics) {
                     ArrayList<NotificationDataModel> inflatorItemDatas = new ArrayList<NotificationDataModel>();
+                    Log.e("topic count",""+topics.size());
                     for(int j =0; j<topics.size();j++){
                         NotificationDataModel inflatorItemDataRenewal = new NotificationDataModel();
                         inflatorItemDataRenewal.hoursLeft = topics.get(j).getHoursLeft();
@@ -108,8 +110,15 @@ public class NotificationService extends Service {
                     }
                     //if(stop){
                     if(inflatorItemDatas.size()>0) {
+                        if(NotificationHelper.one && NotificationHelper.two && count ==0){
+                            helper.cleanItUP();
+                            count++;
+                        }
                         NotificationDBHelper.getNotificationDBHelper().addNotifications(inflatorItemDatas);
                         Notify(jaiHo);
+                    }
+                    else if(count>0){
+                        count = 0;
                     }
 
                      //   stop = false;
@@ -119,6 +128,7 @@ public class NotificationService extends Service {
                 @Override
                 public void opinionNotif(List<opinion> opinions) {
                     ArrayList<NotificationDataModel> inflatorItemDatas = new ArrayList<NotificationDataModel>();
+                    Log.e("opinion size",""+opinions.size());
                         for(int j=0;j<opinions.size();j++){
                             NotificationDataModel inflatorItemData = new NotificationDataModel();
                             inflatorItemData.notificationType = Constants.NOTIFICATION_TYPE_OPINION_UP_VOTES;
@@ -134,6 +144,13 @@ public class NotificationService extends Service {
                     //if(stop){
 
                     if(inflatorItemDatas.size()>0){
+                        if(NotificationHelper.one && NotificationHelper.two && count == 0){
+                            helper.cleanItUP();
+                            count ++;
+                        }
+                        else if(count>0){
+                            count = 0;
+                        }
                         Notify(jaiHo);
                     NotificationDBHelper.getNotificationDBHelper().addNotifications(inflatorItemDatas);}
                         //stop = false;

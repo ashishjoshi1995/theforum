@@ -3,6 +3,8 @@ package com.theforum.data.local.database.notificationDB;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+
 import com.theforum.Constants;
 import com.theforum.TheForumApplication;
 import com.theforum.data.local.models.NotificationInflatorModel;
@@ -56,10 +58,13 @@ public class NotificationDBHelper {
                 break;
         }
         values.put(NotificationDBConstants.KEY_TIME_HOLDER,notificationDataModel.hoursLeft + "hrs left to decay | 01:30 PM Today");
-        sqLiteDatabase.insert(NotificationDBConstants.TABLE_NAME,null,values);
+        Log.e("notificationDBhelperinser",""+values.size());
+        sqLiteDatabase.insert(NotificationDBConstants.TABLE_NAME, null, values);
+
     }
 
     public void addNotifications(List<NotificationDataModel> notificationDataModels){
+        Log.e("addnotificationssss",""+notificationDataModels.size());
         for(int j=0; j<notificationDataModels.size();j++){
             addNotification(notificationDataModels.get(j));
         }
@@ -69,11 +74,16 @@ public class NotificationDBHelper {
         //delete notification from table when the entries exceed a certain fixed number
     }
 
+    public void deleteAllNotif(){
+        sqLiteDatabase.execSQL("delete from " + NotificationDBConstants.TABLE_NAME);
+    }
+
     public ArrayList<NotificationInflatorModel> getAllNotifications(){
         ArrayList<NotificationInflatorModel> notifications = new ArrayList<>();
         Cursor cursor = sqLiteDatabase.rawQuery("SELECT  * FROM " + NotificationDBConstants.TABLE_NAME, null);
 
         if(cursor!=null){
+            Log.e("getAllNotiications",""+cursor.getCount());
             if (cursor.moveToFirst()) {
                 do {
                     NotificationInflatorModel obj = new NotificationInflatorModel();

@@ -28,8 +28,8 @@ public class NotificationHelper {
     MobileServiceClient mobileServiceClient;
     MobileServiceTable<topic>topic;
     MobileServiceTable<opinion>opinion;
-    Boolean one = false;
-    Boolean two = false;
+    public static Boolean one = false;
+    public static Boolean two = false;
 
 
     public NotificationHelper(){
@@ -66,7 +66,7 @@ public class NotificationHelper {
         });
     }
 
-    void cleanItUP(){
+    public void cleanItUP(){
         NotificationClearApiRequest request = new NotificationClearApiRequest();
         request.uid = User.getInstance().getId();
         mobileServiceClient.invokeApi("notificationclearapi", request, NotificationClearApiResponse.class, new ApiOperationCallback<NotificationClearApiResponse>() {

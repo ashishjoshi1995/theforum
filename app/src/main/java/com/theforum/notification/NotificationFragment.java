@@ -40,6 +40,12 @@ public class NotificationFragment extends Fragment {
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        NotificationDBHelper.getNotificationDBHelper().deleteAllNotif();
+    }
+
+    @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
