@@ -287,6 +287,14 @@ public class TopicHelper {
         for(int i=0; i<topics.size();i++) {
             TopicDataModel topicDataModel = new TopicDataModel(topics.get(i));
             topicDataModel.setIsRenewed(false);
+            String[] r=topics.get(i).getRenewalRequestIds().split(" ");
+            for(int k=0;k<r.length ; k++){
+                if(r[k].equals(User.getInstance().getId())){
+                    topicDataModel.setIsRenewed(true);
+                    break;
+                }
+            }
+
             topicArrayList.add(topicDataModel);
         }
 

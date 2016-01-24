@@ -1,7 +1,5 @@
 package com.theforum.data.server;
 
-import java.io.Serializable;
-
 /**
  * @author Ashish on 12/31/2015.
  */
@@ -18,6 +16,9 @@ public class topic {
 
     @com.google.gson.annotations.SerializedName("renewal_requests")
     private int renewalRequests;
+
+    @com.google.gson.annotations.SerializedName("renewal_request_ids")
+    private String renewalRequestIds;
 
     @com.google.gson.annotations.SerializedName("renewed_count")
     private int renewedCount;
@@ -163,4 +164,11 @@ public class topic {
         this.mNotifCount = mNotifCount;
     }
 
+    public String getRenewalRequestIds() {
+        return renewalRequestIds;
+    }
+
+    public void setRenewalRequestIds(String renewalRequestIds) {
+        this.renewalRequestIds = renewalRequestIds;
+    }
 }

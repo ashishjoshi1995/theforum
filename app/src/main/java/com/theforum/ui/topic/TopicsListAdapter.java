@@ -1,8 +1,10 @@
 package com.theforum.ui.topic;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 
 import com.theforum.Constants;
 import com.theforum.R;
+import com.theforum.data.helpers.TopicHelper;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.listeners.OnLoadMoreListener;
@@ -20,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.BindDrawable;
 import butterknife.ButterKnife;
 
 /**
@@ -56,6 +60,8 @@ public class TopicsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         @Bind(R.id.topics_name) TextView topicName;
         @Bind(R.id.topics_time_holder) TextView timeHolder;
         @Bind(R.id.topics_renew_btn)TextView renewCountBtn;
+        @BindDrawable(R.drawable.renew_icon) Drawable renewIcon;
+        @BindDrawable(R.drawable.renew_icon_on) Drawable renewedIcon;
 
 
         public TopicsItemViewHolder(View v) {
@@ -74,11 +80,14 @@ public class TopicsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 @Override
                 public void onClick(View v) {
                     TopicDataModel topic = mTopics.get(getLayoutPosition());
-                 /*   Log.e("I m called",""+topic.getIsRenewed()+"/"+getLayoutPosition());
-                    if(!topic.getIsRenewed()) {
+                   Log.e("I m called", "" + topic.isRenewed() + "/" + getLayoutPosition());
+                    if(!topic.isRenewed()) {
+                        int b=topic.getRenewalRequests();
+                        b=b+1;
+                        renewCountBtn.setText(String.valueOf(b));
+                        setCompoundDrawables(renewCountBtn,renewedIcon);
 
-                        renewCountBtn.setCompoundDrawablesWithIntrinsicBounds(null, tintDrawable(renewedColor),
-                                null, null);
+                        topic.setRenewalRequests(b);
                         topic.setIsRenewed(true);
 
                         TopicHelper.getHelper().addRenewalRequest(topic.getTopicId(),
@@ -88,7 +97,7 @@ public class TopicsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                         Log.e("response", s);
                                     }
                                 });
-                    }*/
+                    }else CommonUtils.showToast(mContext, "Cannot renew");
                 }
             });
 
@@ -141,6 +150,13 @@ public class TopicsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             topicsItemViewHolder.renewCountBtn.setText(String.valueOf(topic.getRenewalRequests()));
             topicsItemViewHolder.timeHolder.setText(mContext.getResources().getString(R.string.time_holder_message,
                     topic.getHoursLeft(), topic.getRenewedCount()));
+            if(topic.isRenewed()){
+                setCompoundDrawables(topicsItemViewHolder.renewCountBtn,topicsItemViewHolder.renewedIcon);
+
+            }else {
+                setCompoundDrawables(topicsItemViewHolder.renewCountBtn,topicsItemViewHolder.renewIcon);
+
+            }
         }
 
 
@@ -158,7 +174,9 @@ public class TopicsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         mTopics.add(position, topicDataModel);
         notifyDataSetChanged();
     }
-
+    private void setCompoundDrawables(TextView textView, Drawable drawable){
+        textView.setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null);
+    }
     /**
      *
      * @param topics list of topics to update ui
