@@ -5,5 +5,5 @@ package com.theforum.data.helpers.notificationClearApi;
  * @since 1/23/2016
  */
 public class NotificationClearApiResponse {
-    public String resMessage;
+    public String message;
 }

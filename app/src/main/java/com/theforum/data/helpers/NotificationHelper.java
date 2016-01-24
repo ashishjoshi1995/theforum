@@ -49,23 +49,18 @@ public class NotificationHelper {
                 if(count>0) {
                     notificationIfAny.opinionNotif(result);
                 }
-                if(one && two){
-                    cleanItUP();
-                }
             }
 
         });
 
-        topic.where().field("uid").eq(User.getInstance().getId()).and().field("notif_count").ge(0).execute(new TableQueryCallback<topic>() {
+        topic.where().field("uid").eq(User.getInstance().getId()).and().field("notif_count").ge(0).
+                execute(new TableQueryCallback<topic>() {
             @Override
             public void onCompleted(List<topic> result, int count, Exception exception, ServiceFilterResponse response) {
                 Log.e("readNotif topic", String.valueOf(count));
                 two = true;
                 if (count > 0) {
                     notificationIfAny.topicNotif(result);
-                }
-                if (one && two) {
-                    cleanItUP();
                 }
             }
         });
@@ -74,13 +69,14 @@ public class NotificationHelper {
     void cleanItUP(){
         NotificationClearApiRequest request = new NotificationClearApiRequest();
         request.uid = User.getInstance().getId();
-
         mobileServiceClient.invokeApi("notificationclearapi", request, NotificationClearApiResponse.class, new ApiOperationCallback<NotificationClearApiResponse>() {
             @Override
             public void onCompleted(NotificationClearApiResponse result, Exception exception, ServiceFilterResponse response) {
-                Log.e("final on clear msg","result.resMessage");
+                Log.e("sdsdsd",result.message);
             }
         });
+        one = false;
+        two = false;
     }
 
 
