@@ -39,23 +39,28 @@ public class NotificationDBHelper {
                 values.put(NotificationDBConstants.KEY_VIEW_TYPE, 1);
                 values.put(NotificationDBConstants.KEY_HEADER,"Your Topic " + notificationDataModel.topicText + " recieved");
                 values.put(NotificationDBConstants.KEY_MAIN_TEXT,notificationDataModel.renewedCount + " Renewal");
+                values.put(NotificationDBConstants.KEY_NOTIFICATION_TYPE,k);
                 break;
             case Constants.NOTIFICATION_TYPE_RENEWAL_REQUEST:
                 values.put(NotificationDBConstants.KEY_VIEW_TYPE,1);
                 values.put(NotificationDBConstants.KEY_HEADER, "Your Topic " + notificationDataModel.topicText + " recieved");
                 values.put(NotificationDBConstants.KEY_MAIN_TEXT,notificationDataModel.renewalRequest+ " Renewal Requests");
+                values.put(NotificationDBConstants.KEY_NOTIFICATION_TYPE,k);
                 break;
             case Constants.NOTIFICATION_TYPE_OPINIONS:
                 values.put(NotificationDBConstants.KEY_VIEW_TYPE,1);
                 values.put(NotificationDBConstants.KEY_HEADER, "Your Topic " + notificationDataModel.topicText + " recieved");
                 values.put(NotificationDBConstants.KEY_MAIN_TEXT,notificationDataModel.renewedCount + " Renewal");
+                values.put(NotificationDBConstants.KEY_NOTIFICATION_TYPE,k);
                 break;
             case Constants.NOTIFICATION_TYPE_OPINION_UP_VOTES:
                 values.put(NotificationDBConstants.KEY_VIEW_TYPE, 0);
                 values.put(NotificationDBConstants.KEY_HEADER,"Your Opinion on " + notificationDataModel.topicText + " received");
                 values.put(NotificationDBConstants.KEY_MAIN_TEXT,notificationDataModel.newCount + " more Upvotes");
                 values.put(NotificationDBConstants.KEY_DESCRIPTION, notificationDataModel.opinionText);
+                values.put(NotificationDBConstants.KEY_NOTIFICATION_TYPE,k);
                 break;
+
         }
         values.put(NotificationDBConstants.KEY_TIME_HOLDER,notificationDataModel.hoursLeft + "hrs left to decay | 01:30 PM Today");
         Log.e("notificationDBhelperinser",""+values.size());

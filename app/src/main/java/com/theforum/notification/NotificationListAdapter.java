@@ -84,6 +84,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public int getItemViewType(int position) {
+        Log.e("noti type",""+mData.get(position).getNotificationType());
         if(mData.get(position).getNotificationType() == Constants.NOTIFICATION_TYPE_OPINION_UP_VOTES){
             return VIEW_TYPE_ONE;
         }else return VIEW_TYPE_TWO;
@@ -92,6 +93,8 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Log.e("test5","test");
+        Log.e("test5",""+viewType);
+
         if(viewType== VIEW_TYPE_ONE){
             Log.e("test7","test");
             return new ViewHolderOne(LayoutInflater.from(parent.getContext())
@@ -118,7 +121,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
                 viewHolderOne.description.setText(mData.get(position).getDescription());
                 Log.e("three", mData.get(position).getDescription());
                 viewHolderOne.timeHolder.setText(mData.get(position).getTimeHolder());
-                Log.e("four",mData.get(position).getTimeHolder());
+                Log.e("four", mData.get(position).getTimeHolder());
             }
         }else {
             final ViewHolderTwo viewHolderTwo = (ViewHolderTwo)holder;
@@ -127,11 +130,11 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
             switch (j) {
                 case Constants.NOTIFICATION_TYPE_OPINIONS:
                     viewHolderTwo.mainText.setText(mData.get(position).getMainText());
-                    Log.e("five",mData.get(position).getMainText());
+                    Log.e("five", mData.get(position).getMainText());
                     break;
                 case Constants.NOTIFICATION_TYPE_RENEWAL_REQUEST:
                     viewHolderTwo.mainText.setText(mData.get(position).getMainText());
-                    Log.e("six",mData.get(position).getMainText());
+                    Log.e("six", mData.get(position).getMainText());
                     break;
                 case Constants.NOTIFICATION_TYPE_RENEWED:
                     viewHolderTwo.mainText.setText(mData.get(position).getMainText());
