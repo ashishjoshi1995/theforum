@@ -58,7 +58,7 @@ public class NotificationDBHelper {
                 break;
         }
         values.put(NotificationDBConstants.KEY_TIME_HOLDER,notificationDataModel.hoursLeft + "hrs left to decay | 01:30 PM Today");
-        Log.e("notificationDBhelperinser",""+values.size());
+        Log.e("notificationDBhelper",""+values.size());
         sqLiteDatabase.insert(NotificationDBConstants.TABLE_NAME, null, values);
 
     }

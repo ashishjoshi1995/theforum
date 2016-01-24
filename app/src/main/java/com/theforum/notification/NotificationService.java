@@ -89,24 +89,27 @@ public class NotificationService extends Service {
                     ArrayList<NotificationDataModel> inflatorItemDatas = new ArrayList<NotificationDataModel>();
                     Log.e("topic count",""+topics.size());
                     for(int j =0; j<topics.size();j++){
-                        NotificationDataModel inflatorItemDataRenewal = new NotificationDataModel();
-                        inflatorItemDataRenewal.hoursLeft = topics.get(j).getHoursLeft();
-                        inflatorItemDataRenewal.topicId = topics.get(j).getTopicId();
-                        inflatorItemDataRenewal.topicText = topics.get(j).getTopicName();
-                        inflatorItemDataRenewal.renewalRequest = topics.get(j).getRenewalRequests();
-                        inflatorItemDataRenewal.notificationType = Constants.NOTIFICATION_TYPE_RENEWAL_REQUEST;
-                        inflatorItemDatas.add(inflatorItemDataRenewal);
-                        jaiHo++;
-                        Log.e("salma",""+jaiHo);
+                        if(topics.get(j).getmNotifOpinions()>0) {
+                            NotificationDataModel inflatorItemDataRenewal = new NotificationDataModel();
+                            inflatorItemDataRenewal.hoursLeft = topics.get(j).getHoursLeft();
+                            inflatorItemDataRenewal.topicId = topics.get(j).getTopicId();
+                            inflatorItemDataRenewal.topicText = topics.get(j).getTopicName();
+                            inflatorItemDataRenewal.renewalRequest = topics.get(j).getRenewalRequests();
+                            inflatorItemDataRenewal.notificationType = Constants.NOTIFICATION_TYPE_RENEWAL_REQUEST;
+                            inflatorItemDatas.add(inflatorItemDataRenewal);
+                            jaiHo++;
+                            Log.e("salma", "" + jaiHo);
+                        }
+                        if(topics.get(j).getmNotifRenewalRequests()>0) {
+                            NotificationDataModel inflatorItemDataOpinions = new NotificationDataModel();
+                            inflatorItemDataOpinions.notificationType = Constants.NOTIFICATION_TYPE_OPINIONS;
+                            inflatorItemDataOpinions.hoursLeft = topics.get(j).getHoursLeft();
+                            inflatorItemDataOpinions.topicText = topics.get(j).getTopicName();
+                            inflatorItemDataOpinions.opinions = topics.get(j).getTotalOpinions();
 
-                        NotificationDataModel inflatorItemDataOpinions = new NotificationDataModel();
-                        inflatorItemDataOpinions.notificationType = Constants.NOTIFICATION_TYPE_OPINIONS;
-                        inflatorItemDataOpinions.hoursLeft = topics.get(j).getHoursLeft();
-                        inflatorItemDataOpinions.topicText = topics.get(j).getTopicName();
-                        inflatorItemDataOpinions.opinions = topics.get(j).getTotalOpinions();
-
-                        inflatorItemDatas.add(inflatorItemDataRenewal);
-                        jaiHo++;
+                            inflatorItemDatas.add(inflatorItemDataOpinions);
+                            jaiHo++;
+                        }
                     }
                     //if(stop){
                     if(inflatorItemDatas.size()>0) {

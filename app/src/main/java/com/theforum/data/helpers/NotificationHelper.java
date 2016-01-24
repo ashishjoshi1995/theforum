@@ -39,7 +39,7 @@ public class NotificationHelper {
     }
 
     public void readNotification(final NotificationIfAny notificationIfAny){
-       opinion.where().field("uid").eq(User.getInstance().getId()).and().field("notif_count").ge(0).
+       opinion.where().field("uid").eq(User.getInstance().getId()).and().field("notif_count").gt(0).
                execute(new TableQueryCallback<opinion>() {
 
             @Override
@@ -53,7 +53,7 @@ public class NotificationHelper {
 
         });
 
-        topic.where().field("uid").eq(User.getInstance().getId()).and().field("notif_count").ge(0).
+        topic.where().field("uid").eq(User.getInstance().getId()).and().field("notif_count").gt(0).
                 execute(new TableQueryCallback<topic>() {
             @Override
             public void onCompleted(List<topic> result, int count, Exception exception, ServiceFilterResponse response) {
