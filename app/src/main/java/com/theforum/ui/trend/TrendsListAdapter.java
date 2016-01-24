@@ -12,10 +12,13 @@ import android.widget.TextView;
 
 import com.theforum.Constants;
 import com.theforum.R;
+import com.theforum.data.helpers.OpinionHelper;
 import com.theforum.data.helpers.TrendsHelper;
+import com.theforum.data.local.models.OpinionDataModel;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.data.local.models.TrendsDataModel;
 import com.theforum.utils.CommonUtils;
+import com.theforum.utils.enums.VoteStatus;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -58,16 +61,77 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
         @BindDrawable(R.drawable.upvote) Drawable upvote;
         @BindDrawable(R.drawable.downvote) Drawable downvote;
 
+        @BindDrawable(R.drawable.upvote) Drawable upVoteIcon;
+        @BindDrawable(R.drawable.upvote_on) Drawable upVotedIcon;
+        @BindDrawable(R.drawable.downvote) Drawable downVoteIcon;
+        @BindDrawable(R.drawable.downvote_on) Drawable downVotedIcon;
+
         public TrendsItemViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, v);
 
-            upVoteBtn.setCompoundDrawablesWithIntrinsicBounds(null, CommonUtils.tintDrawable(upvote, "#adadad"),
-                    null, null);
-            downVoteBtn.setCompoundDrawablesWithIntrinsicBounds(null, CommonUtils.tintDrawable(downvote,"#adadad"),
-                    null,null);
+        //    upVoteBtn.setCompoundDrawablesWithIntrinsicBounds(null, CommonUtils.tintDrawable(upvote, "#adadad"),
+          //          null, null);
+            //downVoteBtn.setCompoundDrawablesWithIntrinsicBounds(null, CommonUtils.tintDrawable(downvote,"#adadad"),
+              //      null,null);
 
             v.setOnClickListener(this);
+          upVoteBtn.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  TrendsDataModel opinionModel = mFeeds.get(getLayoutPosition());
+
+                  if(opinionModel.getVoteStatus() == VoteStatus.NONE) {
+                      int upvotes = opinionModel.getUpVoteCount();
+                      upvotes = upvotes+1;
+
+                      upVoteBtn.setText(String.valueOf(upvotes));
+                      setCompoundDrawables(upVoteBtn, upVotedIcon);
+                      opinionModel.setUpVoteCount(upvotes);
+                      opinionModel.setVoteStatus(VoteStatus.UPVOTED);
+
+                        /*
+                         *  send the request to server to increase the count
+                         */
+                      TrendsHelper.getHelper().upvoteDownvote(true, opinionModel.getTrendId(), new TrendsHelper.OnUVDVOperationCompleteListener() {
+                          @Override
+                          public void onCompleteMessage(String message) {
+                              CommonUtils.showToast(mContext, message);
+                          }
+                      });
+
+                  }else CommonUtils.showToast(mContext, "Cannot UpVote");
+              }
+          });
+
+            downVoteBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    TrendsDataModel opinionModel2 = mFeeds.get(getLayoutPosition());
+                    if (opinionModel2.getVoteStatus() == VoteStatus.NONE) {
+
+                        int downvotes = opinionModel2.getDownVoteCount();
+                        downvotes = downvotes + 1;
+                        downVoteBtn.setText(String.valueOf(downvotes));
+                        setCompoundDrawables(downVoteBtn, downVotedIcon);
+                        opinionModel2.setDownVoteCount(downvotes);
+                        opinionModel2.setVoteStatus(VoteStatus.DOWNVOTED);
+
+                        /*
+                         *  send the request to server to decrease the count
+                         */
+                        TrendsHelper.getHelper().upvoteDownvote(true, opinionModel2.getTrendId(), new TrendsHelper.OnUVDVOperationCompleteListener() {
+                            @Override
+                            public void onCompleteMessage(String message) {
+                                CommonUtils.showToast(mContext, message);
+                            }
+
+                    });
+                }
+
+                else CommonUtils.showToast(mContext,"Cannot DownVote");
+            }
+        });
         }
 
 
@@ -116,10 +180,22 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
         holder.upVoteBtn.setText(String.valueOf(trendsDataModel.getUpVoteCount()));
         holder.downVoteBtn.setText(String.valueOf(trendsDataModel.getDownVoteCount()));
 
+        if(trendsDataModel.getVoteStatus() == VoteStatus.NONE){
+            setCompoundDrawables(holder.upVoteBtn, holder.upVoteIcon);
+            setCompoundDrawables(holder.downVoteBtn, holder.downVoteIcon);
+        }else if(trendsDataModel.getVoteStatus()== VoteStatus.UPVOTED){
+            setCompoundDrawables(holder.upVoteBtn, holder.upVotedIcon);
+            setCompoundDrawables(holder.downVoteBtn, holder.downVoteIcon);
+        }else {
+            setCompoundDrawables(holder.upVoteBtn, holder.upVoteIcon);
+            setCompoundDrawables(holder.downVoteBtn, holder.downVotedIcon);
+        }
+
+
     }
 
     public void addTrendItem(TrendsDataModel trendsDataModel, int position){
-        mFeeds.add(position,trendsDataModel);
+        mFeeds.add(position, trendsDataModel);
         notifyDataSetChanged();
     }
 
@@ -134,4 +210,8 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
 
     @Override
     public int getItemCount() {return mFeeds.size();}
+
+    private void setCompoundDrawables(TextView textView, Drawable drawable){
+        textView.setCompoundDrawablesWithIntrinsicBounds(null, drawable, null,null);
+    }
 }

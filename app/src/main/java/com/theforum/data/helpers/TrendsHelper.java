@@ -228,9 +228,9 @@ public class TrendsHelper {
 
 
 
-    public void upvoteDownvote(Boolean ifUpvote,opinion opinion1, final OnUVDVOperationCompleteListener listener){
+    public void upvoteDownvote(Boolean ifUpvote,String opinionId, final OnUVDVOperationCompleteListener listener){
         UPDVRequest updvRequest= new UPDVRequest();
-        updvRequest.opinion_id = opinion1.getOpinionId();
+        updvRequest.opinion_id = opinionId;
         updvRequest.id = User.getInstance().getId();
         if(ifUpvote){
             //update UI
