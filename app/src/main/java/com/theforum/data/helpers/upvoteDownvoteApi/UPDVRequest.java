@@ -6,7 +6,7 @@ package com.theforum.data.helpers.upvoteDownvoteApi;
  */
 public class UPDVRequest {
     public String opinion_id;
-    public String opinion_owner_id;
+    //public String opinion_owner_id;
     public int operation_chosen;
     public String id;
 }

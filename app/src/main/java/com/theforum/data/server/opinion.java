@@ -11,6 +11,11 @@ public class opinion {
     @com.google.gson.annotations.SerializedName("downvotes")
     private int downVotes;
 
+    @com.google.gson.annotations.SerializedName("upvote_ids")
+    private String upVoted_ids;
+
+    @com.google.gson.annotations.SerializedName("downvote_ids")
+    private String downVotes_ids;
     @com.google.gson.annotations.SerializedName("upvotes")
     private int upVotes;
 
@@ -134,4 +139,19 @@ public class opinion {
     }
 
 
+    public String getDownVotes_ids() {
+        return downVotes_ids;
+    }
+
+    public void setDownVotes_ids(String downVotes_ids) {
+        this.downVotes_ids = downVotes_ids;
+    }
+
+    public String getUpVoted_ids() {
+        return upVoted_ids;
+    }
+
+    public void setUpVoted_ids(String upVoted_ids) {
+        this.upVoted_ids = upVoted_ids;
+    }
 }

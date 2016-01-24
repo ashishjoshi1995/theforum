@@ -55,12 +55,14 @@ public class TopicHelper {
 
 
     public void addTopic(final topic topic, final OnTopicInsertListener onTopicInsertListener) {
+        Log.e("string ", "iamin");
         Boolean name_exist = false;
         List<String> topic_name = TopicDBHelper.getHelper().getMyTopicText();
         Log.e("string ", topic.toString());
+
         //String products[] = new String[topic_name.size()];
         for (int i = 0; i < topic_name.size(); i++) {
-            if (topic.getTopicName() == topic_name.get(i)) {
+            if (topic.getTopicName().equals(topic_name.get(i))) {
                 name_exist = true;
                 break;
             }

@@ -17,7 +17,9 @@ import com.theforum.data.local.models.TrendsDataModel;
 import com.theforum.data.server.opinion;
 import com.theforum.data.server.topic;
 import com.theforum.utils.CommonUtils;
+import com.theforum.utils.User;
 import com.theforum.utils.enums.RequestStatus;
+import com.theforum.utils.enums.VoteStatus;
 
 import java.util.ArrayList;
 
@@ -109,6 +111,30 @@ public class TrendsHelper {
                     requestStatus = RequestStatus.COMPLETED;
                     for (int i = 0; i < opinions.size(); i++) {
                         TrendsDataModel trendsDataModel = new TrendsDataModel(opinions.get(i));
+
+                        if(opinions.get(i).getUpVoted_ids()!=null) {
+                            String upid = opinions.get(i).getUpVoted_ids();
+                            String[] upids = upid.split(" ");
+                            for(int j=0;j<upids.length;j++){
+                                if(upids[j].equals(User.getInstance().getId())){
+                                    trendsDataModel.setVoteStatus(VoteStatus.UPVOTED);
+                                    break;
+                                }
+                            }
+
+                        }
+                        if(opinions.get(i).getDownVotes_ids()!=null) {
+                            String downid = opinions.get(i).getUpVoted_ids();
+                            String[] downids = downid.split(" ");
+                            for(int j=0;j<downids.length;j++){
+                                if(downids[j].equals(User.getInstance().getId())){
+                                    trendsDataModel.setVoteStatus(VoteStatus.DOWNVOTED);
+                                    break;
+                                }
+                            }
+                        }
+
+
                         trends.add(trendsDataModel);
                     }
                     if (trendsReceivedListener != null) {
@@ -121,7 +147,7 @@ public class TrendsHelper {
 
                     TrendsDBHelper.getHelper().addTrends(trends);
 
-                } else {
+                }  else {
                     if (trendsReceivedListener != null) {
                         trendsReceivedListener.onError("Check Your Internet Connection");
                     }
@@ -205,7 +231,7 @@ public class TrendsHelper {
     public void upvoteDownvote(Boolean ifUpvote,opinion opinion1, final OnUVDVOperationCompleteListener listener){
         UPDVRequest updvRequest= new UPDVRequest();
         updvRequest.opinion_id = opinion1.getOpinionId();
-        updvRequest.opinion_owner_id = opinion1.getUserId();
+        updvRequest.id = User.getInstance().getId();
         if(ifUpvote){
             //update UI
             //update Local db

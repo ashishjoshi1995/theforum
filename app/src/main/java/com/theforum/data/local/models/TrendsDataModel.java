@@ -1,6 +1,7 @@
 package com.theforum.data.local.models;
 
 import com.theforum.data.server.opinion;
+import com.theforum.utils.enums.VoteStatus;
 
 /**
  * @author DEEPANKAR
@@ -17,7 +18,7 @@ public class TrendsDataModel {
     private String opinionText;
     private int downVoteCount;
     private int upVoteCount;
-
+    private VoteStatus voteStatus = VoteStatus.NONE;
     public TrendsDataModel(){}
 
     public TrendsDataModel(opinion opinion){
@@ -100,5 +101,13 @@ public class TrendsDataModel {
 
     public void setTopicName(String topicName) {
         this.topicName = topicName;
+    }
+
+    public VoteStatus getVoteStatus() {
+        return voteStatus;
+    }
+
+    public void setVoteStatus(VoteStatus voteStatus) {
+        this.voteStatus = voteStatus;
     }
 }
