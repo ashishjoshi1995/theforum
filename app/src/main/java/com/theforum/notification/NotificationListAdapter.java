@@ -105,9 +105,13 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
             if(mData.get(position).getNotificationType() == Constants.NOTIFICATION_TYPE_OPINION_UP_VOTES) {
                 Log.e(mData.get(position).getHeader()+mData.get(position).getMainText(),mData.get(position).getDescription()+mData.get(position).getTimeHolder());
                 viewHolderOne.header.setText(mData.get(position).getHeader());
+                Log.e("one", mData.get(position).getHeader());
                 viewHolderOne.mainText.setText(mData.get(position).getMainText());
+                Log.e("two", mData.get(position).getMainText());
                 viewHolderOne.description.setText(mData.get(position).getDescription());
+                Log.e("three", mData.get(position).getDescription());
                 viewHolderOne.timeHolder.setText(mData.get(position).getTimeHolder());
+                Log.e("four",mData.get(position).getTimeHolder());
             }
         }else {
             final ViewHolderTwo viewHolderTwo = (ViewHolderTwo)holder;
@@ -116,16 +120,19 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
             switch (j) {
                 case Constants.NOTIFICATION_TYPE_OPINIONS:
                     viewHolderTwo.mainText.setText(mData.get(position).getMainText());
+                    Log.e("five",mData.get(position).getMainText());
                     break;
                 case Constants.NOTIFICATION_TYPE_RENEWAL_REQUEST:
                     viewHolderTwo.mainText.setText(mData.get(position).getMainText());
+                    Log.e("six",mData.get(position).getMainText());
                     break;
                 case Constants.NOTIFICATION_TYPE_RENEWED:
                     viewHolderTwo.mainText.setText(mData.get(position).getMainText());
+                    Log.e("seven", mData.get(position).getMainText());
                     break;
             }
             viewHolderTwo.timeHolder.setText(mData.get(position).getTimeHolder());
-            Log.e(mData.get(position).getHeader()+mData.get(position).getTimeHolder(),mData.get(position).getMainText());
+            Log.e("asasasass",mData.get(position).getTimeHolder());
             }
         }
     }
