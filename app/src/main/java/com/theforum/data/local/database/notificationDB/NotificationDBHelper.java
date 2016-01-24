@@ -50,7 +50,7 @@ public class NotificationDBHelper {
             case Constants.NOTIFICATION_TYPE_OPINIONS:
                 values.put(NotificationDBConstants.KEY_VIEW_TYPE,1);
                 values.put(NotificationDBConstants.KEY_HEADER, "Your Topic " + notificationDataModel.topicText + " recieved");
-                values.put(NotificationDBConstants.KEY_MAIN_TEXT,notificationDataModel.renewedCount + " Renewal");
+                values.put(NotificationDBConstants.KEY_MAIN_TEXT,notificationDataModel.opinions + " opinions");
                 values.put(NotificationDBConstants.KEY_NOTIFICATION_TYPE,k);
                 break;
             case Constants.NOTIFICATION_TYPE_OPINION_UP_VOTES:
