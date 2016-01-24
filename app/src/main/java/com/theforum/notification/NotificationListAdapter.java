@@ -2,6 +2,7 @@ package com.theforum.notification;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,8 +13,12 @@ import android.widget.TextView;
 
 import com.theforum.Constants;
 import com.theforum.R;
+import com.theforum.data.helpers.TrendsHelper;
 import com.theforum.data.local.models.NotificationInflatorModel;
+import com.theforum.data.local.models.TopicDataModel;
+import com.theforum.utils.CommonUtils;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -42,7 +47,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     }
 
-    public class ViewHolderOne extends RecyclerView.ViewHolder {
+    public class ViewHolderOne extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @Bind(R.id.notification_header) TextView header;
         @Bind(R.id.notification_main_text) TextView mainText;
@@ -54,8 +59,37 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
         public ViewHolderOne(View v) {
             super(v);
             ButterKnife.bind(this, v);
+            v.setOnClickListener(this);
 
 
+
+        }
+
+        @Override
+        public void onClick(View v) {
+
+            NotificationInflatorModel trends = mData.get(getLayoutPosition());
+            //getting the topic data from server
+            TrendsHelper.getHelper().getTopicDetails(trends.getTopicId(), new TrendsHelper.OnTopicDetailReceived() {
+                @Override
+                public void onCompleted(TopicDataModel topic) {
+
+                    CommonUtils.openContainerActivity(mContext, Constants.OPINIONS_FRAGMENT,
+                            Pair.create(Constants.TOPIC_MODEL, (Serializable) topic));
+                }
+
+                @Override
+                public void onError(final String error) {
+
+                    mActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            CommonUtils.showToast(mContext, error);
+                        }
+                    });
+
+                }
+            });
 
 
         }
