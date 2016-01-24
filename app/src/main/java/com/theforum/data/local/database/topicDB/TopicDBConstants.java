@@ -25,6 +25,7 @@ public class TopicDBConstants {
     public static final String KEY_TOPIC="topic";
     public static final String KEY_DESCRIPTION="description";
     public static final String KEY_RENEWAL_REQUEST="renewal_request";
+    public static final String KEY_IS_RENEWED="is_renewed";
     public static final String KEY_RENEWED_COUNT="renewed_count";
     public static final String KEY_HOURS_LEFT = "hours_left";
     public static final String KEY_MY_TOPIC = "my_topic";
