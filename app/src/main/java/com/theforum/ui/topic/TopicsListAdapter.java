@@ -43,7 +43,7 @@ public class TopicsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public TopicsListAdapter(Context context, List<TopicDataModel> feeds){
         mContext = context;
         mTopics = feeds;
-       // renewIcon = resources.getDrawable(R.drawable.renew_icon);
+        //renewIcon = resources.getDrawable(R.drawable.renew_icon);
     }
 
 
@@ -56,6 +56,7 @@ public class TopicsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         @Bind(R.id.topics_name) TextView topicName;
         @Bind(R.id.topics_time_holder) TextView timeHolder;
         @Bind(R.id.topics_renew_btn)TextView renewCountBtn;
+
 
         public TopicsItemViewHolder(View v) {
             super(v);
