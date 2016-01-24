@@ -14,6 +14,7 @@ import com.theforum.data.helpers.upvoteDownvoteApi.UPDVResponse;
 import com.theforum.data.local.models.OpinionDataModel;
 import com.theforum.data.server.opinion;
 import com.theforum.utils.User;
+import com.theforum.utils.enums.VoteStatus;
 
 import java.util.ArrayList;
 
@@ -63,8 +64,31 @@ public class OpinionHelper {
                     OpinionDataModel opinionDataModel;
                     for (int i = 0; i < opinions.size(); i++) {
                         opinionDataModel = new OpinionDataModel(opinions.get(i));
+                        if(opinions.get(i).getUpVoted_ids()!=null) {
+                            String upid = opinions.get(i).getUpVoted_ids();
+                            String[] upids = upid.split(" ");
+                            for(int j=0;j<upids.length;j++){
+                                if(upids[j].equals(User.getInstance().getId())){
+                                    opinionDataModel.setVoteStatus(VoteStatus.UPVOTED);
+                                    break;
+                                }
+                            }
+
+                        }
+                        if(opinions.get(i).getDownVotes_ids()!=null) {
+                            String downid = opinions.get(i).getUpVoted_ids();
+                            String[] downids = downid.split(" ");
+                            for(int j=0;j<downids.length;j++){
+                                if(downids[j].equals(User.getInstance().getId())){
+                                    opinionDataModel.setVoteStatus(VoteStatus.DOWNVOTED);
+                                    break;
+                                }
+                            }
+                        }
+
                         opinionList.add(opinionDataModel);
                     }
+
 
                     listener.onCompleted(opinionList);
                     opinionList.clear();
@@ -82,7 +106,7 @@ public class OpinionHelper {
 
         UPDVRequest updvRequest= new UPDVRequest();
         updvRequest.opinion_id = opinionId;
-        updvRequest.opinion_owner_id = User.getInstance().getId();
+        updvRequest.id = User.getInstance().getId();
 
         if(ifUpVote){
             //update UI
