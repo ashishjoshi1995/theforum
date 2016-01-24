@@ -104,6 +104,7 @@ public class NotificationService extends Service {
                             NotificationDataModel inflatorItemDataOpinions = new NotificationDataModel();
                             inflatorItemDataOpinions.notificationType = Constants.NOTIFICATION_TYPE_OPINIONS;
                             inflatorItemDataOpinions.hoursLeft = topics.get(j).getHoursLeft();
+                            inflatorItemDataOpinions.topicId = topics.get(j).getTopicId();
                             inflatorItemDataOpinions.topicText = topics.get(j).getTopicName();
                             inflatorItemDataOpinions.opinions = topics.get(j).getmNotifOpinions();
 
@@ -136,6 +137,7 @@ public class NotificationService extends Service {
                             NotificationDataModel inflatorItemData = new NotificationDataModel();
                             inflatorItemData.notificationType = Constants.NOTIFICATION_TYPE_OPINION_UP_VOTES;
                             inflatorItemData.topicText = opinions.get(j).getTopicName();
+                            inflatorItemData.topicId =opinions.get(j).getTopicId();
                             inflatorItemData.newCount = opinions.get(j).getmNotifCount();
                             inflatorItemData.totalUpvotes = opinions.get(j).getUpVotes();
                             inflatorItemData.totalDownvotes = opinions.get(j).getDownVotes();

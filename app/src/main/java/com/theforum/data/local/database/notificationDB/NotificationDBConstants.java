@@ -16,6 +16,7 @@ public class NotificationDBConstants {
 
     //Coloumn names
     public static final String KEY_ID = "id";
+    public static final String KEY_TOPIC_ID = "topic_id";
     public static final String KEY_NOTIFICATION_TYPE = "notification_type";
     public static final String KEY_VIEW_TYPE = "view_type";
     public static final String KEY_TIME_HOLDER = "time_holder_text";

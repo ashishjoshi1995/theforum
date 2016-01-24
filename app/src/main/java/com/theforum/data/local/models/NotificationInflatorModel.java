@@ -15,6 +15,7 @@ public class NotificationInflatorModel {
     private String mainText;
     private String header;
     private String description;
+    private String topicId;
 
     public int getKey() {
         return key;
@@ -70,5 +71,13 @@ public class NotificationInflatorModel {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getTopicId() {
+        return topicId;
+    }
+
+    public void setTopicId(String topicId) {
+        this.topicId = topicId;
     }
 }
