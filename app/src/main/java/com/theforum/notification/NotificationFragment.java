@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,7 @@ public class NotificationFragment extends Fragment {
 
     @Bind(R.id.settings_recycler_view)
     RecyclerView mRecyclerView;
+    private NotificationListAdapter mAdapter;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_settings, container, false);
@@ -55,12 +57,15 @@ public class NotificationFragment extends Fragment {
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         mRecyclerView.addItemDecoration(new DividerItemDecorator(getActivity(), R.drawable.recycler_view_divider));
-        mRecyclerView.setAdapter(new NotificationListAdapter(getActivity(), getListData()));
+        mAdapter=new NotificationListAdapter(getActivity(), getListData());
+        mRecyclerView.setAdapter(mAdapter);
 
     }
 
     private ArrayList<NotificationInflatorModel> getListData(){
         ArrayList<NotificationInflatorModel> list = NotificationDBHelper.getNotificationDBHelper().getAllNotifications();
+        Log.e("nTli", "iamin");
+        Log.e("size",""+list.size());
         return list;
     }
 }

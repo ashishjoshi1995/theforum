@@ -1,5 +1,6 @@
 package com.theforum.notification;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,7 +13,6 @@ import android.widget.TextView;
 import com.theforum.Constants;
 import com.theforum.R;
 import com.theforum.data.local.models.NotificationInflatorModel;
-import com.theforum.data.server.NotificationDataModel;
 
 import java.util.ArrayList;
 
@@ -29,13 +29,17 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     private ArrayList<NotificationInflatorModel> mData;
     private Context mContext;
+    private Activity mActivity;
 
     private final static int VIEW_TYPE_ONE = 0;
     private final static int VIEW_TYPE_TWO = 1;
 
-    public NotificationListAdapter(Context context, ArrayList<NotificationInflatorModel> dataSet) {
+    public NotificationListAdapter(Activity activity, ArrayList<NotificationInflatorModel> dataSet) {
+
+        mContext = activity;
+        mActivity = activity;
         mData = dataSet;
-        mContext = context;
+
     }
 
     public class ViewHolderOne extends RecyclerView.ViewHolder {
@@ -50,6 +54,9 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
         public ViewHolderOne(View v) {
             super(v);
             ButterKnife.bind(this, v);
+
+
+
 
         }
     }
