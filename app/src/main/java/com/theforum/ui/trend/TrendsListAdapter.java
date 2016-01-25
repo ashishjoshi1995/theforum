@@ -140,7 +140,7 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
             topicDataModel.setHoursLeft(trend.getHoursLeft());
 
             //TODO: set renew status
-            
+
             CommonUtils.openContainerActivity(mContext, Constants.OPINIONS_FRAGMENT,
                     Pair.create(Constants.TOPIC_MODEL, (Serializable) topicDataModel));
 
