@@ -3,6 +3,7 @@ package com.theforum.data.helpers;
 import android.annotation.TargetApi;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.util.Log;
 
 import com.theforum.TheForumApplication;
 import com.theforum.data.server.user;
@@ -54,9 +55,6 @@ public class ProfileHelper {
                 super.onPostExecute(user);
                 User.getInstance().setPointCollected(user.getmPointCollected());
                 User.getInstance().setCurrentTopics(user.getmCurrentTopics());
-                User.getInstance().setAge(user.getAge());
-                User.getInstance().setId(user.getmUid());
-                User.getInstance().setServerId(user.getmId());
                 User.getInstance().setTopicsCreated(user.getmTopicsCreated());
                 User.getInstance().setStatus(user.getmStatus());
             }
