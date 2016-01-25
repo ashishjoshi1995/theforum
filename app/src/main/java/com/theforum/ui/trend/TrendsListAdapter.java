@@ -31,7 +31,6 @@ import butterknife.ButterKnife;
  * @since 08-12-2015.
  */
 
-//@SuppressWarnings("deprecation")
 public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.TrendsItemViewHolder> {
 
     private Context mContext;
@@ -56,8 +55,7 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
         @Bind(R.id.upvote_btn) TextView upVoteBtn;
         @Bind(R.id.downvote_btn) TextView downVoteBtn;
 
-        @BindDrawable(R.drawable.upvote) Drawable upvote;
-        @BindDrawable(R.drawable.downvote) Drawable downvote;
+
 
         @BindDrawable(R.drawable.upvote) Drawable upVoteIcon;
         @BindDrawable(R.drawable.upvote_on) Drawable upVotedIcon;
@@ -68,13 +66,9 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
             super(v);
             ButterKnife.bind(this, v);
 
-        //    upVoteBtn.setCompoundDrawablesWithIntrinsicBounds(null, CommonUtils.tintDrawable(upvote, "#adadad"),
-          //          null, null);
-            //downVoteBtn.setCompoundDrawablesWithIntrinsicBounds(null, CommonUtils.tintDrawable(downvote,"#adadad"),
-              //      null,null);
-
             v.setOnClickListener(this);
-          upVoteBtn.setOnClickListener(new View.OnClickListener() {
+
+            upVoteBtn.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View v) {
                   TrendsDataModel opinionModel = mFeeds.get(getLayoutPosition());
@@ -136,29 +130,19 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
         @Override
         public void onClick(View v) {
 
-            TrendsDataModel trends = mFeeds.get(getLayoutPosition());
-            //getting the topic data from server
-            TrendsHelper.getHelper().getTopicDetails(trends.getTopicId(), new TrendsHelper.OnTopicDetailReceived() {
-                @Override
-                public void onCompleted(TopicDataModel topic) {
+            TrendsDataModel trend = mFeeds.get(getLayoutPosition());
 
-                    CommonUtils.openContainerActivity(mContext, Constants.OPINIONS_FRAGMENT,
-                            Pair.create(Constants.TOPIC_MODEL, (Serializable) topic));
-                }
+            TopicDataModel topicDataModel = new TopicDataModel();
+            topicDataModel.setTopicDescription(trend.getDescription());
+            topicDataModel.setRenewalRequests(trend.getRenewCount());
+            topicDataModel.setTopicName(trend.getTopicName());
+            topicDataModel.setTopicId(trend.getTopicId());
+            topicDataModel.setHoursLeft(trend.getHoursLeft());
 
-                @Override
-                public void onError(final String error) {
-
-                    mActivity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            CommonUtils.showToast(mContext, error);
-                        }
-                    });
-
-                }
-            });
-
+            //TODO: set renew status
+            
+            CommonUtils.openContainerActivity(mContext, Constants.OPINIONS_FRAGMENT,
+                    Pair.create(Constants.TOPIC_MODEL, (Serializable) topicDataModel));
 
         }
     }
