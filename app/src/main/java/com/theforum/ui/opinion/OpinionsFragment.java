@@ -84,10 +84,10 @@ public class OpinionsFragment extends Fragment {
             @Override
             public void run() {
 
-                int actionBarSize = (int)CommonUtils.convertDpToPixel(56,getContext());
+                int actionBarSize = (int) CommonUtils.convertDpToPixel(56, getContext());
                 int progressViewStart = collapsingToolbarLayout.getHeight() - actionBarSize;
                 int progressViewEnd = progressViewStart + (int) (actionBarSize * 1.2f);
-                swipeRefreshLayout.setProgressViewOffset(true,progressViewStart,progressViewEnd);
+                swipeRefreshLayout.setProgressViewOffset(true, progressViewStart, progressViewEnd);
             }
         });
 
@@ -113,6 +113,18 @@ public class OpinionsFragment extends Fragment {
             @Override
             public void onRefresh() {
                 getOpinionsFromServer();
+            }
+        });
+
+        OpinionHelper.getHelper().addNewOpinionAddedListener(new OpinionHelper.OnOpinionAddListener() {
+            @Override
+            public void onCompleted(OpinionDataModel opinion) {
+                mAdapter.addOpinion(opinion,0);
+            }
+
+            @Override
+            public void onError(String error) {
+
             }
         });
 

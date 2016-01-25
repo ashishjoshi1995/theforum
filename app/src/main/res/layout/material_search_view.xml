@@ -1,61 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/search_layout"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/search_bar"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:layout_height="56dp"
+    android:background="@color/colorPrimary"
     android:visibility="invisible">
 
-    <RelativeLayout
-        android:id="@+id/search_bar"
+    <EditText
+        android:id="@+id/searchTextView"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="@color/colorPrimary">
-
-        <EditText
-            android:id="@+id/searchTextView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@null"
-            android:hint="Search..."
-            android:imeOptions="actionSearch"
-            android:inputType="textNoSuggestions"
-            android:paddingLeft="72dp"
-            android:paddingRight="56dp"
-            android:singleLine="true"
-            android:textColor="#fff"
-            android:textColorHint="#e0ffffff" />
+        android:layout_height="match_parent"
+        android:background="@null"
+        android:hint="Search..."
+        android:imeOptions="actionSearch"
+        android:inputType="textNoSuggestions"
+        android:paddingLeft="72dp"
+        android:paddingRight="56dp"
+        android:singleLine="true"
+        android:textColor="#fff"
+        android:textColorHint="#e0ffffff" />
 
 
-        <ImageButton
-            android:id="@+id/back_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            android:background="?android:attr/selectableItemBackground"
-            android:src="@drawable/ic_action_navigation_arrow_back"
-            android:paddingLeft="@dimen/default_margin"
-            android:paddingRight="@dimen/default_margin"/>
+    <ImageButton
+        android:id="@+id/back_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:src="@drawable/ic_action_navigation_arrow_back"
+        android:paddingLeft="@dimen/default_margin"
+        android:paddingRight="@dimen/default_margin"/>
 
-        <ImageButton
-            android:id="@+id/close_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/ic_action_navigation_close"
-            android:paddingLeft="@dimen/default_margin"
-            android:paddingRight="@dimen/default_margin"
-            android:background="?android:attr/selectableItemBackground"
-            android:visibility="gone"/>
+    <ImageButton
+        android:id="@+id/close_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_action_navigation_close"
+        android:paddingLeft="@dimen/default_margin"
+        android:paddingRight="@dimen/default_margin"
+        android:background="?android:attr/selectableItemBackground"
+        android:visibility="gone"/>
 
-    </RelativeLayout>
 
-    <ListView
-        android:id="@+id/suggestion_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        android:divider="@android:color/transparent" />
 
-</LinearLayout>
+
+
+</RelativeLayout>

@@ -15,14 +15,9 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.Filter.FilterListener;
-import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -34,15 +29,14 @@ import java.lang.reflect.Field;
  * @author DEEPANKAR
  * @since 08-01-2016.
  */
-public class MaterialSearchView extends LinearLayout implements FilterListener{
+public class MaterialSearchView extends LinearLayout{
 
 
     private boolean mIsSearchOpen = false;
     private boolean mClearingFocus;
 
     //Views
-    private View mSearchLayout;
-    private ListView mSuggestionsListView;
+    private RelativeLayout mSearchLayout;
     private EditText mQueryTextView;
     private ImageButton mBackBtn;
     private ImageButton mCloseBtn;
@@ -54,11 +48,8 @@ public class MaterialSearchView extends LinearLayout implements FilterListener{
     private OnQueryTextListener mOnQueryChangeListener;
     private SearchViewListener mSearchViewListener;
 
-    private ListAdapter mAdapter;
 
     private SavedState mSavedState;
-
-    private Drawable suggestionIcon;
 
     private Context mContext;
 
@@ -80,10 +71,10 @@ public class MaterialSearchView extends LinearLayout implements FilterListener{
 
     private void initiateView() {
         LayoutInflater.from(mContext).inflate(R.layout.material_search_view, this, true);
-        mSearchLayout = findViewById(R.id.search_layout);
+        mSearchLayout = (RelativeLayout)findViewById(R.id.search_bar);
 
-        mSearchTopBar = (RelativeLayout) mSearchLayout.findViewById(R.id.search_bar);
-        mSuggestionsListView = (ListView) mSearchLayout.findViewById(R.id.suggestion_list);
+        mSearchTopBar = mSearchLayout;
+
         mQueryTextView = (EditText) mSearchLayout.findViewById(R.id.searchTextView);
         mBackBtn = (ImageButton) mSearchLayout.findViewById(R.id.back_btn);
         mCloseBtn = (ImageButton) mSearchLayout.findViewById(R.id.close_btn);
@@ -94,7 +85,6 @@ public class MaterialSearchView extends LinearLayout implements FilterListener{
 
         initSearchView();
 
-        mSuggestionsListView.setVisibility(GONE);
 
     }
 
@@ -116,7 +106,6 @@ public class MaterialSearchView extends LinearLayout implements FilterListener{
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 mUserQuery = s;
-                startFilter(s);
                 MaterialSearchView.this.onTextChanged(s);
             }
 
@@ -131,17 +120,12 @@ public class MaterialSearchView extends LinearLayout implements FilterListener{
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
                     showKeyboard(mQueryTextView);
-                    showSuggestions();
                 }
             }
         });
     }
 
-    private void startFilter(CharSequence s) {
-        if (mAdapter != null && mAdapter instanceof Filterable) {
-            ((Filterable) mAdapter).getFilter().filter(s, MaterialSearchView.this);
-        }
-    }
+
 
     private final OnClickListener mOnClickListener = new OnClickListener() {
 
@@ -150,8 +134,6 @@ public class MaterialSearchView extends LinearLayout implements FilterListener{
                 closeSearch();
             } else if (v == mCloseBtn) {
                 mQueryTextView.setText(null);
-            } else if (v == mQueryTextView) {
-                showSuggestions();
             }
         }
     };
@@ -177,13 +159,16 @@ public class MaterialSearchView extends LinearLayout implements FilterListener{
     private void onSubmitQuery() {
         CharSequence query = mQueryTextView.getText();
         if (query != null && TextUtils.getTrimmedLength(query) > 0) {
-            if (mOnQueryChangeListener == null || !mOnQueryChangeListener.onQueryTextSubmit(query.toString())) {
+
+            if (mOnQueryChangeListener != null) {
+                mOnQueryChangeListener.onQueryTextSubmit(query.toString());
+            }else {
                 closeSearch();
                 mQueryTextView.setText(null);
             }
+
         }
     }
-
 
 
     public void hideKeyboard(View view) {
@@ -228,62 +213,7 @@ public class MaterialSearchView extends LinearLayout implements FilterListener{
 
     //Public Methods
 
-    /**
-     * Call this method to show suggestions list. This shows up when adapter is set. Call {@link #setAdapter(ListAdapter)} before calling this.
-     */
-    public void showSuggestions() {
-        if (mAdapter != null && mAdapter.getCount() > 0 && mSuggestionsListView.getVisibility() == GONE) {
-            mSuggestionsListView.setVisibility(VISIBLE);
-        }
-    }
 
-    /**
-     * Set Suggest List OnItemClickListener
-     *
-     * @param listener listener to handle click events of suggestions listView
-     */
-    public void setOnItemClickListener(AdapterView.OnItemClickListener listener) {
-        mSuggestionsListView.setOnItemClickListener(listener);
-    }
-
-    /**
-     * Set Adapter for suggestions list. Should implement Filterable.
-     *
-     * @param adapter
-     */
-    public void setAdapter(ListAdapter adapter) {
-        mAdapter = adapter;
-        mSuggestionsListView.setAdapter(adapter);
-        startFilter(mQueryTextView.getText());
-    }
-
-    /**
-     * Set Adapter for suggestions list with the given suggestion array
-     *
-     * @param suggestions array of suggestions
-     */
-    public void setSuggestions(String[] suggestions) {
-    /*    if (suggestions != null && suggestions.length > 0) {
-            final SearchAdapter adapter = new SearchAdapter(mContext, suggestions, suggestionIcon);
-            setAdapter(adapter);
-
-            setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    setQuery((String) adapter.getItem(position), false);
-                }
-            });
-        }*/
-    }
-
-    /**
-     * Dismiss the suggestions list.
-     */
-    public void dismissSuggestions() {
-        if (mSuggestionsListView.getVisibility() == VISIBLE) {
-            mSuggestionsListView.setVisibility(GONE);
-        }
-    }
 
 
     /**
@@ -302,7 +232,6 @@ public class MaterialSearchView extends LinearLayout implements FilterListener{
             onSubmitQuery();
         }
     }
-
 
 
     /**
@@ -344,7 +273,6 @@ public class MaterialSearchView extends LinearLayout implements FilterListener{
         }
 
         mQueryTextView.setText(null);
-        dismissSuggestions();
         clearFocus();
 
         mSearchLayout.setVisibility(GONE);
@@ -372,14 +300,7 @@ public class MaterialSearchView extends LinearLayout implements FilterListener{
         mSearchViewListener = listener;
     }
 
-    @Override
-    public void onFilterComplete(int count) {
-        if (count > 0) {
-            showSuggestions();
-        } else {
-            dismissSuggestions();
-        }
-    }
+
 
     @Override
     public boolean requestFocus(int direction, Rect previouslyFocusedRect) {
@@ -466,24 +387,19 @@ public class MaterialSearchView extends LinearLayout implements FilterListener{
         /**
          * Called when the user submits the query. This could be due to a key press on the
          * keyboard or due to pressing a submit button.
-         * The listener can override the standard behavior by returning true
-         * to indicate that it has handled the submit request. Otherwise return false to
-         * let the SearchView handle the submission by launching any associated intent.
          *
          * @param query the query text that is to be submitted
-         * @return true if the query has been handled by the user, false to let the
-         * SearchView perform the default action.
+         *
          */
-        boolean onQueryTextSubmit(String query);
+        void onQueryTextSubmit(String query);
 
         /**
          * Called when the query text is changed by the user.
          *
-         * @param newText the new content of the query text field.
-         * @return false if the SearchView should perform the default action of showing any
-         * suggestions if available, true if the action was handled by the user.
+         * @param changedText the new content of the query text field.
+         *
          */
-        boolean onQueryTextChange(String newText);
+        void onQueryTextChange(CharSequence changedText);
     }
 
     public interface SearchViewListener {
