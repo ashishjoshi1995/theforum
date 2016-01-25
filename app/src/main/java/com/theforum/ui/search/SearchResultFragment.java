@@ -1,4 +1,4 @@
-package com.theforum.other.search;
+package com.theforum.ui.search;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

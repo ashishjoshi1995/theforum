@@ -7,9 +7,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import com.theforum.notification.NotificationFragment;
-import com.theforum.other.opinion.NewOpinionFragment;
+import com.theforum.ui.opinion.NewOpinionFragment;
+import com.theforum.ui.opinion.OpinionsFragment;
 import com.theforum.ui.topic.NewTopicFragment;
-import com.theforum.other.opinion.OpinionsFragment;
 import com.theforum.ui.settings.SettingsFragment;
 import com.theforum.ui.SortFragment;
 

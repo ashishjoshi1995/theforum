@@ -1,4 +1,4 @@
-package com.theforum.other.opinion;
+package com.theforum.ui.opinion;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;

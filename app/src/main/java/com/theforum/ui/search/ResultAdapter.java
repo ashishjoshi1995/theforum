@@ -1,4 +1,4 @@
-package com.theforum.other.search;
+package com.theforum.ui.search;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
