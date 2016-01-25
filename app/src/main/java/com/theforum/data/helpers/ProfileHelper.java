@@ -4,10 +4,12 @@ import android.annotation.TargetApi;
 import android.os.AsyncTask;
 import android.os.Build;
 
+import com.theforum.TheForumApplication;
 import com.theforum.data.server.user;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
+import com.theforum.utils.User;
 
 import java.util.concurrent.ExecutionException;
 
@@ -18,12 +20,17 @@ public class ProfileHelper {
     private MobileServiceClient mClient;
     private MobileServiceTable<user> mUser;
     private String uid;
+    public static ProfileHelper mHelper;
 
-    public ProfileHelper(MobileServiceClient mClient, String uid){
-        this.mClient = mClient;
-        this.uid = uid;
+    public static ProfileHelper getHelper(){
+        if(mHelper == null) mHelper = new ProfileHelper();
+        return mHelper;
+    }
+
+    private ProfileHelper(){
+        this.mClient = TheForumApplication.getClient();
+        this.uid = User.getInstance().getId();
         mUser = mClient.getTable(user.class);
-
     }
 
     public user viewProfile(){
@@ -45,6 +52,13 @@ public class ProfileHelper {
             @Override
             protected void onPostExecute(user user) {
                 super.onPostExecute(user);
+                User.getInstance().setPointCollected(user.getmPointCollected());
+                User.getInstance().setCurrentTopics(user.getmCurrentTopics());
+                User.getInstance().setAge(user.getAge());
+                User.getInstance().setId(user.getmUid());
+                User.getInstance().setServerId(user.getmId());
+                User.getInstance().setTopicsCreated(user.getmTopicsCreated());
+                User.getInstance().setStatus(user.getmStatus());
             }
         };
         runAsyncTask(task);

@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
+import com.theforum.data.helpers.ProfileHelper;
 import com.theforum.data.helpers.TopicHelper;
 import com.theforum.data.helpers.TrendsHelper;
 import com.theforum.ui.home.HomeActivity;
@@ -18,7 +19,7 @@ import butterknife.ButterKnife;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private int SPLASH_TIME_OUT = 2000;
+    private int SPLASH_TIME_OUT = 3000;
 
     @Bind(R.id.frog_body) ImageView frogBody;
 
@@ -31,8 +32,9 @@ public class SplashActivity extends AppCompatActivity {
 
         TopicHelper.getHelper().loadTopics(0, Constants.SORT_BASIS_LATEST);
         TrendsHelper.getHelper().loadTrends();
+      //  ProfileHelper.getHelper().viewProfile();
 
-        ((GradientDrawable)frogBody.getBackground()).setColor(Color.parseColor("#30ed17"));
+                ((GradientDrawable) frogBody.getBackground()).setColor(Color.parseColor("#30ed17"));
 
 
         new Handler().postDelayed(new Runnable() {
