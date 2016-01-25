@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import com.theforum.Constants;
 import com.theforum.R;
 import com.theforum.data.helpers.OpinionHelper;
+import com.theforum.data.local.models.OpinionDataModel;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.data.server.opinion;
 import com.theforum.utils.CommonUtils;
@@ -129,9 +130,10 @@ public class NewOpinionFragment extends Fragment {
         pd.setCancelable(false);
         pd.setMessage("Adding your Opinion. Please Wait...");
         pd.show();
+
         OpinionHelper.getHelper().addOpinion(opinion, new OpinionHelper.OnOpinionAddListener() {
             @Override
-            public void onCompleted(opinion opinion) {
+            public void onCompleted(OpinionDataModel opinion) {
                 CommonUtils.showToast(getContext(),"Your Opinion is added");
                 pd.dismiss();
                 getActivity().finish();

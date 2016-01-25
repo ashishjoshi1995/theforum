@@ -3,7 +3,6 @@ package com.theforum.ui.search;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.util.Pair;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +38,7 @@ public class SearchResultFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_new_search_result, container, false);
+        return inflater.inflate(R.layout.fragment_search_result, container, false);
     }
 
 
@@ -57,7 +56,6 @@ public class SearchResultFragment extends Fragment {
         for (int i = 0; i < topic.size(); i++) {
            products[i]= topic.get(i);
         }
-
 
         // Adding items to listview
         adapter = new ArrayAdapter<>(getContext(), R.layout.list_item, R.id.topic_name, products);
@@ -80,8 +78,7 @@ public class SearchResultFragment extends Fragment {
         AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View container, int position, long id) {
-               Log.e("item", lv.getItemAtPosition(position).toString());
-               // TrendsDataModel trends = mFeeds.get(getLayoutPosition());
+
                 //getting the topic data from server
                 TrendsHelper.getHelper().getTopicByName(lv.getItemAtPosition(position).toString(),
                         new TrendsHelper.OnTopicDetailReceived() {
