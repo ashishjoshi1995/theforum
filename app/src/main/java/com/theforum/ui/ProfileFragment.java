@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.theforum.Constants;
 import com.theforum.R;
 import com.theforum.utils.CommonUtils;
+import com.theforum.utils.User;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -44,9 +45,9 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        status.setText("120");
-        points.setText("930");
-        topics.setText("100");
+        status.setText(User.getInstance().getStatus());
+        points.setText(""+User.getInstance().getPointCollected());
+        topics.setText(""+User.getInstance().getTopicsCreated());
 
         setBackgroundColor(statusIcon, "#313c44");
         setBackgroundColor(pointsIcon,"#d9ab1d");

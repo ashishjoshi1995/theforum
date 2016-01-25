@@ -30,7 +30,7 @@ public class ProfileHelper {
 
     private ProfileHelper(){
         this.mClient = TheForumApplication.getClient();
-        this.uid = User.getInstance().getServerId();
+        this.uid = User.getInstance().getId();
         mUser = mClient.getTable(user.class);
     }
 
@@ -53,8 +53,10 @@ public class ProfileHelper {
             @Override
             protected void onPostExecute(user user) {
                 super.onPostExecute(user);
-
-
+                User.getInstance().setPointCollected(user.getmPointCollected());
+                User.getInstance().setCurrentTopics(user.getmCurrentTopics());
+                User.getInstance().setTopicsCreated(user.getmTopicsCreated());
+                User.getInstance().setStatus(user.getmStatus());
             }
         };
         runAsyncTask(task);
