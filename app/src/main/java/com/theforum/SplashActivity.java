@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private int SPLASH_TIME_OUT = 3000;
+    private int SPLASH_TIME_OUT = 3500;
 
     @Bind(R.id.frog_body) ImageView frogBody;
 

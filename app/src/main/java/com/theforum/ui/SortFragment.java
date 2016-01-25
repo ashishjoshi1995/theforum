@@ -10,7 +10,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioGroup;
 
+import com.theforum.Constants;
 import com.theforum.R;
+import com.theforum.utils.SettingsUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -69,15 +71,21 @@ public class SortFragment extends Fragment implements RadioGroup.OnCheckedChange
 
         switch (checkedId){
             case R.id.sort_relevance_btn:
+                SettingsUtils.getInstance().saveIntegerarPreference(SettingsUtils.TOPIC_FEED_SORT_STATUS, Constants.SORT_BASIS_MOST_RENEWAL);
                 break;
             case R.id.sort_latest_btn:
+                SettingsUtils.getInstance().saveIntegerarPreference(SettingsUtils.TOPIC_FEED_SORT_STATUS,Constants.SORT_BASIS_LATEST);
                 break;
             case R.id.sort_created_by_me_btn:
+                SettingsUtils.getInstance().saveIntegerarPreference(SettingsUtils.TOPIC_FEED_SORT_STATUS,Constants.SORT_BASIS_CREATED_BY_ME);
                 break;
             case R.id.sort_most_renewal_btn:
+                SettingsUtils.getInstance().saveIntegerarPreference(SettingsUtils.TOPIC_FEED_SORT_STATUS,Constants.SORT_BASIS_MOST_RENEWAL);
                 break;
             case R.id.sort_least_renewal_btn:
+                SettingsUtils.getInstance().saveIntegerarPreference(SettingsUtils.TOPIC_FEED_SORT_STATUS,Constants.SORT_BASIS_LEAST_RENEWAL);
                 break;
+
         }
     }
 }

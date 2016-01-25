@@ -156,7 +156,7 @@ public class OpinionHelper {
             @Override
             public void onCompleted(UPDVResponse result, Exception exception, ServiceFilterResponse response) {
                 if (exception == null) {
-                    listener.onCompleteMessage("The process has fucking been completed");
+                    listener.onCompleteMessage("Opinion Upvoted");
                     Log.e("message UpdvAPi", result.message);
                 } else {
                     listener.onCompleteMessage(exception.getMessage());

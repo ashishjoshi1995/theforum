@@ -5,7 +5,7 @@ import android.content.Context;
 
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.theforum.utils.ProfileUtils;
-import com.theforum.data.local.SettingsUtils;
+import com.theforum.utils.SettingsUtils;
 
 import java.net.MalformedURLException;
 
