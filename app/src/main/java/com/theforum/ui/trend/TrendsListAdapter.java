@@ -12,9 +12,7 @@ import android.widget.TextView;
 
 import com.theforum.Constants;
 import com.theforum.R;
-import com.theforum.data.helpers.OpinionHelper;
 import com.theforum.data.helpers.TrendsHelper;
-import com.theforum.data.local.models.OpinionDataModel;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.data.local.models.TrendsDataModel;
 import com.theforum.utils.CommonUtils;
@@ -179,7 +177,12 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
         holder.description.setText(trendsDataModel.getOpinionText());
         holder.upVoteBtn.setText(String.valueOf(trendsDataModel.getUpVoteCount()));
         holder.downVoteBtn.setText(String.valueOf(trendsDataModel.getDownVoteCount()));
-
+        if(trendsDataModel.getRenewCount()==0) {
+            holder.decayTimeHolder.setText(String.valueOf(trendsDataModel.getHoursLeft()) + "hrs left to decay");
+        }
+        else {
+            holder.decayTimeHolder.setText(String.valueOf(trendsDataModel.getHoursLeft()) + "hrs left to decay | "+String.valueOf(trendsDataModel.getHoursLeft())+" Renewal");
+        }
         if(trendsDataModel.getVoteStatus() == VoteStatus.NONE){
             setCompoundDrawables(holder.upVoteBtn, holder.upVoteIcon);
             setCompoundDrawables(holder.downVoteBtn, holder.downVoteIcon);
