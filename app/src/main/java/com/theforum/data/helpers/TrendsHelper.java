@@ -125,6 +125,9 @@ public class TrendsHelper {
                                         topic.setTopicId(jsonObject.get("topic_id").toString());
                                         topic.setOpinionText(jsonObject.get("opinionText").toString());
                                         topic.setServerId(jsonObject.get("serverId").toString());
+                                        topic.setDescription(jsonObject.get("description").toString());
+                                        topic.setRenewalIds(jsonObject.get("renewalIds").toString());
+                                        topic.setRenewCount(Integer.parseInt(jsonObject.get("renewal").toString()));
 
 
                                         if(jsonObject.get("upvote_ids").toString()!=null) {

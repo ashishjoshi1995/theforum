@@ -16,6 +16,8 @@ public class TrendsDataModel {
     private int hoursLeft;
     private int renewCount;
     private String opinionText;
+    private String description;
+    private String renewalIds;
     private int downVoteCount;
     private int upVoteCount;
     private VoteStatus voteStatus = VoteStatus.NONE;
@@ -109,5 +111,21 @@ public class TrendsDataModel {
 
     public void setVoteStatus(VoteStatus voteStatus) {
         this.voteStatus = voteStatus;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getRenewalIds() {
+        return renewalIds;
+    }
+
+    public void setRenewalIds(String renewalIds) {
+        this.renewalIds = renewalIds;
     }
 }

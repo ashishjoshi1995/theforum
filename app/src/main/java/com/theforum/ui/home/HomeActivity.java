@@ -104,6 +104,9 @@ public class HomeActivity extends AppCompatActivity implements OnHomeUiChangeLis
         }
     }
 
+    public MaterialSearchView getSearchView(){
+        return mMaterialSearchView;
+    }
 
 
     @Override

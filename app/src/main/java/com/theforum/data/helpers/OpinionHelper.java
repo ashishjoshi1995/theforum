@@ -28,6 +28,8 @@ public class OpinionHelper {
 
     private ArrayList<OpinionDataModel> opinionList;
 
+    private OnOpinionAddListener opinionAddListener;
+
 
     public static OpinionHelper getHelper(){
         if(mOpinionHelper==null) mOpinionHelper = new OpinionHelper();
@@ -64,17 +66,19 @@ public class OpinionHelper {
                     OpinionDataModel opinionDataModel;
                     for (int i = 0; i < opinions.size(); i++) {
                         opinionDataModel = new OpinionDataModel(opinions.get(i));
+
                         if(opinions.get(i).getUpVoted_ids()!=null) {
                             String upid = opinions.get(i).getUpVoted_ids();
                             String[] upids = upid.split(" ");
+
                             for(int j=0;j<upids.length;j++){
                                 if(upids[j].equals(User.getInstance().getId())){
                                     opinionDataModel.setVoteStatus(VoteStatus.UPVOTED);
-                                    break;
                                 }
+                                break;
                             }
-
                         }
+
                         if(opinions.get(i).getDownVotes_ids()!=null) {
                             String downid = opinions.get(i).getUpVoted_ids();
                             String[] downids = downid.split(" ");
@@ -136,7 +140,6 @@ public class OpinionHelper {
 
         UPDVRequest updvRequest= new UPDVRequest();
         updvRequest.opinion_id = opinionId;
-        updvRequest.id = User.getInstance().getId();
 
         if(ifUpVote){
             //update UI
@@ -178,23 +181,46 @@ public class OpinionHelper {
                         @Override
                         public void onCompleted(opinion entity, Exception exception, ServiceFilterResponse response) {
 
+                            OpinionDataModel opinion = new OpinionDataModel(entity);
                             if(exception == null) {
-                                listener.onCompleted(entity);
+                                listener.onCompleted(opinion);
+
+                                if(opinionAddListener!= null){
+                                    opinionAddListener.onCompleted(opinion);
+                                }
                             }
                             else {
                                 listener.onError(exception.getMessage());
+                                if(opinionAddListener!= null){
+                                    opinionAddListener.onError(exception.getMessage());
+                                }
                             }
                         }
-
 
                     });
                 } catch (Exception e) {
                     listener.onError(e.getMessage());
+
+                    if(opinionAddListener!= null){
+                        opinionAddListener.onError(e.getMessage());
+                    }
                 }
                 return null;
             }
         };
+
         runAsyncTask(task);
+    }
+
+    /**
+     * called by ui activity to receive callback whenever new opinion is added, so that
+     * it can update its ui
+     *
+     * @param listener when new opinion is added this interface gives the callback
+     *
+     */
+    public void addNewOpinionAddedListener(OnOpinionAddListener listener){
+        this.opinionAddListener = listener;
     }
 
 
@@ -213,7 +239,7 @@ public class OpinionHelper {
          *
          * @param  opinion opinion data model with updated params
          */
-        void onCompleted(opinion opinion);
+        void onCompleted(OpinionDataModel opinion);
         void onError(String error);
     }
 
