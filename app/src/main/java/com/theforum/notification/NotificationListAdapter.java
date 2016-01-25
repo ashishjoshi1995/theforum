@@ -95,7 +95,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
     }
 
-    public static class ViewHolderTwo extends RecyclerView.ViewHolder  {
+    public  class ViewHolderTwo extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @Bind(R.id.notification_header) TextView header;
         @Bind(R.id.notification_main_text) TextView mainText;
@@ -106,6 +106,35 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
         public ViewHolderTwo(View v) {
             super(v);
             ButterKnife.bind(this, v);
+            v.setOnClickListener(this);
+
+        }
+        @Override
+        public void onClick(View v) {
+
+            NotificationInflatorModel trends = mData.get(getLayoutPosition());
+            //getting the topic data from server
+            TrendsHelper.getHelper().getTopicDetails(trends.getTopicId(), new TrendsHelper.OnTopicDetailReceived() {
+                @Override
+                public void onCompleted(TopicDataModel topic) {
+
+                    CommonUtils.openContainerActivity(mContext, Constants.OPINIONS_FRAGMENT,
+                            Pair.create(Constants.TOPIC_MODEL, (Serializable) topic));
+                }
+
+                @Override
+                public void onError(final String error) {
+
+                    mActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            CommonUtils.showToast(mContext, error);
+                        }
+                    });
+
+                }
+            });
+
 
         }
 
