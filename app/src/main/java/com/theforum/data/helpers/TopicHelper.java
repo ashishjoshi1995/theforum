@@ -139,12 +139,11 @@ public class TopicHelper {
                         switch (sortMode) {
 
                             case Constants.SORT_BASIS_MOST_POPULAR:
-                                topics = mTopicTable.orderBy("points", QueryOrder.Descending).skip(n).
-                                        top(20).execute().get();
+                                topics = mTopicTable.orderBy("points", QueryOrder.Descending).execute().get();
                                 break;
 
                             case Constants.SORT_BASIS_LATEST:
-                                topics = mTopicTable.orderBy("hours_left", QueryOrder.Ascending).skip(n).top(20).execute().get();
+                                topics = mTopicTable.orderBy("hours_left", QueryOrder.Ascending).execute().get();
                                 break;
 
                             case Constants.SORT_BASIS_CREATED_BY_ME:
@@ -195,12 +194,12 @@ public class TopicHelper {
 
                             case Constants.SORT_BASIS_LEAST_RENEWAL:
                                 topics = mTopicTable.orderBy("renewal_requests",QueryOrder.Ascending)
-                                        .skip(n).top(20).execute().get();
+                                        .execute().get();
                                 break;
 
                             case Constants.SORT_BASIS_MOST_RENEWAL:
                                 topics = mTopicTable.orderBy("renewal_requests",QueryOrder.Descending)
-                                        .skip(n).top(20).execute().get();
+                                        .execute().get();
                                 break;
 
                         }

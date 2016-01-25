@@ -7,8 +7,9 @@ import com.microsoft.windowsazure.mobileservices.ApiOperationCallback;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
-import com.microsoft.windowsazure.mobileservices.table.query.QueryOrder;
 import com.theforum.TheForumApplication;
+import com.theforum.data.helpers.trendinOpinionApi.TrendingInput;
+import com.theforum.data.helpers.trendinOpinionApi.TrendingResponse;
 import com.theforum.data.helpers.upvoteDownvoteApi.UPDVRequest;
 import com.theforum.data.helpers.upvoteDownvoteApi.UPDVResponse;
 import com.theforum.data.local.database.trendsDB.TrendsDBHelper;
@@ -20,6 +21,10 @@ import com.theforum.utils.CommonUtils;
 import com.theforum.utils.User;
 import com.theforum.utils.enums.RequestStatus;
 import com.theforum.utils.enums.VoteStatus;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -75,6 +80,8 @@ public class TrendsHelper {
 
     }
 
+
+
     public void getTrends(OnTrendsReceivedListener listener){
         this.trendsReceivedListener = listener;
 
@@ -85,8 +92,95 @@ public class TrendsHelper {
         }
 
     }
+    private void loadTopicsFromServer() {
+        TrendingInput updvRequest= new TrendingInput();
 
-    private void loadTopicsFromServer(){
+        updvRequest.uid = User.getInstance().getId();
+
+
+
+        TheForumApplication.getClient().invokeApi("trendingopininos", updvRequest, TrendingResponse.class,
+                new ApiOperationCallback<TrendingResponse>() {
+                    @Override
+                    public void onCompleted(TrendingResponse result, Exception exception, ServiceFilterResponse response) {
+                        if (exception == null) {
+                            //Log.e("The process has fucking been completed","yes");
+                            Log.e("message UpdvAPi", result.message);
+                            try {
+
+                                if (result.message != null) {
+                                    JSONArray jsonArray = new JSONArray(result.message);
+                                    //JSONObject jsonObject = jsonArray.getJSONObject(0);
+                                   // Log.e("message UpdvAPi", jsonObject.toString());
+                                    requestStatus = RequestStatus.COMPLETED;
+                                    for (int i = 0; i < jsonArray.length(); i++) {
+                                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                        TrendsDataModel topic = new TrendsDataModel();
+
+                                        topic.setHoursLeft(Integer.parseInt(jsonObject.get("hours_left").toString()));
+                                        topic.setTrendId(jsonObject.get("trends_id").toString());
+                                        topic.setUpVoteCount(Integer.parseInt(jsonObject.get("upvotes").toString()));
+                                        topic.setDownVoteCount(Integer.parseInt(jsonObject.get("downvotes").toString()));
+                                        topic.setTopicName(jsonObject.get("topic_name").toString());
+                                        topic.setTopicId(jsonObject.get("topic_id").toString());
+                                        topic.setOpinionText(jsonObject.get("opinionText").toString());
+                                        topic.setServerId(jsonObject.get("serverId").toString());
+
+
+                                        if(jsonObject.get("upvote_ids").toString()!=null) {
+                                            String upid = jsonObject.get("upvote_ids").toString();
+                                            String[] upids = upid.split(" ");
+                                            for(int j=0;j<upids.length;j++){
+                                                if(upids[j].equals(User.getInstance().getId())){
+                                                    topic.setVoteStatus(VoteStatus.UPVOTED);
+                                                    break;
+                                                }
+                                            }
+
+                                        }
+                                        if(jsonObject.get("downvote_ids").toString()!=null) {
+                                            String downid = jsonObject.get("downvote_ids").toString();
+                                            String[] downids = downid.split(" ");
+                                            for(int j=0;j<downids.length;j++){
+                                                if(downids[j].equals(User.getInstance().getId())){
+                                                    topic.setVoteStatus(VoteStatus.DOWNVOTED);
+                                                    break;
+                                                }
+                                            }
+                                        }
+
+
+                                        trends.add(topic);
+                                    }
+                                    if (trendsReceivedListener != null) {
+                                        trendsReceivedListener.onCompleted(trends);
+                                        requestStatus = RequestStatus.IDLE;
+                                        trends.clear();
+                                    }
+
+                                    // save the data to local database.
+
+                                    TrendsDBHelper.getHelper().addTrends(trends);
+
+                                }  else {
+                                    if (trendsReceivedListener != null) {
+                                        trendsReceivedListener.onError("Check Your Internet Connection");
+                                    }
+                                    requestStatus = RequestStatus.IDLE;
+
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        } else {
+                           Log.e("fuck","you");
+                        }
+                    }
+                });
+    }
+
+   /* private void loadTopicsFromServer(){
         AsyncTask<Void, Void, MobileServiceList<opinion>> task = new AsyncTask<Void, Void,
                 MobileServiceList<opinion>>() {
 
@@ -106,7 +200,7 @@ public class TrendsHelper {
             @Override
             protected void onPostExecute(MobileServiceList<opinion> opinions) {
                 super.onPostExecute(opinions);
-
+                    Log.e("opinions",opinions.toString());
                 if (opinions != null) {
                     requestStatus = RequestStatus.COMPLETED;
                     for (int i = 0; i < opinions.size(); i++) {
@@ -158,7 +252,7 @@ public class TrendsHelper {
         };
 
         runAsyncTask2(task);
-    }
+    }*/
     public void getTopicByName(final String topic_name,final OnTopicDetailReceived listener){
         if(mTopic == null) mTopic = TheForumApplication.getClient().getTable(topic.class);
         AsyncTask<Void, Void,topic> task= new AsyncTask<Void, Void, topic>() {
