@@ -15,6 +15,7 @@ import com.theforum.R;
 import com.theforum.data.helpers.TopicHelper;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.utils.CommonUtils;
+import com.theforum.utils.SettingsUtils;
 import com.theforum.utils.views.DividerItemDecorator;
 import com.theforum.utils.listeners.OnLoadMoreListener;
 
@@ -60,7 +61,8 @@ public class TopicsFragment extends Fragment {
             @Override
             public void onRefresh() {
                 times = 0;
-                TopicHelper.getHelper().loadTopics(times, Constants.SORT_BASIS_LATEST);
+                TopicHelper.getHelper().loadTopics(times, SettingsUtils.getInstance()
+                        .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS));
                 mAdapter.setAllTopicsLoaded(false);
             }
         });
@@ -68,7 +70,8 @@ public class TopicsFragment extends Fragment {
         mAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void loadMore() {
-                TopicHelper.getHelper().loadTopics(times, Constants.SORT_BASIS_LATEST);
+                TopicHelper.getHelper().loadTopics(times,SettingsUtils.getInstance()
+                        .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS));
             }
         });
 

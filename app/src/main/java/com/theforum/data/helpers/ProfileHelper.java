@@ -46,17 +46,22 @@ public class ProfileHelper {
                     e.printStackTrace();
                 } catch (ExecutionException e) {
                     e.printStackTrace();
-                }
+                }if(ash.size()>0)
                 return ash.get(0);
+                else{
+                    return null;
+                }
             }
 
             @Override
             protected void onPostExecute(user user) {
                 super.onPostExecute(user);
-                User.getInstance().setPointCollected(user.getmPointCollected());
-                User.getInstance().setCurrentTopics(user.getmCurrentTopics());
-                User.getInstance().setTopicsCreated(user.getmTopicsCreated());
-                User.getInstance().setStatus(user.getmStatus());
+                if(user!=null) {
+                    User.getInstance().setPointCollected(user.getmPointCollected());
+                    User.getInstance().setCurrentTopics(user.getmCurrentTopics());
+                    User.getInstance().setTopicsCreated(user.getmTopicsCreated());
+                    User.getInstance().setStatus(user.getmStatus());
+                }
             }
         };
         runAsyncTask(task);
