@@ -99,7 +99,37 @@ public class OpinionHelper {
 
         runAsyncTask2(task);
     }
+    /*public void upVoteDownVote(Boolean ifUpVote,String opinionId,
+                               final OnUVDVOperationCompleteListener listener){
 
+        TrendingInput updvRequest= new TrendingInput();
+
+        updvRequest.uid = User.getInstance().getId();
+
+
+
+        TheForumApplication.getClient().invokeApi("trendingopininos", updvRequest, TrendingResponse.class,
+                new ApiOperationCallback<TrendingResponse>() {
+            @Override
+            public void onCompleted(TrendingResponse result, Exception exception, ServiceFilterResponse response) {
+                if (exception == null) {
+                    listener.onCompleteMessage("The process has fucking been completed");
+                    Log.e("message UpdvAPi", result.message);
+                    try {
+                        JSONArray jsonArray = new JSONArray(result.message);
+                        JSONObject jsonObject = jsonArray.getJSONObject(0);
+                        Log.e("message UpdvAPi", jsonObject.toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                } else {
+                    listener.onCompleteMessage(exception.getMessage());
+                }
+            }
+        });
+
+    }*/
 
     public void upVoteDownVote(Boolean ifUpVote,String opinionId,
                                final OnUVDVOperationCompleteListener listener){
