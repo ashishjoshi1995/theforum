@@ -1,5 +1,6 @@
 package com.theforum.ui.topic;
 
+import android.app.ProgressDialog;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
@@ -94,17 +95,23 @@ public class NewTopicFragment extends Fragment {
         topic.setTopicDescription(mDescription.getText().toString());
         topic.setUserId(User.getInstance().getId());
 
-
+        final ProgressDialog pd = new ProgressDialog(getActivity(), R.style.MyDialog);
+        pd.setCanceledOnTouchOutside(false);
+        pd.setCancelable(false);
+        pd.setMessage("Adding a New Topic. Please Wait...");
+        pd.show();
         TopicHelper.getHelper().addTopic(topic, new TopicHelper.OnTopicInsertListener() {
             @Override
             public void onCompleted() {
                 CommonUtils.showToast(getActivity(), "Topic created");
-
+                pd.dismiss();
+                getActivity().finish();
             }
 
             @Override
             public void onError(String error) {
                 Log.e("UploadTopic error", "" + error);
+                pd.dismiss();
             }
         });
     }

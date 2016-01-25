@@ -1,5 +1,6 @@
 package com.theforum.other.opinion;
 
+import android.app.ProgressDialog;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
@@ -123,16 +124,23 @@ public class NewOpinionFragment extends Fragment {
         opinion.setTopicId(topicModel.getTopicId());
         opinion.setTopicName(topicModel.getTopicName());
         opinion.setUserId(User.getInstance().getId());
-
+        final ProgressDialog pd = new ProgressDialog(getActivity(), R.style.MyDialog);
+        pd.setCanceledOnTouchOutside(false);
+        pd.setCancelable(false);
+        pd.setMessage("Adding your Opinion. Please Wait...");
+        pd.show();
         OpinionHelper.getHelper().addOpinion(opinion, new OpinionHelper.OnOpinionAddListener() {
             @Override
             public void onCompleted(opinion opinion) {
                 CommonUtils.showToast(getContext(),"Your Opinion is added");
+                pd.dismiss();
+                getActivity().finish();
             }
 
             @Override
             public void onError(String error) {
                 Log.e("error",error);
+                pd.dismiss();
             }
         });
 

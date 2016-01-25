@@ -296,10 +296,8 @@ public class TrendsHelper {
                 try {
                     result = mTopic.where().field("topic_id").eq(topic_id).execute().get();
                     return result.get(0);
-
                 } catch (Exception e) {
                     listener.onError("Check Your Internet Connection");
-
                     return null;
                 }
 
