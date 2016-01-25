@@ -1,4 +1,4 @@
-package com.theforum.other.opinion;
+package com.theforum.ui.opinion;
 
 import android.app.ProgressDialog;
 import android.graphics.Typeface;
