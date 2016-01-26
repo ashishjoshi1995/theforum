@@ -13,13 +13,14 @@ import com.theforum.data.helpers.ProfileHelper;
 import com.theforum.data.helpers.TopicHelper;
 import com.theforum.data.helpers.TrendsHelper;
 import com.theforum.ui.home.HomeActivity;
+import com.theforum.utils.SettingsUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private int SPLASH_TIME_OUT = 3000;
+    private int SPLASH_TIME_OUT = 3500;
 
     @Bind(R.id.frog_body) ImageView frogBody;
 
@@ -30,7 +31,8 @@ public class SplashActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        TopicHelper.getHelper().loadTopics(0, Constants.SORT_BASIS_LATEST);
+        TopicHelper.getHelper().loadTopics(0, SettingsUtils.getInstance().getIntFromPreferences(
+                SettingsUtils.TOPIC_FEED_SORT_STATUS));
         TrendsHelper.getHelper().loadTrends();
         ProfileHelper.getHelper().viewProfile();
 

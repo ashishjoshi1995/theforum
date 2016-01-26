@@ -147,6 +147,7 @@ public class TopicHelper {
                                 break;
 
                             case Constants.SORT_BASIS_CREATED_BY_ME:
+                                /*
                                 InputClass inputClass = new InputClass();
                                 inputClass.uid = User.getInstance().getId();
                                 mClient.invokeApi("getmytopics", inputClass, ResponseClass.class, new ApiOperationCallback<ResponseClass>() {
@@ -190,15 +191,17 @@ public class TopicHelper {
 
                                     }
                                 });
+                                */
+                                topics = mTopicTable.where().field("uid").eq(User.getInstance().getId()).execute().get();
                                 break;
 
                             case Constants.SORT_BASIS_LEAST_RENEWAL:
-                                topics = mTopicTable.orderBy("renewal_requests",QueryOrder.Ascending)
+                                topics = mTopicTable.orderBy("renewal_requests", QueryOrder.Ascending)
                                         .execute().get();
                                 break;
 
                             case Constants.SORT_BASIS_MOST_RENEWAL:
-                                topics = mTopicTable.orderBy("renewal_requests",QueryOrder.Descending)
+                                topics = mTopicTable.orderBy("renewal_requests", QueryOrder.Descending)
                                         .execute().get();
                                 break;
 

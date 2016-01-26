@@ -1,4 +1,4 @@
-package com.theforum.data.local;
+package com.theforum.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -47,11 +47,26 @@ public class SettingsUtils {
         editor.apply();
     }
 
+    public void saveIntegerarPreference(String key,int value){
+        SharedPreferences.Editor editor = getPreferences().edit();
+        editor.putInt(key, value);
+        editor.apply();
+    }
+
     public String getFromPreferences(String key) {
         String value = getPreferences().getString(key, "empty");
 
         if (value.equals("empty")) {
             value = null;
+        }
+
+        return value;
+    }
+    public int getIntFromPreferences(String key) {
+        int value = getPreferences().getInt(key, -1);
+
+        if (value == -1) {
+            value = -1;
         }
 
         return value;

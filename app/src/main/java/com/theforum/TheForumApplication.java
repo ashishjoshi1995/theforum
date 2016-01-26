@@ -5,7 +5,7 @@ import android.content.Context;
 
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.theforum.utils.ProfileUtils;
-import com.theforum.data.local.SettingsUtils;
+import com.theforum.utils.SettingsUtils;
 
 import java.net.MalformedURLException;
 
@@ -28,6 +28,12 @@ public class TheForumApplication extends Application {
 
         ProfileUtils.initialize(context);
         SettingsUtils.initialize(context);
+
+        if(!SettingsUtils.getInstance().contains(SettingsUtils.TOPIC_FEED_SORT_STATUS)){
+            SettingsUtils.getInstance().saveIntegerarPreference(SettingsUtils.TOPIC_FEED_SORT_STATUS,
+                    Constants.SORT_BASIS_MOST_RENEWAL);
+        }
+
     }
 
 

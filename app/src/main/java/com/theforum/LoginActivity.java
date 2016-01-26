@@ -1,5 +1,6 @@
 package com.theforum;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -15,6 +16,7 @@ import com.theforum.data.helpers.LoginHelper;
 import com.theforum.data.server.user;
 import com.theforum.ui.home.HomeActivity;
 import com.theforum.utils.CommonUtils;
+import com.theforum.utils.SettingsUtils;
 import com.theforum.utils.User;
 
 import butterknife.Bind;
@@ -48,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     register(Integer.parseInt(mAge.getText().toString()));
 
+
                 } else CommonUtils.showToast(LoginActivity.this, "Please enter your age. Don't Panic!!");
             }
         });
@@ -60,6 +63,11 @@ public class LoginActivity extends AppCompatActivity {
         user.setAge(age);
 
         LoginHelper loginHelper = new LoginHelper();
+        final ProgressDialog pd = new ProgressDialog(this, R.style.MyDialog);
+        pd.setCanceledOnTouchOutside(false);
+        pd.setCancelable(false);
+        pd.setMessage("Please Wait...");
+        pd.show();
         loginHelper.login(user, new LoginHelper.OnLoginCompleteListener() {
             @Override
             public void onCompleted(user user) {
@@ -76,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
                 localUser.setPointCollected(0);
                 localUser.setTopicsCreated(0);
                 Log.e("login", "" + user.getmUid() + "/" + user.getmId());
-
+                pd.dismiss();
                 /*
                  *  show home UI
                  */
