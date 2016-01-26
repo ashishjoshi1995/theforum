@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.theforum.Constants;
 import com.theforum.R;
+import com.theforum.data.local.database.notificationDB.NotificationDBHelper;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.User;
 
@@ -60,7 +61,11 @@ public class ProfileFragment extends Fragment {
         notifications.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(NotificationDBHelper.getNotificationDBHelper().checkIfNotifExist())
                 CommonUtils.openContainerActivity(getContext(), Constants.NOTIFICATION_FRAGMENT);
+                else {
+                    CommonUtils.showToast(getContext(),"No new Notification");
+                }
             }
         });
     }

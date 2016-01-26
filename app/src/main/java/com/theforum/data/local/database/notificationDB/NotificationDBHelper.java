@@ -73,6 +73,12 @@ public class NotificationDBHelper {
 
     }
 
+    public Boolean checkIfNotifExist(){
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT  * FROM " + NotificationDBConstants.TABLE_NAME, null);
+        if(cursor.getCount()>0)
+        return true;
+        else return false;
+    }
     public void addNotifications(List<NotificationDataModel> notificationDataModels){
         Log.e("addnotificationssss", "" + notificationDataModels.size());
         for(int j=0; j<notificationDataModels.size();j++){
