@@ -74,7 +74,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
                 @Override
                 public void onCompleted(TopicDataModel topic) {
                     CommonUtils.openContainerActivity(mContext, Constants.OPINIONS_FRAGMENT,
-                            Pair.create(Constants.TOPIC_MODEL, (Serializable) topic));
+                            Pair.create(Constants.TOPIC_MODEL, (Serializable) topic),1);
                 }
 
                 @Override
@@ -118,7 +118,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
                    // opinion opinion = OpinionDBHelper.getOpinionDBHelper(TheForumApplication.getAppContext()).
                      //       getOpinion(mData.get(getLayoutPosition()).)
                     CommonUtils.openContainerActivity(mContext, Constants.OPINIONS_FRAGMENT,
-                            Pair.create(Constants.TOPIC_MODEL, (Serializable) topic));
+                            Pair.create(Constants.TOPIC_MODEL, (Serializable) topic),2);
                 }
 
                 @Override
