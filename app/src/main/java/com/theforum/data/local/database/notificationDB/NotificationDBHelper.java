@@ -7,10 +7,9 @@ import android.util.Log;
 
 import com.theforum.Constants;
 import com.theforum.TheForumApplication;
-import com.theforum.data.local.models.NotificationInflatorModel;
-import com.theforum.data.server.NotificationDataModel;
+import com.theforum.data.local.models.NotificationDataModel;
+
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,7 +31,7 @@ public class NotificationDBHelper {
         sqLiteDatabase = notificationDB.getWritableDatabase();
     }
 
-    public void addNotification(NotificationDataModel notificationDataModel){
+    public void addNotification(com.theforum.data.server.NotificationDataModel notificationDataModel){
         ContentValues values = new ContentValues();
         int k = notificationDataModel.notificationType;
         switch (k){
@@ -79,7 +78,7 @@ public class NotificationDBHelper {
         return true;
         else return false;
     }
-    public void addNotifications(List<NotificationDataModel> notificationDataModels){
+    public void addNotifications(List<com.theforum.data.server.NotificationDataModel> notificationDataModels){
         Log.e("addnotificationssss", "" + notificationDataModels.size());
         for(int j=0; j<notificationDataModels.size();j++){
             addNotification(notificationDataModels.get(j));
@@ -98,15 +97,15 @@ public class NotificationDBHelper {
         sqLiteDatabase.execSQL("delete from " + NotificationDBConstants.TABLE_NAME);
     }
 
-    public ArrayList<NotificationInflatorModel> getAllNotifications(){
-        ArrayList<NotificationInflatorModel> notifications = new ArrayList<>();
+    public ArrayList<NotificationDataModel> getAllNotifications(){
+        ArrayList<NotificationDataModel> notifications = new ArrayList<>();
         Cursor cursor = sqLiteDatabase.rawQuery("SELECT  * FROM " + NotificationDBConstants.TABLE_NAME, null);
 
         if(cursor!=null){
             Log.e("getAllNotiications",""+cursor.getCount());
             if (cursor.moveToFirst()) {
                 do {
-                    NotificationInflatorModel obj = new NotificationInflatorModel();
+                    NotificationDataModel obj = new NotificationDataModel();
                     obj.setNotificationType(cursor.getInt(1));
                     obj.setViewType(cursor.getInt(2));
                     obj.setTimeHolder(cursor.getString(3));

@@ -4,8 +4,8 @@ package com.theforum.data.local.models;
  * @author Ashish
  * @since 1/15/2016
  */
-public class NotificationInflatorModel {
-    public NotificationInflatorModel(){
+public class NotificationDataModel {
+    public NotificationDataModel(){
     }
 
     private int key;

@@ -16,7 +16,7 @@ import com.theforum.R;
 import com.theforum.TheForumApplication;
 import com.theforum.data.helpers.TrendsHelper;
 import com.theforum.data.local.database.opinionDB.OpinionDBHelper;
-import com.theforum.data.local.models.NotificationInflatorModel;
+import com.theforum.data.local.models.NotificationDataModel;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.data.server.opinion;
 import com.theforum.utils.CommonUtils;
@@ -35,14 +35,14 @@ import butterknife.ButterKnife;
 
 public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private ArrayList<NotificationInflatorModel> mData;
+    private ArrayList<NotificationDataModel> mData;
     private Context mContext;
     private Activity mActivity;
 
     private final static int VIEW_TYPE_ONE = 0;
     private final static int VIEW_TYPE_TWO = 1;
 
-    public NotificationListAdapter(Activity activity, ArrayList<NotificationInflatorModel> dataSet) {
+    public NotificationListAdapter(Activity activity, ArrayList<NotificationDataModel> dataSet) {
 
         mContext = activity;
         mActivity = activity;
@@ -68,19 +68,19 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
         @Override
         public void onClick(View v) {
 
-            NotificationInflatorModel trends = mData.get(getLayoutPosition());
+            NotificationDataModel trends = mData.get(getLayoutPosition());
             //getting the topic data from server
             TrendsHelper.getHelper().getTopicDetails(trends.getTopicId(), new TrendsHelper.OnTopicDetailReceived() {
                 @Override
                 public void onCompleted(TopicDataModel topic) {
+
                     opinion opinion = OpinionDBHelper.getOpinionDBHelper(TheForumApplication.getAppContext()).
                             getOpinion(mData.get(getLayoutPosition()).getDescription());
-                    ArrayList<Pair<String, Serializable>> newList = new ArrayList<Pair<String, Serializable>>();
+                    ArrayList<Pair<String, Serializable>> newList = new ArrayList<>();
                     newList.add(0, Pair.create(Constants.OPINION_MODEL,(Serializable)opinion));
                     newList.add(1, Pair.create(Constants.TOPIC_MODEL,(Serializable)topic));
 
                     CommonUtils.openContainerActivity(mContext, Constants.OPINIONS_FRAGMENT,
-
                             Pair.create(Constants.TOPIC_MODEL, (Serializable) topic));
                 }
 
@@ -117,7 +117,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
         @Override
         public void onClick(View v) {
-            NotificationInflatorModel trends = mData.get(getLayoutPosition());
+            NotificationDataModel trends = mData.get(getLayoutPosition());
             //getting the topic data from server
             TrendsHelper.getHelper().getTopicDetails(trends.getTopicId(), new TrendsHelper.OnTopicDetailReceived() {
                 @Override
@@ -136,7 +136,6 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
                     });
                 }
             });
-
 
         }
 

@@ -38,12 +38,12 @@ public class NotificationHelper {
     }
 
     public void readNotification(final NotificationIfAny notificationIfAny){
-       opinion.where().field("uid").eq(User.getInstance().getId()).and().field("notif_count").gt(0).
-               execute(new TableQueryCallback<opinion>() {
+
+       opinion.where().field("uid").eq(User.getInstance().getId()).and().field("notif_count").gt(0)
+               .execute(new TableQueryCallback<opinion>() {
 
             @Override
             public void onCompleted(List<opinion> result, int count, Exception exception, ServiceFilterResponse response) {
-                Log.e("readNotif opi", String.valueOf(count));
                 one = true;
                 if(count>0) {
                     notificationIfAny.opinionNotif(result);
@@ -56,7 +56,6 @@ public class NotificationHelper {
                 execute(new TableQueryCallback<topic>() {
             @Override
             public void onCompleted(List<topic> result, int count, Exception exception, ServiceFilterResponse response) {
-                Log.e("readNotif topic", String.valueOf(count));
                 two = true;
                 if (count > 0) {
                     notificationIfAny.topicNotif(result);
@@ -68,9 +67,11 @@ public class NotificationHelper {
     public void cleanItUP(){
         NotificationClearApiRequest request = new NotificationClearApiRequest();
         request.uid = User.getInstance().getId();
-        mobileServiceClient.invokeApi("notificationclearapi", request, NotificationClearApiResponse.class, new ApiOperationCallback<NotificationClearApiResponse>() {
+        mobileServiceClient.invokeApi("notificationclearapi", request, NotificationClearApiResponse.class,
+                new ApiOperationCallback<NotificationClearApiResponse>() {
             @Override
-            public void onCompleted(NotificationClearApiResponse result, Exception exception, ServiceFilterResponse response) {
+            public void onCompleted(NotificationClearApiResponse result, Exception exception,
+                                    ServiceFilterResponse response) {
                 Log.e("sdsdsd",result.message);
             }
         });
