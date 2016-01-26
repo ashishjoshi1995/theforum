@@ -40,7 +40,7 @@ import butterknife.ButterKnife;
 public class OpinionsFragment extends Fragment {
 
     @Bind(R.id.opinion_swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
-    @Bind(R.id.home_recycler_view) RecyclerView recyclerView;
+    @Bind(R.id.opinion_recycler_view) RecyclerView recyclerView;
     @Bind(R.id.opinion_toolbar) Toolbar toolbar;
     @Bind(R.id.opinion_collapsing_toolbar) CollapsingToolbarLayout collapsingToolbarLayout;
     @Bind(R.id.opinion_topic_description) TextView topicDescription;
@@ -48,7 +48,6 @@ public class OpinionsFragment extends Fragment {
 
     private OpinionsListAdapter mAdapter;
     private TopicDataModel mTopicModel;
-    private int type;
 
 
     @Override
@@ -58,7 +57,6 @@ public class OpinionsFragment extends Fragment {
 
         if(getArguments()!=null){
             mTopicModel = (TopicDataModel) getArguments().getSerializable(LayoutType.TOPIC_MODEL);
-            type =0;
         }
     }
 
@@ -85,6 +83,7 @@ public class OpinionsFragment extends Fragment {
         collapsingToolbarLayout.post(new Runnable() {
             @Override
             public void run() {
+                recyclerView.setPadding(0,collapsingToolbarLayout.getHeight(),0,0);
 
                 int actionBarSize = (int) CommonUtils.convertDpToPixel(56, getContext());
                 int progressViewStart = collapsingToolbarLayout.getHeight() - actionBarSize;

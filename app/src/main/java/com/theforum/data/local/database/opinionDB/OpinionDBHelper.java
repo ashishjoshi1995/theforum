@@ -35,7 +35,9 @@ public class OpinionDBHelper {
     public void addOpinion(opinion opinion){
         SQLiteDatabase db = opinionDB.getWritableDatabase();
         ContentValues values = new ContentValues();
+
         Cursor c=db.rawQuery("SELECT * FROM user WHERE"+ OpinionDBConstants.KEY_OPINION_ID +"="+opinion.getOpinionId(), null);
+
         values.put(OpinionDBConstants.KEY_ID,opinion.getServerId());
         values.put(OpinionDBConstants.KEY_DOWNVOTES,opinion.getDownVotes());
         values.put(OpinionDBConstants.KEY_FORUM_ID,opinion.getUserId());
@@ -48,15 +50,16 @@ public class OpinionDBHelper {
         values.put(OpinionDBConstants.KEY_TOPIC,opinion.getTopicName());
         values.put(OpinionDBConstants.KEY_TOPIC_ID,opinion.getTopicId());
         values.put(OpinionDBConstants.KEY_TIME,"datetime(now)");
+
         if(c.moveToFirst())
         {
             Log.e("Error", "Record exist");
             db.update(OpinionDBConstants.TABLE_OPINION_NAME, values, OpinionDBConstants.KEY_ID+" = ?" + c.getInt(0), null);
         }
-        else
-        {
+        else {
             db.insert(OpinionDBConstants.TABLE_OPINION_NAME, null, values);            // Inserting record
         }
+        c.close();
         db.close();
     }
 
