@@ -10,6 +10,7 @@ import com.theforum.TheForumApplication;
 import com.theforum.data.local.models.NotificationInflatorModel;
 import com.theforum.data.server.NotificationDataModel;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -73,7 +74,7 @@ public class NotificationDBHelper {
     }
 
     public void addNotifications(List<NotificationDataModel> notificationDataModels){
-        Log.e("addnotificationssss",""+notificationDataModels.size());
+        Log.e("addnotificationssss", "" + notificationDataModels.size());
         for(int j=0; j<notificationDataModels.size();j++){
             addNotification(notificationDataModels.get(j));
         }
@@ -84,6 +85,10 @@ public class NotificationDBHelper {
     }
 
     public void deleteAllNotif(){
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT  * FROM " + NotificationDBConstants.TABLE_NAME, null);
+        if(cursor.getCount()>35){
+
+        }
         sqLiteDatabase.execSQL("delete from " + NotificationDBConstants.TABLE_NAME);
     }
 
