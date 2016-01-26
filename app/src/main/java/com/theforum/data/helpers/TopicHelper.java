@@ -74,6 +74,8 @@ public class TopicHelper {
                                 /*
                                    saving topic to local dataBase
                                  */
+                                    User.getInstance().setTopicsCreated(User.getInstance().getTopicsCreated()+1);
+
                                     TopicDataModel topicDataModel = new TopicDataModel(entity);
                                     topicDataModel.setIsMyTopic(true);
                                     TopicDBHelper.getHelper().addTopic(topicDataModel);

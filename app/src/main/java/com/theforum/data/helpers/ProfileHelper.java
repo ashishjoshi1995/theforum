@@ -55,12 +55,10 @@ public class ProfileHelper {
                 super.onPostExecute(user);
 
                 if(user!=null) {
-                    Log.e("opop",""+user.getmPointCollected());
-                    Log.e("opopo",""+user.getmStatus());
-                    User.getInstance().setPointCollected(user.getmPointCollected());
-                    User.getInstance().setCurrentTopics(user.getmCurrentTopics());
-                    User.getInstance().setTopicsCreated(user.getmTopicsCreated());
-                    User.getInstance().setStatus(user.getmStatus());
+                    User localUser = User.getInstance();
+                    localUser.setStatus(user.getmStatus());
+                    localUser.setPointCollected(user.getmPointCollected());
+                    localUser.setTopicsCreated(user.getmTopicsCreated());
                 }
             }
 
