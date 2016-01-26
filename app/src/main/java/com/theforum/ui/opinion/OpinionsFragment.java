@@ -19,9 +19,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.theforum.Constants;
+import com.theforum.constants.LayoutType;
 import com.theforum.R;
+import com.theforum.TheForumApplication;
 import com.theforum.data.helpers.OpinionHelper;
+import com.theforum.data.local.database.opinionDB.OpinionDBHelper;
 import com.theforum.data.local.models.OpinionDataModel;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.utils.CommonUtils;
@@ -48,6 +50,7 @@ public class OpinionsFragment extends Fragment {
 
     private OpinionsListAdapter mAdapter;
     private TopicDataModel mTopicModel;
+    private int type;
 
 
     @Override
@@ -56,7 +59,8 @@ public class OpinionsFragment extends Fragment {
         setHasOptionsMenu(true);
 
         if(getArguments()!=null){
-            mTopicModel = (TopicDataModel) getArguments().getSerializable(Constants.TOPIC_MODEL);
+            mTopicModel = (TopicDataModel) getArguments().getSerializable(LayoutType.TOPIC_MODEL);
+            type =0;
         }
     }
 
@@ -104,8 +108,8 @@ public class OpinionsFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CommonUtils.openContainerActivity(getActivity(), Constants.NEW_OPINION_FRAGMENT,
-                        Pair.create(Constants.TOPIC_MODEL, (Serializable) mTopicModel));
+                CommonUtils.openContainerActivity(getActivity(), LayoutType.NEW_OPINION_FRAGMENT,
+                        Pair.create(LayoutType.TOPIC_MODEL, (Serializable) mTopicModel));
             }
         });
 
@@ -155,6 +159,16 @@ public class OpinionsFragment extends Fragment {
             }
         });
     }
+    private void getOpinionforNotifUpDown(String opinionDescription){
+
+        OpinionDataModel opinion = OpinionDBHelper.getHelper(TheForumApplication.getAppContext()).
+                getOpinion(opinionDescription);
+        mAdapter.clearAll();
+        ArrayList<OpinionDataModel> opinions = null;
+        opinions.add(opinion);
+        mAdapter.addOpinions(opinions);
+
+    }
 
 
 
@@ -168,7 +182,7 @@ public class OpinionsFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if(item.getItemId()== R.id.action_settings) CommonUtils.openContainerActivity(getContext(),
-                Constants.SETTINGS_FRAGMENT);
+                LayoutType.SETTINGS_FRAGMENT);
 
         return super.onOptionsItemSelected(item);
     }

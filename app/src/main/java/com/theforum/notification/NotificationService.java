@@ -11,17 +11,17 @@ import android.os.PowerManager;
 import android.util.Log;
 import android.widget.RemoteViews;
 
-import com.theforum.Constants;
+import com.theforum.constants.LayoutType;
+import com.theforum.ContainerActivity;
 import com.theforum.R;
 import com.theforum.data.helpers.NotificationHelper;
-import com.theforum.utils.listeners.NotificationListener;
 import com.theforum.data.local.database.notificationDB.NotificationDBHelper;
 import com.theforum.data.local.database.opinionDB.OpinionDBHelper;
 import com.theforum.data.server.NotificationDataModel;
 import com.theforum.data.server.opinion;
 import com.theforum.data.server.topic;
-import com.theforum.ui.home.HomeActivity;
 import com.theforum.utils.CommonUtils;
+import com.theforum.utils.listeners.NotificationListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,7 +85,7 @@ public class NotificationService extends Service {
 
             final NotificationHelper helper = new NotificationHelper();
             helper.readNotification(new NotificationListener() {
-            int jaiHo = 0;
+            int notificationCount = 0;
 
                 @Override
                 public void topicNotification(List<topic> topics) {
@@ -98,20 +98,20 @@ public class NotificationService extends Service {
                             notificationModel.topicId = topics.get(j).getTopicId();
                             notificationModel.topicText = topics.get(j).getTopicName();
                             notificationModel.renewalRequest = topics.get(j).getmNotifRenewalRequests();
-                            notificationModel.notificationType = Constants.NOTIFICATION_TYPE_RENEWAL_REQUEST;
+                            notificationModel.notificationType = LayoutType.NOTIFICATION_TYPE_RENEWAL_REQUEST;
                             inflatorItemDatas.add(notificationModel);
-                            jaiHo++;
+                            notificationCount++;
                         }
 
                         if(topics.get(j).getmNotifOpinions()>0) {
                             NotificationDataModel inflatorItemDataOpinions = new NotificationDataModel();
-                            inflatorItemDataOpinions.notificationType = Constants.NOTIFICATION_TYPE_OPINIONS;
+                            inflatorItemDataOpinions.notificationType = LayoutType.NOTIFICATION_TYPE_OPINIONS;
                             inflatorItemDataOpinions.hoursLeft = topics.get(j).getHoursLeft();
                             inflatorItemDataOpinions.topicId = topics.get(j).getTopicId();
                             inflatorItemDataOpinions.topicText = topics.get(j).getTopicName();
                             inflatorItemDataOpinions.opinions = topics.get(j).getmNotifOpinions();
                             inflatorItemDatas.add(inflatorItemDataOpinions);
-                            jaiHo++;
+                            notificationCount++;
                         }
                     }
 
@@ -121,7 +121,7 @@ public class NotificationService extends Service {
                             count++;
                         }
                         NotificationDBHelper.getNotificationDBHelper().addNotifications(inflatorItemDatas);
-                        Notify(jaiHo);
+                        Notify(notificationCount);
                     }
                     else if(count>0){
                         count = 0;
@@ -134,7 +134,7 @@ public class NotificationService extends Service {
                     Log.e("opinion size",""+opinions.size());
                         for(int j=0;j<opinions.size();j++){
                             NotificationDataModel inflatorItemData = new NotificationDataModel();
-                            inflatorItemData.notificationType = Constants.NOTIFICATION_TYPE_OPINION_UP_VOTES;
+                            inflatorItemData.notificationType = LayoutType.NOTIFICATION_TYPE_OPINION_UP_VOTES;
                             inflatorItemData.topicText = opinions.get(j).getTopicName();
                             inflatorItemData.topicId =opinions.get(j).getTopicId();
                             inflatorItemData.newCount = opinions.get(j).getmNotifCount();
@@ -142,7 +142,7 @@ public class NotificationService extends Service {
                             inflatorItemData.totalDownvotes = opinions.get(j).getDownVotes();
                             inflatorItemData.opinionText = opinions.get(j).getOpinionName();
                             inflatorItemDatas.add(inflatorItemData);
-                            jaiHo++;
+                            notificationCount++;
                         }
 
 
@@ -155,9 +155,9 @@ public class NotificationService extends Service {
                             count = 0;
                         }
 
-                        Notify(jaiHo);
+                        Notify(notificationCount);
                         NotificationDBHelper.getNotificationDBHelper().addNotifications(inflatorItemDatas);
-                        OpinionDBHelper.getOpinionDBHelper(getApplicationContext()).addOpinions(opinions);
+                        OpinionDBHelper.getHelper().addOpinions(opinions);
                     }
 
                 }
@@ -172,7 +172,7 @@ public class NotificationService extends Service {
         }
 
         private void Notify(int j){
-            Log.e("notify method",""+j);
+
             long when = System.currentTimeMillis();
             Notification notification = new Notification(R.mipmap.ic_launcher, "theforum", when);
 
@@ -185,7 +185,8 @@ public class NotificationService extends Service {
 
             notification.contentView = contentView;
 
-            Intent notificationIntent = new Intent(getApplicationContext(), HomeActivity.class);
+            Intent notificationIntent = new Intent(getApplicationContext(), ContainerActivity.class);
+            notificationIntent.putExtra("id", LayoutType.NOTIFICATION_FRAGMENT);
             notification.contentIntent = PendingIntent.getActivity(getApplication(), 0, notificationIntent, 0);
 
             //notification.flags |= Notification.FLAG_NO_CLEAR; //Do not clear the notification

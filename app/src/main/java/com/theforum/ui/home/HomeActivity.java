@@ -11,7 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.theforum.Constants;
+import com.theforum.constants.LayoutType;
 import com.theforum.LoginActivity;
 import com.theforum.R;
 import com.theforum.ui.search.SearchResultFragment;
@@ -120,10 +120,10 @@ public class HomeActivity extends AppCompatActivity implements OnHomeUiChangeLis
 
         switch (id){
             case R.id.action_settings:
-                CommonUtils.openContainerActivity(this, Constants.SETTINGS_FRAGMENT);
+                CommonUtils.openContainerActivity(this, LayoutType.SETTINGS_FRAGMENT);
                 break;
             case R.id.action_add_opinion:
-                CommonUtils.openContainerActivity(this, Constants.NEW_TOPIC_FRAGMENT);
+                CommonUtils.openContainerActivity(this, LayoutType.NEW_TOPIC_FRAGMENT);
                 break;
             case R.id.action_search:
                 mMaterialSearchView.showSearch();

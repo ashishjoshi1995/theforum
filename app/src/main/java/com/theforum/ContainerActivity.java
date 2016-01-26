@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
+import com.theforum.constants.LayoutType;
 import com.theforum.notification.NotificationFragment;
 import com.theforum.ui.opinion.NewOpinionFragment;
 import com.theforum.ui.opinion.OpinionsFragment;
@@ -28,29 +29,29 @@ public class ContainerActivity extends AppCompatActivity {
 
         switch (id){
 
-            case Constants.NEW_TOPIC_FRAGMENT:
+            case LayoutType.NEW_TOPIC_FRAGMENT:
                 fragmentTransaction.replace(R.id.menu_fragment_container, new NewTopicFragment());
                 break;
 
-            case Constants.OPINIONS_FRAGMENT:
+            case LayoutType.OPINIONS_FRAGMENT:
                 fragmentTransaction.replace(R.id.menu_fragment_container, Fragment.instantiate(this,
                         OpinionsFragment.class.getName(), getIntent().getExtras()));
                 break;
 
-            case Constants.NEW_OPINION_FRAGMENT:
+            case LayoutType.NEW_OPINION_FRAGMENT:
                 fragmentTransaction.replace(R.id.menu_fragment_container, Fragment.instantiate(this,
                         NewOpinionFragment.class.getName(), getIntent().getExtras()));
                 break;
 
-            case Constants.SETTINGS_FRAGMENT:
+            case LayoutType.SETTINGS_FRAGMENT:
                 fragmentTransaction.replace(R.id.menu_fragment_container,new SettingsFragment());
                 break;
 
-            case Constants.NOTIFICATION_FRAGMENT:
+            case LayoutType.NOTIFICATION_FRAGMENT:
                 fragmentTransaction.replace(R.id.menu_fragment_container,new NotificationFragment());
                 break;
 
-            case Constants.SORT_FRAGMENT:
+            case LayoutType.SORT_FRAGMENT:
                 fragmentTransaction.replace(R.id.menu_fragment_container,new SortFragment());
                 break;
         }

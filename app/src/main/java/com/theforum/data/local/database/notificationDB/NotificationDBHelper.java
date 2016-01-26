@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.theforum.Constants;
+import com.theforum.constants.LayoutType;
 import com.theforum.TheForumApplication;
 import com.theforum.data.local.models.NotificationDataModel;
 
@@ -35,28 +35,28 @@ public class NotificationDBHelper {
         ContentValues values = new ContentValues();
         int k = notificationDataModel.notificationType;
         switch (k){
-            case Constants.NOTIFICATION_TYPE_RENEWED:
+            case LayoutType.NOTIFICATION_TYPE_RENEWED:
                 values.put(NotificationDBConstants.KEY_VIEW_TYPE, 1);
                 values.put(NotificationDBConstants.KEY_HEADER,"Your Topic " + notificationDataModel.topicText + " recieved");
                 values.put(NotificationDBConstants.KEY_MAIN_TEXT,notificationDataModel.renewedCount + " Renewal");
                 values.put(NotificationDBConstants.KEY_NOTIFICATION_TYPE,k);
                 values.put(NotificationDBConstants.KEY_TOPIC_ID,notificationDataModel.topicId);
                 break;
-            case Constants.NOTIFICATION_TYPE_RENEWAL_REQUEST:
+            case LayoutType.NOTIFICATION_TYPE_RENEWAL_REQUEST:
                 values.put(NotificationDBConstants.KEY_VIEW_TYPE,1);
                 values.put(NotificationDBConstants.KEY_HEADER, "Your Topic " + notificationDataModel.topicText + " recieved");
                 values.put(NotificationDBConstants.KEY_MAIN_TEXT,notificationDataModel.renewalRequest+ " Renewal Requests");
                 values.put(NotificationDBConstants.KEY_NOTIFICATION_TYPE,k);
                 values.put(NotificationDBConstants.KEY_TOPIC_ID,notificationDataModel.topicId);
                 break;
-            case Constants.NOTIFICATION_TYPE_OPINIONS:
+            case LayoutType.NOTIFICATION_TYPE_OPINIONS:
                 values.put(NotificationDBConstants.KEY_VIEW_TYPE,1);
                 values.put(NotificationDBConstants.KEY_HEADER, "Your Topic " + notificationDataModel.topicText + " recieved");
                 values.put(NotificationDBConstants.KEY_MAIN_TEXT,notificationDataModel.opinions + " opinions");
                 values.put(NotificationDBConstants.KEY_NOTIFICATION_TYPE,k);
                 values.put(NotificationDBConstants.KEY_TOPIC_ID,notificationDataModel.topicId);
                 break;
-            case Constants.NOTIFICATION_TYPE_OPINION_UP_VOTES:
+            case LayoutType.NOTIFICATION_TYPE_OPINION_UP_VOTES:
                 values.put(NotificationDBConstants.KEY_VIEW_TYPE, 0);
                 values.put(NotificationDBConstants.KEY_HEADER,"Your Opinion on " + notificationDataModel.topicText + " received");
                 values.put(NotificationDBConstants.KEY_MAIN_TEXT,notificationDataModel.newCount + " more Upvotes");
