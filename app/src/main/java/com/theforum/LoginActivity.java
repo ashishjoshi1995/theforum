@@ -97,6 +97,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onError(String error) {
                 Log.e("error register", error);
+                pd.dismiss();
             }
         });
     }
