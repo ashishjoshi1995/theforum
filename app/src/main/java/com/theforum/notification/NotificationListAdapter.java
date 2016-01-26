@@ -28,7 +28,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     private ArrayList<NotificationDataModel> mData;
     private Context mContext;
-    
+
     private final static int VIEW_TYPE_ONE = 0;
     private final static int VIEW_TYPE_TWO = 1;
 

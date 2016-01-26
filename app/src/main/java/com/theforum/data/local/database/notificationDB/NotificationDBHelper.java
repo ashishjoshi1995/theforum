@@ -18,9 +18,9 @@ import java.util.List;
  */
 public class NotificationDBHelper {
 
-    private NotificationDB notificationDB;
+
     private static NotificationDBHelper notificationDBHelper;
-    private SQLiteDatabase sqLiteDatabase;
+    private SQLiteDatabase notificationDatabase;
 
     public static NotificationDBHelper getHelper(){
         if(notificationDBHelper == null) notificationDBHelper = new NotificationDBHelper();
@@ -28,8 +28,8 @@ public class NotificationDBHelper {
     }
 
     private NotificationDBHelper(){
-        notificationDB = new NotificationDB(TheForumApplication.getAppContext());
-        sqLiteDatabase = notificationDB.getWritableDatabase();
+        NotificationDB notificationDB = new NotificationDB(TheForumApplication.getAppContext());
+        notificationDatabase = notificationDB.getWritableDatabase();
     }
 
     public void addNotification(com.theforum.data.server.NotificationDataModel notificationDataModel){
@@ -64,12 +64,12 @@ public class NotificationDBHelper {
 
         }
         values.put(NotificationDBConstants.KEY_TIME_HOLDER, notificationDataModel.hoursLeft + "hrs left to decay | 01:30 PM Today");
-        sqLiteDatabase.insert(NotificationDBConstants.TABLE_NAME, null, values);
+        notificationDatabase.insert(NotificationDBConstants.TABLE_NAME, null, values);
 
     }
 
     public boolean checkIfNotificationExist(){
-        Cursor cursor = sqLiteDatabase.rawQuery("SELECT  * FROM " + NotificationDBConstants.TABLE_NAME, null);
+        Cursor cursor = notificationDatabase.rawQuery("SELECT  * FROM " + NotificationDBConstants.TABLE_NAME, null);
 
         if(cursor.getCount()>0){
             cursor.close();
@@ -90,17 +90,17 @@ public class NotificationDBHelper {
     }
 
     public void deleteAllNotif(){
-        Cursor cursor = sqLiteDatabase.rawQuery("SELECT  * FROM " + NotificationDBConstants.TABLE_NAME, null);
+        Cursor cursor = notificationDatabase.rawQuery("SELECT  * FROM " + NotificationDBConstants.TABLE_NAME, null);
         if(cursor.getCount()>35){
 
         }
         cursor.close();
-        sqLiteDatabase.execSQL("delete from " + NotificationDBConstants.TABLE_NAME);
+        notificationDatabase.execSQL("delete from " + NotificationDBConstants.TABLE_NAME);
     }
 
     public ArrayList<NotificationDataModel> getAllNotifications(){
         ArrayList<NotificationDataModel> notifications = new ArrayList<>();
-        Cursor cursor = sqLiteDatabase.rawQuery("SELECT  * FROM " + NotificationDBConstants.TABLE_NAME, null);
+        Cursor cursor = notificationDatabase.rawQuery("SELECT  * FROM " + NotificationDBConstants.TABLE_NAME, null);
 
         if(cursor!=null){
             Log.e("getAllNotiications",""+cursor.getCount());

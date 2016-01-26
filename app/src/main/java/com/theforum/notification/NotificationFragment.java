@@ -40,11 +40,6 @@ public class NotificationFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_settings, container, false);
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        NotificationDBHelper.getHelper().deleteAllNotif();
-    }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -70,8 +65,13 @@ public class NotificationFragment extends Fragment {
     }
 
     private ArrayList<NotificationDataModel> getListData(){
-        ArrayList<NotificationDataModel> list = NotificationDBHelper.getHelper().getAllNotifications();
-        Log.e("size",""+list.size());
-        return list;
+        return NotificationDBHelper.getHelper().getAllNotifications();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+       
     }
 }
