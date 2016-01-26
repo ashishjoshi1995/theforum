@@ -10,7 +10,7 @@ import com.microsoft.windowsazure.mobileservices.table.TableQueryCallback;
 import com.theforum.TheForumApplication;
 import com.theforum.data.helpers.notificationClearApi.NotificationClearApiRequest;
 import com.theforum.data.helpers.notificationClearApi.NotificationClearApiResponse;
-import com.theforum.data.interfaces.NotificationIfAny;
+import com.theforum.utils.listeners.NotificationListener;
 import com.theforum.data.server.opinion;
 import com.theforum.data.server.topic;
 import com.theforum.utils.User;
@@ -37,20 +37,20 @@ public class NotificationHelper {
         this.topic = mobileServiceClient.getTable(topic.class);
     }
 
-    public void readNotification(final NotificationIfAny notificationIfAny){
+    public void readNotification(final NotificationListener notificationListener){
 
        opinion.where().field("uid").eq(User.getInstance().getId()).and().field("notif_count").gt(0)
                .execute(new TableQueryCallback<opinion>() {
 
-            @Override
-            public void onCompleted(List<opinion> result, int count, Exception exception, ServiceFilterResponse response) {
-                one = true;
-                if(count>0) {
-                    notificationIfAny.opinionNotif(result);
-                }
-            }
+                   @Override
+                   public void onCompleted(List<opinion> result, int count, Exception exception, ServiceFilterResponse response) {
+                       one = true;
+                       if (count > 0) {
+                           notificationListener.opinionNotification(result);
+                       }
+                   }
 
-        });
+               });
 
         topic.where().field("uid").eq(User.getInstance().getId()).and().field("notif_count").gt(0).
                 execute(new TableQueryCallback<topic>() {
@@ -58,7 +58,7 @@ public class NotificationHelper {
             public void onCompleted(List<topic> result, int count, Exception exception, ServiceFilterResponse response) {
                 two = true;
                 if (count > 0) {
-                    notificationIfAny.topicNotif(result);
+                    notificationListener.topicNotification(result);
                 }
             }
         });

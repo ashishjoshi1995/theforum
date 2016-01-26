@@ -14,7 +14,7 @@ import android.widget.RemoteViews;
 import com.theforum.Constants;
 import com.theforum.R;
 import com.theforum.data.helpers.NotificationHelper;
-import com.theforum.data.interfaces.NotificationIfAny;
+import com.theforum.utils.listeners.NotificationListener;
 import com.theforum.data.local.database.notificationDB.NotificationDBHelper;
 import com.theforum.data.local.database.opinionDB.OpinionDBHelper;
 import com.theforum.data.server.NotificationDataModel;
@@ -84,22 +84,22 @@ public class NotificationService extends Service {
             // here we need to query the two tables and transfer the data to on post execute
 
             final NotificationHelper helper = new NotificationHelper();
-            helper.readNotification(new NotificationIfAny() {
+            helper.readNotification(new NotificationListener() {
             int jaiHo = 0;
 
                 @Override
-                public void topicNotif(List<topic> topics) {
+                public void topicNotification(List<topic> topics) {
                     ArrayList<NotificationDataModel> inflatorItemDatas = new ArrayList<>();
 
                     for(int j =0; j<topics.size();j++){
                         if(topics.get(j).getmNotifRenewalRequests()>0) {
-                            NotificationDataModel inflatorItemDataRenewal = new NotificationDataModel();
-                            inflatorItemDataRenewal.hoursLeft = topics.get(j).getHoursLeft();
-                            inflatorItemDataRenewal.topicId = topics.get(j).getTopicId();
-                            inflatorItemDataRenewal.topicText = topics.get(j).getTopicName();
-                            inflatorItemDataRenewal.renewalRequest = topics.get(j).getmNotifRenewalRequests();
-                            inflatorItemDataRenewal.notificationType = Constants.NOTIFICATION_TYPE_RENEWAL_REQUEST;
-                            inflatorItemDatas.add(inflatorItemDataRenewal);
+                            NotificationDataModel notificationModel = new NotificationDataModel();
+                            notificationModel.hoursLeft = topics.get(j).getHoursLeft();
+                            notificationModel.topicId = topics.get(j).getTopicId();
+                            notificationModel.topicText = topics.get(j).getTopicName();
+                            notificationModel.renewalRequest = topics.get(j).getmNotifRenewalRequests();
+                            notificationModel.notificationType = Constants.NOTIFICATION_TYPE_RENEWAL_REQUEST;
+                            inflatorItemDatas.add(notificationModel);
                             jaiHo++;
                         }
 
@@ -129,7 +129,7 @@ public class NotificationService extends Service {
 
                 }
                 @Override
-                public void opinionNotif(List<opinion> opinions) {
+                public void opinionNotification(List<opinion> opinions) {
                     ArrayList<NotificationDataModel> inflatorItemDatas = new ArrayList<>();
                     Log.e("opinion size",""+opinions.size());
                         for(int j=0;j<opinions.size();j++){
