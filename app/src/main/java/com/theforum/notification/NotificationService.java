@@ -156,7 +156,7 @@ public class NotificationService extends Service {
                         else if(count>0){
                             count = 0;
                         }
-                        
+
                     Notify(jaiHo);
                     NotificationDBHelper.getNotificationDBHelper().addNotifications(inflatorItemDatas);}
 

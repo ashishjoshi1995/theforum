@@ -82,8 +82,8 @@ public class NewOpinionFragment extends Fragment {
             }
         });
 
-        mUploadText.setHint("Your Opinion On " + topicModel.getTopicName());
         mUploadText = (KeyboardListenerEditText)mTopicNameHolder.getEditText();
+        mUploadText.setHint("Your Opinion On " + topicModel.getTopicName());
         mUploadText.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/Roboto-Light.ttf"));
         mUploadText.setOnBackPressListener(new KeyboardListenerEditText.OnBackPressListener() {
             @Override

@@ -72,7 +72,7 @@ public class TopicsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 @Override
                 public void onClick(View v) {
                     CommonUtils.openContainerActivity(mContext, Constants.OPINIONS_FRAGMENT,
-                            Pair.create(Constants.TOPIC_MODEL, (Serializable) mTopics.get(getLayoutPosition())),0);
+                            Pair.create(Constants.TOPIC_MODEL, (Serializable) mTopics.get(getLayoutPosition())));
                 }
             });
 
@@ -80,7 +80,7 @@ public class TopicsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 @Override
                 public void onClick(View v) {
                     TopicDataModel topic = mTopics.get(getLayoutPosition());
-                   Log.e("I m called", "" + topic.isRenewed() + "/" + getLayoutPosition());
+
                     if(!topic.isRenewed()) {
                         int b=topic.getRenewalRequests();
                         b=b+1;
