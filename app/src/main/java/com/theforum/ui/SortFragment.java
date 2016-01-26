@@ -33,10 +33,10 @@ public class SortFragment extends Fragment implements RadioGroup.OnCheckedChange
     @Bind(R.id.sort_done_btn)
     Button done;
 
+    private SettingsUtils settingsUtils;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_sort,container,false);
-
     }
 
     @Override
@@ -55,6 +55,27 @@ public class SortFragment extends Fragment implements RadioGroup.OnCheckedChange
             }
         });
 
+        settingsUtils = SettingsUtils.getInstance();
+        int  j =
+        settingsUtils.getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS);
+        switch(j){
+            case Constants.SORT_BASIS_CREATED_BY_ME:
+                radioGroup.check(R.id.sort_created_by_me_btn);
+                break;
+            case Constants.SORT_BASIS_LATEST:
+                radioGroup.check(R.id.sort_latest_btn);
+                break;
+            case Constants.SORT_BASIS_MOST_POPULAR:
+                radioGroup.check(R.id.sort_relevance_btn);
+                break;
+            case Constants.SORT_BASIS_LEAST_RENEWAL:
+                radioGroup.check(R.id.sort_least_renewal_btn);
+                break;
+            case Constants.SORT_BASIS_MOST_RENEWAL:
+                radioGroup.check(R.id.sort_most_renewal_btn);
+                break;
+        }
+
         radioGroup.setOnCheckedChangeListener(this);
 
         done.setOnClickListener(new View.OnClickListener() {
@@ -71,19 +92,24 @@ public class SortFragment extends Fragment implements RadioGroup.OnCheckedChange
 
         switch (checkedId){
             case R.id.sort_relevance_btn:
-                SettingsUtils.getInstance().saveIntegerarPreference(SettingsUtils.TOPIC_FEED_SORT_STATUS, Constants.SORT_BASIS_MOST_RENEWAL);
+                SettingsUtils.getInstance().saveIntegerarPreference(SettingsUtils.TOPIC_FEED_SORT_STATUS,
+                        Constants.SORT_BASIS_MOST_RENEWAL);
                 break;
             case R.id.sort_latest_btn:
-                SettingsUtils.getInstance().saveIntegerarPreference(SettingsUtils.TOPIC_FEED_SORT_STATUS,Constants.SORT_BASIS_LATEST);
+                SettingsUtils.getInstance().saveIntegerarPreference(SettingsUtils.TOPIC_FEED_SORT_STATUS,
+                        Constants.SORT_BASIS_LATEST);
                 break;
             case R.id.sort_created_by_me_btn:
-                SettingsUtils.getInstance().saveIntegerarPreference(SettingsUtils.TOPIC_FEED_SORT_STATUS,Constants.SORT_BASIS_CREATED_BY_ME);
+                SettingsUtils.getInstance().saveIntegerarPreference(SettingsUtils.TOPIC_FEED_SORT_STATUS,
+                        Constants.SORT_BASIS_CREATED_BY_ME);
                 break;
             case R.id.sort_most_renewal_btn:
-                SettingsUtils.getInstance().saveIntegerarPreference(SettingsUtils.TOPIC_FEED_SORT_STATUS,Constants.SORT_BASIS_MOST_RENEWAL);
+                SettingsUtils.getInstance().saveIntegerarPreference(SettingsUtils.TOPIC_FEED_SORT_STATUS,
+                        Constants.SORT_BASIS_MOST_RENEWAL);
                 break;
             case R.id.sort_least_renewal_btn:
-                SettingsUtils.getInstance().saveIntegerarPreference(SettingsUtils.TOPIC_FEED_SORT_STATUS,Constants.SORT_BASIS_LEAST_RENEWAL);
+                SettingsUtils.getInstance().saveIntegerarPreference(SettingsUtils.TOPIC_FEED_SORT_STATUS,
+                        Constants.SORT_BASIS_LEAST_RENEWAL);
                 break;
 
         }

@@ -28,6 +28,12 @@ public class TheForumApplication extends Application {
 
         ProfileUtils.initialize(context);
         SettingsUtils.initialize(context);
+
+        if(!SettingsUtils.getInstance().contains(SettingsUtils.TOPIC_FEED_SORT_STATUS)){
+            SettingsUtils.getInstance().saveIntegerarPreference(SettingsUtils.TOPIC_FEED_SORT_STATUS,
+                    Constants.SORT_BASIS_MOST_RENEWAL);
+        }
+
     }
 
 

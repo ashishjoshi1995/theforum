@@ -16,16 +16,15 @@ import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
-import android.os.Parcelable;
 import android.support.v4.util.Pair;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.theforum.ContainerActivity;
 import com.theforum.TheForumApplication;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 
 public class CommonUtils {
@@ -60,13 +59,27 @@ public class CommonUtils {
         context.startActivity(intent);
     }
 
-    public static void openContainerActivity(Context context,int idValue,Pair<String,Serializable> extras){
+    public static void openContainerActivity(Context context,int idValue,Pair<String,Serializable> extras,int i){
+        if(extras==null){
+            openContainerActivity(context, idValue);
+        }else{
+
+            Intent intent = new Intent(context, ContainerActivity.class);
+            intent.putExtra("id", idValue);
+            intent.putExtra(extras.first,extras.second);
+            context.startActivity(intent);
+        }
+    }
+
+    public static void openContainerActivity(Context context,int idValue,ArrayList<Pair<String,Serializable>> extras){
         if(extras==null){
             openContainerActivity(context, idValue);
         }else{
             Intent intent = new Intent(context, ContainerActivity.class);
             intent.putExtra("id", idValue);
-            intent.putExtra(extras.first,extras.second);
+            for(int i = 0;i<extras.size();i++){
+                intent.putExtra(extras.get(i).first,extras.get(i).second);
+            }
             context.startActivity(intent);
         }
     }

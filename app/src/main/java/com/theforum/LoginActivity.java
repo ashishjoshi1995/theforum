@@ -49,8 +49,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (!mAge.getText().toString().equals("")) {
 
                     register(Integer.parseInt(mAge.getText().toString()));
-                    SettingsUtils.getInstance().saveIntegerarPreference(SettingsUtils.TOPIC_FEED_SORT_STATUS,
-                            Constants.SORT_BASIS_MOST_RENEWAL);
+
 
                 } else CommonUtils.showToast(LoginActivity.this, "Please enter your age. Don't Panic!!");
             }

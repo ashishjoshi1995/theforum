@@ -19,7 +19,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusable="true"
-            android:hint="Your Opinion On #TakeThenBack"
             android:textColor="@android:color/white"
             android:inputType="text|textMultiLine"
             android:maxLines="6"/>
