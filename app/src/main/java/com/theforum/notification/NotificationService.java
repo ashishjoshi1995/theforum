@@ -13,6 +13,7 @@ import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.theforum.Constants;
+import com.theforum.data.local.database.opinionDB.OpinionDBHelper;
 import com.theforum.ui.home.HomeActivity;
 import com.theforum.R;
 import com.theforum.data.local.database.notificationDB.NotificationDBHelper;
@@ -26,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Ashish on 12/9/2015.
+ * @author  Ashish on 12/9/2015.
  */
 public class NotificationService extends Service {
     private PowerManager.WakeLock mWakeLock;
@@ -55,9 +56,6 @@ public class NotificationService extends Service {
         new PollTask().execute();
     }
 
-
-
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.e("NotificationService","onStartCommand");
@@ -83,7 +81,6 @@ public class NotificationService extends Service {
             final NotificationHelper helper = new NotificationHelper();
             helper.readNotification(new NotificationIfAny() {
             int jaiHo = 0;
-            boolean stop = false;
                 @Override
                 public void topicNotif(List<topic> topics) {
                     ArrayList<NotificationDataModel> inflatorItemDatas = new ArrayList<NotificationDataModel>();
@@ -107,7 +104,6 @@ public class NotificationService extends Service {
                             inflatorItemDataOpinions.topicId = topics.get(j).getTopicId();
                             inflatorItemDataOpinions.topicText = topics.get(j).getTopicName();
                             inflatorItemDataOpinions.opinions = topics.get(j).getmNotifOpinions();
-
                             inflatorItemDatas.add(inflatorItemDataOpinions);
                             jaiHo++;
                         }
@@ -124,10 +120,6 @@ public class NotificationService extends Service {
                     else if(count>0){
                         count = 0;
                     }
-
-                     //   stop = false;
-                   // }
-                   // stop= true;
                 }
                 @Override
                 public void opinionNotif(List<opinion> opinions) {
@@ -157,10 +149,9 @@ public class NotificationService extends Service {
                             count = 0;
                         }
                         Notify(jaiHo);
-                    NotificationDBHelper.getNotificationDBHelper().addNotifications(inflatorItemDatas);}
-                        //stop = false;
-                    //}
-                    //stop= true;
+                        NotificationDBHelper.getNotificationDBHelper().addNotifications(inflatorItemDatas);
+                        OpinionDBHelper.getOpinionDBHelper(getApplicationContext()).addOpinions(opinions);
+                    }
                 }
             });
             return null;
@@ -183,14 +174,14 @@ public class NotificationService extends Service {
             NotificationManager mNotificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
 
             RemoteViews contentView = new RemoteViews(getPackageName(), R.layout.notification_layout);
-            //TODO modify here for ewsponse
+            //TODO modify here for response
             contentView.setTextViewText(R.id.title, "theforum");
             contentView.setTextViewText(R.id.text, "you have "+j+" new notifications");
 
 
             notification.contentView = contentView;
 
-            Intent notificationIntent = new Intent(getApplicationContext(), HomeActivity.class);
+            Intent notificationIntent = new Intent(getApplicationContext(), NotificationFragment.class);
             PendingIntent contentIntent = PendingIntent.getActivity(getApplication(), 0, notificationIntent, 0);
             notification.contentIntent = contentIntent;
 
@@ -201,10 +192,6 @@ public class NotificationService extends Service {
 
             mNotificationManager.notify(1, notification);
             stopSelf();
-
         }
-
-
     }
-
 }

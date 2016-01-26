@@ -107,12 +107,9 @@ public class CommonUtils {
         return false;
     }
 
-
     public static void setStatusBarColor(Activity activity, int color){
         if(Build.VERSION.SDK_INT >= 21) {
             activity.getWindow().setStatusBarColor(color);
         }
     }
-
-
 }

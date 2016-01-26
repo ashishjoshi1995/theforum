@@ -23,5 +23,5 @@ public class NotificationDBConstants {
     public static final String KEY_MAIN_TEXT = "main_text";
     public static final String KEY_HEADER = "header";
     public static final String KEY_DESCRIPTION = "description";
-
+    public static final String KEY_OPINION_IDS = "opinion_ids";
 }

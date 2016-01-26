@@ -13,9 +13,12 @@ import android.widget.TextView;
 
 import com.theforum.Constants;
 import com.theforum.R;
+import com.theforum.TheForumApplication;
 import com.theforum.data.helpers.TrendsHelper;
+import com.theforum.data.local.database.opinionDB.OpinionDBHelper;
 import com.theforum.data.local.models.NotificationInflatorModel;
 import com.theforum.data.local.models.TopicDataModel;
+import com.theforum.data.server.opinion;
 import com.theforum.utils.CommonUtils;
 
 import java.io.Serializable;
@@ -60,9 +63,6 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
             super(v);
             ButterKnife.bind(this, v);
             v.setOnClickListener(this);
-
-
-
         }
 
         @Override
@@ -73,7 +73,6 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
             TrendsHelper.getHelper().getTopicDetails(trends.getTopicId(), new TrendsHelper.OnTopicDetailReceived() {
                 @Override
                 public void onCompleted(TopicDataModel topic) {
-
                     CommonUtils.openContainerActivity(mContext, Constants.OPINIONS_FRAGMENT,
                             Pair.create(Constants.TOPIC_MODEL, (Serializable) topic));
                 }
@@ -111,27 +110,25 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
         @Override
         public void onClick(View v) {
-
             NotificationInflatorModel trends = mData.get(getLayoutPosition());
             //getting the topic data from server
             TrendsHelper.getHelper().getTopicDetails(trends.getTopicId(), new TrendsHelper.OnTopicDetailReceived() {
                 @Override
                 public void onCompleted(TopicDataModel topic) {
-
+                   // opinion opinion = OpinionDBHelper.getOpinionDBHelper(TheForumApplication.getAppContext()).
+                     //       getOpinion(mData.get(getLayoutPosition()).)
                     CommonUtils.openContainerActivity(mContext, Constants.OPINIONS_FRAGMENT,
                             Pair.create(Constants.TOPIC_MODEL, (Serializable) topic));
                 }
 
                 @Override
                 public void onError(final String error) {
-
                     mActivity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             CommonUtils.showToast(mContext, error);
                         }
                     });
-
                 }
             });
 
@@ -176,15 +173,11 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
             Log.e("test3",mData.get(position).toString());
             final ViewHolderOne viewHolderOne = (ViewHolderOne) holder;
             if(mData.get(position).getNotificationType() == Constants.NOTIFICATION_TYPE_OPINION_UP_VOTES) {
-                Log.e(mData.get(position).getHeader()+mData.get(position).getMainText(),mData.get(position).getDescription()+mData.get(position).getTimeHolder());
+                Log.e(mData.get(position).getHeader() + mData.get(position).getMainText(), mData.get(position).getDescription() + mData.get(position).getTimeHolder());
                 viewHolderOne.header.setText(mData.get(position).getHeader());
-                Log.e("one", mData.get(position).getHeader());
                 viewHolderOne.mainText.setText(mData.get(position).getMainText());
-                Log.e("two", mData.get(position).getMainText());
                 viewHolderOne.description.setText(mData.get(position).getDescription());
-                Log.e("three", mData.get(position).getDescription());
                 viewHolderOne.timeHolder.setText(mData.get(position).getTimeHolder());
-                Log.e("four", mData.get(position).getTimeHolder());
             }
         }else {
             final ViewHolderTwo viewHolderTwo = (ViewHolderTwo)holder;
@@ -193,15 +186,12 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
             switch (j) {
                 case Constants.NOTIFICATION_TYPE_OPINIONS:
                     viewHolderTwo.mainText.setText(mData.get(position).getMainText());
-                    Log.e("five", mData.get(position).getMainText());
                     break;
                 case Constants.NOTIFICATION_TYPE_RENEWAL_REQUEST:
                     viewHolderTwo.mainText.setText(mData.get(position).getMainText());
-                    Log.e("six", mData.get(position).getMainText());
                     break;
                 case Constants.NOTIFICATION_TYPE_RENEWED:
                     viewHolderTwo.mainText.setText(mData.get(position).getMainText());
-                    Log.e("seven", mData.get(position).getMainText());
                     break;
             }
             viewHolderTwo.timeHolder.setText(mData.get(position).getTimeHolder());

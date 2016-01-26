@@ -52,4 +52,5 @@ public class Constants {
         used when data is passed from topics item to opinion fragment
      */
     public static final String TOPIC_MODEL = "topic_model";
+    public static final String OPINION_MODEL = "opinion_model";
 }
