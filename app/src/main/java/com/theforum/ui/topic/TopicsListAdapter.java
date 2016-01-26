@@ -72,7 +72,7 @@ public class TopicsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 @Override
                 public void onClick(View v) {
                     CommonUtils.openContainerActivity(mContext, Constants.OPINIONS_FRAGMENT,
-                            Pair.create(Constants.TOPIC_MODEL, (Serializable) mTopics.get(getLayoutPosition())));
+                            Pair.create(Constants.TOPIC_MODEL, (Serializable) mTopics.get(getLayoutPosition())),0);
                 }
             });
 
