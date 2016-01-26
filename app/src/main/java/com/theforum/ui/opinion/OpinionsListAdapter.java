@@ -102,7 +102,7 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
                         /*
                          *  send the request to server to decrease the count
                          */
-                        OpinionHelper.getHelper().upVoteDownVote(true, opinionModel2.getOpinionId(),
+                        OpinionHelper.getHelper().upVoteDownVote(false, opinionModel2.getOpinionId(),
                                 new OpinionHelper.OnUVDVOperationCompleteListener() {
                                     @Override
                                     public void onCompleteMessage(String message) {
