@@ -1,10 +1,7 @@
 package com.theforum.ui.home;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -17,7 +14,6 @@ import android.view.View;
 import com.theforum.Constants;
 import com.theforum.LoginActivity;
 import com.theforum.R;
-import com.theforum.notification.NotificationService;
 import com.theforum.ui.search.SearchResultFragment;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.ProfileUtils;
@@ -84,25 +80,6 @@ public class HomeActivity extends AppCompatActivity implements OnHomeUiChangeLis
         });
     }
 
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        int minutes = 100;
-
-        AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
-        Intent i = new Intent(this, NotificationService.class);
-        PendingIntent pi = PendingIntent.getService(this, 0, i, 0);
-        am.cancel(pi);
-        // by my own convention, minutes <= 0 means notifications are disabled
-        if (minutes > 0) {
-            am.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                    SystemClock.elapsedRealtime() + minutes * 60 * 1000,
-                    minutes * 60 * 1000, pi);
-
-        }
-    }
 
     public MaterialSearchView getSearchView(){
         return mMaterialSearchView;

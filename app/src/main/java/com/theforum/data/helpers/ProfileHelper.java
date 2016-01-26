@@ -3,22 +3,19 @@ package com.theforum.data.helpers;
 import android.annotation.TargetApi;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.util.Log;
 
-import com.theforum.TheForumApplication;
-import com.theforum.data.server.user;
-import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
+import com.theforum.TheForumApplication;
+import com.theforum.data.server.user;
 import com.theforum.utils.User;
 
-import java.util.concurrent.ExecutionException;
-
 /**
- * Created by Ashish on 12/31/2015.
+ * @author  Ashish on 12/31/2015.
  */
+
 public class ProfileHelper {
-    private MobileServiceClient mClient;
+
     private MobileServiceTable<user> mUser;
     private String uid;
     public static ProfileHelper mHelper;
@@ -29,12 +26,11 @@ public class ProfileHelper {
     }
 
     private ProfileHelper(){
-        this.mClient = TheForumApplication.getClient();
         this.uid = User.getInstance().getId();
-        mUser = mClient.getTable(user.class);
+        mUser = TheForumApplication.getClient().getTable(user.class);
     }
 
-    public user viewProfile(){
+    public void viewProfile(){
 
         AsyncTask<Void, user, user> task = new AsyncTask<Void, user, user>(){
             MobileServiceList<user> ash = null;
@@ -42,20 +38,22 @@ public class ProfileHelper {
             protected user doInBackground(Void... voids) {
                 try {
                     ash = mUser.where().field("uid").eq(uid).execute().get();
-                } catch (InterruptedException e) {
+
+                } catch (Exception e) {
                     e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                }if(ash.size()>0)
-                return ash.get(0);
-                else{
-                    return null;
                 }
+
+                if(ash!=null) {
+                    return ash.get(0);
+
+                }else return null;
+
             }
 
             @Override
             protected void onPostExecute(user user) {
                 super.onPostExecute(user);
+
                 if(user!=null) {
                     User.getInstance().setPointCollected(user.getmPointCollected());
                     User.getInstance().setCurrentTopics(user.getmCurrentTopics());
@@ -63,9 +61,11 @@ public class ProfileHelper {
                     User.getInstance().setStatus(user.getmStatus());
                 }
             }
+
         };
+
         runAsyncTask(task);
-        return null;
+
     }
 
 

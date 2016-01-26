@@ -8,13 +8,14 @@ import android.content.Intent;
 import android.os.SystemClock;
 
 /**
- * Created by Ashish on 12/9/2015.
+ * @author  Ashish on 12/9/2015.
  */
 public class BootReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        int minutes = 1;
+
+        int minutes = 60;
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent i = new Intent(context, NotificationService.class);
         PendingIntent pi = PendingIntent.getService(context, 0, i, 0);

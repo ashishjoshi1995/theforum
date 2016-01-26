@@ -108,7 +108,7 @@ public class OpinionsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 CommonUtils.openContainerActivity(getActivity(), Constants.NEW_OPINION_FRAGMENT,
-                        Pair.create(Constants.TOPIC_MODEL, (Serializable) mTopicModel),0);
+                        Pair.create(Constants.TOPIC_MODEL, (Serializable) mTopicModel));
             }
         });
 
