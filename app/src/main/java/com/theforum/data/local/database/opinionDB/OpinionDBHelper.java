@@ -84,7 +84,7 @@ public class OpinionDBHelper {
                 opinionToReturn.setServerId(cursor.getString(1));
                 //opinionToReturn.setmNotifCount(cursor.getInt(8));
                 opinionToReturn.setOpinionId(cursor.getString(5));
-                opinionToReturn.setTopicId(cursor.getString(7));
+                opinionToReturn. setTopicId(cursor.getString(7));
                 opinionToReturn.setTopicName(cursor.getString(11));
                 //opinionToReturn.setUserId(cursor.getString(6));
                // opinionToReturn.setmNotifNewDownvotes(cursor.getInt(10));
