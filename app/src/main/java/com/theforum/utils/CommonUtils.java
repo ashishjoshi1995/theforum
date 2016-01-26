@@ -26,6 +26,7 @@ import com.theforum.ContainerActivity;
 import com.theforum.TheForumApplication;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 
 public class CommonUtils {
@@ -67,6 +68,19 @@ public class CommonUtils {
             Intent intent = new Intent(context, ContainerActivity.class);
             intent.putExtra("id", idValue);
             intent.putExtra(extras.first,extras.second);
+            context.startActivity(intent);
+        }
+    }
+
+    public static void openContainerActivity(Context context,int idValue,ArrayList<Pair<String,Serializable>> extras){
+        if(extras==null){
+            openContainerActivity(context, idValue);
+        }else{
+            Intent intent = new Intent(context, ContainerActivity.class);
+            intent.putExtra("id", idValue);
+            for(int i = 0;i<extras.size();i++){
+                intent.putExtra(extras.get(i).first,extras.get(i).second);
+            }
             context.startActivity(intent);
         }
     }
