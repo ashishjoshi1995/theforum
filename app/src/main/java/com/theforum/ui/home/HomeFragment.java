@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
-import com.theforum.Constants;
+import com.theforum.constants.LayoutType;
 import com.theforum.R;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.listeners.OnHomeUiChangeListener;
@@ -56,7 +56,7 @@ public class HomeFragment extends Fragment {
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CommonUtils.openContainerActivity(getContext(), Constants.SORT_FRAGMENT);
+                CommonUtils.openContainerActivity(getContext(), LayoutType.SORT_FRAGMENT);
             }
         });
 

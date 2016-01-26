@@ -1,11 +1,11 @@
 package com.theforum.data.local.database.opinionDB;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.theforum.TheForumApplication;
 import com.theforum.data.local.models.OpinionDataModel;
 import com.theforum.data.server.opinion;
 
@@ -20,17 +20,15 @@ public class OpinionDBHelper {
 
     private OpinionDB opinionDB;
     private static OpinionDBHelper opinionDBHelper;
-    private static Context context;
     private SQLiteDatabase opinionDatabase;
 
-    public static OpinionDBHelper getOpinionDBHelper(Context context){
-        if(opinionDBHelper == null) opinionDBHelper = new OpinionDBHelper(context);
+    public static OpinionDBHelper getHelper(){
+        if(opinionDBHelper == null) opinionDBHelper = new OpinionDBHelper();
         return opinionDBHelper;
     }
 
-    private OpinionDBHelper(Context context){
-        opinionDB = new OpinionDB(context);
-        context = context;
+    private OpinionDBHelper(){
+        opinionDB = new OpinionDB(TheForumApplication.getAppContext());
         opinionDatabase = opinionDB.getWritableDatabase();
     }
 

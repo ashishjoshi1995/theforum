@@ -10,7 +10,7 @@ import com.microsoft.windowsazure.mobileservices.table.TableQueryCallback;
 import com.theforum.TheForumApplication;
 import com.theforum.data.helpers.notificationClearApi.NotificationClearApiRequest;
 import com.theforum.data.helpers.notificationClearApi.NotificationClearApiResponse;
-import com.theforum.data.interfaces.NotificationIfAny;
+import com.theforum.utils.listeners.NotificationListener;
 import com.theforum.data.server.opinion;
 import com.theforum.data.server.topic;
 import com.theforum.utils.User;
@@ -37,29 +37,28 @@ public class NotificationHelper {
         this.topic = mobileServiceClient.getTable(topic.class);
     }
 
-    public void readNotification(final NotificationIfAny notificationIfAny){
-       opinion.where().field("uid").eq(User.getInstance().getId()).and().field("notif_count").gt(0).
-               execute(new TableQueryCallback<opinion>() {
+    public void readNotification(final NotificationListener notificationListener){
 
-            @Override
-            public void onCompleted(List<opinion> result, int count, Exception exception, ServiceFilterResponse response) {
-                Log.e("readNotif opi", String.valueOf(count));
-                one = true;
-                if(count>0) {
-                    notificationIfAny.opinionNotif(result);
-                }
-            }
+       opinion.where().field("uid").eq(User.getInstance().getId()).and().field("notif_count").gt(0)
+               .execute(new TableQueryCallback<opinion>() {
 
-        });
+                   @Override
+                   public void onCompleted(List<opinion> result, int count, Exception exception, ServiceFilterResponse response) {
+                       one = true;
+                       if (count > 0) {
+                           notificationListener.opinionNotification(result);
+                       }
+                   }
+
+               });
 
         topic.where().field("uid").eq(User.getInstance().getId()).and().field("notif_count").gt(0).
                 execute(new TableQueryCallback<topic>() {
             @Override
             public void onCompleted(List<topic> result, int count, Exception exception, ServiceFilterResponse response) {
-                Log.e("readNotif topic", String.valueOf(count));
                 two = true;
                 if (count > 0) {
-                    notificationIfAny.topicNotif(result);
+                    notificationListener.topicNotification(result);
                 }
             }
         });
@@ -68,9 +67,11 @@ public class NotificationHelper {
     public void cleanItUP(){
         NotificationClearApiRequest request = new NotificationClearApiRequest();
         request.uid = User.getInstance().getId();
-        mobileServiceClient.invokeApi("notificationclearapi", request, NotificationClearApiResponse.class, new ApiOperationCallback<NotificationClearApiResponse>() {
+        mobileServiceClient.invokeApi("notificationclearapi", request, NotificationClearApiResponse.class,
+                new ApiOperationCallback<NotificationClearApiResponse>() {
             @Override
-            public void onCompleted(NotificationClearApiResponse result, Exception exception, ServiceFilterResponse response) {
+            public void onCompleted(NotificationClearApiResponse result, Exception exception,
+                                    ServiceFilterResponse response) {
                 Log.e("sdsdsd",result.message);
             }
         });

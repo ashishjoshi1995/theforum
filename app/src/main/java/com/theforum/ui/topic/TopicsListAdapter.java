@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.theforum.Constants;
+import com.theforum.constants.LayoutType;
 import com.theforum.R;
 import com.theforum.data.helpers.TopicHelper;
 import com.theforum.data.local.models.TopicDataModel;
@@ -71,8 +71,8 @@ public class TopicsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    CommonUtils.openContainerActivity(mContext, Constants.OPINIONS_FRAGMENT,
-                            Pair.create(Constants.TOPIC_MODEL, (Serializable) mTopics.get(getLayoutPosition())));
+                    CommonUtils.openContainerActivity(mContext, LayoutType.OPINIONS_FRAGMENT,
+                            Pair.create(LayoutType.TOPIC_MODEL, (Serializable) mTopics.get(getLayoutPosition())));
                 }
             });
 

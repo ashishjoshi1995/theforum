@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.theforum.Constants;
+import com.theforum.constants.LayoutType;
 import com.theforum.R;
 import com.theforum.data.helpers.TrendsHelper;
 import com.theforum.data.local.models.TopicDataModel;
@@ -141,8 +141,8 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
 
             //TODO: set renew status
 
-            CommonUtils.openContainerActivity(mContext, Constants.OPINIONS_FRAGMENT,
-                    Pair.create(Constants.TOPIC_MODEL, (Serializable) topicDataModel));
+            CommonUtils.openContainerActivity(mContext, LayoutType.OPINIONS_FRAGMENT,
+                    Pair.create(LayoutType.TOPIC_MODEL, (Serializable) topicDataModel));
 
         }
     }
