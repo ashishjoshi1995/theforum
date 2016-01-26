@@ -141,7 +141,7 @@ public class TrendsHelper {
                                             }
 
                                         }
-                                        if(jsonObject.get("downvote_ids").toString()!=null) {
+                                        else if(jsonObject.get("downvote_ids").toString()!=null) {
                                             String downid = jsonObject.get("downvote_ids").toString();
                                             String[] downids = downid.split(" ");
                                             for(int j=0;j<downids.length;j++){
