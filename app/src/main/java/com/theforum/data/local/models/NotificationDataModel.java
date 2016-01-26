@@ -13,7 +13,7 @@ public class NotificationDataModel {
     private String header;
     private String description;
     private String topicId;
-    private boolean isRead;
+    private boolean isRead = false;
 
     public int getKey() {
         return key;

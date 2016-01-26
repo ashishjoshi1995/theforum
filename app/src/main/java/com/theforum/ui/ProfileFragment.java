@@ -61,7 +61,7 @@ public class ProfileFragment extends Fragment {
         notifications.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(NotificationDBHelper.getNotificationDBHelper().checkIfNotifExist())
+                if(NotificationDBHelper.getHelper().checkIfNotificationExist())
                 CommonUtils.openContainerActivity(getContext(), LayoutType.NOTIFICATION_FRAGMENT);
                 else {
                     CommonUtils.showToast(getContext(),"No new Notification");

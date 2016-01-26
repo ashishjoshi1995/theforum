@@ -43,7 +43,7 @@ public class ProfileHelper {
                     e.printStackTrace();
                 }
 
-                if(ash.size()>0) {
+                if(ash!=null) {
                     return ash.get(0);
 
                 }else return null;

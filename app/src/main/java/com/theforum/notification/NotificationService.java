@@ -14,6 +14,7 @@ import android.widget.RemoteViews;
 import com.theforum.constants.LayoutType;
 import com.theforum.ContainerActivity;
 import com.theforum.R;
+import com.theforum.constants.NotificationType;
 import com.theforum.data.helpers.NotificationHelper;
 import com.theforum.data.local.database.notificationDB.NotificationDBHelper;
 import com.theforum.data.local.database.opinionDB.OpinionDBHelper;
@@ -89,7 +90,8 @@ public class NotificationService extends Service {
 
                 @Override
                 public void topicNotification(List<topic> topics) {
-                    ArrayList<NotificationDataModel> inflatorItemDatas = new ArrayList<>();
+
+                    ArrayList<NotificationDataModel> notificationsList = new ArrayList<>();
 
                     for(int j =0; j<topics.size();j++){
                         if(topics.get(j).getmNotifRenewalRequests()>0) {
@@ -98,29 +100,29 @@ public class NotificationService extends Service {
                             notificationModel.topicId = topics.get(j).getTopicId();
                             notificationModel.topicText = topics.get(j).getTopicName();
                             notificationModel.renewalRequest = topics.get(j).getmNotifRenewalRequests();
-                            notificationModel.notificationType = LayoutType.NOTIFICATION_TYPE_RENEWAL_REQUEST;
-                            inflatorItemDatas.add(notificationModel);
+                            notificationModel.notificationType = NotificationType.NOTIFICATION_TYPE_RENEWAL_REQUEST;
+                            notificationsList.add(notificationModel);
                             notificationCount++;
                         }
 
                         if(topics.get(j).getmNotifOpinions()>0) {
                             NotificationDataModel inflatorItemDataOpinions = new NotificationDataModel();
-                            inflatorItemDataOpinions.notificationType = LayoutType.NOTIFICATION_TYPE_OPINIONS;
+                            inflatorItemDataOpinions.notificationType = NotificationType.NOTIFICATION_TYPE_OPINIONS;
                             inflatorItemDataOpinions.hoursLeft = topics.get(j).getHoursLeft();
                             inflatorItemDataOpinions.topicId = topics.get(j).getTopicId();
                             inflatorItemDataOpinions.topicText = topics.get(j).getTopicName();
                             inflatorItemDataOpinions.opinions = topics.get(j).getmNotifOpinions();
-                            inflatorItemDatas.add(inflatorItemDataOpinions);
+                            notificationsList.add(inflatorItemDataOpinions);
                             notificationCount++;
                         }
                     }
 
-                    if(inflatorItemDatas.size()>0) {
+                    if(notificationsList.size()>0) {
                         if(NotificationHelper.one && NotificationHelper.two && count ==0){
                             helper.cleanItUP();
                             count++;
                         }
-                        NotificationDBHelper.getNotificationDBHelper().addNotifications(inflatorItemDatas);
+                        NotificationDBHelper.getHelper().addNotifications(notificationsList);
                         Notify(notificationCount);
                     }
                     else if(count>0){
@@ -134,7 +136,7 @@ public class NotificationService extends Service {
                     Log.e("opinion size",""+opinions.size());
                         for(int j=0;j<opinions.size();j++){
                             NotificationDataModel inflatorItemData = new NotificationDataModel();
-                            inflatorItemData.notificationType = LayoutType.NOTIFICATION_TYPE_OPINION_UP_VOTES;
+                            inflatorItemData.notificationType = NotificationType.NOTIFICATION_TYPE_OPINION_UP_VOTES;
                             inflatorItemData.topicText = opinions.get(j).getTopicName();
                             inflatorItemData.topicId =opinions.get(j).getTopicId();
                             inflatorItemData.newCount = opinions.get(j).getmNotifCount();
@@ -156,7 +158,7 @@ public class NotificationService extends Service {
                         }
 
                         Notify(notificationCount);
-                        NotificationDBHelper.getNotificationDBHelper().addNotifications(inflatorItemDatas);
+                        NotificationDBHelper.getHelper().addNotifications(inflatorItemDatas);
                         OpinionDBHelper.getHelper().addOpinions(opinions);
                     }
 
