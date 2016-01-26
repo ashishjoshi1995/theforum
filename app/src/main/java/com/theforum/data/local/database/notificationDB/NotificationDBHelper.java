@@ -3,7 +3,6 @@ package com.theforum.data.local.database.notificationDB;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.theforum.TheForumApplication;
 import com.theforum.constants.NotificationType;
@@ -91,9 +90,7 @@ public class NotificationDBHelper {
 
     public void deleteAllNotif(){
         Cursor cursor = notificationDatabase.rawQuery("SELECT  * FROM " + NotificationDBConstants.TABLE_NAME, null);
-        if(cursor.getCount()>35){
 
-        }
         cursor.close();
         notificationDatabase.execSQL("delete from " + NotificationDBConstants.TABLE_NAME);
     }
@@ -103,8 +100,8 @@ public class NotificationDBHelper {
         Cursor cursor = notificationDatabase.rawQuery("SELECT  * FROM " + NotificationDBConstants.TABLE_NAME, null);
 
         if(cursor!=null){
-            Log.e("getAllNotiications",""+cursor.getCount());
-            if (cursor.moveToFirst()) {
+
+            if (cursor.moveToLast()) {
                 do {
                     NotificationDataModel obj = new NotificationDataModel();
                     obj.setNotificationType(cursor.getInt(1));
@@ -115,11 +112,15 @@ public class NotificationDBHelper {
                     obj.setTimeHolder(cursor.getString(6));
                     obj.setTopicId(cursor.getString(7));
                     notifications.add(obj);
-                } while (cursor.moveToNext());
+                } while (cursor.moveToPrevious());
             }
             cursor.close();
         }
 
         return notifications;
+    }
+
+    public void closeDataBase(){
+        notificationDatabase.close();
     }
 }
