@@ -1,10 +1,10 @@
-package com.theforum;
+package com.theforum.constants;
 
 /**
  * @author DEEPANKAR
  * @since 31-12-2015.
  */
-public class Constants {
+public class LayoutType {
 
     /**
      * fragments constants identifiers (values) to be opened by containerActivity.

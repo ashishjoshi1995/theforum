@@ -4,18 +4,16 @@ package com.theforum.data.local.models;
  * @author Ashish
  * @since 1/15/2016
  */
-public class NotificationInflatorModel {
-    public NotificationInflatorModel(){
-    }
+public class NotificationDataModel {
 
     private int key;
     private int notificationType;
-    private int viewType;
     private String timeHolder;
     private String mainText;
     private String header;
     private String description;
     private String topicId;
+    private boolean isRead;
 
     public int getKey() {
         return key;
@@ -31,14 +29,6 @@ public class NotificationInflatorModel {
 
     public void setNotificationType(int notificationType) {
         this.notificationType = notificationType;
-    }
-
-    public int getViewType() {
-        return viewType;
-    }
-
-    public void setViewType(int viewType) {
-        this.viewType = viewType;
     }
 
     public String getTimeHolder() {
@@ -79,5 +69,13 @@ public class NotificationInflatorModel {
 
     public void setTopicId(String topicId) {
         this.topicId = topicId;
+    }
+
+    public boolean isRead() {
+        return isRead;
+    }
+
+    public void setIsRead(boolean isRead) {
+        this.isRead = isRead;
     }
 }

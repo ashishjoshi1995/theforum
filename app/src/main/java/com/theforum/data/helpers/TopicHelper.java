@@ -10,21 +10,15 @@ import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.microsoft.windowsazure.mobileservices.table.TableOperationCallback;
 import com.microsoft.windowsazure.mobileservices.table.query.QueryOrder;
-import com.theforum.Constants;
+import com.theforum.constants.LayoutType;
 import com.theforum.TheForumApplication;
 import com.theforum.data.helpers.renewalRequestApi.Request;
 import com.theforum.data.helpers.renewalRequestApi.Response;
-import com.theforum.data.helpers.sortBasisCreatedByMe.InputClass;
-import com.theforum.data.helpers.sortBasisCreatedByMe.ResponseClass;
 import com.theforum.data.local.database.topicDB.TopicDBHelper;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.data.server.topic;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.User;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -138,15 +132,15 @@ public class TopicHelper {
                     try {
                         switch (sortMode) {
 
-                            case Constants.SORT_BASIS_MOST_POPULAR:
+                            case LayoutType.SORT_BASIS_MOST_POPULAR:
                                 topics = mTopicTable.orderBy("points", QueryOrder.Descending).execute().get();
                                 break;
 
-                            case Constants.SORT_BASIS_LATEST:
+                            case LayoutType.SORT_BASIS_LATEST:
                                 topics = mTopicTable.orderBy("hours_left", QueryOrder.Ascending).execute().get();
                                 break;
 
-                            case Constants.SORT_BASIS_CREATED_BY_ME:
+                            case LayoutType.SORT_BASIS_CREATED_BY_ME:
                                 /*
                                 InputClass inputClass = new InputClass();
                                 inputClass.uid = User.getInstance().getId();
@@ -195,12 +189,12 @@ public class TopicHelper {
                                 topics = mTopicTable.where().field("uid").eq(User.getInstance().getId()).execute().get();
                                 break;
 
-                            case Constants.SORT_BASIS_LEAST_RENEWAL:
+                            case LayoutType.SORT_BASIS_LEAST_RENEWAL:
                                 topics = mTopicTable.orderBy("renewal_requests", QueryOrder.Ascending)
                                         .execute().get();
                                 break;
 
-                            case Constants.SORT_BASIS_MOST_RENEWAL:
+                            case LayoutType.SORT_BASIS_MOST_RENEWAL:
                                 topics = mTopicTable.orderBy("renewal_requests", QueryOrder.Descending)
                                         .execute().get();
                                 break;

@@ -11,10 +11,12 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.theforum.Constants;
+import com.theforum.constants.LayoutType;
 import com.theforum.R;
 import com.theforum.data.helpers.TrendsHelper;
-import com.theforum.data.local.models.NotificationInflatorModel;
+import com.theforum.data.local.database.opinionDB.OpinionDBHelper;
+import com.theforum.data.local.models.NotificationDataModel;
+import com.theforum.data.local.models.OpinionDataModel;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.utils.CommonUtils;
 
@@ -32,14 +34,14 @@ import butterknife.ButterKnife;
 
 public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private ArrayList<NotificationInflatorModel> mData;
+    private ArrayList<NotificationDataModel> mData;
     private Context mContext;
     private Activity mActivity;
 
     private final static int VIEW_TYPE_ONE = 0;
     private final static int VIEW_TYPE_TWO = 1;
 
-    public NotificationListAdapter(Activity activity, ArrayList<NotificationInflatorModel> dataSet) {
+    public NotificationListAdapter(Activity activity, ArrayList<NotificationDataModel> dataSet) {
 
         mContext = activity;
         mActivity = activity;
@@ -65,16 +67,21 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
         @Override
         public void onClick(View v) {
 
-            NotificationInflatorModel trends = mData.get(getLayoutPosition());
+            NotificationDataModel trends = mData.get(getLayoutPosition());
             //getting the topic data from server
             TrendsHelper.getHelper().getTopicDetails(trends.getTopicId(), new TrendsHelper.OnTopicDetailReceived() {
                 @Override
                 public void onCompleted(TopicDataModel topic) {
 
 
-                    CommonUtils.openContainerActivity(mContext, Constants.OPINIONS_FRAGMENT,
+                    OpinionDataModel opinion = OpinionDBHelper.getHelper().
+                            getOpinion(mData.get(getLayoutPosition()).getDescription());
 
-                            Pair.create(Constants.TOPIC_MODEL, (Serializable) topic));
+                    ArrayList<Pair<String, Serializable>> newList = new ArrayList<>();
+                    newList.add(0, Pair.create(LayoutType.OPINION_MODEL,(Serializable)opinion));
+                    newList.add(1, Pair.create(LayoutType.TOPIC_MODEL,(Serializable)topic));
+
+                    CommonUtils.openContainerActivity(mContext, LayoutType.OPINIONS_FRAGMENT, newList);
                 }
 
                 @Override
@@ -110,13 +117,13 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
         @Override
         public void onClick(View v) {
-            NotificationInflatorModel trends = mData.get(getLayoutPosition());
+            NotificationDataModel trends = mData.get(getLayoutPosition());
             //getting the topic data from server
             TrendsHelper.getHelper().getTopicDetails(trends.getTopicId(), new TrendsHelper.OnTopicDetailReceived() {
                 @Override
                 public void onCompleted(TopicDataModel topic) {
-                    CommonUtils.openContainerActivity(mContext, Constants.OPINIONS_FRAGMENT,
-                            Pair.create(Constants.TOPIC_MODEL, (Serializable) topic));
+                    CommonUtils.openContainerActivity(mContext, LayoutType.OPINIONS_FRAGMENT,
+                            Pair.create(LayoutType.TOPIC_MODEL, (Serializable) topic));
                 }
 
                 @Override
@@ -130,7 +137,6 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
                 }
             });
 
-
         }
 
     }
@@ -143,7 +149,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public int getItemViewType(int position) {
         Log.e("noti type",""+mData.get(position).getNotificationType());
-        if(mData.get(position).getNotificationType() == Constants.NOTIFICATION_TYPE_OPINION_UP_VOTES){
+        if(mData.get(position).getNotificationType() == LayoutType.NOTIFICATION_TYPE_OPINION_UP_VOTES){
             return VIEW_TYPE_ONE;
         }else return VIEW_TYPE_TWO;
     }
@@ -170,7 +176,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
         if(holder.getItemViewType()== VIEW_TYPE_ONE){
             Log.e("test3",mData.get(position).toString());
             final ViewHolderOne viewHolderOne = (ViewHolderOne) holder;
-            if(mData.get(position).getNotificationType() == Constants.NOTIFICATION_TYPE_OPINION_UP_VOTES) {
+            if(mData.get(position).getNotificationType() == LayoutType.NOTIFICATION_TYPE_OPINION_UP_VOTES) {
                 Log.e(mData.get(position).getHeader() + mData.get(position).getMainText(), mData.get(position).getDescription() + mData.get(position).getTimeHolder());
                 viewHolderOne.header.setText(mData.get(position).getHeader());
                 viewHolderOne.mainText.setText(mData.get(position).getMainText());
@@ -182,13 +188,13 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
             int j = mData.get(position).getNotificationType();
             viewHolderTwo.header.setText(mData.get(position).getHeader());
             switch (j) {
-                case Constants.NOTIFICATION_TYPE_OPINIONS:
+                case LayoutType.NOTIFICATION_TYPE_OPINIONS:
                     viewHolderTwo.mainText.setText(mData.get(position).getMainText());
                     break;
-                case Constants.NOTIFICATION_TYPE_RENEWAL_REQUEST:
+                case LayoutType.NOTIFICATION_TYPE_RENEWAL_REQUEST:
                     viewHolderTwo.mainText.setText(mData.get(position).getMainText());
                     break;
-                case Constants.NOTIFICATION_TYPE_RENEWED:
+                case LayoutType.NOTIFICATION_TYPE_RENEWED:
                     viewHolderTwo.mainText.setText(mData.get(position).getMainText());
                     break;
             }

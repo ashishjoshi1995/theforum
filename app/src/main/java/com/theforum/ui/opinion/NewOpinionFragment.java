@@ -15,7 +15,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
-import com.theforum.Constants;
+import com.theforum.constants.LayoutType;
 import com.theforum.R;
 import com.theforum.data.helpers.OpinionHelper;
 import com.theforum.data.local.models.OpinionDataModel;
@@ -57,7 +57,7 @@ public class NewOpinionFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if(getArguments()!=null){
-            topicModel = (TopicDataModel) getArguments().getSerializable(Constants.TOPIC_MODEL);
+            topicModel = (TopicDataModel) getArguments().getSerializable(LayoutType.TOPIC_MODEL);
         }
     }
 

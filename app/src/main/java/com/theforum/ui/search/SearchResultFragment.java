@@ -10,7 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.theforum.Constants;
+import com.theforum.constants.LayoutType;
 import com.theforum.R;
 import com.theforum.data.helpers.TrendsHelper;
 import com.theforum.data.local.database.topicDB.TopicDBHelper;
@@ -85,8 +85,8 @@ public class SearchResultFragment extends Fragment {
                     @Override
                     public void onCompleted(TopicDataModel topic) {
 
-                        CommonUtils.openContainerActivity(getContext(), Constants.OPINIONS_FRAGMENT,
-                                Pair.create(Constants.TOPIC_MODEL, (Serializable) topic)
+                        CommonUtils.openContainerActivity(getContext(), LayoutType.OPINIONS_FRAGMENT,
+                                Pair.create(LayoutType.TOPIC_MODEL, (Serializable) topic)
 
                         );
                     }

@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.theforum.Constants;
+import com.theforum.constants.LayoutType;
 import com.theforum.R;
 import com.theforum.data.local.database.notificationDB.NotificationDBHelper;
 import com.theforum.utils.CommonUtils;
@@ -62,7 +62,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(NotificationDBHelper.getNotificationDBHelper().checkIfNotifExist())
-                CommonUtils.openContainerActivity(getContext(), Constants.NOTIFICATION_FRAGMENT);
+                CommonUtils.openContainerActivity(getContext(), LayoutType.NOTIFICATION_FRAGMENT);
                 else {
                     CommonUtils.showToast(getContext(),"No new Notification");
                 }

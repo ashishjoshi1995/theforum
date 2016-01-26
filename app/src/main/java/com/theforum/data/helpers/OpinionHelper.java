@@ -140,6 +140,7 @@ public class OpinionHelper {
 
         UPDVRequest updvRequest= new UPDVRequest();
         updvRequest.opinion_id = opinionId;
+        updvRequest.id = User.getInstance().getId();
 
         if(ifUpVote){
             //update UI

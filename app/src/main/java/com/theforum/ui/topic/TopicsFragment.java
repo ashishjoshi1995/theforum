@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.theforum.Constants;
 import com.theforum.R;
 import com.theforum.data.helpers.TopicHelper;
 import com.theforum.data.local.models.TopicDataModel;
