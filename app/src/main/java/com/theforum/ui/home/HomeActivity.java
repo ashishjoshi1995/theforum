@@ -14,6 +14,7 @@ import android.view.View;
 import com.theforum.constants.LayoutType;
 import com.theforum.LoginActivity;
 import com.theforum.R;
+import com.theforum.notification.NotificationService;
 import com.theforum.ui.search.SearchResultFragment;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.ProfileUtils;
@@ -78,6 +79,9 @@ public class HomeActivity extends AppCompatActivity implements OnHomeUiChangeLis
                 mFragmentManager.beginTransaction().remove(mSearchResultFragment).commit();
             }
         });
+
+        Intent intent = new Intent(this, NotificationService.class);
+        startService(intent);
     }
 
 
@@ -91,26 +95,6 @@ public class HomeActivity extends AppCompatActivity implements OnHomeUiChangeLis
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-
-    /*
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-
-        if(changeMenuItem){
-            if(setSearch){
-                menu.findItem(R.id.action_search).setVisible(true);
-                menu.findItem(R.id.action_share).setVisible(false);
-            }else {
-                menu.findItem(R.id.action_search).setVisible(false);
-                menu.findItem(R.id.action_share).setVisible(true);
-            }
-            changeMenuItem = false;
-        }
-
-        return super.onPrepareOptionsMenu(menu);
-    }
-    */
-
 
 
     @Override

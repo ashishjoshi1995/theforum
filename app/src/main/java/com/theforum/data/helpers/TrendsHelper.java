@@ -162,7 +162,7 @@ public class TrendsHelper {
                                     }
 
                                     // save the data to local database.
-
+                                    TrendsDBHelper.getHelper().deleteAllTrends();
                                     TrendsDBHelper.getHelper().addTrends(trends);
 
                                 }  else {
