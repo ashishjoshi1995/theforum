@@ -74,7 +74,7 @@ public class OpinionDBHelper {
         }
     }
 
-    public opinion getOpinion(String opinionId){
+    public OpinionDataModel getOpinion(String opinionId){
         OpinionDataModel opinionToReturn = new OpinionDataModel();
         Cursor cursor = opinionDatabase.rawQuery("SELECT  * FROM " + OpinionDBConstants.TABLE_OPINION_NAME + " WHERE "+
                 OpinionDBConstants.KEY_OPINION_ID + " = "+opinionId, null);
@@ -84,35 +84,35 @@ public class OpinionDBHelper {
                 opinionToReturn.setServerId(cursor.getString(1));
                 //opinionToReturn.setmNotifCount(cursor.getInt(8));
                 opinionToReturn.setOpinionId(cursor.getString(5));
-                opinionToReturn.(cursor.getString(7));
+                opinionToReturn.setTopicId(cursor.getString(7));
                 opinionToReturn.setTopicName(cursor.getString(11));
-                opinionToReturn.setUserId(cursor.getString(6));
-                opinionToReturn.setmNotifNewDownvotes(cursor.getInt(10));
-                opinionToReturn.setmNotifNewUpvotes(cursor.getInt(9));
-                opinionToReturn.setOpinionName(cursor.getString(4));
-                opinionToReturn.setUpVotes(cursor.getInt(2));
+                //opinionToReturn.setUserId(cursor.getString(6));
+               // opinionToReturn.setmNotifNewDownvotes(cursor.getInt(10));
+               // opinionToReturn.setmNotifNewUpvotes(cursor.getInt(9));
+                opinionToReturn.setOpinionText(cursor.getString(4));
+                opinionToReturn.setUpVoteCount(cursor.getInt(2));
             }
             return opinionToReturn;
         }
         return null;
     }
-    public opinion getOpinion(String opinionText , String opinionId){
-        opinion opinionToReturn = new opinion();
+    public OpinionDataModel getOpinion(String opinionText, String opinionId){
+        OpinionDataModel opinionToReturn = new OpinionDataModel();
         Cursor cursor = opinionDatabase.rawQuery("SELECT  * FROM " + OpinionDBConstants.TABLE_OPINION_NAME + " WHERE "+
                 OpinionDBConstants.KEY_OPINION + " = "+opinionText, null);
         if(cursor!=null){
             if(cursor.moveToFirst()){
-                opinionToReturn.setDownVotes(cursor.getInt(3));
+                opinionToReturn.setDownVoteCount(cursor.getInt(3));
                 opinionToReturn.setServerId(cursor.getString(1));
-                opinionToReturn.setmNotifCount(cursor.getInt(8));
+                //opinionToReturn.setmNotifCount(cursor.getInt(8));
                 opinionToReturn.setOpinionId(cursor.getString(5));
                 opinionToReturn.setTopicId(cursor.getString(7));
                 opinionToReturn.setTopicName(cursor.getString(11));
-                opinionToReturn.setUserId(cursor.getString(6));
-                opinionToReturn.setmNotifNewDownvotes(cursor.getInt(10));
-                opinionToReturn.setmNotifNewUpvotes(cursor.getInt(9));
-                opinionToReturn.setOpinionName(cursor.getString(4));
-                opinionToReturn.setUpVotes(cursor.getInt(2));
+                //opinionToReturn.setUserId(cursor.getString(6));
+                // opinionToReturn.setmNotifNewDownvotes(cursor.getInt(10));
+                // opinionToReturn.setmNotifNewUpvotes(cursor.getInt(9));
+                opinionToReturn.setOpinionText(cursor.getString(4));
+                opinionToReturn.setUpVoteCount(cursor.getInt(2));
             }
             return opinionToReturn;
         }

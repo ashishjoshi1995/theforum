@@ -86,7 +86,9 @@ public class SearchResultFragment extends Fragment {
                     public void onCompleted(TopicDataModel topic) {
 
                         CommonUtils.openContainerActivity(getContext(), Constants.OPINIONS_FRAGMENT,
-                                Pair.create(Constants.TOPIC_MODEL, (Serializable) topic),0);
+                                Pair.create(Constants.TOPIC_MODEL, (Serializable) topic)
+
+                        );
                     }
 
                     @Override

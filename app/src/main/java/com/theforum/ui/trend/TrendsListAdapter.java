@@ -142,7 +142,7 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
             //TODO: set renew status
 
             CommonUtils.openContainerActivity(mContext, Constants.OPINIONS_FRAGMENT,
-                    Pair.create(Constants.TOPIC_MODEL, (Serializable) topicDataModel),0);
+                    Pair.create(Constants.TOPIC_MODEL, (Serializable) topicDataModel));
 
         }
     }

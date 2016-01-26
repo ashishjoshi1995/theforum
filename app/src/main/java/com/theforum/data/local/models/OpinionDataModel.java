@@ -17,8 +17,10 @@ public class OpinionDataModel implements Serializable{
     private String opinionText;
 
     private int downVoteCount;
+    private String topicName;
 
     private int upVoteCount;
+    private String topicId;
 
     private VoteStatus voteStatus = VoteStatus.NONE;
 
@@ -79,5 +81,22 @@ public class OpinionDataModel implements Serializable{
 
     public void setVoteStatus(VoteStatus voteStatus) {
         this.voteStatus = voteStatus;
+    }
+
+
+    public String getTopicId() {
+        return topicId;
+    }
+
+    public void setTopicId(String topicId) {
+        this.topicId = topicId;
+    }
+
+    public String getTopicName() {
+        return topicName;
+    }
+
+    public void setTopicName(String topicName) {
+        this.topicName = topicName;
     }
 }

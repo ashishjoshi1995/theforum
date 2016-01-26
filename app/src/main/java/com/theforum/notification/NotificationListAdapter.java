@@ -13,12 +13,9 @@ import android.widget.TextView;
 
 import com.theforum.Constants;
 import com.theforum.R;
-import com.theforum.TheForumApplication;
 import com.theforum.data.helpers.TrendsHelper;
-import com.theforum.data.local.database.opinionDB.OpinionDBHelper;
 import com.theforum.data.local.models.NotificationInflatorModel;
 import com.theforum.data.local.models.TopicDataModel;
-import com.theforum.data.server.opinion;
 import com.theforum.utils.CommonUtils;
 
 import java.io.Serializable;

@@ -26,7 +26,6 @@ import com.theforum.data.helpers.OpinionHelper;
 import com.theforum.data.local.database.opinionDB.OpinionDBHelper;
 import com.theforum.data.local.models.OpinionDataModel;
 import com.theforum.data.local.models.TopicDataModel;
-import com.theforum.data.server.opinion;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.views.DividerItemDecorator;
 
@@ -51,6 +50,7 @@ public class OpinionsFragment extends Fragment {
 
     private OpinionsListAdapter mAdapter;
     private TopicDataModel mTopicModel;
+    private int type;
 
 
     @Override
@@ -60,6 +60,7 @@ public class OpinionsFragment extends Fragment {
 
         if(getArguments()!=null){
             mTopicModel = (TopicDataModel) getArguments().getSerializable(Constants.TOPIC_MODEL);
+            type =0;
         }
     }
 
@@ -160,7 +161,7 @@ public class OpinionsFragment extends Fragment {
     }
     private void getOpinionforNotifUpDown(String opinionDescription){
 
-        opinion opinion = OpinionDBHelper.getOpinionDBHelper(TheForumApplication.getAppContext()).
+        OpinionDataModel opinion = OpinionDBHelper.getOpinionDBHelper(TheForumApplication.getAppContext()).
                 getOpinion(opinionDescription);
         mAdapter.clearAll();
         ArrayList<OpinionDataModel> opinions = null;
