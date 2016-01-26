@@ -80,7 +80,7 @@ public class OpinionHelper {
                         }
 
                         else if(opinions.get(i).getDownVotes_ids()!=null) {
-                            String downid = opinions.get(i).getUpVoted_ids();
+                            String downid = opinions.get(i).getDownVotes_ids();
                             String[] downids = downid.split(" ");
                             for(int j=0;j<downids.length;j++){
                                 if(downids[j].equals(User.getInstance().getId())){
