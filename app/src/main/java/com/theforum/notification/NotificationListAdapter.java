@@ -73,8 +73,14 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
             TrendsHelper.getHelper().getTopicDetails(trends.getTopicId(), new TrendsHelper.OnTopicDetailReceived() {
                 @Override
                 public void onCompleted(TopicDataModel topic) {
+                    opinion opinion = OpinionDBHelper.getOpinionDBHelper(TheForumApplication.getAppContext()).
+                            getOpinion(mData.get(getLayoutPosition()).getDescription());
+                    ArrayList<Pair<String, Serializable>> newList = new ArrayList<Pair<String, Serializable>>();
+                    newList.add(0, Pair.create(Constants.OPINION_MODEL,(Serializable)opinion));
+                    newList.add(1, Pair.create(Constants.TOPIC_MODEL,(Serializable)topic));
+
                     CommonUtils.openContainerActivity(mContext, Constants.OPINIONS_FRAGMENT,
-                            Pair.create(Constants.TOPIC_MODEL, (Serializable) topic),1);
+                            Pair.create(Constants.TOPIC_MODEL, (Serializable) topic), 1);
                 }
 
                 @Override
@@ -115,8 +121,6 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
             TrendsHelper.getHelper().getTopicDetails(trends.getTopicId(), new TrendsHelper.OnTopicDetailReceived() {
                 @Override
                 public void onCompleted(TopicDataModel topic) {
-                   // opinion opinion = OpinionDBHelper.getOpinionDBHelper(TheForumApplication.getAppContext()).
-                     //       getOpinion(mData.get(getLayoutPosition()).)
                     CommonUtils.openContainerActivity(mContext, Constants.OPINIONS_FRAGMENT,
                             Pair.create(Constants.TOPIC_MODEL, (Serializable) topic),2);
                 }
