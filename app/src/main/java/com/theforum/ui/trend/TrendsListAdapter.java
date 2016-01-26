@@ -112,7 +112,7 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                         /*
                          *  send the request to server to decrease the count
                          */
-                        TrendsHelper.getHelper().upvoteDownvote(true, opinionModel2.getTrendId(), new TrendsHelper.OnUVDVOperationCompleteListener() {
+                        TrendsHelper.getHelper().upvoteDownvote(false, opinionModel2.getTrendId(), new TrendsHelper.OnUVDVOperationCompleteListener() {
                             @Override
                             public void onCompleteMessage(String message) {
                                 CommonUtils.showToast(mContext, message);
