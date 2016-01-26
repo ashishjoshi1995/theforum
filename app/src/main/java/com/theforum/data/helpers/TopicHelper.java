@@ -49,10 +49,8 @@ public class TopicHelper {
 
 
     public void addTopic(final topic topic, final OnTopicInsertListener onTopicInsertListener) {
-        Log.e("string ", "iamin");
-        Boolean name_exist = false;
+        boolean name_exist = false;
         List<String> topic_name = TopicDBHelper.getHelper().getMyTopicText();
-        Log.e("string ", topic.toString());
 
         //String products[] = new String[topic_name.size()];
         for (int i = 0; i < topic_name.size(); i++) {
@@ -103,9 +101,10 @@ public class TopicHelper {
             runAsyncTask2(task);
         }
         else{
-            Log.e("already","nam pehle se he");
+            CommonUtils.showToast(TheForumApplication.getAppContext(),"Topic Already Exists");
         }
-        }
+
+    }
 
 
 
@@ -122,7 +121,6 @@ public class TopicHelper {
 
     public void loadTopics(final int times, final int sortMode){
 
-        final int n = times*20;
 
         if(CommonUtils.isInternetAvailable()){
 
@@ -223,7 +221,7 @@ public class TopicHelper {
                             topicsReceiveListener.onCompleted(topicArrayList);
                             topicsReceived = false;
                         }
-                        if(times==0) TopicDBHelper.getHelper().deleteAll();
+                        TopicDBHelper.getHelper().deleteAll();
                         TopicDBHelper.getHelper().addTopicsFromServer(topicArrayList);
                     }
 

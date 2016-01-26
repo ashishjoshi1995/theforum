@@ -47,7 +47,6 @@ public class TopicsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public TopicsListAdapter(Context context, List<TopicDataModel> feeds){
         mContext = context;
         mTopics = feeds;
-        //renewIcon = resources.getDrawable(R.drawable.renew_icon);
     }
 
 
@@ -126,23 +125,23 @@ public class TopicsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public int getItemViewType(int position) {
-        if(position < mTopics.size() ){
+       // if(position < mTopics.size() ){
             return VIEW_TYPE_TOPIC;
-        }else return VIEW_TYPE_LOAD_MORE_BTN;
+       // }else return VIEW_TYPE_LOAD_MORE_BTN;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if(viewType== VIEW_TYPE_TOPIC) {
+      //  if(viewType== VIEW_TYPE_TOPIC) {
             return new TopicsItemViewHolder(LayoutInflater.from(parent.getContext()).inflate(
                     R.layout.topics_list_item, parent, false));
-        }else return new LoadMoreItemViewHolder(new Button(mContext));
+      //  }else return new LoadMoreItemViewHolder(new Button(mContext));
     }
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
 
-        if(holder.getItemViewType() == VIEW_TYPE_TOPIC){
+
             TopicsItemViewHolder topicsItemViewHolder = (TopicsItemViewHolder)holder;
             final TopicDataModel topic = mTopics.get(position);
 
@@ -157,16 +156,6 @@ public class TopicsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 setCompoundDrawables(topicsItemViewHolder.renewCountBtn,topicsItemViewHolder.renewIcon);
 
             }
-        }
-
-
-      /*  if(topic.getIsRenewed()){
-            holder.renewCountBtn.setCompoundDrawablesWithIntrinsicBounds(null, tintDrawable(holder.renewedColor),
-                    null, null);
-        }else {
-            holder.renewCountBtn.setCompoundDrawablesWithIntrinsicBounds(null, tintDrawable(holder.unrenewedColor),
-                    null, null);
-        }*/
 
     }
 
@@ -209,7 +198,7 @@ public class TopicsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 
     @Override
-    public int getItemCount() {return mTopics.size()+1;}
+    public int getItemCount() {return mTopics.size();}
 
 
 }
