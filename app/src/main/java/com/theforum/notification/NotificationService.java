@@ -16,6 +16,7 @@ import com.theforum.R;
 import com.theforum.data.helpers.NotificationHelper;
 import com.theforum.data.interfaces.NotificationIfAny;
 import com.theforum.data.local.database.notificationDB.NotificationDBHelper;
+import com.theforum.data.local.database.opinionDB.OpinionDBHelper;
 import com.theforum.data.server.NotificationDataModel;
 import com.theforum.data.server.opinion;
 import com.theforum.data.server.topic;
@@ -25,14 +26,11 @@ import com.theforum.utils.CommonUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author  Ashish on 12/9/2015.
- */
+
 
 /**
  * checks whether a notification has arrived or not
  * uses polling
- *
  */
 public class NotificationService extends Service {
 
@@ -77,6 +75,7 @@ public class NotificationService extends Service {
         new PollTask().execute();
     }
 
+
     private class PollTask extends AsyncTask<Void, Void, Void> {
 
         @Override
@@ -111,7 +110,6 @@ public class NotificationService extends Service {
                             inflatorItemDataOpinions.topicId = topics.get(j).getTopicId();
                             inflatorItemDataOpinions.topicText = topics.get(j).getTopicName();
                             inflatorItemDataOpinions.opinions = topics.get(j).getmNotifOpinions();
-
                             inflatorItemDatas.add(inflatorItemDataOpinions);
                             jaiHo++;
                         }
@@ -157,8 +155,10 @@ public class NotificationService extends Service {
                             count = 0;
                         }
 
-                    Notify(jaiHo);
-                    NotificationDBHelper.getNotificationDBHelper().addNotifications(inflatorItemDatas);}
+                        Notify(jaiHo);
+                        NotificationDBHelper.getNotificationDBHelper().addNotifications(inflatorItemDatas);
+                        OpinionDBHelper.getOpinionDBHelper(getApplicationContext()).addOpinions(opinions);
+                    }
 
                 }
             });
@@ -179,10 +179,9 @@ public class NotificationService extends Service {
             NotificationManager mNotificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
 
             RemoteViews contentView = new RemoteViews(getPackageName(), R.layout.notification_layout);
-            //TODO modify here for ewsponse
+            //TODO modify here for response
             contentView.setTextViewText(R.id.title, "theforum");
             contentView.setTextViewText(R.id.text, "you have "+j+" new notifications");
-
 
             notification.contentView = contentView;
 
@@ -196,10 +195,6 @@ public class NotificationService extends Service {
 
             mNotificationManager.notify(1, notification);
             stopSelf();
-
         }
-
-
     }
-
 }
