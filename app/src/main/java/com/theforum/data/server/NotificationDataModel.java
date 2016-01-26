@@ -1,6 +1,6 @@
 package com.theforum.data.server;
 
-import com.theforum.constants.LayoutType;
+import com.theforum.constants.NotificationType;
 
 /**
  * @author Ashish
@@ -12,7 +12,7 @@ public class NotificationDataModel {
 /*
  * type of notification, hours left to delete and topic
  */
-    public int notificationType = LayoutType.NOTIFICATION_TYPE_OPINION_UP_VOTES;
+    public int notificationType = NotificationType.NOTIFICATION_TYPE_OPINION_UP_VOTES;
     public int hoursLeft;
     public String topicText;
 

@@ -79,7 +79,7 @@ public class OpinionHelper {
                             }
                         }
 
-                        if(opinions.get(i).getDownVotes_ids()!=null) {
+                        else if(opinions.get(i).getDownVotes_ids()!=null) {
                             String downid = opinions.get(i).getUpVoted_ids();
                             String[] downids = downid.split(" ");
                             for(int j=0;j<downids.length;j++){

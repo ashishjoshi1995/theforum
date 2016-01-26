@@ -33,16 +33,7 @@ public class LayoutType {
     public static final int ADD_MY_TOPIC = 300;
     public static final int ADD_TOPICS_ALL = 301;
 
-    /**
-     * types of the notifications which can be received by the user. These act
-     * as identifiers for notification type and also while requesting the
-     * notification layout to be drawn.
-     */
 
-    public static final int NOTIFICATION_TYPE_RENEWAL_REQUEST = 400;
-    public static final int NOTIFICATION_TYPE_RENEWED = 401;
-    public static final int NOTIFICATION_TYPE_OPINIONS = 402;
-    public static final int NOTIFICATION_TYPE_OPINION_UP_VOTES = 403;
 
     /**
      * other key values for passing of the variables (as bundles) between activities.

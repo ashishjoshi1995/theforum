@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,17 +32,13 @@ public class NotificationFragment extends Fragment {
 
     @Bind(R.id.settings_recycler_view)
     RecyclerView mRecyclerView;
+
     private NotificationListAdapter mAdapter;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_settings, container, false);
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        NotificationDBHelper.getNotificationDBHelper().deleteAllNotif();
-    }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -53,7 +48,7 @@ public class NotificationFragment extends Fragment {
 
         mToolbar.setTitle("Notifications");
         ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
-        mToolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+        mToolbar.setNavigationIcon(R.drawable.ic_action_navigation_arrow_back);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,15 +58,19 @@ public class NotificationFragment extends Fragment {
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         mRecyclerView.addItemDecoration(new DividerItemDecorator(getActivity(), R.drawable.recycler_view_divider));
-        mAdapter=new NotificationListAdapter(getActivity(), getListData());
+        mAdapter = new NotificationListAdapter(getActivity(), getListData());
         mRecyclerView.setAdapter(mAdapter);
 
     }
 
     private ArrayList<NotificationDataModel> getListData(){
-        ArrayList<NotificationDataModel> list = NotificationDBHelper.getNotificationDBHelper().getAllNotifications();
-        Log.e("nTli", "iamin");
-        Log.e("size",""+list.size());
-        return list;
+        return NotificationDBHelper.getHelper().getAllNotifications();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        NotificationDBHelper.getHelper().closeDataBase();
     }
 }

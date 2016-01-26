@@ -2,25 +2,17 @@ package com.theforum.notification;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.theforum.constants.LayoutType;
 import com.theforum.R;
-import com.theforum.data.helpers.TrendsHelper;
-import com.theforum.data.local.database.opinionDB.OpinionDBHelper;
+import com.theforum.constants.NotificationType;
 import com.theforum.data.local.models.NotificationDataModel;
-import com.theforum.data.local.models.OpinionDataModel;
-import com.theforum.data.local.models.TopicDataModel;
-import com.theforum.utils.CommonUtils;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -36,20 +28,17 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     private ArrayList<NotificationDataModel> mData;
     private Context mContext;
-    private Activity mActivity;
 
     private final static int VIEW_TYPE_ONE = 0;
     private final static int VIEW_TYPE_TWO = 1;
 
     public NotificationListAdapter(Activity activity, ArrayList<NotificationDataModel> dataSet) {
-
         mContext = activity;
-        mActivity = activity;
         mData = dataSet;
 
     }
 
-    public class ViewHolderOne extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolderOne extends RecyclerView.ViewHolder {
 
         @Bind(R.id.notification_header) TextView header;
         @Bind(R.id.notification_main_text) TextView mainText;
@@ -61,47 +50,11 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
         public ViewHolderOne(View v) {
             super(v);
             ButterKnife.bind(this, v);
-            v.setOnClickListener(this);
         }
 
-        @Override
-        public void onClick(View v) {
-
-            NotificationDataModel trends = mData.get(getLayoutPosition());
-            //getting the topic data from server
-            TrendsHelper.getHelper().getTopicDetails(trends.getTopicId(), new TrendsHelper.OnTopicDetailReceived() {
-                @Override
-                public void onCompleted(TopicDataModel topic) {
-
-
-                    OpinionDataModel opinion = OpinionDBHelper.getHelper().
-                            getOpinion(mData.get(getLayoutPosition()).getDescription());
-
-                    ArrayList<Pair<String, Serializable>> newList = new ArrayList<>();
-                    newList.add(0, Pair.create(LayoutType.OPINION_MODEL,(Serializable)opinion));
-                    newList.add(1, Pair.create(LayoutType.TOPIC_MODEL,(Serializable)topic));
-
-                    CommonUtils.openContainerActivity(mContext, LayoutType.OPINIONS_FRAGMENT, newList);
-                }
-
-                @Override
-                public void onError(final String error) {
-
-                    mActivity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            CommonUtils.showToast(mContext, error);
-                        }
-                    });
-
-                }
-            });
-
-
-        }
     }
 
-    public  class ViewHolderTwo extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public  class ViewHolderTwo extends RecyclerView.ViewHolder {
 
         @Bind(R.id.notification_header) TextView header;
         @Bind(R.id.notification_main_text) TextView mainText;
@@ -112,30 +65,6 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
         public ViewHolderTwo(View v) {
             super(v);
             ButterKnife.bind(this, v);
-            v.setOnClickListener(this);
-
-        }
-        @Override
-        public void onClick(View v) {
-            NotificationDataModel trends = mData.get(getLayoutPosition());
-            //getting the topic data from server
-            TrendsHelper.getHelper().getTopicDetails(trends.getTopicId(), new TrendsHelper.OnTopicDetailReceived() {
-                @Override
-                public void onCompleted(TopicDataModel topic) {
-                    CommonUtils.openContainerActivity(mContext, LayoutType.OPINIONS_FRAGMENT,
-                            Pair.create(LayoutType.TOPIC_MODEL, (Serializable) topic));
-                }
-
-                @Override
-                public void onError(final String error) {
-                    mActivity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            CommonUtils.showToast(mContext, error);
-                        }
-                    });
-                }
-            });
 
         }
 
@@ -148,23 +77,19 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public int getItemViewType(int position) {
-        Log.e("noti type",""+mData.get(position).getNotificationType());
-        if(mData.get(position).getNotificationType() == LayoutType.NOTIFICATION_TYPE_OPINION_UP_VOTES){
+
+        if(mData.get(position).getNotificationType() == NotificationType.NOTIFICATION_TYPE_OPINION_UP_VOTES){
             return VIEW_TYPE_ONE;
         }else return VIEW_TYPE_TWO;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Log.e("test5","test");
-        Log.e("test5",""+viewType);
 
         if(viewType== VIEW_TYPE_ONE){
-            Log.e("test7","test");
             return new ViewHolderOne(LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.notifications_list_item_one, parent, false));
         }else{
-            Log.e("test6","test");
             return new ViewHolderTwo(LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.notifications_list_item_two, parent, false));
         }
@@ -174,10 +99,10 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
     public void onBindViewHolder(RecyclerView.ViewHolder holder,final int position) {
 
         if(holder.getItemViewType()== VIEW_TYPE_ONE){
-            Log.e("test3",mData.get(position).toString());
+
             final ViewHolderOne viewHolderOne = (ViewHolderOne) holder;
-            if(mData.get(position).getNotificationType() == LayoutType.NOTIFICATION_TYPE_OPINION_UP_VOTES) {
-                Log.e(mData.get(position).getHeader() + mData.get(position).getMainText(), mData.get(position).getDescription() + mData.get(position).getTimeHolder());
+            if(mData.get(position).getNotificationType() == NotificationType.NOTIFICATION_TYPE_OPINION_UP_VOTES) {
+
                 viewHolderOne.header.setText(mData.get(position).getHeader());
                 viewHolderOne.mainText.setText(mData.get(position).getMainText());
                 viewHolderOne.description.setText(mData.get(position).getDescription());
@@ -185,21 +110,23 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
             }
         }else {
             final ViewHolderTwo viewHolderTwo = (ViewHolderTwo)holder;
-            int j = mData.get(position).getNotificationType();
+
             viewHolderTwo.header.setText(mData.get(position).getHeader());
-            switch (j) {
-                case LayoutType.NOTIFICATION_TYPE_OPINIONS:
+            viewHolderTwo.timeHolder.setText(mData.get(position).getTimeHolder());
+
+            switch (mData.get(position).getNotificationType()) {
+                case NotificationType.NOTIFICATION_TYPE_OPINIONS:
                     viewHolderTwo.mainText.setText(mData.get(position).getMainText());
                     break;
-                case LayoutType.NOTIFICATION_TYPE_RENEWAL_REQUEST:
+                case NotificationType.NOTIFICATION_TYPE_RENEWAL_REQUEST:
                     viewHolderTwo.mainText.setText(mData.get(position).getMainText());
                     break;
-                case LayoutType.NOTIFICATION_TYPE_RENEWED:
+                case NotificationType.NOTIFICATION_TYPE_RENEWED:
                     viewHolderTwo.mainText.setText(mData.get(position).getMainText());
                     break;
             }
-            viewHolderTwo.timeHolder.setText(mData.get(position).getTimeHolder());
-            Log.e("asasasass",mData.get(position).getTimeHolder());
+
+
             }
         }
     }
