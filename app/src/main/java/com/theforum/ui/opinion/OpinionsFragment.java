@@ -19,11 +19,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.theforum.constants.LayoutType;
 import com.theforum.R;
-import com.theforum.TheForumApplication;
+import com.theforum.constants.LayoutType;
 import com.theforum.data.helpers.OpinionHelper;
-import com.theforum.data.local.database.opinionDB.OpinionDBHelper;
 import com.theforum.data.local.models.OpinionDataModel;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.utils.CommonUtils;
@@ -159,17 +157,18 @@ public class OpinionsFragment extends Fragment {
             }
         });
     }
+
+    /*
     private void getOpinionforNotifUpDown(String opinionDescription){
 
-        OpinionDataModel opinion = OpinionDBHelper.getHelper(TheForumApplication.getAppContext()).
-                getOpinion(opinionDescription);
+        OpinionDataModel opinion = OpinionDBHelper.getHelper().getOpinion(opinionDescription);
         mAdapter.clearAll();
         ArrayList<OpinionDataModel> opinions = null;
         opinions.add(opinion);
         mAdapter.addOpinions(opinions);
 
     }
-
+*/
 
 
     @Override
