@@ -11,13 +11,12 @@ import android.os.PowerManager;
 import android.util.Log;
 import android.widget.RemoteViews;
 
-import com.theforum.constants.LayoutType;
 import com.theforum.ContainerActivity;
 import com.theforum.R;
+import com.theforum.constants.LayoutType;
 import com.theforum.constants.NotificationType;
 import com.theforum.data.helpers.NotificationHelper;
 import com.theforum.data.local.database.notificationDB.NotificationDBHelper;
-import com.theforum.data.local.database.opinionDB.OpinionDBHelper;
 import com.theforum.data.server.NotificationDataModel;
 import com.theforum.data.server.opinion;
 import com.theforum.data.server.topic;
@@ -159,7 +158,7 @@ public class NotificationService extends Service {
 
                         Notify(notificationCount);
                         NotificationDBHelper.getHelper().addNotifications(inflatorItemDatas);
-                        OpinionDBHelper.getHelper().addOpinions(opinions);
+                        //OpinionDBHelper.getHelper().addOpinions(opinions);
                     }
 
                 }

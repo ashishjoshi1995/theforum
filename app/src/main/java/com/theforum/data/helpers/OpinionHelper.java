@@ -74,14 +74,16 @@ public class OpinionHelper {
                             for(int j=0;j<upids.length;j++){
                                 if(upids[j].equals(User.getInstance().getId())){
                                     opinionDataModel.setVoteStatus(VoteStatus.UPVOTED);
+                                    break;
                                 }
-                                break;
+
                             }
                         }
 
-                        else if(opinions.get(i).getDownVotes_ids()!=null) {
+                        if(opinions.get(i).getDownVotes_ids()!=null) {
                             String downid = opinions.get(i).getDownVotes_ids();
                             String[] downids = downid.split(" ");
+
                             for(int j=0;j<downids.length;j++){
                                 if(downids[j].equals(User.getInstance().getId())){
                                     opinionDataModel.setVoteStatus(VoteStatus.DOWNVOTED);
@@ -182,8 +184,8 @@ public class OpinionHelper {
                         @Override
                         public void onCompleted(opinion entity, Exception exception, ServiceFilterResponse response) {
 
-                            OpinionDataModel opinion = new OpinionDataModel(entity);
                             if(exception == null) {
+                                OpinionDataModel opinion = new OpinionDataModel(entity);
                                 listener.onCompleted(opinion);
 
                                 if(opinionAddListener!= null){

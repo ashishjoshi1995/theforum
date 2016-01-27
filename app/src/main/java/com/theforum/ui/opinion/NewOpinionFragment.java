@@ -143,7 +143,8 @@ public class NewOpinionFragment extends Fragment {
 
             @Override
             public void onError(String error) {
-                Log.e("error",error);
+                Log.e("Opinionerror",error);
+                CommonUtils.showToast(getContext(),"Check your Internet Connection");
                 pd.dismiss();
             }
         });

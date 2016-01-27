@@ -56,16 +56,17 @@ public class TrendsFragment extends Fragment {
             }
         });
 
-        getDataFromServer();
+        getData();
 
     }
 
-    private void getDataFromServer(){
+    private void getData(){
 
         TrendsHelper.getHelper().getTrends(new TrendsHelper.OnTrendsReceivedListener() {
 
             @Override
             public void onCompleted(ArrayList<TrendsDataModel> trends) {
+                Log.e("trends size", ""+trends.size());
                 mAdapter.clearList();
                 mAdapter.addAllTrends(trends);
                 swipeRefreshLayout.setRefreshing(false);
