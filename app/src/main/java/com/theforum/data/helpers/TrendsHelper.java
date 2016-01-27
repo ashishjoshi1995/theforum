@@ -99,8 +99,7 @@ public class TrendsHelper {
                     @Override
                     public void onCompleted(TrendingResponse result, Exception exception, ServiceFilterResponse response) {
                         if (exception == null) {
-                            //Log.e("The process has fucking been completed","yes");
-                            Log.e("message UpdvAPi", result.message);
+
                             try {
 
                                 if (result.message != null) {
@@ -124,19 +123,20 @@ public class TrendsHelper {
                                         topic.setRenewalIds(jsonObject.get("renewalIds").toString());
                                         topic.setRenewCount(Integer.parseInt(jsonObject.get("renewal").toString()));
 
-
+                                        boolean statusReceived = false;
                                         if(jsonObject.get("upvote_ids").toString()!=null) {
                                             String upid = jsonObject.get("upvote_ids").toString();
                                             String[] upids = upid.split(" ");
                                             for(int j=0;j<upids.length;j++){
                                                 if(upids[j].equals(User.getInstance().getId())){
                                                     topic.setVoteStatus(VoteStatus.UPVOTED);
+                                                    statusReceived = true;
                                                     break;
                                                 }
                                             }
 
                                         }
-                                        else if(jsonObject.get("downvote_ids").toString()!=null) {
+                                         if(jsonObject.get("downvote_ids").toString()!=null && !statusReceived) {
                                             String downid = jsonObject.get("downvote_ids").toString();
                                             String[] downids = downid.split(" ");
                                             for(int j=0;j<downids.length;j++){
@@ -250,19 +250,16 @@ public class TrendsHelper {
 
 
 
-    public void upvoteDownvote(Boolean ifUpvote,String opinionId, final OnUVDVOperationCompleteListener listener){
+    public void upvoteDownvote(boolean ifUpvote,String opinionId, final OnUVDVOperationCompleteListener listener){
         UPDVRequest updvRequest= new UPDVRequest();
         updvRequest.opinion_id = opinionId;
         updvRequest.id = User.getInstance().getId();
         if(ifUpvote){
-            //update UI
-            //update Local db
+
             updvRequest.operation_chosen = 1;
         }
         else{
 
-            //update UI
-            //update Local db
             updvRequest.operation_chosen = 0;
         }
         //update server
@@ -273,7 +270,6 @@ public class TrendsHelper {
             public void onCompleted(UPDVResponse result, Exception exception, ServiceFilterResponse response) {
                 if (exception == null) {
                     listener.onCompleteMessage("Opinion has been Upvoted");
-                    Log.e("message UpdvAPi", result.message);
                 } else {
                     listener.onCompleteMessage(exception.getMessage());
                 }
