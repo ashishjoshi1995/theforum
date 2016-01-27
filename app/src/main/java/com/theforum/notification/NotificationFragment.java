@@ -36,6 +36,7 @@ public class NotificationFragment extends Fragment {
     private NotificationListAdapter mAdapter;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        NotificationDBHelper.getHelper().openDatabase();
         return inflater.inflate(R.layout.fragment_settings, container, false);
     }
 

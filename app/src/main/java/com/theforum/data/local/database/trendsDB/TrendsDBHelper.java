@@ -1,7 +1,6 @@
 package com.theforum.data.local.database.trendsDB;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -41,7 +40,7 @@ public class TrendsDBHelper {
         values.put(TrendsDBConstants.KEY_OPINION,opinion.getOpinionText());
         values.put(TrendsDBConstants.KEY_UPVOTES, opinion.getUpVoteCount());
         values.put(TrendsDBConstants.KEY_DOWNVOTES,opinion.getDownVoteCount());
-        values.put(TrendsDBConstants.KEY_HOURS_LEFT,"datetime(now)");
+        values.put(TrendsDBConstants.KEY_HOURS_LEFT,opinion.getHoursLeft());
 
         db.insert(TrendsDBConstants.TABLE_NAME, null, values);            // Inserting record
 
@@ -78,7 +77,7 @@ public class TrendsDBHelper {
 
                 } while (cursor.moveToNext());
             }
-
+            cursor.close();
         }
         trendsDB.close();
 

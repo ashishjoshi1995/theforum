@@ -182,8 +182,8 @@ public class OpinionHelper {
                         @Override
                         public void onCompleted(opinion entity, Exception exception, ServiceFilterResponse response) {
 
-                            OpinionDataModel opinion = new OpinionDataModel(entity);
                             if(exception == null) {
+                                OpinionDataModel opinion = new OpinionDataModel(entity);
                                 listener.onCompleted(opinion);
 
                                 if(opinionAddListener!= null){

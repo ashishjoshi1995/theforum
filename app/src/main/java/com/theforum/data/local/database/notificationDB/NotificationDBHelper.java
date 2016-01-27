@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class NotificationDBHelper {
 
-
+    private NotificationDB notificationDB;
     private static NotificationDBHelper notificationDBHelper;
     private SQLiteDatabase notificationDatabase;
 
@@ -27,7 +27,11 @@ public class NotificationDBHelper {
     }
 
     private NotificationDBHelper(){
-        NotificationDB notificationDB = new NotificationDB(TheForumApplication.getAppContext());
+        notificationDB = new NotificationDB(TheForumApplication.getAppContext());
+        notificationDatabase = notificationDB.getWritableDatabase();
+    }
+
+    public void openDatabase(){
         notificationDatabase = notificationDB.getWritableDatabase();
     }
 

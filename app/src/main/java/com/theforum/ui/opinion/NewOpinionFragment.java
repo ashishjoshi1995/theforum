@@ -85,7 +85,6 @@ public class NewOpinionFragment extends Fragment {
         mTopicNameHolder.setHint("Your Opinion On " + topicModel.getTopicName());
 
         mUploadText = (KeyboardListenerEditText)mTopicNameHolder.getEditText();
-        mUploadText.setHint("Your Opinion On " + topicModel.getTopicName());
         mUploadText.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/Roboto-Light.ttf"));
         mUploadText.setOnBackPressListener(new KeyboardListenerEditText.OnBackPressListener() {
             @Override
@@ -144,7 +143,8 @@ public class NewOpinionFragment extends Fragment {
 
             @Override
             public void onError(String error) {
-                Log.e("error",error);
+                Log.e("Opinionerror",error);
+                CommonUtils.showToast(getContext(),"Check your Internet Connection");
                 pd.dismiss();
             }
         });
