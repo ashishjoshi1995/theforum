@@ -101,7 +101,7 @@ public class SettingsFragment extends Fragment implements OnListItemClickListene
                 CommonUtils.emailIntent(getActivity());
                 break;
             case 9:
-                CommonUtils.goToUrl(getActivity(),"http://theforumapp.co/terms.html");
+                CommonUtils.goToUrl(getActivity(),"http://theforumapp.co/index.html");
                 break;
         }
     }
