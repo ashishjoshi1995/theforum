@@ -48,7 +48,7 @@ public class ProfileFragment extends Fragment {
 
         status.setText(User.getInstance().getStatus());
         points.setText(""+User.getInstance().getPointCollected());
-        topics.setText(""+User.getInstance().getTopicsCreated());
+        topics.setText("$ "+User.getInstance().getTopicsCreated());
 
         setBackgroundColor(statusIcon, "#313c44");
         setBackgroundColor(pointsIcon,"#d9ab1d");
