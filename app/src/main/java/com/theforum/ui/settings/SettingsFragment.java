@@ -1,5 +1,7 @@
 package com.theforum.ui.settings;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.theforum.R;
+import com.theforum.TheForumApplication;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.views.DividerItemDecorator;
 import com.theforum.utils.listeners.OnListItemClickListener;
@@ -79,6 +82,28 @@ public class SettingsFragment extends Fragment implements OnListItemClickListene
 
     @Override
     public void onItemClick(View v, int position) {
-
+        switch (position){
+            case 1:
+                CommonUtils.shareViaWatsapp(getActivity(),"Try this app theforum,\nregister as a tester on\nhttps://play.google.com/apps/testing/com.theforum " +
+                        "\nThen download it from playstore link on the page that follows.\n" +
+                        "For more details visit\nhttp://theforumapp.co/terms.html");
+                break;
+            case 3 :
+                CommonUtils.showToast(TheForumApplication.getAppContext(),"w");
+                break;
+            case 4 :
+                CommonUtils.showToast(TheForumApplication.getAppContext(),"Sharewe app");
+                break;
+            case 6:
+                CommonUtils.emailIntent(getActivity());
+                break;
+            case 7:
+                CommonUtils.emailIntent(getActivity());
+                break;
+            case 9:
+                CommonUtils.goToUrl(getActivity(),"http://theforumapp.co/terms.html");
+                break;
+        }
     }
+
 }

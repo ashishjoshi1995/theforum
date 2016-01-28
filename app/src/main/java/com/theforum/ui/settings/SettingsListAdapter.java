@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.theforum.TheForumApplication;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.listeners.OnListItemClickListener;
 
@@ -53,8 +54,9 @@ public class SettingsListAdapter extends RecyclerView.Adapter<SettingsListAdapte
             int position = getLayoutPosition();
 
             if (position == 1 || position == 3 || position == 4 || position == 6||position==7||position==9) {
-                onListItemClickListener.onItemClick(v,position );
+                onListItemClickListener.onItemClick(v, position);
             }
+
         }
 
     }
