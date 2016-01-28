@@ -17,8 +17,14 @@ public class user {
     @com.google.gson.annotations.SerializedName("points_collected")
     private int mPointCollected;
 
+    @com.google.gson.annotations.SerializedName("total_characters")
+    private int mTotalCharacters;
+
     @com.google.gson.annotations.SerializedName("status")
     private String mStatus;
+
+    @com.google.gson.annotations.SerializedName("opinions_count")
+    private String mOpinionCount;
 
     @com.google.gson.annotations.SerializedName("topics_created")
     private int mTopicsCreated;
@@ -138,5 +144,21 @@ public class user {
 
     public void setTotalUpvotesOnOpinions(int totalUpvotesOnOpinions) {
         this.totalUpvotesOnOpinions = totalUpvotesOnOpinions;
+    }
+
+    public int getmTotalCharacters() {
+        return mTotalCharacters;
+    }
+
+    public void setmTotalCharacters(int mTotalCharacters) {
+        this.mTotalCharacters = mTotalCharacters;
+    }
+
+    public String getmOpinionCount() {
+        return mOpinionCount;
+    }
+
+    public void setmOpinionCount(String mOpinionCount) {
+        this.mOpinionCount = mOpinionCount;
     }
 }

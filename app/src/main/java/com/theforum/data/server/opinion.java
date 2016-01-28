@@ -16,6 +16,7 @@ public class opinion {
 
     @com.google.gson.annotations.SerializedName("downvote_ids")
     private String downVotes_ids;
+
     @com.google.gson.annotations.SerializedName("upvotes")
     private int upVotes;
 
