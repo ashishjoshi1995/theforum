@@ -89,10 +89,10 @@ public class SettingsFragment extends Fragment implements OnListItemClickListene
                         "For more details visit\nhttp://theforumapp.co/terms.html");
                 break;
             case 3 :
-                CommonUtils.showToast(TheForumApplication.getAppContext(),"w");
+                CommonUtils.goToUrl(getActivity(),"https://play.google.com/store/apps/details?id=com.theforum&ah=DXRxB5Fc4Rba7GboG-pIzyRoJRI");
                 break;
             case 4 :
-                CommonUtils.showToast(TheForumApplication.getAppContext(),"Sharewe app");
+                CommonUtils.emailIntent(getActivity());
                 break;
             case 6:
                 CommonUtils.emailIntent(getActivity());
