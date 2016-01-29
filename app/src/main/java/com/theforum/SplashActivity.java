@@ -2,7 +2,6 @@ package com.theforum;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -36,7 +35,7 @@ public class SplashActivity extends AppCompatActivity {
         TrendsHelper.getHelper().loadTrends();
         ProfileHelper.getHelper().viewProfile();
 
-                ((GradientDrawable) frogBody.getBackground()).setColor(Color.parseColor("#30ed17"));
+        ((GradientDrawable) frogBody.getBackground()).setColor(Color.parseColor("#30ed17"));
 
 
         new Handler().postDelayed(new Runnable() {

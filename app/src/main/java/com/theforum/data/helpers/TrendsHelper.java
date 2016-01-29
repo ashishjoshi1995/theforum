@@ -33,10 +33,11 @@ import java.util.ArrayList;
  */
 public class TrendsHelper {
 
+    public RequestStatus requestStatus;
+
     private static TrendsHelper trendsHelper;
     private MobileServiceTable<topic> mTopic;
 
-    private RequestStatus requestStatus;
     private ArrayList<TrendsDataModel> trends;
     private OnTrendsReceivedListener trendsReceivedListener;
 
@@ -50,7 +51,6 @@ public class TrendsHelper {
         trends = new ArrayList<>();
         requestStatus = RequestStatus.IDLE;
     }
-
 
 
     public void loadTrends(){
@@ -96,6 +96,7 @@ public class TrendsHelper {
 
         TheForumApplication.getClient().invokeApi("trendingopininos", updvRequest, TrendingResponse.class,
                 new ApiOperationCallback<TrendingResponse>() {
+
                     @Override
                     public void onCompleted(TrendingResponse result, Exception exception, ServiceFilterResponse response) {
                         if (exception == null) {
@@ -104,9 +105,8 @@ public class TrendsHelper {
 
                                 if (result.message != null) {
                                     JSONArray jsonArray = new JSONArray(result.message);
-                                    //JSONObject jsonObject = jsonArray.getJSONObject(0);
-                                   // Log.e("message UpdvAPi", jsonObject.toString());
                                     requestStatus = RequestStatus.COMPLETED;
+
                                     for (int i = 0; i < jsonArray.length(); i++) {
                                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                                         TrendsDataModel topic = new TrendsDataModel();
@@ -124,9 +124,10 @@ public class TrendsHelper {
                                         topic.setRenewCount(Integer.parseInt(jsonObject.get("renewal").toString()));
 
                                         boolean statusReceived = false;
-                                        if(jsonObject.get("upvote_ids").toString()!=null) {
+                                        if(jsonObject.get("upvote_ids") != null) {
                                             String upid = jsonObject.get("upvote_ids").toString();
                                             String[] upids = upid.split(" ");
+
                                             for(int j=0;j<upids.length;j++){
                                                 if(upids[j].equals(User.getInstance().getId())){
                                                     topic.setVoteStatus(VoteStatus.UPVOTED);
@@ -136,7 +137,8 @@ public class TrendsHelper {
                                             }
 
                                         }
-                                         if(jsonObject.get("downvote_ids").toString()!=null && !statusReceived) {
+
+                                        if(jsonObject.get("downvote_ids").toString()!=null && !statusReceived) {
                                             String downid = jsonObject.get("downvote_ids").toString();
                                             String[] downids = downid.split(" ");
                                             for(int j=0;j<downids.length;j++){
@@ -150,6 +152,12 @@ public class TrendsHelper {
 
                                         trends.add(topic);
                                     }
+
+
+                                    // save the data to local database.
+                                    TrendsDBHelper.getHelper().deleteAllTrends();
+                                    TrendsDBHelper.getHelper().addTrends(trends);
+
                                     /**
                                      * passing the data to ui
                                      */
@@ -158,10 +166,6 @@ public class TrendsHelper {
                                         requestStatus = RequestStatus.IDLE;
                                         trends.clear();
                                     }
-
-                                    // save the data to local database.
-                                    TrendsDBHelper.getHelper().deleteAllTrends();
-                                    TrendsDBHelper.getHelper().addTrends(trends);
 
                                 }  else {
                                     if (trendsReceivedListener != null) {
@@ -248,28 +252,26 @@ public class TrendsHelper {
     }
 
 
-
-
-    public void upvoteDownvote(boolean ifUpvote,String opinionId, final OnUVDVOperationCompleteListener listener){
+    public void upVoteDownVote(boolean ifUpVote, String opinionId, final OnUVDVOperationCompleteListener listener){
         UPDVRequest updvRequest= new UPDVRequest();
         updvRequest.opinion_id = opinionId;
         updvRequest.id = User.getInstance().getId();
-        if(ifUpvote){
 
+        if(ifUpVote){
             updvRequest.operation_chosen = 1;
         }
         else{
-
             updvRequest.operation_chosen = 0;
         }
+
         //update server
 
-
-        TheForumApplication.getClient().invokeApi("upvote", updvRequest, UPDVResponse.class, new ApiOperationCallback<UPDVResponse>() {
+        TheForumApplication.getClient().invokeApi("upvote", updvRequest, UPDVResponse.class,
+                new ApiOperationCallback<UPDVResponse>() {
             @Override
             public void onCompleted(UPDVResponse result, Exception exception, ServiceFilterResponse response) {
                 if (exception == null) {
-                    listener.onCompleteMessage("Opinion has been Upvoted");
+                    listener.onCompleteMessage("Opinion has been UpVoted");
                 } else {
                     listener.onCompleteMessage(exception.getMessage());
                 }

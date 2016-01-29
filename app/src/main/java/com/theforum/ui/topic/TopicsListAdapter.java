@@ -192,10 +192,6 @@ public class TopicsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         notifyDataSetChanged();
     }
 
-    public void setAllTopicsLoaded(boolean allTopicsLoaded){
-        this.allTopicsLoaded = allTopicsLoaded;
-    }
-
 
     @Override
     public int getItemCount() {return mTopics.size();}

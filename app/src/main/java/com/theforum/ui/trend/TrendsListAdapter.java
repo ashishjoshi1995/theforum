@@ -85,7 +85,7 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                         /*
                          *  send the request to server to increase the count
                          */
-                      TrendsHelper.getHelper().upvoteDownvote(true, opinionModel.getTrendId(), new TrendsHelper.OnUVDVOperationCompleteListener() {
+                      TrendsHelper.getHelper().upVoteDownVote(true, opinionModel.getTrendId(), new TrendsHelper.OnUVDVOperationCompleteListener() {
                           @Override
                           public void onCompleteMessage(String message) {
                               CommonUtils.showToast(mContext, message);
@@ -112,13 +112,13 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                         /*
                          *  send the request to server to decrease the count
                          */
-                        TrendsHelper.getHelper().upvoteDownvote(false, opinionModel2.getTrendId(), new TrendsHelper.OnUVDVOperationCompleteListener() {
+                        TrendsHelper.getHelper().upVoteDownVote(false, opinionModel2.getTrendId(), new TrendsHelper.OnUVDVOperationCompleteListener() {
                             @Override
                             public void onCompleteMessage(String message) {
                                 CommonUtils.showToast(mContext, message);
                             }
 
-                    });
+                        });
                 }
 
                 else CommonUtils.showToast(mContext,"Cannot DownVote");
