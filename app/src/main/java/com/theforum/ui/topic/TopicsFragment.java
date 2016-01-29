@@ -92,7 +92,6 @@ public class TopicsFragment extends Fragment {
                 @Override
                 public void onCompleted(ArrayList<TopicDataModel> topics) {
                     swipeRefreshLayout.setRefreshing(false);
-                    Log.e("ui ui", "data received " + topics.size());
 
                     if(topics.size()== 1 && topics.get(0).isMyTopic()) {
                         mAdapter.addTopic(topics.get(0),0);
@@ -110,12 +109,11 @@ public class TopicsFragment extends Fragment {
                         @Override
                         public void run() {
                             swipeRefreshLayout.setRefreshing(false);
+                            CommonUtils.showToast(getContext(), "Check Your Internet Connection");
                         }
                     });
 
                     Log.e("TopicsFragment error", error);
-
-                    CommonUtils.showToast(getContext(), "Check Your Internet Connection");
 
                 }
             });

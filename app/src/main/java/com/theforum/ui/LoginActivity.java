@@ -10,11 +10,11 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.theforum.R;
 import com.theforum.data.helpers.LoginHelper;
@@ -22,6 +22,7 @@ import com.theforum.data.server.user;
 import com.theforum.notification.NotificationService;
 import com.theforum.ui.home.HomeActivity;
 import com.theforum.utils.CommonUtils;
+import com.theforum.utils.NetworkUtils;
 import com.theforum.utils.ProfileUtils;
 import com.theforum.utils.SettingsUtils;
 import com.theforum.utils.User;
@@ -29,7 +30,7 @@ import com.theforum.utils.User;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
     @Bind(R.id.login_age)
     EditText mAge;
@@ -40,6 +41,15 @@ public class LoginActivity extends AppCompatActivity {
     @Bind(R.id.frog_body)
     ImageView frogBody;
 
+    @Bind(R.id.login_privacy_policy)
+    TextView privacyPolicy;
+
+    @Bind(R.id.login_terms)
+    TextView termsOfService;
+
+    @Bind(R.id.login_contact_us)
+    TextView contactUs;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,28 +59,55 @@ public class LoginActivity extends AppCompatActivity {
 
         ((GradientDrawable)frogBody.getBackground()).setColor(Color.parseColor("#30ed17"));
 
-        mLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        mLogin.setOnClickListener(this);
+        termsOfService.setOnClickListener(this);
+        privacyPolicy.setOnClickListener(this);
+        contactUs.setOnClickListener(this);
+
+        setNotificationSettings();
+
+        ProfileUtils.getInstance().savePreferences(ProfileUtils.COUNTRY,"India");
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()){
+
+            case R.id.login_contact_us:
+                NetworkUtils.emailIntent(this);
+                break;
+
+            case R.id.login_terms:
+                NetworkUtils.goToUrl(this ,"http://theforumapp.co/terms.html");
+                break;
+
+            case R.id.login_privacy_policy:
+                NetworkUtils.goToUrl(this, "http://theforumapp.co/privacy.html");
+                break;
+
+            case R.id.login_button:
 
                 if (!mAge.getText().toString().equals("")) {
 
-                    register(Integer.parseInt(mAge.getText().toString()));
+                    int age = Integer.parseInt(mAge.getText().toString());
+                    if(age > 12 && age <123) {
+                        register(age);
 
+                    }else CommonUtils.showToast(LoginActivity.this,"Please enter a valid age");
 
-                } else
-                    CommonUtils.showToast(LoginActivity.this, "Please enter your age. Don't Panic!!");
-            }
-        });
-        setNotificationSettings();
-        ProfileUtils.getInstance().savePreferences(ProfileUtils.COUNTRY,"India");
+                } else CommonUtils.showToast(LoginActivity.this, "Please enter your age. Don't Panic!!");
+
+                break;
+        }
     }
 
+
     private void setNotificationSettings(){
-        SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_OPINIONS_RECEIVED_NOTIFICATION,true);
-        SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_RENEWAL_REQUESTS_NOTIFICATION,true);
-        SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_TOPIC_RENEWED_NOTIFICATION,true);
-        SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_UPVOTES_RECIEVED_NOTIFICATION,true);
+        SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_OPINIONS_RECEIVED_NOTIFICATION, true);
+        SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_RENEWAL_REQUESTS_NOTIFICATION, true);
+        SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_TOPIC_RENEWED_NOTIFICATION, true);
+        SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_UPVOTES_RECIEVED_NOTIFICATION, true);
     }
 
     private void register(final int age) {
@@ -104,7 +141,7 @@ public class LoginActivity extends AppCompatActivity {
                 /**
                  * starting notification service
                  */
-                int minutes = 2;
+                int minutes = 60;
                 AlarmManager am = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
                 PendingIntent pi = PendingIntent.getService(getApplicationContext(), 0,
                         new Intent(getApplicationContext(), NotificationService.class), 0);
@@ -124,10 +161,17 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onError(String error) {
-                Log.e("error register", error);
                 pd.dismiss();
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        CommonUtils.showToast(LoginActivity.this, "Please Check Your Internet Connection");
+                    }
+                });
             }
         });
     }
 
-    }
+
+}

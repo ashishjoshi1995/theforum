@@ -30,14 +30,6 @@ import java.util.ArrayList;
 
 public class CommonUtils {
 
-    public static int getStatusBarHeight(Activity activity) {
-        int result = 0;
-        int resourceId = activity.getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            result = activity.getResources().getDimensionPixelSize(resourceId);
-        }
-        return result;
-    }
 
     public static float convertDpToPixel(float dp, Context context){
         Resources resources = context.getResources();
@@ -54,27 +46,6 @@ public class CommonUtils {
         Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
     }
 
-    public static void goToUrl(Context context,String url){
-        Uri uriUrl = Uri.parse(url);
-        Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
-        context.startActivity(launchBrowser);
-    }
-
-    public static void emailIntent(Context context){
-        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "contact@theforumapp.co", null));
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
-        emailIntent.putExtra(Intent.EXTRA_TEXT, "Body");
-        context.startActivity(Intent.createChooser(emailIntent, "Send email..."));
-    }
-
-    public static void shareViaWatsapp(Context context, String message){
-        Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.setPackage("com.whatsapp");
-        sendIntent.putExtra(Intent.EXTRA_TEXT, message);
-        sendIntent.setType("text/plain");
-        context.startActivity(sendIntent);
-    }
 
     public static void openContainerActivity(Context context,int idValue){
         Intent intent = new Intent(context, ContainerActivity.class);

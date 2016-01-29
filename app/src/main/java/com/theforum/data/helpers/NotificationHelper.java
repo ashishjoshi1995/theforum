@@ -20,15 +20,19 @@ import java.util.List;
 /**
  * @author Ashish on 1/6/2016.
  */
+
+/**
+ * this class has none of the server methods built with asyncTask as
+ * asyncTask is already included during the call of any of the above methods
+ */
 public class NotificationHelper {
-    //this class has none of the server methods built with asyncTask as
-    //asyncTask is already included during the call of any of the above methods
+
 
     MobileServiceClient mobileServiceClient;
-    MobileServiceTable<topic>topic;
-    MobileServiceTable<opinion>opinion;
-    public static Boolean one = false;
-    public static Boolean two = false;
+    MobileServiceTable<topic> topic;
+    MobileServiceTable<opinion> opinion;
+    public static boolean one = false;
+    public static boolean two = false;
 
 
     public NotificationHelper(){

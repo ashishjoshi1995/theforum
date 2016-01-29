@@ -11,7 +11,6 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
-import android.util.Log;
 
 import com.theforum.R;
 import com.theforum.TheForumApplication;
@@ -26,7 +25,6 @@ import com.theforum.utils.listeners.NotificationListener;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 
 /**
@@ -82,8 +80,6 @@ public class NotificationService extends Service {
         @Override
         protected Void doInBackground(Void... params) {
 
-            // here we need to query the two tables and transfer the data to on post execute
-
             final NotificationHelper helper = new NotificationHelper();
             helper.readNotification(new NotificationListener() {
             int notificationCount = 0;
@@ -133,17 +129,17 @@ public class NotificationService extends Service {
                 @Override
                 public void opinionNotification(List<opinion> opinions) {
                     ArrayList<NotificationDataModel> inflatorItemDatas = new ArrayList<>();
-                    Log.e("opinion size",""+opinions.size());
+
                         for(int j=0;j<opinions.size();j++){
-                            NotificationDataModel inflatorItemData = new NotificationDataModel();
-                            inflatorItemData.notificationType = NotificationType.NOTIFICATION_TYPE_OPINION_UP_VOTES;
-                            inflatorItemData.topicText = opinions.get(j).getTopicName();
-                            inflatorItemData.topicId =opinions.get(j).getTopicId();
-                            inflatorItemData.newCount = opinions.get(j).getmNotifCount();
-                            inflatorItemData.totalUpvotes = opinions.get(j).getUpVotes();
-                            inflatorItemData.totalDownvotes = opinions.get(j).getDownVotes();
-                            inflatorItemData.opinionText = opinions.get(j).getOpinionName();
-                            inflatorItemDatas.add(inflatorItemData);
+                            NotificationDataModel notificationDataModel = new NotificationDataModel();
+                            notificationDataModel.notificationType = NotificationType.NOTIFICATION_TYPE_OPINION_UP_VOTES;
+                            notificationDataModel.topicText = opinions.get(j).getTopicName();
+                            notificationDataModel.topicId =opinions.get(j).getTopicId();
+                            notificationDataModel.newCount = opinions.get(j).getmNotifCount();
+                            notificationDataModel.totalUpvotes = opinions.get(j).getUpVotes();
+                            notificationDataModel.totalDownvotes = opinions.get(j).getDownVotes();
+                            notificationDataModel.opinionText = opinions.get(j).getOpinionName();
+                            inflatorItemDatas.add(notificationDataModel);
                             notificationCount++;
                         }
 
