@@ -1,4 +1,4 @@
-package com.theforum;
+package com.theforum.ui;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.theforum.R;
 import com.theforum.data.helpers.LoginHelper;
 import com.theforum.data.server.user;
 import com.theforum.notification.NotificationService;

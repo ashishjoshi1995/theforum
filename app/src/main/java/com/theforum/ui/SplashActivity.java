@@ -1,4 +1,4 @@
-package com.theforum;
+package com.theforum.ui;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
+import com.theforum.R;
 import com.theforum.data.helpers.ProfileHelper;
 import com.theforum.data.helpers.TopicHelper;
 import com.theforum.data.helpers.TrendsHelper;

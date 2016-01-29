@@ -1,4 +1,4 @@
-package com.theforum;
+package com.theforum.ui;
 
 
 import android.os.Bundle;
@@ -6,13 +6,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
+import com.theforum.R;
 import com.theforum.constants.LayoutType;
-import com.theforum.notification.NotificationFragment;
 import com.theforum.ui.opinion.NewOpinionFragment;
 import com.theforum.ui.opinion.OpinionsFragment;
 import com.theforum.ui.topic.NewTopicFragment;
 import com.theforum.ui.settings.SettingsFragment;
-import com.theforum.ui.SortFragment;
 
 public class ContainerActivity extends AppCompatActivity {
 
@@ -45,10 +44,6 @@ public class ContainerActivity extends AppCompatActivity {
 
             case LayoutType.SETTINGS_FRAGMENT:
                 fragmentTransaction.replace(R.id.menu_fragment_container,new SettingsFragment());
-                break;
-
-            case LayoutType.NOTIFICATION_FRAGMENT:
-                fragmentTransaction.replace(R.id.menu_fragment_container,new NotificationFragment());
                 break;
 
             case LayoutType.SORT_FRAGMENT:
