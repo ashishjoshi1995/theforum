@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.theforum.R;
 import com.theforum.constants.LayoutType;
 import com.theforum.data.helpers.TopicHelper;
+import com.theforum.data.local.database.topicDB.TopicDBHelper;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.listeners.OnLoadMoreListener;
@@ -83,11 +84,11 @@ public class TopicsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         int b=topic.getRenewalRequests();
                         b=b+1;
                         renewCountBtn.setText(String.valueOf(b));
-                        setCompoundDrawables(renewCountBtn,renewedIcon);
+                        setCompoundDrawables(renewCountBtn, renewedIcon);
 
                         topic.setRenewalRequests(b);
                         topic.setIsRenewed(true);
-
+                        TopicDBHelper.getHelper().updateTopicRenewalStatus(topic);
                         TopicHelper.getHelper().addRenewalRequest(topic.getTopicId(),
                                 new TopicHelper.OnRenewalRequestListener() {
                                     @Override
@@ -103,6 +104,7 @@ public class TopicsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
                         topic.setRenewalRequests(b);
                         topic.setIsRenewed(false);
+                        TopicDBHelper.getHelper().updateTopicRenewalStatus(topic);
                         TopicHelper.getHelper().removeRenewal(topic.getTopicId(), new TopicHelper.OnRemoveRenewalRequestListener() {
                             @Override
                             public void response(String s) {

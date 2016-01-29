@@ -8,6 +8,7 @@ import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.theforum.TheForumApplication;
+import com.theforum.data.helpers.removeUpDownApi.RUDAResponse;
 import com.theforum.data.helpers.trendinOpinionApi.TrendingInput;
 import com.theforum.data.helpers.trendinOpinionApi.TrendingResponse;
 import com.theforum.data.helpers.upvoteDownvoteApi.UPDVRequest;
@@ -269,15 +270,42 @@ public class TrendsHelper {
 
         TheForumApplication.getClient().invokeApi("upvote", updvRequest, UPDVResponse.class,
                 new ApiOperationCallback<UPDVResponse>() {
-            @Override
-            public void onCompleted(UPDVResponse result, Exception exception, ServiceFilterResponse response) {
-                if (exception == null) {
-                    listener.onCompleteMessage("Opinion has been UpVoted");
-                } else {
-                    listener.onCompleteMessage(exception.getMessage());
-                }
-            }
-        });
+                    @Override
+                    public void onCompleted(UPDVResponse result, Exception exception, ServiceFilterResponse response) {
+                        if (exception == null) {
+                            listener.onCompleteMessage("Opinion has been UpVoted");
+                        } else {
+                            listener.onCompleteMessage(exception.getMessage());
+                        }
+                    }
+                });
+
+    }
+    public void removeUpDownVote(boolean ifUpVote, String opinionId, final OnRUDAOperationCompleteListener listener){
+        UPDVRequest updvRequest= new UPDVRequest();
+        updvRequest.opinion_id = opinionId;
+        updvRequest.id = User.getInstance().getId();
+
+        if(ifUpVote){
+            updvRequest.operation_chosen = 1;
+        }
+        else{
+            updvRequest.operation_chosen = 0;
+        }
+
+        //update server
+
+        TheForumApplication.getClient().invokeApi("remove_up_down", updvRequest, RUDAResponse.class,
+                new ApiOperationCallback<RUDAResponse>() {
+                    @Override
+                    public void onCompleted(RUDAResponse result, Exception exception, ServiceFilterResponse response) {
+                        if (exception == null) {
+                            listener.onCompleteMessage("Opinion removed UpVoted");
+                        } else {
+                            listener.onCompleteMessage(exception.getMessage());
+                        }
+                    }
+                });
 
     }
 
@@ -300,6 +328,13 @@ public class TrendsHelper {
     }
 
     public interface OnUVDVOperationCompleteListener{
+        /**
+         *
+         * @param  message opinion data model with updated params
+         */
+        void onCompleteMessage(String message);
+    }
+    public interface OnRUDAOperationCompleteListener{
         /**
          *
          * @param  message opinion data model with updated params

@@ -93,6 +93,14 @@ public class TopicDBHelper {
         topicDatabase.update(TopicDBConstants.TABLE_NAME, values, TopicDBConstants.KEY_TOPIC_ID
                 +" = ?", new String[]{topic.getTopicId()});
     }
+    public void updateTopicRenewalStatus(TopicDataModel topic){
+        ContentValues values = new ContentValues();
+
+        values.put(TopicDBConstants.KEY_IS_RENEWED, (topic.isRenewed())? "yes" :"no");
+
+        topicDatabase.update(TopicDBConstants.TABLE_NAME, values, TopicDBConstants.KEY_TOPIC_ID
+                +" = ?", new String[]{topic.getTopicId()});
+    }
 
     /**
      *
