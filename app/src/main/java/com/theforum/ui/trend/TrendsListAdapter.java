@@ -159,6 +159,7 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
         holder.upVoteBtn.setText(String.valueOf(trendsDataModel.getUpVoteCount()));
         holder.downVoteBtn.setText(String.valueOf(trendsDataModel.getDownVoteCount()));
 
+
         String text = mContext.getResources().getQuantityString(R.plurals.time_holder_message,
                                                                 trendsDataModel.getRenewCount(),
                                                                 trendsDataModel.getHoursLeft(),
