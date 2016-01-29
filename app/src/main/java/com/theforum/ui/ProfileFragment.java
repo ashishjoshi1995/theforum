@@ -1,5 +1,6 @@
 package com.theforum.ui;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.GradientDrawable;
@@ -11,9 +12,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.theforum.constants.LayoutType;
 import com.theforum.R;
 import com.theforum.data.local.database.notificationDB.NotificationDBHelper;
+import com.theforum.notification.NotificationActivity;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.User;
 
@@ -62,10 +63,12 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 NotificationDBHelper.getHelper().openDatabase();
-                if(NotificationDBHelper.getHelper().checkIfNotificationExist())
-                CommonUtils.openContainerActivity(getContext(), LayoutType.NOTIFICATION_FRAGMENT);
-                else {
-                    CommonUtils.showToast(getContext(),"No new Notification");
+
+                if(NotificationDBHelper.getHelper().checkIfNotificationExist()) {
+                    startActivity(new Intent(getActivity(), NotificationActivity.class));
+
+                } else {
+                    CommonUtils.showToast(getContext(), "No new Notification");
                 }
 
                 NotificationDBHelper.getHelper().closeDataBase();

@@ -11,7 +11,7 @@ import android.os.PowerManager;
 import android.util.Log;
 import android.widget.RemoteViews;
 
-import com.theforum.ContainerActivity;
+import com.theforum.ui.ContainerActivity;
 import com.theforum.R;
 import com.theforum.constants.LayoutType;
 import com.theforum.constants.NotificationType;
@@ -196,17 +196,16 @@ public class NotificationService extends Service {
             NotificationManager mNotificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
 
             RemoteViews contentView = new RemoteViews(getPackageName(), R.layout.notification_layout);
-            //TODO modify here for response
+
             contentView.setTextViewText(R.id.title, "theforum");
             contentView.setTextViewText(R.id.text, "you have "+j+" new notifications");
 
             notification.contentView = contentView;
 
-            Intent notificationIntent = new Intent(getApplicationContext(), ContainerActivity.class);
-            notificationIntent.putExtra("id", LayoutType.NOTIFICATION_FRAGMENT);
+            Intent notificationIntent = new Intent(getApplicationContext(), NotificationActivity.class);
             notification.contentIntent = PendingIntent.getActivity(getApplication(), 0, notificationIntent, 0);
 
-            //notification.flags |= Notification.FLAG_NO_CLEAR; //Do not clear the notification
+            notification.flags |= Notification.FLAG_NO_CLEAR; //Do not clear the notification
             notification.defaults |= Notification.DEFAULT_LIGHTS; // LED
             notification.defaults |= Notification.DEFAULT_VIBRATE; //Vibration
             notification.defaults |= Notification.DEFAULT_SOUND; // Sound

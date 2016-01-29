@@ -21,7 +21,7 @@ import android.support.v4.util.Pair;
 import android.util.DisplayMetrics;
 import android.widget.Toast;
 
-import com.theforum.ContainerActivity;
+import com.theforum.ui.ContainerActivity;
 import com.theforum.TheForumApplication;
 
 import java.io.Serializable;
