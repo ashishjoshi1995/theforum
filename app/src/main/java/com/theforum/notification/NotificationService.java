@@ -82,7 +82,7 @@ public class NotificationService extends Service {
         @Override
         protected Void doInBackground(Void... params) {
 
-            // here we need to query the two tables and transfer the data to on post execute
+            // here we need to query the two tables and transfer the data to on post execu            te
 
             final NotificationHelper helper = new NotificationHelper();
             helper.readNotification(new NotificationListener() {
@@ -170,8 +170,6 @@ public class NotificationService extends Service {
                         if(notificationCount>0 && stream == 1){
                         Notify(notificationCount);
                         stream = 0;
-                        }else if(stream==0){
-                            stream++;
                         }
                         NotificationDBHelper.getHelper().addNotifications(inflatorItemDatas);
                         //OpinionDBHelper.getHelper().addOpinions(opinions);

@@ -13,18 +13,28 @@ public class TopicDB extends SQLiteOpenHelper {
         super(context,TopicDBConstants.DATABASE_NAME,null,TopicDBConstants.DATABASE_VERSION);
     }
 
+   // private static final String DATABASE_ALTER_TEAM_1 = "ALTER TABLE "
+     //       + TopicDBConstants.TABLE_NAME + " ADD COLUMN " + TopicDBConstants.KEY_ + " string;";
+
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_TOPIC_TABLE = "CREATE TABLE " +TopicDBConstants.TABLE_NAME + "("
-                + TopicDBConstants.KEY_ID + " INTEGER PRIMARY KEY," + TopicDBConstants.KEY_SERVER_ID + " TEXT,"
-                +TopicDBConstants.KEY_TOPIC_ID+" TEXT," +TopicDBConstants.KEY_TOPIC+" TEXT,"
-                + TopicDBConstants.KEY_DESCRIPTION+ " TEXT,"  + TopicDBConstants.KEY_RENEWAL_REQUEST + " INTEGER,"
-                + TopicDBConstants.KEY_RENEWED_COUNT + " INTEGER," + TopicDBConstants.KEY_HOURS_LEFT + " INTEGER,"
-                +TopicDBConstants.KEY_MY_TOPIC+" INTEGER,"+TopicDBConstants.KEY_IS_RENEWED+" INTEGER)";
+        String CREATE_TOPIC_TABLE = "CREATE TABLE " + TopicDBConstants.TABLE_NAME + "("
+                + TopicDBConstants.KEY_ID + " INTEGER PRIMARY KEY,"
+                + TopicDBConstants.KEY_SERVER_ID + " TEXT,"
+                + TopicDBConstants.KEY_TOPIC_ID+" TEXT,"
+                + TopicDBConstants.KEY_TOPIC+" TEXT,"
+                + TopicDBConstants.KEY_DESCRIPTION+ " TEXT,"
+                + TopicDBConstants.KEY_RENEWAL_REQUEST + " INTEGER,"
+                + TopicDBConstants.KEY_RENEWED_COUNT + " INTEGER,"
+                + TopicDBConstants.KEY_HOURS_LEFT + " INTEGER,"
+                + TopicDBConstants.KEY_MY_TOPIC+" INTEGER,"
+                + TopicDBConstants.KEY_IS_RENEWED+" INTEGER)";
         db.execSQL(CREATE_TOPIC_TABLE);
 
-        String CREATE_RENEW_REQUEST_TOPIC_TABLE = "CREATE TABLE " + TopicDBConstants.TABLE_TWO_NAME + "("
-                + TopicDBConstants.KEY_ID + " INTEGER PRIMARY KEY," + TopicDBConstants.KEY_TOPIC_ID + " TEXT)";
+        String CREATE_RENEW_REQUEST_TOPIC_TABLE = "CREATE TABLE "
+                + TopicDBConstants.TABLE_TWO_NAME + "("
+                + TopicDBConstants.KEY_ID + " INTEGER PRIMARY KEY,"
+                + TopicDBConstants.KEY_TOPIC_ID + " TEXT)";
 
         db.execSQL(CREATE_RENEW_REQUEST_TOPIC_TABLE);
     }
@@ -37,3 +47,5 @@ public class TopicDB extends SQLiteOpenHelper {
     }
 
 }
+//trending vote status
+//topic renewal ids

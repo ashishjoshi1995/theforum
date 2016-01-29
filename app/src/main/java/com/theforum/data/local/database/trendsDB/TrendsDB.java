@@ -14,7 +14,8 @@ public class TrendsDB extends SQLiteOpenHelper {
     public TrendsDB(Context context){
         super(context, TrendsDBConstants.DATABASE_NAME,null, TrendsDBConstants.DATABASE_VERSION);
     }
-
+    private static final String DATABASE_ALTER_TEAM_1 = "ALTER TABLE "
+            + TrendsDBConstants.TABLE_NAME + " ADD COLUMN " + TrendsDBConstants.KEY_VOTE_STATUS + " int;";
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -35,8 +36,9 @@ public class TrendsDB extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS" + TrendsDBConstants.TABLE_NAME);
-        onCreate(db);
+        if (oldVersion < 2) {
+            db.execSQL(DATABASE_ALTER_TEAM_1);
+        }
 
     }
 

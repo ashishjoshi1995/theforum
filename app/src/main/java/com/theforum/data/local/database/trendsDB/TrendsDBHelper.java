@@ -3,9 +3,11 @@ package com.theforum.data.local.database.trendsDB;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.theforum.TheForumApplication;
 import com.theforum.data.local.models.TrendsDataModel;
+import com.theforum.utils.enums.VoteStatus;
 
 import java.util.ArrayList;
 
@@ -39,11 +41,17 @@ public class TrendsDBHelper {
         values.put(TrendsDBConstants.KEY_TREND_ID,opinion.getTrendId());
         values.put(TrendsDBConstants.KEY_OPINION,opinion.getOpinionText());
         values.put(TrendsDBConstants.KEY_UPVOTES, opinion.getUpVoteCount());
-        values.put(TrendsDBConstants.KEY_DOWNVOTES,opinion.getDownVoteCount());
-        values.put(TrendsDBConstants.KEY_HOURS_LEFT,opinion.getHoursLeft());
+        values.put(TrendsDBConstants.KEY_DOWNVOTES, opinion.getDownVoteCount());
+        values.put(TrendsDBConstants.KEY_HOURS_LEFT, opinion.getHoursLeft());
+        if(opinion.getVoteStatus()== VoteStatus.DOWNVOTED)
+            values.put(TrendsDBConstants.KEY_VOTE_STATUS,0);
+        else if(opinion.getVoteStatus()==VoteStatus.NONE)
+            values.put(TrendsDBConstants.KEY_VOTE_STATUS,1);
+        else if(opinion.getVoteStatus() == VoteStatus.UPVOTED)
+            values.put(TrendsDBConstants.KEY_VOTE_STATUS,2);
 
         db.insert(TrendsDBConstants.TABLE_NAME, null, values);            // Inserting record
-
+        //Log.e("db.insert",)
         db.close();
 
     }
@@ -72,7 +80,12 @@ public class TrendsDBHelper {
                     obj.setUpVoteCount(cursor.getInt(6));
                     obj.setDownVoteCount(cursor.getInt(7));
                     obj.setHoursLeft(cursor.getInt(8));
-
+                    if(cursor.getInt(9)==0)
+                        obj.setVoteStatus(VoteStatus.DOWNVOTED);
+                    else if (cursor.getInt(9)==1)
+                        obj.setVoteStatus(VoteStatus.NONE);
+                    else if (cursor.getInt(9)==2)
+                        obj.setVoteStatus(VoteStatus.UPVOTED);
                     trends.add(obj);
 
                 } while (cursor.moveToNext());
