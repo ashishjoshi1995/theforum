@@ -165,7 +165,7 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
             holder.decayTimeHolder.setText(String.valueOf(trendsDataModel.getHoursLeft()) + "hrs left to decay");
         }
         else {
-            holder.decayTimeHolder.setText(String.valueOf(trendsDataModel.getHoursLeft()) + "hrs left to decay | "+String.valueOf(trendsDataModel.getHoursLeft())+" Renewal");
+            holder.decayTimeHolder.setText(String.valueOf(trendsDataModel.getHoursLeft()) + "hrs left to decay | "+String.valueOf(trendsDataModel.getRenewCount())+" Renewal");
         }
         if(trendsDataModel.getVoteStatus() == VoteStatus.NONE){
             setCompoundDrawables(holder.upVoteBtn, holder.upVoteIcon);
