@@ -100,7 +100,7 @@ public class TopicsFragment extends Fragment {
                     }else {
 
                         mAdapter.removeAllTopics();
-                        mAdapter.addTopics(topics, true);
+                        mAdapter.addTopics(topics);
                     }
                 }
 
@@ -114,7 +114,7 @@ public class TopicsFragment extends Fragment {
                     });
 
                     Log.e("TopicsFragment error", error);
-                    
+
                     CommonUtils.showToast(getContext(), "Check Your Internet Connection");
 
                 }

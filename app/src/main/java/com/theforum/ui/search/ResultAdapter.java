@@ -61,7 +61,7 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder
 
         holder.topicName.setText(topic.getTopicName());
         holder.renewCountBtn.setText(String.valueOf(topic.getRenewalRequests()));
-        holder.timeHolder.setText(mContext.getResources().getString(R.string.time_holder_message,
+        holder.timeHolder.setText(mContext.getResources().getQuantityString(R.plurals.time_holder_message,
                 topic.getHoursLeft(), topic.getRenewedCount()));
 
     }

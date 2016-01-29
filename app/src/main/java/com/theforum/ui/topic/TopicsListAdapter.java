@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +12,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.theforum.constants.LayoutType;
 import com.theforum.R;
+import com.theforum.constants.LayoutType;
 import com.theforum.data.helpers.TopicHelper;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.utils.CommonUtils;
@@ -36,10 +37,8 @@ public class TopicsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private Context mContext;
 
-    /* list of topics data */
     private List<TopicDataModel> mTopics;
     private OnLoadMoreListener loadMoreListener;
-    public boolean allTopicsLoaded = false;
 
     private final static int VIEW_TYPE_TOPIC = 0;
     private final static int VIEW_TYPE_LOAD_MORE_BTN = 1;
@@ -111,12 +110,12 @@ public class TopicsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         public LoadMoreItemViewHolder(View itemView) {
             super(itemView);
             loadMore = (Button)itemView;
-            loadMore.setText("LOAD MORE");
+            //loadMore.setText("LOAD MORE");
 
             loadMore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(!allTopicsLoaded) loadMoreListener.loadMore();
+                     loadMoreListener.loadMore();
                 }
             });
         }
@@ -125,17 +124,13 @@ public class TopicsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public int getItemViewType(int position) {
-       // if(position < mTopics.size() ){
-            return VIEW_TYPE_TOPIC;
-       // }else return VIEW_TYPE_LOAD_MORE_BTN;
+        return VIEW_TYPE_TOPIC;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-      //  if(viewType== VIEW_TYPE_TOPIC) {
             return new TopicsItemViewHolder(LayoutInflater.from(parent.getContext()).inflate(
                     R.layout.topics_list_item, parent, false));
-      //  }else return new LoadMoreItemViewHolder(new Button(mContext));
     }
 
     @Override
@@ -147,8 +142,14 @@ public class TopicsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             topicsItemViewHolder.topicName.setText(topic.getTopicName());
             topicsItemViewHolder.renewCountBtn.setText(String.valueOf(topic.getRenewalRequests()));
-            topicsItemViewHolder.timeHolder.setText(mContext.getResources().getString(R.string.time_holder_message,
-                    topic.getHoursLeft(), topic.getRenewedCount()));
+
+            topicsItemViewHolder.timeHolder.setText(Html.fromHtml(mContext.getResources().getQuantityString(
+                    R.plurals.time_holder_message,
+                    topic.getRenewedCount(),
+                    topic.getHoursLeft(),
+                    topic.getRenewedCount())));
+
+
             if(topic.isRenewed()){
                 setCompoundDrawables(topicsItemViewHolder.renewCountBtn,topicsItemViewHolder.renewedIcon);
 
@@ -166,19 +167,14 @@ public class TopicsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private void setCompoundDrawables(TextView textView, Drawable drawable){
         textView.setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null);
     }
+
     /**
      *
      * @param topics list of topics to update ui
-     * @param start true to add the topics at the top of the list
      */
 
-    public void addTopics(ArrayList<TopicDataModel> topics, boolean start){
-        if(start){
-            mTopics.addAll(0,topics);
-        }else {
-            mTopics.addAll(mTopics.size() - 1, topics);
-        }
-
+    public void addTopics(ArrayList<TopicDataModel> topics){
+        mTopics.addAll(0,topics);
         notifyDataSetChanged();
     }
 

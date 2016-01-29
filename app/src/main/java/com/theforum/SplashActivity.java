@@ -30,12 +30,12 @@ public class SplashActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        TopicHelper.getHelper().loadTopics(0, SettingsUtils.getInstance().getIntFromPreferences(
+        ((GradientDrawable) frogBody.getBackground()).setColor(Color.parseColor("#30ed17"));
+
+        TopicHelper.getHelper().loadTopics(SettingsUtils.getInstance().getIntFromPreferences(
                 SettingsUtils.TOPIC_FEED_SORT_STATUS));
         TrendsHelper.getHelper().loadTrends();
         ProfileHelper.getHelper().viewProfile();
-
-        ((GradientDrawable) frogBody.getBackground()).setColor(Color.parseColor("#30ed17"));
 
 
         new Handler().postDelayed(new Runnable() {
