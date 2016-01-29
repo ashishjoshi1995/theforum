@@ -14,6 +14,8 @@ import android.widget.TextView;
 import com.theforum.R;
 import com.theforum.constants.LayoutType;
 import com.theforum.data.helpers.TrendsHelper;
+import com.theforum.data.local.database.topicDB.TopicDBHelper;
+import com.theforum.data.local.database.trendsDB.TrendsDBHelper;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.data.local.models.TrendsDataModel;
 import com.theforum.utils.CommonUtils;
@@ -125,6 +127,7 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                           }
                       });
                   }
+                  TrendsDBHelper.getHelper().updateUPDVStatus(opinionModel);
               }
           });
 
@@ -132,6 +135,7 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                 @Override
                 public void onClick(View v) {
                     TrendsDataModel opinionModel2 = mFeeds.get(getLayoutPosition());
+
                     if (opinionModel2.getVoteStatus() == VoteStatus.NONE) {
 
                         int downvotes = opinionModel2.getDownVoteCount();
@@ -140,7 +144,7 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                         setCompoundDrawables(downVoteBtn, downVotedIcon);
                         opinionModel2.setDownVoteCount(downvotes);
                         opinionModel2.setVoteStatus(VoteStatus.DOWNVOTED);
-
+                        //TrendsDBHelper.getHelper().updateUPDVStatus(opinionModel2);
                         /*
                          *  send the request to server to decrease the count
                          */
@@ -149,7 +153,6 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                             public void onCompleteMessage(String message) {
                                 CommonUtils.showToast(mContext, message);
                             }
-
                         });
                 }
 
@@ -160,6 +163,7 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                         setCompoundDrawables(downVoteBtn, downVoteIcon);
                         opinionModel2.setDownVoteCount(downvotes);
                         opinionModel2.setVoteStatus(VoteStatus.NONE);
+                       // TrendsDBHelper.getHelper().updateUPDVStatus(opinionModel2);
                         TrendsHelper.getHelper().removeUpDownVote(false, opinionModel2.getTrendId(), new TrendsHelper.OnRUDAOperationCompleteListener() {
                             @Override
                             public void onCompleteMessage(String message) {
@@ -175,7 +179,7 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                         setCompoundDrawables(upVoteBtn, upVoteIcon);
                         opinionModel2.setUpVoteCount(upvotes);
                         opinionModel2.setVoteStatus(VoteStatus.NONE);
-
+                       // TrendsDBHelper.getHelper().updateUPDVStatus(opinionModel2);
                         /*
                          *  send the request to server to increase the count
                          */
@@ -187,6 +191,7 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                                     }
                                 });
                     }
+                    TrendsDBHelper.getHelper().updateUPDVStatus(opinionModel2);
             }
         });
         }

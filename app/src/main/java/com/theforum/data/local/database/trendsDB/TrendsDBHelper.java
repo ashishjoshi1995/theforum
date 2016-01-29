@@ -25,7 +25,6 @@ public class TrendsDBHelper {
         if(trendsDBHelper == null) trendsDBHelper = new TrendsDBHelper();
         return trendsDBHelper;
     }
-
     private TrendsDBHelper(){
         trendsDB = new TrendsDB(TheForumApplication.getAppContext());
     }
@@ -54,6 +53,19 @@ public class TrendsDBHelper {
         //Log.e("db.insert",)
         db.close();
 
+    }
+
+    public void updateUPDVStatus(TrendsDataModel trend){
+        ContentValues values = new ContentValues();
+
+        if(trend.getVoteStatus()==VoteStatus.UPVOTED)
+            values.put(TrendsDBConstants.KEY_VOTE_STATUS,2);
+        else if (trend.getVoteStatus()==VoteStatus.NONE)
+            values.put(TrendsDBConstants.KEY_VOTE_STATUS,1);
+        else if (trend.getVoteStatus()==VoteStatus.DOWNVOTED)
+            values.put(TrendsDBConstants.KEY_VOTE_STATUS,0);
+        trendsDB.getWritableDatabase().update(TrendsDBConstants.TABLE_NAME, values, TrendsDBConstants.KEY_OPINION
+                       +" = ?", new String[]{trend.getOpinionText()});
     }
 
      public void addTrends(ArrayList<TrendsDataModel> trendsList){
