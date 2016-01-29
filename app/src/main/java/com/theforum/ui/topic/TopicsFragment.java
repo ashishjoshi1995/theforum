@@ -114,7 +114,7 @@ public class TopicsFragment extends Fragment {
                     });
 
                     Log.e("TopicsFragment error", error);
-                    
+
                     CommonUtils.showToast(getContext(), "Check Your Internet Connection");
 
                 }
