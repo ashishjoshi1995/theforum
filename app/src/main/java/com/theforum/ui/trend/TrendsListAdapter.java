@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -158,13 +159,14 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
         holder.upVoteBtn.setText(String.valueOf(trendsDataModel.getUpVoteCount()));
         holder.downVoteBtn.setText(String.valueOf(trendsDataModel.getDownVoteCount()));
 
+
         String text = mContext.getResources().getQuantityString(R.plurals.time_holder_message,
                                                                 trendsDataModel.getRenewCount(),
                                                                 trendsDataModel.getHoursLeft(),
                                                                 trendsDataModel.getRenewCount());
 
         holder.timeHolder.setText(Html.fromHtml(text));
-
+        Log.e("ththht",trendsDataModel.getVoteStatus().toString());
         if(trendsDataModel.getVoteStatus() == VoteStatus.NONE){
             setCompoundDrawables(holder.upVoteBtn, holder.upVoteIcon);
             setCompoundDrawables(holder.downVoteBtn, holder.downVoteIcon);

@@ -49,8 +49,8 @@ public class TopicDBHelper {
         values.put(TopicDBConstants.KEY_RENEWAL_REQUEST, topic.getRenewalRequests());
         values.put(TopicDBConstants.KEY_RENEWED_COUNT, topic.getRenewedCount());
         values.put(TopicDBConstants.KEY_HOURS_LEFT, topic.getHoursLeft());
-        values.put(TopicDBConstants.KEY_MY_TOPIC, (topic.isMyTopic())? 1 : 0);
-        values.put(TopicDBConstants.KEY_IS_RENEWED, (topic.isRenewed())? 1 : 0);
+        values.put(TopicDBConstants.KEY_MY_TOPIC, (topic.isMyTopic())? "yes" :"no");
+        values.put(TopicDBConstants.KEY_IS_RENEWED, (topic.isRenewed())? "yes" :"no");
 
         // Inserting Row
         topicDatabase.insert(TopicDBConstants.TABLE_NAME, null, values);
@@ -116,12 +116,12 @@ public class TopicDBHelper {
                     obj.setRenewalRequests(cursor.getInt(5));
                     obj.setRenewedCount(cursor.getInt(6));
                     obj.setHoursLeft(cursor.getInt(7));
-                    if(cursor.getInt(8)==1){
+                    if(cursor.getString(9).equals("yes")){
                         renewed=true;
                     }
                     obj.setIsRenewed(renewed);
 
-                    if(cursor.getInt(8)==1) {
+                    if(cursor.getString(8).equals("yes")) {
                         obj.setIsMyTopic(true);
                         myTopics.add(obj);
                     }

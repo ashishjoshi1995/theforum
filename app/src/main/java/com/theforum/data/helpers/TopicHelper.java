@@ -12,6 +12,8 @@ import com.microsoft.windowsazure.mobileservices.table.TableOperationCallback;
 import com.microsoft.windowsazure.mobileservices.table.query.QueryOrder;
 import com.theforum.TheForumApplication;
 import com.theforum.constants.SortType;
+import com.theforum.data.helpers.removeRenewalApi.RemoveRenewalRequest;
+import com.theforum.data.helpers.removeRenewalApi.RemoveRenewalResponse;
 import com.theforum.data.helpers.topic.renewalRequestApi.Request;
 import com.theforum.data.helpers.topic.renewalRequestApi.Response;
 import com.theforum.data.local.database.topicDB.TopicDBHelper;
@@ -47,7 +49,6 @@ public class TopicHelper {
         this.mClient = TheForumApplication.getClient();
         mTopicTable = mClient.getTable(topic.class);
         requestStatus = RequestStatus.IDLE;
-
     }
 
 
@@ -139,7 +140,7 @@ public class TopicHelper {
                                 break;
 
                             case SortType.SORT_BASIS_LATEST:
-                                topics = mTopicTable.orderBy("hours_left", QueryOrder.Ascending).execute().get();
+                                topics = mTopicTable.orderBy("hours_left", QueryOrder.Descending).execute().get();
                                 break;
 
                             case SortType.SORT_BASIS_CREATED_BY_ME:
@@ -227,6 +228,32 @@ public class TopicHelper {
             }
         });
     }
+    public void removeRenewal(String topic_id , final OnRemoveRenewalRequestListener listener) {
+        final RemoveRenewalRequest request = new RemoveRenewalRequest();
+        request.topic_id = topic_id;
+        request.uid = User.getInstance().getId();
+
+
+
+        mClient.invokeApi("remove_renewal", request, RemoveRenewalResponse.class, new ApiOperationCallback<RemoveRenewalResponse>() {
+            @Override
+            public void onCompleted(RemoveRenewalResponse result, Exception exception, ServiceFilterResponse response) {
+                Log.e("result", "" + result.message);
+                if (exception == null) {
+                    if (result.message > 1) {
+
+                        listener.response("You " + result.message + " removed a renewal request");
+
+                    } else {
+                        listener.response("A renewal request has been removed for this topic");
+                    }
+                } else {
+                    listener.response(exception.getMessage());
+
+                }
+            }
+        });
+    }
 
 
     private void convertDataModel(ArrayList<topic> topics){
@@ -269,6 +296,14 @@ public class TopicHelper {
     }
 
     public interface OnRenewalRequestListener {
+        /**
+         *
+         * @param  s model with updated params
+         */
+        void response(String s);
+
+    }
+    public interface OnRemoveRenewalRequestListener {
         /**
          *
          * @param  s model with updated params

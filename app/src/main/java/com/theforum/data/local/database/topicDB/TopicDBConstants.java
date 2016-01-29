@@ -17,8 +17,7 @@ public class TopicDBConstants {
     public static final String TABLE_TWO_NAME = "RENEW_TOPIC_TABLE";
 
 
-    // table one column keys
-
+    // table one column keys version 1
     public static final String KEY_ID = "id";
     public static final String KEY_SERVER_ID="server_id";
     public static final String KEY_TOPIC_ID="topic_id";
@@ -30,6 +29,8 @@ public class TopicDBConstants {
     public static final String KEY_HOURS_LEFT = "hours_left";
     public static final String KEY_MY_TOPIC = "my_topic";
 
+    //table two coloumn keys version 2
+    public static final String KEY_RENEWAL_IDS = "renewal_ids";
 
 
     /*

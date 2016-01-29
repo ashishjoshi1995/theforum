@@ -95,7 +95,22 @@ public class TopicsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                         Log.e("response", s);
                                     }
                                 });
-                    }else CommonUtils.showToast(mContext, "Cannot renew");
+                    }else {
+                        int b=topic.getRenewalRequests();
+                        b=b-1;
+                        renewCountBtn.setText(String.valueOf(b));
+                        setCompoundDrawables(renewCountBtn, renewIcon);
+
+                        topic.setRenewalRequests(b);
+                        topic.setIsRenewed(false);
+                        TopicHelper.getHelper().removeRenewal(topic.getTopicId(), new TopicHelper.OnRemoveRenewalRequestListener() {
+                            @Override
+                            public void response(String s) {
+                                Log.e("response", s);
+                            }
+                        });
+
+                    }
                 }
             });
 
