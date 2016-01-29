@@ -24,23 +24,32 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
-public class SettingsFragment extends Fragment implements View.OnClickListener,CompoundButton.OnCheckedChangeListener {
+public class SettingsFragment extends Fragment implements View.OnClickListener,
+        CompoundButton.OnCheckedChangeListener {
 
     @Bind(R.id.toolbar) Toolbar mToolbar;
-    @Bind(R.id.settings_layout_application_share_the_app) TextView shareTheApp;
-    @Bind(R.id.settings_layout_legal_copyrights) TextView copyRights;
-    @Bind(R.id.settings_layout_legal_privacy_policy) TextView privacyPolicy;
-    @Bind(R.id.settings_layout_legal_terms_of_service) TextView termsOfService;
-    @Bind(R.id.settings_layout_application_feedback) TextView applicationFeedback;
-    @Bind(R.id.settings_layout_application_rate_us) TextView rateUs;
-    @Bind(R.id.settings_layout_application_contact_us) TextView contactUs;
-    @Bind(R.id.settings_layout_notification_opinions_received) CheckBox opinionsReceived;
-    @Bind(R.id.settings_layout_notification_renewal_requests) CheckBox renewalRequest;
-    @Bind(R.id.settings_layout_notification_topic_renewed) CheckBox topicRenewed;
-    @Bind(R.id.settings_layout_notification_upvotes_received) CheckBox upVotesReceived;
+
+    @Bind(R.id.settings_location) TextView location;
+    @Bind(R.id.settings_location_toggle_button) Switch turnOnLocation;
+
+    @Bind(R.id.settings_notification_opinions) CheckBox opinionsReceived;
+    @Bind(R.id.settings_notification_renewal_requests) CheckBox renewalRequest;
+    @Bind(R.id.settings_notification_topic_renewed) CheckBox topicRenewed;
+    @Bind(R.id.settings_notification_up_votes) CheckBox upVotesReceived;
+
+    @Bind(R.id.settings_application_feedback) TextView applicationFeedback;
+    @Bind(R.id.settings_application_rate_us) TextView rateUs;
+    @Bind(R.id.settings_application_contact_us) TextView contactUs;
+    @Bind(R.id.settings_application_share_app) TextView shareTheApp;
+
+    @Bind(R.id.settings_legal_copyrights) TextView copyRights;
+    @Bind(R.id.settings_legal_privacy_policy) TextView privacyPolicy;
+    @Bind(R.id.settings_legal_terms_of_service) TextView termsOfService;
+
+
     @Bind(R.id.temp) TextView temp;
-    @Bind(R.id.settings_fragment_toggle_button) Switch turnOnLocation;
-    @Bind(R.id.settings_layout_location) TextView location;
+
+
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_settings, container, false);
@@ -94,27 +103,27 @@ public class SettingsFragment extends Fragment implements View.OnClickListener,C
     public void onClick(View v) {
 
             switch(v.getId()){
-                case R.id.settings_layout_application_share_the_app:
+                case R.id.settings_application_share_app:
                     NetworkUtils.shareViaWatsapp(getActivity(), "Try this app theforum,\nregister as a tester on\nhttps://play.google.com/apps/testing/com.theforum " +
                             "\nThen download it from playstore link on the page that follows.\n" +
                             "For more details visit\nhttp://theforumapp.co/terms.html");
                     break;
-                case R.id.settings_layout_application_rate_us:
+                case R.id.settings_application_rate_us:
                     NetworkUtils.goToUrl(getActivity(), "https://play.google.com/store/apps/details?id=com.theforum");
                     break;
-                case R.id.settings_layout_application_feedback:
+                case R.id.settings_application_feedback:
                     NetworkUtils.emailIntent(getActivity());
                     break;
-                case R.id.settings_layout_application_contact_us:
+                case R.id.settings_application_contact_us:
                     NetworkUtils.emailIntent(getActivity());
                     break;
-                case R.id.settings_layout_legal_terms_of_service:
+                case R.id.settings_legal_terms_of_service:
                     NetworkUtils.goToUrl(getActivity(), "http://theforumapp.co/terms.html");
                     break;
-                case R.id.settings_layout_legal_privacy_policy:
+                case R.id.settings_legal_privacy_policy:
                     NetworkUtils.goToUrl(getActivity(), "http://theforumapp.co/privacy.html");
                     break;
-                case R.id.settings_layout_legal_copyrights:
+                case R.id.settings_legal_copyrights:
                     //CommonUtils.showToast(getActivity());
                     break;
             }
@@ -124,28 +133,28 @@ public class SettingsFragment extends Fragment implements View.OnClickListener,C
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()){
 
-            case R.id.settings_layout_notification_upvotes_received:
+            case R.id.settings_notification_up_votes:
                 if(isChecked) SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_UPVOTES_RECIEVED_NOTIFICATION,true);
                 else SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_UPVOTES_RECIEVED_NOTIFICATION,false);
                 break;
 
-            case R.id.settings_layout_notification_renewal_requests:
+            case R.id.settings_notification_renewal_requests:
 
                 if(isChecked)SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_RENEWAL_REQUESTS_NOTIFICATION,true);
                 else SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_RENEWAL_REQUESTS_NOTIFICATION,false);
                 break;
 
-            case R.id.settings_layout_notification_topic_renewed:
+            case R.id.settings_notification_topic_renewed:
                 if(isChecked)SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_TOPIC_RENEWED_NOTIFICATION,true);
                 else SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_TOPIC_RENEWED_NOTIFICATION,false);
                 break;
 
-            case R.id.settings_layout_notification_opinions_received:
+            case R.id.settings_notification_opinions:
                 if(isChecked) SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_OPINIONS_RECEIVED_NOTIFICATION,true);
                 else SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_OPINIONS_RECEIVED_NOTIFICATION,false);
                 break;
 
-            case R.id.settings_fragment_toggle_button:
+            case R.id.settings_location_toggle_button:
 
             if (isChecked) {
                 String country;
