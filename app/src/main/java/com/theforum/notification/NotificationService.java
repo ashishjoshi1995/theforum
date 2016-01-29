@@ -21,6 +21,7 @@ import com.theforum.data.server.NotificationDataModel;
 import com.theforum.data.server.opinion;
 import com.theforum.data.server.topic;
 import com.theforum.utils.CommonUtils;
+import com.theforum.utils.SettingsUtils;
 import com.theforum.utils.listeners.NotificationListener;
 
 import java.util.ArrayList;
@@ -77,7 +78,7 @@ public class NotificationService extends Service {
 
 
     private class PollTask extends AsyncTask<Void, Void, Void> {
-
+        int stream=0;
         @Override
         protected Void doInBackground(Void... params) {
 
@@ -101,7 +102,8 @@ public class NotificationService extends Service {
                             notificationModel.renewalRequest = topics.get(j).getmNotifRenewalRequests();
                             notificationModel.notificationType = NotificationType.NOTIFICATION_TYPE_RENEWAL_REQUEST;
                             notificationsList.add(notificationModel);
-                            notificationCount++;
+                            if(SettingsUtils.getInstance().getBoolPreference(SettingsUtils.ENABLE_RENEWAL_REQUESTS_NOTIFICATION))
+                                notificationCount++;
                         }
 
                         if(topics.get(j).getmNotifOpinions()>0) {
@@ -112,7 +114,8 @@ public class NotificationService extends Service {
                             inflatorItemDataOpinions.topicText = topics.get(j).getTopicName();
                             inflatorItemDataOpinions.opinions = topics.get(j).getmNotifOpinions();
                             notificationsList.add(inflatorItemDataOpinions);
-                            notificationCount++;
+                            if(SettingsUtils.getInstance().getBoolPreference(SettingsUtils.ENABLE_OPINIONS_RECEIVED_NOTIFICATION))
+                                notificationCount++;
                         }
                     }
 
@@ -122,7 +125,15 @@ public class NotificationService extends Service {
                             count++;
                         }
                         NotificationDBHelper.getHelper().addNotifications(notificationsList);
+                        if(notificationCount>0 && stream == 1){
                         Notify(notificationCount);
+                        stream = 0;
+                        }
+                        else {
+                            if(stream == 0){
+                                stream++;
+                            }
+                        }
                     }
                     else if(count>0){
                         count = 0;
@@ -143,7 +154,8 @@ public class NotificationService extends Service {
                             inflatorItemData.totalDownvotes = opinions.get(j).getDownVotes();
                             inflatorItemData.opinionText = opinions.get(j).getOpinionName();
                             inflatorItemDatas.add(inflatorItemData);
-                            notificationCount++;
+                            if(SettingsUtils.getInstance().getBoolPreference(SettingsUtils.ENABLE_UPVOTES_RECIEVED_NOTIFICATION))
+                                notificationCount++;
                         }
 
 
@@ -155,8 +167,12 @@ public class NotificationService extends Service {
                         else if(count>0){
                             count = 0;
                         }
-
+                        if(notificationCount>0 && stream == 1){
                         Notify(notificationCount);
+                        stream = 0;
+                        }else if(stream==0){
+                            stream++;
+                        }
                         NotificationDBHelper.getHelper().addNotifications(inflatorItemDatas);
                         //OpinionDBHelper.getHelper().addOpinions(opinions);
                     }
