@@ -23,6 +23,8 @@ import android.widget.TextView;
 import com.theforum.R;
 import com.theforum.TheForumApplication;
 import com.theforum.utils.CommonUtils;
+import com.theforum.utils.ProfileUtils;
+import com.theforum.utils.SettingsUtils;
 import com.theforum.utils.views.DividerItemDecorator;
 import com.theforum.utils.listeners.OnListItemClickListener;
 
@@ -83,13 +85,15 @@ public class SettingsFragment extends Fragment implements View.OnClickListener,C
         topicRenewed.setOnCheckedChangeListener(this);
         upvotesReceived.setOnCheckedChangeListener(this);
 
-        opinionsReceived.setChecked(true);
-        renewalRequest.setChecked(true);
-        topicRenewed.setChecked(true);
-        upvotesReceived.setChecked(true);
+        opinionsReceived.setChecked(SettingsUtils.getInstance().getBoolPreference(SettingsUtils.ENABLE_OPINIONS_RECEIVED_NOTIFICATION));
+        renewalRequest.setChecked(SettingsUtils.getInstance().getBoolPreference(SettingsUtils.ENABLE_RENEWAL_REQUESTS_NOTIFICATION));
+        topicRenewed.setChecked(SettingsUtils.getInstance().getBoolPreference(SettingsUtils.ENABLE_TOPIC_RENEWED_NOTIFICATION));
+        upvotesReceived.setChecked(SettingsUtils.getInstance().getBoolPreference(SettingsUtils.ENABLE_UPVOTES_RECIEVED_NOTIFICATION));
 
         turnOnLocation.setOnCheckedChangeListener(this);
         turnOnLocation.setChecked(false);
+
+        location.setText(ProfileUtils.getInstance().getFromPreferences(ProfileUtils.COUNTRY));
     }
 
     @Override
@@ -126,12 +130,20 @@ public class SettingsFragment extends Fragment implements View.OnClickListener,C
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()){
             case R.id.settings_layout_notification_upvotes_received:
+                if(isChecked) SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_UPVOTES_RECIEVED_NOTIFICATION,true);
+                else SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_UPVOTES_RECIEVED_NOTIFICATION,false);
                 break;
             case R.id.settings_layout_notification_renewal_requests:
+                if(isChecked)SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_RENEWAL_REQUESTS_NOTIFICATION,true);
+                else SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_RENEWAL_REQUESTS_NOTIFICATION,false);
                 break;
             case R.id.settings_layout_notification_topic_renewed:
+                if(isChecked)SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_TOPIC_RENEWED_NOTIFICATION,true);
+                else SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_TOPIC_RENEWED_NOTIFICATION,false);
                 break;
             case R.id.settings_layout_notification_opinions_received:
+                if(isChecked) SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_OPINIONS_RECEIVED_NOTIFICATION,true);
+                else SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_OPINIONS_RECEIVED_NOTIFICATION,false);
                 break;
             case R.id.settings_fragment_toggle_button:
             if (isChecked) {
@@ -143,16 +155,14 @@ public class SettingsFragment extends Fragment implements View.OnClickListener,C
                     Log.e("qqqqqqqqqqqqqqqqqqqqqq", "" + country);
                     //Log.e("qwwwwwwwwwwwwwwwwwwwww",getApplicationContext().getResources().getConfiguration().locale.getDisplayLanguage());
                     //store in preference
-
+                    ProfileUtils.getInstance().savePreferences(ProfileUtils.COUNTRY,country);
                     //update UI
                     location.setText("Location: "+country);
                 }
                 else{
-                    //store in preference
+                    CommonUtils.showToast(getActivity(),"Cannot find your country, please try after some time");
                 }
             }
-
-
             break;
         }
     }

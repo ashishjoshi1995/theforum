@@ -44,7 +44,6 @@ public class SettingsUtils {
             sharedPreferences = mContext.getApplicationContext().getSharedPreferences(
                     "theforum_settings", Context.MODE_PRIVATE);
         }
-
         return sharedPreferences;
     }
 

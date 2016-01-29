@@ -21,6 +21,8 @@ import com.theforum.data.server.user;
 import com.theforum.notification.NotificationService;
 import com.theforum.ui.home.HomeActivity;
 import com.theforum.utils.CommonUtils;
+import com.theforum.utils.ProfileUtils;
+import com.theforum.utils.SettingsUtils;
 import com.theforum.utils.User;
 
 import butterknife.Bind;
@@ -55,11 +57,19 @@ public class LoginActivity extends AppCompatActivity {
                     register(Integer.parseInt(mAge.getText().toString()));
 
 
-                } else CommonUtils.showToast(LoginActivity.this, "Please enter your age. Don't Panic!!");
+                } else
+                    CommonUtils.showToast(LoginActivity.this, "Please enter your age. Don't Panic!!");
             }
         });
+        setNotificationSettings();
+        ProfileUtils.getInstance().savePreferences(ProfileUtils.COUNTRY,"India");
+    }
 
-
+    private void setNotificationSettings(){
+        SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_OPINIONS_RECEIVED_NOTIFICATION,true);
+        SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_RENEWAL_REQUESTS_NOTIFICATION,true);
+        SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_TOPIC_RENEWED_NOTIFICATION,true);
+        SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_UPVOTES_RECIEVED_NOTIFICATION,true);
     }
 
     private void register(final int age) {
