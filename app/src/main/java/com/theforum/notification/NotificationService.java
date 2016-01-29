@@ -1,19 +1,20 @@
 package com.theforum.notification;
 
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.os.PowerManager;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
-import android.widget.RemoteViews;
 
-import com.theforum.ui.ContainerActivity;
 import com.theforum.R;
-import com.theforum.constants.LayoutType;
+import com.theforum.TheForumApplication;
 import com.theforum.constants.NotificationType;
 import com.theforum.data.helpers.NotificationHelper;
 import com.theforum.data.local.database.notificationDB.NotificationDBHelper;
@@ -122,7 +123,7 @@ public class NotificationService extends Service {
                             count++;
                         }
                         NotificationDBHelper.getHelper().addNotifications(notificationsList);
-                        Notify(notificationCount);
+                        Notify(notificationCount, TheForumApplication.getAppContext());
                     }
                     else if(count>0){
                         count = 0;
@@ -156,7 +157,7 @@ public class NotificationService extends Service {
                             count = 0;
                         }
 
-                        Notify(notificationCount);
+                        Notify(notificationCount, TheForumApplication.getAppContext());
                         NotificationDBHelper.getHelper().addNotifications(inflatorItemDatas);
                         //OpinionDBHelper.getHelper().addOpinions(opinions);
                     }
@@ -172,30 +173,28 @@ public class NotificationService extends Service {
             stopSelf();
         }
 
-        private void Notify(int j){
+        private void Notify(int notificationCount, Context context){
 
-            long when = System.currentTimeMillis();
-            Notification notification = new Notification(R.mipmap.ic_launcher, "theforum", when);
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
+                                        .setLargeIcon(BitmapFactory.decodeResource(context.getResources(),
+                                                R.drawable.notification_icon))
+                                        .setSmallIcon(R.drawable.system_bar_icon)
+                                        .setContentTitle("the forum")
+                                        .setContentText("You have "+notificationCount+" new Notifications");
 
-            NotificationManager mNotificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+            Intent resultIntent = new Intent(context, NotificationActivity.class);
 
-            RemoteViews contentView = new RemoteViews(getPackageName(), R.layout.notification_layout);
+            TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+            stackBuilder.addParentStack(NotificationActivity.class);
+            stackBuilder.addNextIntent(resultIntent);
 
-            contentView.setTextViewText(R.id.title, "theforum");
-            contentView.setTextViewText(R.id.text, "you have "+j+" new notifications");
+            PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+            mBuilder.setContentIntent(resultPendingIntent);
 
-            notification.contentView = contentView;
+            NotificationManager mNotificationManager =
+                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-            Intent notificationIntent = new Intent(getApplicationContext(), NotificationActivity.class);
-            notification.contentIntent = PendingIntent.getActivity(getApplication(), 0, notificationIntent, 0);
-
-            notification.flags |= Notification.FLAG_NO_CLEAR; //Do not clear the notification
-            notification.defaults |= Notification.DEFAULT_LIGHTS; // LED
-            notification.defaults |= Notification.DEFAULT_VIBRATE; //Vibration
-            notification.defaults |= Notification.DEFAULT_SOUND; // Sound
-
-            mNotificationManager.notify(1, notification);
-            stopSelf();
+            mNotificationManager.notify(1, mBuilder.build());
         }
     }
 }

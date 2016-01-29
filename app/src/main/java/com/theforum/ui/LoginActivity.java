@@ -104,10 +104,10 @@ public class LoginActivity extends AppCompatActivity {
                 /**
                  * starting notification service
                  */
-                int minutes = 60;
+                int minutes = 2;
                 AlarmManager am = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
-                Intent i = new Intent(getApplicationContext(), NotificationService.class);
-                PendingIntent pi = PendingIntent.getService(getApplicationContext(), 0, i, 0);
+                PendingIntent pi = PendingIntent.getService(getApplicationContext(), 0,
+                        new Intent(getApplicationContext(), NotificationService.class), 0);
                 am.cancel(pi);
 
                 am.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
