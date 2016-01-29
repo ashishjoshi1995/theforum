@@ -1,19 +1,19 @@
 package com.theforum.notification;
 
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.os.PowerManager;
-import android.util.Log;
-import android.widget.RemoteViews;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 
-import com.theforum.ui.ContainerActivity;
 import com.theforum.R;
-import com.theforum.constants.LayoutType;
+import com.theforum.TheForumApplication;
 import com.theforum.constants.NotificationType;
 import com.theforum.data.helpers.NotificationHelper;
 import com.theforum.data.local.database.notificationDB.NotificationDBHelper;
@@ -26,7 +26,6 @@ import com.theforum.utils.listeners.NotificationListener;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 
 /**
@@ -82,7 +81,6 @@ public class NotificationService extends Service {
         @Override
         protected Void doInBackground(Void... params) {
 
-            // here we need to query the two tables and transfer the data to on post execu            te
 
             final NotificationHelper helper = new NotificationHelper();
             helper.readNotification(new NotificationListener() {
@@ -125,17 +123,18 @@ public class NotificationService extends Service {
                             count++;
                         }
                         NotificationDBHelper.getHelper().addNotifications(notificationsList);
+
+
                         if(notificationCount>0 && stream == 1){
-                        Notify(notificationCount);
-                        stream = 0;
+
+                            Notify(notificationCount, TheForumApplication.getAppContext());
+                            stream = 0;
+
+                        } else if(stream == 0){
+                            stream++;
                         }
-                        else {
-                            if(stream == 0){
-                                stream++;
-                            }
-                        }
-                    }
-                    else if(count>0){
+
+                    } else if(count>0){
                         count = 0;
                     }
 
@@ -143,19 +142,20 @@ public class NotificationService extends Service {
                 @Override
                 public void opinionNotification(List<opinion> opinions) {
                     ArrayList<NotificationDataModel> inflatorItemDatas = new ArrayList<>();
-                    Log.e("opinion size",""+opinions.size());
+
                         for(int j=0;j<opinions.size();j++){
-                            NotificationDataModel inflatorItemData = new NotificationDataModel();
-                            inflatorItemData.notificationType = NotificationType.NOTIFICATION_TYPE_OPINION_UP_VOTES;
-                            inflatorItemData.topicText = opinions.get(j).getTopicName();
-                            inflatorItemData.topicId =opinions.get(j).getTopicId();
-                            inflatorItemData.newCount = opinions.get(j).getmNotifCount();
-                            inflatorItemData.totalUpvotes = opinions.get(j).getUpVotes();
-                            inflatorItemData.totalDownvotes = opinions.get(j).getDownVotes();
-                            inflatorItemData.opinionText = opinions.get(j).getOpinionName();
-                            inflatorItemDatas.add(inflatorItemData);
-                            if(SettingsUtils.getInstance().getBoolPreference(SettingsUtils.ENABLE_UPVOTES_RECIEVED_NOTIFICATION))
-                                notificationCount++;
+
+                            NotificationDataModel notificationDataModel = new NotificationDataModel();
+                            notificationDataModel.notificationType = NotificationType.NOTIFICATION_TYPE_OPINION_UP_VOTES;
+                            notificationDataModel.topicText = opinions.get(j).getTopicName();
+                            notificationDataModel.topicId =opinions.get(j).getTopicId();
+                            notificationDataModel.newCount = opinions.get(j).getmNotifCount();
+                            notificationDataModel.totalUpvotes = opinions.get(j).getUpVotes();
+                            notificationDataModel.totalDownvotes = opinions.get(j).getDownVotes();
+                            notificationDataModel.opinionText = opinions.get(j).getOpinionName();
+                            inflatorItemDatas.add(notificationDataModel);
+                            notificationCount++;
+
                         }
 
 
@@ -167,16 +167,19 @@ public class NotificationService extends Service {
                         else if(count>0){
                             count = 0;
                         }
+
                         if(notificationCount>0 && stream == 1){
-                        Notify(notificationCount);
+                            Notify(notificationCount, TheForumApplication.getAppContext());
                         stream = 0;
                         }
+
                         NotificationDBHelper.getHelper().addNotifications(inflatorItemDatas);
                         //OpinionDBHelper.getHelper().addOpinions(opinions);
                     }
 
                 }
             });
+
             return null;
         }
 
@@ -186,30 +189,28 @@ public class NotificationService extends Service {
             stopSelf();
         }
 
-        private void Notify(int j){
+        private void Notify(int notificationCount, Context context){
 
-            long when = System.currentTimeMillis();
-            Notification notification = new Notification(R.mipmap.ic_launcher, "theforum", when);
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
+                                        .setLargeIcon(BitmapFactory.decodeResource(context.getResources(),
+                                                R.drawable.notification_icon))
+                                        .setSmallIcon(R.drawable.system_bar_icon)
+                                        .setContentTitle("the forum")
+                                        .setContentText("You have "+notificationCount+" new Notifications");
 
-            NotificationManager mNotificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+            Intent resultIntent = new Intent(context, NotificationActivity.class);
 
-            RemoteViews contentView = new RemoteViews(getPackageName(), R.layout.notification_layout);
+            TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+            stackBuilder.addParentStack(NotificationActivity.class);
+            stackBuilder.addNextIntent(resultIntent);
 
-            contentView.setTextViewText(R.id.title, "theforum");
-            contentView.setTextViewText(R.id.text, "you have "+j+" new notifications");
+            PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+            mBuilder.setContentIntent(resultPendingIntent);
 
-            notification.contentView = contentView;
+            NotificationManager mNotificationManager =
+                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-            Intent notificationIntent = new Intent(getApplicationContext(), NotificationActivity.class);
-            notification.contentIntent = PendingIntent.getActivity(getApplication(), 0, notificationIntent, 0);
-
-            notification.flags |= Notification.FLAG_NO_CLEAR; //Do not clear the notification
-            notification.defaults |= Notification.DEFAULT_LIGHTS; // LED
-            notification.defaults |= Notification.DEFAULT_VIBRATE; //Vibration
-            notification.defaults |= Notification.DEFAULT_SOUND; // Sound
-
-            mNotificationManager.notify(1, notification);
-            stopSelf();
+            mNotificationManager.notify(1, mBuilder.build());
         }
     }
 }
