@@ -2,9 +2,12 @@ package com.theforum;
 
 import android.app.Application;
 import android.content.Context;
+import android.telephony.TelephonyManager;
+import android.util.Log;
 
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.theforum.constants.LayoutType;
+import com.theforum.utils.CommonUtils;
 import com.theforum.utils.ProfileUtils;
 import com.theforum.utils.SettingsUtils;
 
@@ -19,6 +22,7 @@ public class TheForumApplication extends Application {
 
     private static MobileServiceClient mServerClient;
     private static Context context;
+    //public static String country;
 
     @Override
     public void onCreate() {
@@ -35,8 +39,8 @@ public class TheForumApplication extends Application {
                     LayoutType.SORT_BASIS_MOST_RENEWAL);
         }
 
-    }
 
+    }
 
     public static MobileServiceClient getClient(){
         if(mServerClient==null) initializeServerClient();

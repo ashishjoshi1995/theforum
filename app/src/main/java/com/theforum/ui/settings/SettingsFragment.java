@@ -1,5 +1,6 @@
 package com.theforum.ui.settings;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,12 +9,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.theforum.R;
@@ -42,6 +46,9 @@ public class SettingsFragment extends Fragment implements View.OnClickListener,C
     @Bind(R.id.settings_layout_notification_renewal_requests) CheckBox renewalRequest;
     @Bind(R.id.settings_layout_notification_topic_renewed) CheckBox topicRenewed;
     @Bind(R.id.settings_layout_notification_upvotes_received) CheckBox upvotesReceived;
+    @Bind(R.id.temp) TextView temp;
+    @Bind(R.id.settings_fragment_toggle_button) Switch turnOnLocation;
+    @Bind(R.id.settings_layout_location) TextView location;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.settings_layout_temp, container, false);
@@ -76,7 +83,13 @@ public class SettingsFragment extends Fragment implements View.OnClickListener,C
         topicRenewed.setOnCheckedChangeListener(this);
         upvotesReceived.setOnCheckedChangeListener(this);
 
+        opinionsReceived.setChecked(true);
+        renewalRequest.setChecked(true);
+        topicRenewed.setChecked(true);
+        upvotesReceived.setChecked(true);
 
+        turnOnLocation.setOnCheckedChangeListener(this);
+        turnOnLocation.setChecked(false);
     }
 
     @Override
@@ -120,6 +133,27 @@ public class SettingsFragment extends Fragment implements View.OnClickListener,C
                 break;
             case R.id.settings_layout_notification_opinions_received:
                 break;
+            case R.id.settings_fragment_toggle_button:
+            if (isChecked) {
+                String country;
+                TelephonyManager teleMgr = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
+                if (teleMgr != null) {
+                    //String Country_code= getApplicationContext().getResources().getConfiguration().locale.getCountry();
+                    country = teleMgr.getSimCountryIso();
+                    Log.e("qqqqqqqqqqqqqqqqqqqqqq", "" + country);
+                    //Log.e("qwwwwwwwwwwwwwwwwwwwww",getApplicationContext().getResources().getConfiguration().locale.getDisplayLanguage());
+                    //store in preference
+
+                    //update UI
+                    location.setText("Location: "+country);
+                }
+                else{
+                    //store in preference
+                }
+            }
+
+
+            break;
         }
     }
 }
