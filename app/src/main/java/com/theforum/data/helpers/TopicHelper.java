@@ -47,7 +47,6 @@ public class TopicHelper {
         this.mClient = TheForumApplication.getClient();
         mTopicTable = mClient.getTable(topic.class);
         requestStatus = RequestStatus.IDLE;
-
     }
 
 
@@ -139,7 +138,7 @@ public class TopicHelper {
                                 break;
 
                             case SortType.SORT_BASIS_LATEST:
-                                topics = mTopicTable.orderBy("hours_left", QueryOrder.Ascending).execute().get();
+                                topics = mTopicTable.orderBy("hours_left", QueryOrder.Descending).execute().get();
                                 break;
 
                             case SortType.SORT_BASIS_CREATED_BY_ME:

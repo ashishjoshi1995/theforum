@@ -12,6 +12,9 @@ import android.widget.RadioGroup;
 
 import com.theforum.R;
 import com.theforum.constants.SortType;
+import com.theforum.data.helpers.TopicHelper;
+import com.theforum.data.local.database.topicDB.TopicDB;
+import com.theforum.data.local.database.topicDB.TopicDBHelper;
 import com.theforum.utils.SettingsUtils;
 
 import butterknife.Bind;
