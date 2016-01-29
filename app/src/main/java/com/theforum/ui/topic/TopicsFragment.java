@@ -15,8 +15,9 @@ import com.theforum.data.helpers.TopicHelper;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.SettingsUtils;
-import com.theforum.utils.views.DividerItemDecorator;
+import com.theforum.utils.enums.RequestStatus;
 import com.theforum.utils.listeners.OnLoadMoreListener;
+import com.theforum.utils.views.DividerItemDecorator;
 
 import java.util.ArrayList;
 
@@ -36,7 +37,7 @@ public class TopicsFragment extends Fragment {
     SwipeRefreshLayout swipeRefreshLayout;
 
     private TopicsListAdapter mAdapter;
-    public  int times = 0;
+
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,21 +60,30 @@ public class TopicsFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                times = 0;
-                TopicHelper.getHelper().loadTopics(times, SettingsUtils.getInstance()
+
+                TopicHelper.getHelper().loadTopics(SettingsUtils.getInstance()
                         .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS));
-                mAdapter.setAllTopicsLoaded(false);
             }
         });
 
         mAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void loadMore() {
-                TopicHelper.getHelper().loadTopics(times,SettingsUtils.getInstance()
+                TopicHelper.getHelper().loadTopics(SettingsUtils.getInstance()
                         .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS));
             }
         });
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if(TopicHelper.getHelper().requestStatus == RequestStatus.IDLE){
+            TopicHelper.getHelper().loadTopics(SettingsUtils.getInstance()
+                    .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS));
+        }
     }
 
     private void getTopics(){
@@ -82,19 +92,15 @@ public class TopicsFragment extends Fragment {
                 @Override
                 public void onCompleted(ArrayList<TopicDataModel> topics) {
                     swipeRefreshLayout.setRefreshing(false);
-                    Log.e("ui ui", "data received " + topics.size()+"/"+times);
+                    Log.e("ui ui", "data received " + topics.size());
+
                     if(topics.size()== 1 && topics.get(0).isMyTopic()) {
                         mAdapter.addTopic(topics.get(0),0);
-                    }else {
-                        if (times == 0) {
-                            mAdapter.removeAllTopics();
-                            mAdapter.addTopics(topics, true);
-                        } else {
-                            mAdapter.addTopics(topics, false);
-                        }
-                        if (topics.size() < 20) mAdapter.setAllTopicsLoaded(true);
 
-                        times++;
+                    }else {
+
+                        mAdapter.removeAllTopics();
+                        mAdapter.addTopics(topics, true);
                     }
                 }
 
@@ -108,10 +114,9 @@ public class TopicsFragment extends Fragment {
                     });
 
                     Log.e("TopicsFragment error", error);
+                    
+                    CommonUtils.showToast(getContext(), "Check Your Internet Connection");
 
-                    if(error.equals("404")){
-                        CommonUtils.showToast(getContext(), "Check Your Internet Connection");
-                    }
                 }
             });
 

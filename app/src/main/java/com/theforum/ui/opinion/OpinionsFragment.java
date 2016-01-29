@@ -157,18 +157,6 @@ public class OpinionsFragment extends Fragment {
         });
     }
 
-    /*
-    private void getOpinionforNotifUpDown(String opinionDescription){
-
-        OpinionDataModel opinion = OpinionDBHelper.getHelper().getOpinion(opinionDescription);
-        mAdapter.clearAll();
-        ArrayList<OpinionDataModel> opinions = null;
-        opinions.add(opinion);
-        mAdapter.addOpinions(opinions);
-
-    }
-*/
-
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

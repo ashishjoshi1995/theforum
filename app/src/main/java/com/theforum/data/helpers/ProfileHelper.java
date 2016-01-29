@@ -1,9 +1,6 @@
 package com.theforum.data.helpers;
 
-import android.annotation.TargetApi;
 import android.os.AsyncTask;
-import android.os.Build;
-import android.util.Log;
 
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
@@ -32,14 +29,13 @@ public class ProfileHelper {
     }
 
     public void viewProfile(){
-        Log.e("asasas","ppppppp");
+
         AsyncTask<Void, user, user> task = new AsyncTask<Void, user, user>(){
             MobileServiceList<user> ash = null;
             @Override
             protected user doInBackground(Void... voids) {
                 try {
                     ash = mUser.where().field("uid").eq(uid).execute().get();
-                    Log.e("asasasasasa","llllllllllllllllll");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -69,8 +65,6 @@ public class ProfileHelper {
     }
 
 
-
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private AsyncTask<Void, user, user> runAsyncTask(AsyncTask<Void, user, user> task) {
 
         return task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);

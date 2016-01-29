@@ -10,15 +10,16 @@ import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.microsoft.windowsazure.mobileservices.table.TableOperationCallback;
 import com.microsoft.windowsazure.mobileservices.table.query.QueryOrder;
-import com.theforum.constants.LayoutType;
 import com.theforum.TheForumApplication;
-import com.theforum.data.helpers.renewalRequestApi.Request;
-import com.theforum.data.helpers.renewalRequestApi.Response;
+import com.theforum.constants.SortType;
+import com.theforum.data.helpers.topic.renewalRequestApi.Request;
+import com.theforum.data.helpers.topic.renewalRequestApi.Response;
 import com.theforum.data.local.database.topicDB.TopicDBHelper;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.data.server.topic;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.User;
+import com.theforum.utils.enums.RequestStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +34,8 @@ public class TopicHelper {
     private MobileServiceTable<topic> mTopicTable;
     private ArrayList<TopicDataModel> topicArrayList;
     private OnTopicsReceiveListener topicsReceiveListener;
-    private boolean topicsReceived = false;
+
+    public RequestStatus requestStatus;
 
 
     public static TopicHelper getHelper(){
@@ -44,6 +46,7 @@ public class TopicHelper {
     private TopicHelper(){
         this.mClient = TheForumApplication.getClient();
         mTopicTable = mClient.getTable(topic.class);
+        requestStatus = RequestStatus.IDLE;
 
     }
 
@@ -52,7 +55,6 @@ public class TopicHelper {
         boolean name_exist = false;
         List<String> topic_name = TopicDBHelper.getHelper().getMyTopicText();
 
-        //String products[] = new String[topic_name.size()];
         for (int i = 0; i < topic_name.size(); i++) {
             if (topic.getTopicName().equals(topic_name.get(i))) {
                 name_exist = true;
@@ -107,22 +109,22 @@ public class TopicHelper {
     }
 
 
-
-
     public void getTopics(OnTopicsReceiveListener listener){
         topicsReceiveListener = listener;
 
-        if(topicsReceived){
+        if(requestStatus == RequestStatus.COMPLETED){
             topicsReceiveListener.onCompleted(topicArrayList);
-            topicsReceived= false;
+            requestStatus = RequestStatus.IDLE;
         }
     }
 
 
-    public void loadTopics(final int times, final int sortMode){
+    public void loadTopics(final int sortMode){
 
 
         if(CommonUtils.isInternetAvailable()){
+
+            requestStatus = RequestStatus.EXECUTING;
 
             AsyncTask<Void, Void, ArrayList<topic>> task = new AsyncTask<Void, Void, ArrayList<topic>>() {
                 MobileServiceList<topic> topics = null;
@@ -132,69 +134,24 @@ public class TopicHelper {
                     try {
                         switch (sortMode) {
 
-                            case LayoutType.SORT_BASIS_MOST_POPULAR:
+                            case SortType.SORT_BASIS_MOST_POPULAR:
                                 topics = mTopicTable.orderBy("points", QueryOrder.Descending).execute().get();
                                 break;
 
-                            case LayoutType.SORT_BASIS_LATEST:
+                            case SortType.SORT_BASIS_LATEST:
                                 topics = mTopicTable.orderBy("hours_left", QueryOrder.Ascending).execute().get();
                                 break;
 
-                            case LayoutType.SORT_BASIS_CREATED_BY_ME:
-                                /*
-                                InputClass inputClass = new InputClass();
-                                inputClass.uid = User.getInstance().getId();
-                                mClient.invokeApi("getmytopics", inputClass, ResponseClass.class, new ApiOperationCallback<ResponseClass>() {
-                                    @Override
-                                    public void onCompleted(ResponseClass result, Exception exception, ServiceFilterResponse response) {
-                                        Log.e("qwertyu", ""+result.message);
-                                        if (exception == null){
-                                            try {
-                                                JSONArray jsonArray = new JSONArray(result.message);
-
-                                                for (int i = 0; i < jsonArray.length(); i++) {
-                                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                                    topic topic = new topic();
-                                                    topic.setServerId(jsonObject.get("id").toString());
-                                                    topic.setTopicDescription(jsonObject.get("description").toString());
-                                                    topic.setHoursLeft(Integer.parseInt(jsonObject.get("hours_left").toString()));
-                                                    topic.setOpinionIds(jsonObject.get("opinion_ids").toString());
-                                                    topic.setRenewalRequests(Integer.parseInt(jsonObject.get("renewal_request").toString()));
-                                                    topic.setTopicName(jsonObject.get("topic").toString());
-                                                    topic.setTopicId(jsonObject.get("topic_id").toString());
-                                                    topic.setUserId(jsonObject.get("uid").toString());
-                                                    topic.setRenewedCount(Integer.parseInt(jsonObject.get("renewed_count").toString()));
-                                                    topic.setTotalOpinions(Integer.parseInt(jsonObject.get("total_opinions").toString()));
-                                                    topic.setmNotifRenewalRequests(Integer.parseInt(jsonObject.get("notif_new_renewal_request").toString()));
-                                                    topic.setmNotifOpinions(Integer.parseInt(jsonObject.get("notif_new_opinions").toString()));
-                                                    topic.setmPoints(Integer.parseInt(jsonObject.get("points").toString()));
-
-                                                    topics.add(topic);
-                                                    Log.e("ashish", topics.get(i).getServerId());
-                                                }
-
-                                            } catch (JSONException e) {
-                                                if(topicsReceiveListener!= null)
-                                                    topicsReceiveListener.onError(e.getMessage());
-                                            }
-
-                                        } else {
-                                            if(topicsReceiveListener!= null)
-                                                topicsReceiveListener.onError(exception.getMessage());
-                                        }
-
-                                    }
-                                });
-                                */
+                            case SortType.SORT_BASIS_CREATED_BY_ME:
                                 topics = mTopicTable.where().field("uid").eq(User.getInstance().getId()).execute().get();
                                 break;
 
-                            case LayoutType.SORT_BASIS_LEAST_RENEWAL:
+                            case SortType.SORT_BASIS_LEAST_RENEWAL:
                                 topics = mTopicTable.orderBy("renewal_requests", QueryOrder.Ascending)
                                         .execute().get();
                                 break;
 
-                            case LayoutType.SORT_BASIS_MOST_RENEWAL:
+                            case SortType.SORT_BASIS_MOST_RENEWAL:
                                 topics = mTopicTable.orderBy("renewal_requests", QueryOrder.Descending)
                                         .execute().get();
                                 break;
@@ -214,12 +171,12 @@ public class TopicHelper {
                     super.onPostExecute(topics);
 
                     if(topics!=null) {
-                        topicsReceived = true;
+                        requestStatus = RequestStatus.COMPLETED;
                         convertDataModel(topics);
 
                         if (topicsReceiveListener != null) {
                             topicsReceiveListener.onCompleted(topicArrayList);
-                            topicsReceived = false;
+                            requestStatus = RequestStatus.IDLE;
                         }
                         TopicDBHelper.getHelper().deleteAll();
                         TopicDBHelper.getHelper().addTopicsFromServer(topicArrayList);
@@ -231,29 +188,24 @@ public class TopicHelper {
             runAsyncTask(task);
 
         }else {
-            if(topicArrayList==null) {
-                topicArrayList = TopicDBHelper.getHelper().getAllTopics();
-                topicsReceived = true;
 
-                if (topicsReceiveListener != null) {
-                    topicsReceiveListener.onCompleted(topicArrayList);
-                    topicsReceived = false;
-                }
-            }else {
-                if (topicsReceiveListener != null) {
-                    topicsReceiveListener.onError("404");
-                }
+            topicArrayList = TopicDBHelper.getHelper().getAllTopics();
+            requestStatus = RequestStatus.COMPLETED;
+
+            if (topicsReceiveListener != null) {
+                topicsReceiveListener.onCompleted(topicArrayList);
+                requestStatus = RequestStatus.IDLE;
             }
+
         }
 
     }
-
 
     public void addRenewalRequest(String topic_id , final OnRenewalRequestListener listener) {
         final Request request = new Request();
         request.topic_id = topic_id;
         request.uid = User.getInstance().getId();
-        final boolean[] bool = {false};
+
 
 
         mClient.invokeApi("addrenewalrequest", request, Response.class, new ApiOperationCallback<Response>() {
@@ -264,13 +216,13 @@ public class TopicHelper {
                     if (result.message > 1) {
 
                         listener.response("You and " + result.message + " others added a renewal request");
-                        bool[0] = false;
+
                     } else {
                         listener.response("A renewal request has been added for this topic");
                     }
                 } else {
                     listener.response(exception.getMessage());
-                    bool[0] = true;
+
                 }
             }
         });
@@ -285,6 +237,7 @@ public class TopicHelper {
             topicDataModel.setIsRenewed(false);
             if(topics.get(i).getRenewalRequestIds()!=null) {
                 String[] r = topics.get(i).getRenewalRequestIds().split(" ");
+
                 for (int k = 0; k < r.length; k++) {
                     if (r[k].equals(User.getInstance().getId())) {
                         topicDataModel.setIsRenewed(true);

@@ -1,4 +1,4 @@
-package com.theforum.data.helpers.renewalRequestApi;
+package com.theforum.data.helpers.topic.renewalRequestApi;
 
 /**
  * Created by Ashish on 1/6/2016.

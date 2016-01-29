@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import com.theforum.R;
 import com.theforum.data.helpers.TrendsHelper;
 import com.theforum.data.local.models.TrendsDataModel;
+import com.theforum.utils.CommonUtils;
+import com.theforum.utils.enums.RequestStatus;
 import com.theforum.utils.views.DividerItemDecorator;
 
 import java.util.ArrayList;
@@ -60,6 +62,15 @@ public class TrendsFragment extends Fragment {
 
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if(TrendsHelper.getHelper().requestStatus == RequestStatus.IDLE){
+            TrendsHelper.getHelper().loadTrends();
+        }
+    }
+
     private void getData(){
 
         TrendsHelper.getHelper().getTrends(new TrendsHelper.OnTrendsReceivedListener() {
@@ -74,13 +85,15 @@ public class TrendsFragment extends Fragment {
 
             @Override
             public void onError(String error) {
-                Log.e("trends error", error);
+
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         swipeRefreshLayout.setRefreshing(false);
                     }
                 });
+
+                CommonUtils.showToast(getContext(),"Check your Internet Connection");
             }
         });
     }
