@@ -17,6 +17,13 @@ public class SettingsUtils {
      */
 
     public static final String TOPIC_FEED_SORT_STATUS = "topic_feed_sort_status";
+
+    public static final String ENABLE_UPVOTES_RECIEVED_NOTIFICATION = "enable_upvotes_received_notif";
+    public static final String ENABLE_RENEWAL_REQUESTS_NOTIFICATION = "enable_renewal_request_notif";
+    public static final String ENABLE_TOPIC_RENEWED_NOTIFICATION = "enable_topic_renewed_notification";
+    public static final String ENABLE_OPINIONS_RECEIVED_NOTIFICATION = "enable_opinions_received_notification";
+
+
     public static SettingsUtils getInstance() {
         return settingsUtils;
     }
@@ -37,7 +44,6 @@ public class SettingsUtils {
             sharedPreferences = mContext.getApplicationContext().getSharedPreferences(
                     "theforum_settings", Context.MODE_PRIVATE);
         }
-
         return sharedPreferences;
     }
 
@@ -50,6 +56,12 @@ public class SettingsUtils {
     public void saveIntegerarPreference(String key,int value){
         SharedPreferences.Editor editor = getPreferences().edit();
         editor.putInt(key, value);
+        editor.apply();
+    }
+
+    public void saveBooleanPreference(String key, Boolean value){
+        SharedPreferences.Editor editor = getPreferences().edit();
+        editor.putBoolean(key, value);
         editor.apply();
     }
 
@@ -69,6 +81,11 @@ public class SettingsUtils {
             value = -1;
         }
 
+        return value;
+    }
+
+    public Boolean getBoolPreference(String key){
+        Boolean value = getPreferences().getBoolean(key, true);
         return value;
     }
 

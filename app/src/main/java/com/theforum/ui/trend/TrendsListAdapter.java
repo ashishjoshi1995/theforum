@@ -1,17 +1,17 @@
 package com.theforum.ui.trend;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.theforum.constants.LayoutType;
 import com.theforum.R;
+import com.theforum.constants.LayoutType;
 import com.theforum.data.helpers.TrendsHelper;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.data.local.models.TrendsDataModel;
@@ -34,15 +34,13 @@ import butterknife.ButterKnife;
 public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.TrendsItemViewHolder> {
 
     private Context mContext;
-    private Activity mActivity;
 
     /* list of feed data */
     private List<TrendsDataModel> mFeeds;
 
 
-    public TrendsListAdapter(Activity activity, List<TrendsDataModel> feeds){
-        mContext = activity;
-        mActivity = activity;
+    public TrendsListAdapter(Context context, List<TrendsDataModel> feeds){
+        mContext = context;
         mFeeds = feeds;
     }
 
@@ -51,10 +49,9 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
 
         @Bind(R.id.trends_topic_name) TextView topicName;
         @Bind(R.id.trends_description) TextView description;
-        @Bind(R.id.trends_decay_time)TextView decayTimeHolder;
+        @Bind(R.id.trends_decay_time)TextView timeHolder;
         @Bind(R.id.upvote_btn) TextView upVoteBtn;
         @Bind(R.id.downvote_btn) TextView downVoteBtn;
-
 
 
         @BindDrawable(R.drawable.upvote) Drawable upVoteIcon;
@@ -85,7 +82,7 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                         /*
                          *  send the request to server to increase the count
                          */
-                      TrendsHelper.getHelper().upvoteDownvote(true, opinionModel.getTrendId(), new TrendsHelper.OnUVDVOperationCompleteListener() {
+                      TrendsHelper.getHelper().upVoteDownVote(true, opinionModel.getTrendId(), new TrendsHelper.OnUVDVOperationCompleteListener() {
                           @Override
                           public void onCompleteMessage(String message) {
                               CommonUtils.showToast(mContext, message);
@@ -112,13 +109,13 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                         /*
                          *  send the request to server to decrease the count
                          */
-                        TrendsHelper.getHelper().upvoteDownvote(false, opinionModel2.getTrendId(), new TrendsHelper.OnUVDVOperationCompleteListener() {
+                        TrendsHelper.getHelper().upVoteDownVote(false, opinionModel2.getTrendId(), new TrendsHelper.OnUVDVOperationCompleteListener() {
                             @Override
                             public void onCompleteMessage(String message) {
                                 CommonUtils.showToast(mContext, message);
                             }
 
-                    });
+                        });
                 }
 
                 else CommonUtils.showToast(mContext,"Cannot DownVote");
@@ -139,7 +136,6 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
             topicDataModel.setTopicId(trend.getTopicId());
             topicDataModel.setHoursLeft(trend.getHoursLeft());
 
-            //TODO: set renew status
 
             CommonUtils.openContainerActivity(mContext, LayoutType.OPINIONS_FRAGMENT,
                     Pair.create(LayoutType.TOPIC_MODEL, (Serializable) topicDataModel));
@@ -161,12 +157,15 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
         holder.description.setText(trendsDataModel.getOpinionText());
         holder.upVoteBtn.setText(String.valueOf(trendsDataModel.getUpVoteCount()));
         holder.downVoteBtn.setText(String.valueOf(trendsDataModel.getDownVoteCount()));
-        if(trendsDataModel.getRenewCount()==0) {
-            holder.decayTimeHolder.setText(String.valueOf(trendsDataModel.getHoursLeft()) + "hrs left to decay");
-        }
-        else {
-            holder.decayTimeHolder.setText(String.valueOf(trendsDataModel.getHoursLeft()) + "hrs left to decay | "+String.valueOf(trendsDataModel.getRenewCount())+" Renewal");
-        }
+
+
+        String text = mContext.getResources().getQuantityString(R.plurals.time_holder_message,
+                                                                trendsDataModel.getRenewCount(),
+                                                                trendsDataModel.getHoursLeft(),
+                                                                trendsDataModel.getRenewCount());
+
+        holder.timeHolder.setText(Html.fromHtml(text));
+
         if(trendsDataModel.getVoteStatus() == VoteStatus.NONE){
             setCompoundDrawables(holder.upVoteBtn, holder.upVoteIcon);
             setCompoundDrawables(holder.downVoteBtn, holder.downVoteIcon);

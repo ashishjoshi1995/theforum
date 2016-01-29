@@ -1,14 +1,14 @@
-package com.theforum;
+package com.theforum.ui;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
+import com.theforum.R;
 import com.theforum.data.helpers.ProfileHelper;
 import com.theforum.data.helpers.TopicHelper;
 import com.theforum.data.helpers.TrendsHelper;
@@ -31,12 +31,12 @@ public class SplashActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        TopicHelper.getHelper().loadTopics(0, SettingsUtils.getInstance().getIntFromPreferences(
+        ((GradientDrawable) frogBody.getBackground()).setColor(Color.parseColor("#30ed17"));
+
+        TopicHelper.getHelper().loadTopics(SettingsUtils.getInstance().getIntFromPreferences(
                 SettingsUtils.TOPIC_FEED_SORT_STATUS));
         TrendsHelper.getHelper().loadTrends();
         ProfileHelper.getHelper().viewProfile();
-
-                ((GradientDrawable) frogBody.getBackground()).setColor(Color.parseColor("#30ed17"));
 
 
         new Handler().postDelayed(new Runnable() {

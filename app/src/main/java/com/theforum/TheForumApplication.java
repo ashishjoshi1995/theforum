@@ -4,7 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
-import com.theforum.constants.LayoutType;
+import com.theforum.constants.SortType;
 import com.theforum.utils.ProfileUtils;
 import com.theforum.utils.SettingsUtils;
 
@@ -20,6 +20,7 @@ public class TheForumApplication extends Application {
     private static MobileServiceClient mServerClient;
     private static Context context;
 
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -32,11 +33,11 @@ public class TheForumApplication extends Application {
 
         if(!SettingsUtils.getInstance().contains(SettingsUtils.TOPIC_FEED_SORT_STATUS)){
             SettingsUtils.getInstance().saveIntegerarPreference(SettingsUtils.TOPIC_FEED_SORT_STATUS,
-                    LayoutType.SORT_BASIS_MOST_RENEWAL);
+                    SortType.SORT_BASIS_MOST_RENEWAL);
         }
 
-    }
 
+    }
 
     public static MobileServiceClient getClient(){
         if(mServerClient==null) initializeServerClient();

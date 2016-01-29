@@ -22,6 +22,7 @@ public class ProfileUtils {
     public static final String CURRENT_TOPICS = "current_topics";
     public static final String SERVER_ID = "server_id";
     public static final String AGE = "age";
+    public static final String COUNTRY = "country";
 
     public static ProfileUtils getInstance() {
         return profileUtils;
@@ -43,7 +44,6 @@ public class ProfileUtils {
             sharedPreferences = mContext.getApplicationContext().getSharedPreferences(
                     "theforum_profile", Context.MODE_PRIVATE);
         }
-
         return sharedPreferences;
     }
 
@@ -55,11 +55,9 @@ public class ProfileUtils {
 
     public String getFromPreferences(String key) {
         String value = getPreferences().getString(key, "empty");
-
         if (value.equals("empty")) {
             value = null;
         }
-
         return value;
     }
 

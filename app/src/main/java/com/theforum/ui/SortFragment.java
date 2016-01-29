@@ -10,8 +10,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioGroup;
 
-import com.theforum.constants.LayoutType;
 import com.theforum.R;
+import com.theforum.constants.SortType;
+import com.theforum.data.helpers.TopicHelper;
+import com.theforum.data.local.database.topicDB.TopicDB;
+import com.theforum.data.local.database.topicDB.TopicDBHelper;
 import com.theforum.utils.SettingsUtils;
 
 import butterknife.Bind;
@@ -33,7 +36,7 @@ public class SortFragment extends Fragment implements RadioGroup.OnCheckedChange
     @Bind(R.id.sort_done_btn)
     Button done;
 
-    private SettingsUtils settingsUtils;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_sort,container,false);
@@ -55,23 +58,22 @@ public class SortFragment extends Fragment implements RadioGroup.OnCheckedChange
             }
         });
 
-        settingsUtils = SettingsUtils.getInstance();
-        int  j =
-        settingsUtils.getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS);
-        switch(j){
-            case LayoutType.SORT_BASIS_CREATED_BY_ME:
+
+        switch(SettingsUtils.getInstance().getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS)){
+
+            case SortType.SORT_BASIS_CREATED_BY_ME:
                 radioGroup.check(R.id.sort_created_by_me_btn);
                 break;
-            case LayoutType.SORT_BASIS_LATEST:
+            case SortType.SORT_BASIS_LATEST:
                 radioGroup.check(R.id.sort_latest_btn);
                 break;
-            case LayoutType.SORT_BASIS_MOST_POPULAR:
+            case SortType.SORT_BASIS_MOST_POPULAR:
                 radioGroup.check(R.id.sort_relevance_btn);
                 break;
-            case LayoutType.SORT_BASIS_LEAST_RENEWAL:
+            case SortType.SORT_BASIS_LEAST_RENEWAL:
                 radioGroup.check(R.id.sort_least_renewal_btn);
                 break;
-            case LayoutType.SORT_BASIS_MOST_RENEWAL:
+            case SortType.SORT_BASIS_MOST_RENEWAL:
                 radioGroup.check(R.id.sort_most_renewal_btn);
                 break;
         }
@@ -93,23 +95,23 @@ public class SortFragment extends Fragment implements RadioGroup.OnCheckedChange
         switch (checkedId){
             case R.id.sort_relevance_btn:
                 SettingsUtils.getInstance().saveIntegerarPreference(SettingsUtils.TOPIC_FEED_SORT_STATUS,
-                        LayoutType.SORT_BASIS_MOST_RENEWAL);
+                        SortType.SORT_BASIS_MOST_RENEWAL);
                 break;
             case R.id.sort_latest_btn:
                 SettingsUtils.getInstance().saveIntegerarPreference(SettingsUtils.TOPIC_FEED_SORT_STATUS,
-                        LayoutType.SORT_BASIS_LATEST);
+                        SortType.SORT_BASIS_LATEST);
                 break;
             case R.id.sort_created_by_me_btn:
                 SettingsUtils.getInstance().saveIntegerarPreference(SettingsUtils.TOPIC_FEED_SORT_STATUS,
-                        LayoutType.SORT_BASIS_CREATED_BY_ME);
+                        SortType.SORT_BASIS_CREATED_BY_ME);
                 break;
             case R.id.sort_most_renewal_btn:
                 SettingsUtils.getInstance().saveIntegerarPreference(SettingsUtils.TOPIC_FEED_SORT_STATUS,
-                        LayoutType.SORT_BASIS_MOST_RENEWAL);
+                        SortType.SORT_BASIS_MOST_RENEWAL);
                 break;
             case R.id.sort_least_renewal_btn:
                 SettingsUtils.getInstance().saveIntegerarPreference(SettingsUtils.TOPIC_FEED_SORT_STATUS,
-                        LayoutType.SORT_BASIS_LEAST_RENEWAL);
+                        SortType.SORT_BASIS_LEAST_RENEWAL);
                 break;
 
         }
