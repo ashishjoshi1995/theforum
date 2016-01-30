@@ -65,6 +65,22 @@ public class ProfileUtils {
         editor.apply();
     }
 
+    public void saveIntegralPreference(String key, int value){
+        SharedPreferences.Editor editor = getPreferences().edit();
+        editor.putInt(key, value);
+        editor.apply();
+    }
+
+    public int getIntPreference(String key){
+        int value = getPreferences().getInt(key, -1);
+
+        if (value == -1) {
+            value = -1;
+        }
+
+        return value;
+    }
+
     public String getFromPreferences(String key) {
         String value = getPreferences().getString(key, "empty");
         if (value.equals("empty")) {
