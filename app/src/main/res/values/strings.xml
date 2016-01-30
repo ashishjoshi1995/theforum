@@ -17,7 +17,7 @@
     <!-- plurals -->
 
     <plurals name="time_holder_message">
-        <item quantity="zero">%1$s hrs left to decay</item>
+        <item quantity="one">%1$s hrs left to decay</item>
         <item quantity="other">%1$s hrs left to decay | <![CDATA[<font color=#ed52bf>%2$d renewal]]></item>
     </plurals>
 

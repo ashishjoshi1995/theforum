@@ -3,7 +3,6 @@ package com.theforum.data.local.database.trendsDB;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.theforum.TheForumApplication;
 import com.theforum.data.local.models.TrendsDataModel;
