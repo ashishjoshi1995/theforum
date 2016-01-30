@@ -24,6 +24,18 @@ public class ProfileUtils {
     public static final String AGE = "age";
     public static final String COUNTRY = "country";
 
+    //statistics
+    public static final String mRecUpvotes = "rupvotes";
+    public static final String mRecDownvoted = "rdownvotes";
+    public static final String mRecOpinions = "ropinions";
+    public static final String mRecRenewals = "rrenewals";
+    public static final String mRecTopicsRenewed = "rtopicsrenewed";
+
+    public static final String mCrcUpvotes = "cupvotes";
+    public static final String mCrcDownvotes = "cdownvotes";
+    public static final String mCrcOpinions = "copinions";
+    public static final String mRenewals = "crenewals";
+
     public static ProfileUtils getInstance() {
         return profileUtils;
     }
