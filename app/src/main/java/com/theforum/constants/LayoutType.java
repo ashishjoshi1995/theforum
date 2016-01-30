@@ -14,6 +14,7 @@ public class LayoutType {
     public static final int OPINIONS_FRAGMENT = 102;
     public static final int SETTINGS_FRAGMENT = 103;
     public static final int SORT_FRAGMENT = 104;
+    public static final int STATS_FRAGMENT = 105;
 
 
     public static final int ADD_MY_TOPIC = 300;

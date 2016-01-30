@@ -47,7 +47,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener,
     @Bind(R.id.settings_legal_terms_of_service) TextView termsOfService;
 
 
-    @Bind(R.id.temp) TextView temp;
+    //@Bind(R.id.temp) TextView temp;
 
 
 

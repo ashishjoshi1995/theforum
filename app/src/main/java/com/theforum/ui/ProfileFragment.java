@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.theforum.R;
+import com.theforum.constants.LayoutType;
 import com.theforum.data.local.database.notificationDB.NotificationDBHelper;
 import com.theforum.notification.NotificationActivity;
 import com.theforum.utils.CommonUtils;
@@ -55,7 +56,12 @@ public class ProfileFragment extends Fragment {
         setBackgroundColor(pointsIcon,"#d9ab1d");
         setBackgroundColor(topicsIcon,"#643173");
 
-
+        frogBody.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CommonUtils.openContainerActivity(getActivity(), LayoutType.STATS_FRAGMENT);
+            }
+        });
         ((GradientDrawable)frogBody.getBackground()).setColor(Color.parseColor("#a56c1f"));
         notifications.getBackground().setColorFilter(Color.parseColor("#d0d4d9"), PorterDuff.Mode.SRC_ATOP);
 
