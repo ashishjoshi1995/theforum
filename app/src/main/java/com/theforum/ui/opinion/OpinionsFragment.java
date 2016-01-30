@@ -1,5 +1,6 @@
 package com.theforum.ui.opinion;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -10,18 +11,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.theforum.R;
 import com.theforum.constants.LayoutType;
 import com.theforum.data.helpers.OpinionHelper;
+import com.theforum.data.helpers.TopicHelper;
+import com.theforum.data.local.database.topicDB.TopicDBHelper;
 import com.theforum.data.local.models.OpinionDataModel;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.utils.CommonUtils;
@@ -31,20 +35,29 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import butterknife.Bind;
+import butterknife.BindDrawable;
 import butterknife.ButterKnife;
 
 /**
  * @author DEEPANKAR
  * @since 31-12-2015.
  */
+@SuppressWarnings("deprecation")
 public class OpinionsFragment extends Fragment {
 
     @Bind(R.id.opinion_swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
     @Bind(R.id.opinion_recycler_view) RecyclerView recyclerView;
+
     @Bind(R.id.opinion_toolbar) Toolbar toolbar;
     @Bind(R.id.opinion_collapsing_toolbar) CollapsingToolbarLayout collapsingToolbarLayout;
     @Bind(R.id.opinion_topic_description) TextView topicDescription;
+    @Bind(R.id.opinion_renew_btn) ImageButton renewBtn;
+    @Bind(R.id.opinion_time_holder) TextView timeHolder;
+
     @Bind(R.id.opinion_fab) FloatingActionButton fab;
+
+    @BindDrawable(R.drawable.renew_icon) Drawable renewIcon;
+    @BindDrawable(R.drawable.renew_icon_on) Drawable renewedIcon;
 
     private OpinionsListAdapter mAdapter;
     private TopicDataModel mTopicModel;
@@ -83,7 +96,7 @@ public class OpinionsFragment extends Fragment {
         collapsingToolbarLayout.post(new Runnable() {
             @Override
             public void run() {
-                recyclerView.setPadding(0,collapsingToolbarLayout.getHeight(),0,0);
+                recyclerView.setPadding(0, collapsingToolbarLayout.getHeight(), 0, 0);
 
                 int actionBarSize = (int) CommonUtils.convertDpToPixel(56, getContext());
                 int progressViewStart = collapsingToolbarLayout.getHeight() - actionBarSize;
@@ -93,6 +106,21 @@ public class OpinionsFragment extends Fragment {
         });
 
         topicDescription.setText(mTopicModel.getTopicDescription());
+        timeHolder.setText(Html.fromHtml(getContext().getResources().getQuantityString(
+                R.plurals.opinion_time_holder_message,
+                mTopicModel.getRenewedCount() + 1,
+                mTopicModel.getHoursLeft(),
+                mTopicModel.getRenewalRequests())));
+        if(mTopicModel.isRenewed()){
+            renewBtn.setBackgroundDrawable(renewedIcon);
+        }else renewBtn.setBackgroundDrawable(renewIcon);
+
+        renewBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleRenewButton();
+            }
+        });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new DividerItemDecorator(getActivity(), R.drawable.recycler_view_divider));
@@ -145,17 +173,85 @@ public class OpinionsFragment extends Fragment {
 
             @Override
             public void onError(final String error) {
-                Log.e("error Opinion",error);
 
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        swipeRefreshLayout.setRefreshing(false);
                         CommonUtils.showToast(getContext(),error);
                     }
                 });
             }
         });
     }
+
+    private void handleRenewButton(){
+
+        final int b = mTopicModel.getRenewalRequests();
+
+        if(!mTopicModel.isRenewed()) {
+            renewBtn.setBackgroundDrawable(renewedIcon);
+            timeHolder.setText(Html.fromHtml(getContext().getResources().getQuantityString(
+                    R.plurals.opinion_time_holder_message,
+                    b +1, mTopicModel.getHoursLeft(), b+1)));
+
+            TopicHelper.getHelper().addRenewalRequest(mTopicModel.getTopicId(),
+                    new TopicHelper.OnRenewalRequestListener() {
+
+                        @Override
+                        public void onCompleted() {
+                            // update the local database
+
+                            mTopicModel.setRenewalRequests(b + 1);
+                            mTopicModel.setIsRenewed(true);
+                            TopicDBHelper.getHelper().updateTopicRenewalStatus(mTopicModel);
+                        }
+
+                        @Override
+                        public void onError(String error) {
+                            // notify the user that renew have failed
+                            CommonUtils.showToast(getContext(), error);
+
+                            // revert the changes made in the UI
+                            renewBtn.setBackgroundDrawable(renewedIcon);
+                            timeHolder.setText(Html.fromHtml(getContext().getResources().getQuantityString(
+                                    R.plurals.opinion_time_holder_message,
+                                    b , mTopicModel.getHoursLeft(), b)));
+                        }
+                    });
+
+        } else {
+            renewBtn.setBackgroundDrawable(renewIcon);
+            timeHolder.setText(Html.fromHtml(getContext().getResources().getQuantityString(
+                    R.plurals.opinion_time_holder_message,
+                    b - 1, mTopicModel.getHoursLeft(), b-1)));
+
+            TopicHelper.getHelper().removeRenewal(mTopicModel.getTopicId(),
+                    new TopicHelper.OnRemoveRenewalRequestListener() {
+                        @Override
+                        public void onCompleted() {
+                            mTopicModel.setRenewalRequests(b-1);
+                            mTopicModel.setIsRenewed(false);
+                            TopicDBHelper.getHelper().updateTopicRenewalStatus(mTopicModel);
+                        }
+
+                        @Override
+                        public void onError(String error) {
+                            // notify the user that renew removal have failed
+                            CommonUtils.showToast(getContext(), error);
+
+                            // revert the changes made in the UI
+                            renewBtn.setBackgroundDrawable(renewedIcon);
+                            timeHolder.setText(Html.fromHtml(getContext().getResources().getQuantityString(
+                                    R.plurals.opinion_time_holder_message,
+                                    b , mTopicModel.getHoursLeft(), b)));
+                        }
+
+                    });
+        }
+
+    }
+
 
 
     @Override

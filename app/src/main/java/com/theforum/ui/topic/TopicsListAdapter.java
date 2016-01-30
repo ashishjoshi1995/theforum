@@ -34,7 +34,7 @@ import butterknife.ButterKnife;
  */
 
 @SuppressWarnings("deprecation")
-public class TopicsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.TopicsItemViewHolder> {
 
     private Context mContext;
 
@@ -42,7 +42,6 @@ public class TopicsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private OnLoadMoreListener loadMoreListener;
 
     private final static int VIEW_TYPE_TOPIC = 0;
-    private final static int VIEW_TYPE_LOAD_MORE_BTN = 1;
 
     public TopicsListAdapter(Context context, List<TopicDataModel> feeds){
         mContext = context;
@@ -58,7 +57,8 @@ public class TopicsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         @Bind(R.id.topics_name) TextView topicName;
         @Bind(R.id.topics_time_holder) TextView timeHolder;
-        @Bind(R.id.topics_renew_btn)TextView renewCountBtn;
+        @Bind(R.id.topics_renew_btn)TextView renewBtn;
+
         @BindDrawable(R.drawable.renew_icon) Drawable renewIcon;
         @BindDrawable(R.drawable.renew_icon_on) Drawable renewedIcon;
 
@@ -75,42 +75,72 @@ public class TopicsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 }
             });
 
-            renewCountBtn.setOnClickListener(new View.OnClickListener() {
+            renewBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    TopicDataModel topic = mTopics.get(getLayoutPosition());
+                    final TopicDataModel mTopicModel = mTopics.get(getLayoutPosition());
 
-                    if(!topic.isRenewed()) {
-                        int b=topic.getRenewalRequests();
-                        b=b+1;
-                        renewCountBtn.setText(String.valueOf(b));
-                        setCompoundDrawables(renewCountBtn, renewedIcon);
+                    final int b = mTopicModel.getRenewalRequests();
 
-                        topic.setRenewalRequests(b);
-                        topic.setIsRenewed(true);
-                        TopicDBHelper.getHelper().updateTopicRenewalStatus(topic);
-                        TopicHelper.getHelper().addRenewalRequest(topic.getTopicId(),
+                    if(!mTopicModel.isRenewed()) {
+                        renewBtn.setBackgroundDrawable(renewedIcon);
+                        timeHolder.setText(Html.fromHtml(mContext.getResources().getQuantityString(
+                                R.plurals.opinion_time_holder_message,
+                                b + 1, mTopicModel.getHoursLeft(), b + 1)));
+
+                        TopicHelper.getHelper().addRenewalRequest(mTopicModel.getTopicId(),
                                 new TopicHelper.OnRenewalRequestListener() {
+
                                     @Override
-                                    public void response(String s) {
-                                        Log.e("response", s);
+                                    public void onCompleted() {
+                                        // update the local database
+
+                                        mTopicModel.setRenewalRequests(b + 1);
+                                        mTopicModel.setIsRenewed(true);
+                                        TopicDBHelper.getHelper().updateTopicRenewalStatus(mTopicModel);
+                                    }
+
+                                    @Override
+                                    public void onError(String error) {
+                                        // notify the user that renew have failed
+                                        CommonUtils.showToast(mContext, error);
+
+                                        // revert the changes made in the UI
+                                        renewBtn.setBackgroundDrawable(renewedIcon);
+                                        timeHolder.setText(Html.fromHtml(mContext.getResources().getQuantityString(
+                                                R.plurals.opinion_time_holder_message,
+                                                b, mTopicModel.getHoursLeft(), b)));
                                     }
                                 });
-                    }else {
-                        int b=topic.getRenewalRequests();
-                        b=b-1;
-                        renewCountBtn.setText(String.valueOf(b));
-                        setCompoundDrawables(renewCountBtn, renewIcon);
 
-                        topic.setRenewalRequests(b);
-                        topic.setIsRenewed(false);
-                        TopicDBHelper.getHelper().updateTopicRenewalStatus(topic);
-                        TopicHelper.getHelper().removeRenewal(topic.getTopicId(), new TopicHelper.OnRemoveRenewalRequestListener() {
-                            @Override
-                            public void response(String s) {
-                                Log.e("response", s);
-                            }
-                        });
+                    } else {
+                        renewBtn.setBackgroundDrawable(renewIcon);
+                        timeHolder.setText(Html.fromHtml(mContext.getResources().getQuantityString(
+                                R.plurals.opinion_time_holder_message,
+                                b - 1, mTopicModel.getHoursLeft(), b - 1)));
+
+                        TopicHelper.getHelper().removeRenewal(mTopicModel.getTopicId(),
+                                new TopicHelper.OnRemoveRenewalRequestListener() {
+                                    @Override
+                                    public void onCompleted() {
+                                        mTopicModel.setRenewalRequests(b-1);
+                                        mTopicModel.setIsRenewed(false);
+                                        TopicDBHelper.getHelper().updateTopicRenewalStatus(mTopicModel);
+                                    }
+
+                                    @Override
+                                    public void onError(String error) {
+                                        // notify the user that renew removal have failed
+                                        CommonUtils.showToast(mContext, error);
+
+                                        // revert the changes made in the UI
+                                        renewBtn.setBackgroundDrawable(renewedIcon);
+                                        timeHolder.setText(Html.fromHtml(mContext.getResources().getQuantityString(
+                                                R.plurals.opinion_time_holder_message,
+                                                b, mTopicModel.getHoursLeft(), b)));
+                                    }
+
+                                });
 
                     }
                 }
@@ -120,24 +150,6 @@ public class TopicsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     }
 
-    public class LoadMoreItemViewHolder extends RecyclerView.ViewHolder{
-
-        Button loadMore;
-
-        public LoadMoreItemViewHolder(View itemView) {
-            super(itemView);
-            loadMore = (Button)itemView;
-            //loadMore.setText("LOAD MORE");
-
-            loadMore.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                     loadMoreListener.loadMore();
-                }
-            });
-        }
-    }
-
 
     @Override
     public int getItemViewType(int position) {
@@ -145,35 +157,28 @@ public class TopicsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public TopicsItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             return new TopicsItemViewHolder(LayoutInflater.from(parent.getContext()).inflate(
                     R.layout.topics_list_item, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(TopicsItemViewHolder holder, int position) {
 
+        TopicDataModel topic = mTopics.get(position);
 
-            TopicsItemViewHolder topicsItemViewHolder = (TopicsItemViewHolder)holder;
-            final TopicDataModel topic = mTopics.get(position);
+        holder.topicName.setText(topic.getTopicName());
+        holder.renewBtn.setText(String.valueOf(topic.getRenewalRequests()));
 
-            topicsItemViewHolder.topicName.setText(topic.getTopicName());
-            topicsItemViewHolder.renewCountBtn.setText(String.valueOf(topic.getRenewalRequests()));
+        holder.timeHolder.setText(Html.fromHtml(mContext.getResources().getQuantityString(
+                R.plurals.time_holder_message,
+                topic.getRenewedCount() + 1,
+                topic.getHoursLeft(),
+                topic.getRenewedCount())));
 
-            topicsItemViewHolder.timeHolder.setText(Html.fromHtml(mContext.getResources().getQuantityString(
-                    R.plurals.time_holder_message,
-                    topic.getRenewedCount()+1,
-                    topic.getHoursLeft(),
-                    topic.getRenewedCount())));
-
-
-            if(topic.isRenewed()){
-                setCompoundDrawables(topicsItemViewHolder.renewCountBtn,topicsItemViewHolder.renewedIcon);
-
-            }else {
-                setCompoundDrawables(topicsItemViewHolder.renewCountBtn,topicsItemViewHolder.renewIcon);
-
-            }
+        if(topic.isRenewed()){
+            setCompoundDrawables(holder.renewBtn,holder.renewedIcon);
+        }else setCompoundDrawables(holder.renewBtn,holder.renewIcon);
 
     }
 
@@ -185,6 +190,8 @@ public class TopicsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private void setCompoundDrawables(TextView textView, Drawable drawable){
         textView.setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null);
     }
+
+
 
     /**
      *

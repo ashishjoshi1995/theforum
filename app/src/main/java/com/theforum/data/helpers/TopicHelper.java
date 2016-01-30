@@ -1,7 +1,6 @@
 package com.theforum.data.helpers;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.microsoft.windowsazure.mobileservices.ApiOperationCallback;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
@@ -11,6 +10,7 @@ import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.microsoft.windowsazure.mobileservices.table.TableOperationCallback;
 import com.microsoft.windowsazure.mobileservices.table.query.QueryOrder;
 import com.theforum.TheForumApplication;
+import com.theforum.constants.Messages;
 import com.theforum.constants.SortType;
 import com.theforum.data.helpers.removeRenewalApi.RemoveRenewalRequest;
 import com.theforum.data.helpers.removeRenewalApi.RemoveRenewalResponse;
@@ -29,6 +29,7 @@ import java.util.List;
 /**
  * @author Ashish on 1/5/2016.
  */
+@SuppressWarnings("deprecation")
 public class TopicHelper {
 
     private static TopicHelper mTopicHelper;
@@ -207,52 +208,34 @@ public class TopicHelper {
         request.topic_id = topic_id;
         request.uid = User.getInstance().getId();
 
-
-
+        if(CommonUtils.isInternetAvailable()){
         mClient.invokeApi("addrenewalrequest", request, Response.class, new ApiOperationCallback<Response>() {
             @Override
             public void onCompleted(Response result, Exception exception, ServiceFilterResponse response) {
-                Log.e("result", "" + result.message);
-                if (exception == null) {
-                    if (result.message > 1) {
 
-                        listener.response("You and " + result.message + " others added a renewal request");
-
-                    } else {
-                        listener.response("A renewal request has been added for this topic");
-                    }
-                } else {
-                    listener.response(exception.getMessage());
-
-                }
+                if (exception != null) {
+                    listener.onError(exception.getMessage());
+                }else listener.onCompleted();
             }
         });
+
+        } else listener.onError(Messages.NO_NET_CONNECTION);
     }
     public void removeRenewal(String topic_id , final OnRemoveRenewalRequestListener listener) {
         final RemoveRenewalRequest request = new RemoveRenewalRequest();
         request.topic_id = topic_id;
         request.uid = User.getInstance().getId();
 
-
-
-        mClient.invokeApi("remove_renewal", request, RemoveRenewalResponse.class, new ApiOperationCallback<RemoveRenewalResponse>() {
-            @Override
-            public void onCompleted(RemoveRenewalResponse result, Exception exception, ServiceFilterResponse response) {
-                Log.e("result", "" + result.message);
-                if (exception == null) {
-                    if (result.message > 1) {
-
-                        listener.response("You " + result.message + " removed a renewal request");
-
-                    } else {
-                        listener.response("A renewal request has been removed for this topic");
-                    }
-                } else {
-                    listener.response(exception.getMessage());
-
+        if(CommonUtils.isInternetAvailable()) {
+            mClient.invokeApi("remove_renewal", request, RemoveRenewalResponse.class, new ApiOperationCallback<RemoveRenewalResponse>() {
+                @Override
+                public void onCompleted(RemoveRenewalResponse result, Exception exception, ServiceFilterResponse response) {
+                    if (exception != null) {
+                        listener.onError(exception.getMessage());
+                    }else listener.onCompleted();
                 }
-            }
-        });
+            });
+        } else listener.onError(Messages.NO_NET_CONNECTION);
     }
 
 
@@ -288,7 +271,6 @@ public class TopicHelper {
 
     public interface OnTopicsReceiveListener{
         /**
-         *
          * @param  topics model with updated params
          */
         void onCompleted(ArrayList<TopicDataModel> topics);
@@ -296,19 +278,21 @@ public class TopicHelper {
     }
 
     public interface OnRenewalRequestListener {
+
+        void onCompleted();
         /**
-         *
-         * @param  s model with updated params
+         * @param  error error status with message
          */
-        void response(String s);
+        void onError(String error);
 
     }
     public interface OnRemoveRenewalRequestListener {
+
+        void onCompleted();
         /**
-         *
-         * @param  s model with updated params
+         * @param  error error status with message
          */
-        void response(String s);
+        void onError(String error);
 
     }
 

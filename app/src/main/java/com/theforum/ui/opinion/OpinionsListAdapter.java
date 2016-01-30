@@ -63,6 +63,7 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
         @Override
         public void onClick(View v) {
             switch (v.getId()){
+
                 case R.id.upvote_btn:
                     OpinionDataModel opinionModel = mOpinionList.get(getLayoutPosition());
 
