@@ -14,6 +14,7 @@ public class TrendsDB extends SQLiteOpenHelper {
     public TrendsDB(Context context){
         super(context, TrendsDBConstants.DATABASE_NAME,null, TrendsDBConstants.DATABASE_VERSION);
     }
+
     private static final String DATABASE_ALTER_TEAM_1 = "ALTER TABLE "
             + TrendsDBConstants.TABLE_NAME + " ADD COLUMN " + TrendsDBConstants.KEY_VOTE_STATUS + " int;";
 

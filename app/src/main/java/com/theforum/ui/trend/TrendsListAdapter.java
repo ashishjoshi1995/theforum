@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import android.widget.TextView;
 import com.theforum.R;
 import com.theforum.constants.LayoutType;
 import com.theforum.data.helpers.TrendsHelper;
-import com.theforum.data.local.database.topicDB.TopicDBHelper;
 import com.theforum.data.local.database.trendsDB.TrendsDBHelper;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.data.local.models.TrendsDataModel;
@@ -38,7 +36,6 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
 
     private Context mContext;
 
-    /* list of feed data */
     private List<TrendsDataModel> mFeeds;
 
 
@@ -231,14 +228,12 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
         holder.upVoteBtn.setText(String.valueOf(trendsDataModel.getUpVoteCount()));
         holder.downVoteBtn.setText(String.valueOf(trendsDataModel.getDownVoteCount()));
 
+        holder.timeHolder.setText(Html.fromHtml(mContext.getResources().getQuantityString(
+                R.plurals.time_holder_message,
+                trendsDataModel.getRenewCount() + 1,
+                trendsDataModel.getHoursLeft(),
+                trendsDataModel.getRenewCount())));
 
-        String text = mContext.getResources().getQuantityString(R.plurals.time_holder_message,
-                                                                trendsDataModel.getRenewCount(),
-                                                                trendsDataModel.getHoursLeft(),
-                                                                trendsDataModel.getRenewCount());
-
-        holder.timeHolder.setText(Html.fromHtml(text));
-        Log.e("ththht", trendsDataModel.getVoteStatus().toString());
         if(trendsDataModel.getVoteStatus() == VoteStatus.NONE){
             setCompoundDrawables(holder.upVoteBtn, holder.upVoteIcon);
             setCompoundDrawables(holder.downVoteBtn, holder.downVoteIcon);

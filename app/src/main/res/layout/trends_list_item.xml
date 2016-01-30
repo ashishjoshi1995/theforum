@@ -36,8 +36,11 @@
         android:id="@+id/trends_decay_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_below="@id/trends_description"
-        android:layout_marginTop="27dp"
-        android:textSize="12sp" />
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="15dp"
+        android:textSize="12sp"
+        android:textColor="@color/timerTextColor" />
 
 </RelativeLayout>

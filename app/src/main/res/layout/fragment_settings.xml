@@ -26,17 +26,17 @@
 
         <TextView android:id="@+id/settings_location_instruction"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:textSize="14sp"
             android:textColor="#878787"
             android:text="If you are not in this country, then turn on the Switch and we'll know the country you are in"
             />
 
-        <Switch
+        <Switch android:id="@+id/settings_location_toggle_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/settings_location_toggle_button" />
+            android:layout_gravity="center_vertical"/>
 
         </LinearLayout>
 

@@ -162,7 +162,7 @@ public class TopicsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             topicsItemViewHolder.timeHolder.setText(Html.fromHtml(mContext.getResources().getQuantityString(
                     R.plurals.time_holder_message,
-                    topic.getRenewedCount(),
+                    topic.getRenewedCount()+1,
                     topic.getHoursLeft(),
                     topic.getRenewedCount())));
 
