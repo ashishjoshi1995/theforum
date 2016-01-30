@@ -49,6 +49,10 @@ public class ContainerActivity extends AppCompatActivity {
             case LayoutType.SORT_FRAGMENT:
                 fragmentTransaction.replace(R.id.menu_fragment_container,new SortFragment());
                 break;
+
+            case LayoutType.STATS_FRAGMENT:
+                fragmentTransaction.replace(R.id.menu_fragment_container,new StatisticsFragment());
+                break;
         }
 
         fragmentTransaction.commit();
