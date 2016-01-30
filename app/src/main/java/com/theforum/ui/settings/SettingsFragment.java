@@ -100,7 +100,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener,
         turnOnLocation.setOnCheckedChangeListener(this);
         turnOnLocation.setChecked(false);
 
-        location.setText(ProfileUtils.getInstance().getFromPreferences(ProfileUtils.COUNTRY));
+        location.setText("Location: "+ProfileUtils.getInstance().getFromPreferences(ProfileUtils.COUNTRY));
 
         SpannableString styledString
                 = new SpannableString("theforum | speak free");
