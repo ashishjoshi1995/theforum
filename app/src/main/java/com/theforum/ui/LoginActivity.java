@@ -136,6 +136,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 localUser.setPointCollected(0);
                 localUser.setTopicsCreated(0);
 
+                //ProfileUtils.getInstance().saveIntegralPreference(ProfileUtils.);
+
                 pd.dismiss();
 
                 /**

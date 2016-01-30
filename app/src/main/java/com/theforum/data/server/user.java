@@ -34,18 +34,26 @@ public class user {
 
     @com.google.gson.annotations.SerializedName("country")
     private String country;
+    @com.google.gson.annotations.SerializedName("upvotes_received")
+    private int upvotes_received;
+    @com.google.gson.annotations.SerializedName("downvotes_croaked")
+    private int downvotes_croaked;
+    @com.google.gson.annotations.SerializedName("upvotes_croaked")
+    private int upvotes_croaked;
+    @com.google.gson.annotations.SerializedName("downvotes_received")
+    private int downvotes_received;
+    @com.google.gson.annotations.SerializedName("renewal_request_croaked")
+    private int renewal_request_croaked;
+    @com.google.gson.annotations.SerializedName("renewal_request_received")
+    private int renewal_request_received;
+    @com.google.gson.annotations.SerializedName("toatal_topic_renewed")
+    private int toatal_topic_renewed;
+    @com.google.gson.annotations.SerializedName("total_topic_renewed_croaked")
+    private int total_topic_renewed_croaked;
+    @com.google.gson.annotations.SerializedName("opinions_received")
+    private int opinions_received;
 
-    @com.google.gson.annotations.SerializedName("total_downvotes_on_opinions")
-    private int totalDownvotesOnOpinionsTillDate;
 
-    @com.google.gson.annotations.SerializedName("total_renewalrequests_on_topics")
-    private int totalRenewalRequestsOnTopics;
-
-    @com.google.gson.annotations.SerializedName("total_renewals_received_on_topics")
-    private int totalRenewalsReceivedOnTopics;
-
-    @com.google.gson.annotations.SerializedName("total_upvotes_on_opinions")
-    private int totalUpvotesOnOpinions;
 
 
 
@@ -114,38 +122,6 @@ public class user {
     }
 
 
-    public int getTotalDownvotesOnOpinionsTillDate() {
-        return totalDownvotesOnOpinionsTillDate;
-    }
-
-    public void setTotalDownvotesOnOpinionsTillDate(int totalDownvotesOnOpinionsTillDate) {
-        this.totalDownvotesOnOpinionsTillDate = totalDownvotesOnOpinionsTillDate;
-    }
-
-    public int getTotalRenewalRequestsOnTopics() {
-        return totalRenewalRequestsOnTopics;
-    }
-
-    public void setTotalRenewalRequestsOnTopics(int totalRenewalRequestsOnTopics) {
-        this.totalRenewalRequestsOnTopics = totalRenewalRequestsOnTopics;
-    }
-
-    public int getTotalRenewalsReceivedOnTopics() {
-        return totalRenewalsReceivedOnTopics;
-    }
-
-    public void setTotalRenewalsReceivedOnTopics(int totalRenewalsReceivedOnTopics) {
-        this.totalRenewalsReceivedOnTopics = totalRenewalsReceivedOnTopics;
-    }
-
-    public int getTotalUpvotesOnOpinions() {
-        return totalUpvotesOnOpinions;
-    }
-
-    public void setTotalUpvotesOnOpinions(int totalUpvotesOnOpinions) {
-        this.totalUpvotesOnOpinions = totalUpvotesOnOpinions;
-    }
-
     public int getmTotalCharacters() {
         return mTotalCharacters;
     }
@@ -160,5 +136,77 @@ public class user {
 
     public void setmOpinionCount(String mOpinionCount) {
         this.mOpinionCount = mOpinionCount;
+    }
+
+    public int getUpvotes_received() {
+        return upvotes_received;
+    }
+
+    public void setUpvotes_received(int upvotes_received) {
+        this.upvotes_received = upvotes_received;
+    }
+
+    public int getDownvotes_croaked() {
+        return downvotes_croaked;
+    }
+
+    public void setDownvotes_croaked(int downvotes_croaked) {
+        this.downvotes_croaked = downvotes_croaked;
+    }
+
+    public int getUpvotes_croaked() {
+        return upvotes_croaked;
+    }
+
+    public void setUpvotes_croaked(int upvotes_croaked) {
+        this.upvotes_croaked = upvotes_croaked;
+    }
+
+    public int getDownvotes_received() {
+        return downvotes_received;
+    }
+
+    public void setDownvotes_received(int downvotes_received) {
+        this.downvotes_received = downvotes_received;
+    }
+
+    public int getRenewal_request_croaked() {
+        return renewal_request_croaked;
+    }
+
+    public void setRenewal_request_croaked(int renewal_request_croaked) {
+        this.renewal_request_croaked = renewal_request_croaked;
+    }
+
+    public int getRenewal_request_received() {
+        return renewal_request_received;
+    }
+
+    public void setRenewal_request_received(int renewal_request_received) {
+        this.renewal_request_received = renewal_request_received;
+    }
+
+    public int getToatal_topic_renewed() {
+        return toatal_topic_renewed;
+    }
+
+    public void setToatal_topic_renewed(int toatal_topic_renewed) {
+        this.toatal_topic_renewed = toatal_topic_renewed;
+    }
+
+    public int getTotal_topic_renewed_croaked() {
+        return total_topic_renewed_croaked;
+    }
+
+    public void setTotal_topic_renewed_croaked(int total_topic_renewed_croaked) {
+        this.total_topic_renewed_croaked = total_topic_renewed_croaked;
+    }
+
+    public int getOpinions_received() {
+        return opinions_received;
+    }
+
+    public void setOpinions_received(int opinions_received) {
+        this.opinions_received = opinions_received;
     }
 }

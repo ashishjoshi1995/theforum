@@ -24,6 +24,18 @@ public class ProfileUtils {
     public static final String AGE = "age";
     public static final String COUNTRY = "country";
 
+    //statistics
+    public static final String mRecUpvotes = "rupvotes";
+    public static final String mRecDownvoted = "rdownvotes";
+    public static final String mRecOpinions = "ropinions";
+    public static final String mRecRenewals = "rrenewals";
+    public static final String mRecTopicsRenewed = "rtopicsrenewed";
+
+    public static final String mCrcUpvotes = "cupvotes";
+    public static final String mCrcDownvotes = "cdownvotes";
+    public static final String mCrcOpinions = "copinions";
+    public static final String mRenewals = "crenewals";
+
     public static ProfileUtils getInstance() {
         return profileUtils;
     }
@@ -51,6 +63,22 @@ public class ProfileUtils {
         SharedPreferences.Editor editor = getPreferences().edit();
         editor.putString(key, value);
         editor.apply();
+    }
+
+    public void saveIntegralPreference(String key, int value){
+        SharedPreferences.Editor editor = getPreferences().edit();
+        editor.putInt(key, value);
+        editor.apply();
+    }
+
+    public int getIntPreference(String key){
+        int value = getPreferences().getInt(key, -1);
+
+        if (value == -1) {
+            value = -1;
+        }
+
+        return value;
     }
 
     public String getFromPreferences(String key) {
