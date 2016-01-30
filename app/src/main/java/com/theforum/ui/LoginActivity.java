@@ -136,7 +136,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 localUser.setPointCollected(0);
                 localUser.setTopicsCreated(0);
 
-                //ProfileUtils.getInstance().saveIntegralPreference(ProfileUtils.);
+                ProfileUtils.getInstance().saveIntegralPreference(ProfileUtils.mRecDownvoted, user.getDownvotes_received());
+                ProfileUtils.getInstance().saveIntegralPreference(ProfileUtils.mRecOpinions, user.getOpinions_received());
+                ProfileUtils.getInstance().saveIntegralPreference(ProfileUtils.mRecRenewals,user.getRenewal_request_received());
+                ProfileUtils.getInstance().saveIntegralPreference(ProfileUtils.mRecTopicsRenewed,user.getToatal_topic_renewed());
+                ProfileUtils.getInstance().saveIntegralPreference(ProfileUtils.mRecUpvotes,user.getUpvotes_received());
+
+                ProfileUtils.getInstance().saveIntegralPreference(ProfileUtils.mCrcDownvotes,user.getDownvotes_croaked());
+                ProfileUtils.getInstance().saveIntegralPreference(ProfileUtils.mCrcOpinions,user.getmOpinionCount());
+                ProfileUtils.getInstance().saveIntegralPreference(ProfileUtils.mCrcUpvotes,user.getUpvotes_croaked());
+                ProfileUtils.getInstance().saveIntegralPreference(ProfileUtils.mCrcRenewals,user.getRenewal_request_croaked());
+                ProfileUtils.getInstance().saveIntegralPreference(ProfileUtils.mCrcTopicsRenewed,user.getToatal_topic_renewed());
+
 
                 pd.dismiss();
 

@@ -6,6 +6,9 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telephony.TelephonyManager;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.RelativeSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +22,7 @@ import com.theforum.utils.CommonUtils;
 import com.theforum.utils.ProfileUtils;
 import com.theforum.utils.SettingsUtils;
 import com.theforum.utils.NetworkUtils;
+import com.theforum.utils.TypefaceSpan;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -47,7 +51,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener,
     @Bind(R.id.settings_legal_terms_of_service) TextView termsOfService;
 
 
-    //@Bind(R.id.temp) TextView temp;
+    @Bind(R.id.settings_footer) TextView footer;
 
 
 
@@ -96,7 +100,18 @@ public class SettingsFragment extends Fragment implements View.OnClickListener,
         turnOnLocation.setOnCheckedChangeListener(this);
         turnOnLocation.setChecked(false);
 
-        location.setText(ProfileUtils.getInstance().getFromPreferences(ProfileUtils.COUNTRY));
+        location.setText("Location: "+ProfileUtils.getInstance().getFromPreferences(ProfileUtils.COUNTRY));
+
+        SpannableString styledString
+                = new SpannableString("theforum | speak free");
+        styledString.setSpan(new TypefaceSpan(getActivity(), "Roboto-Light.ttf"), 0, 3,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        styledString.setSpan(new TypefaceSpan(getActivity(), "Roboto-Medium.ttf"), 4, 8,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        styledString.setSpan(new TypefaceSpan(getActivity(), "Roboto-Light.ttf"), 9, 21,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        styledString.setSpan(new RelativeSizeSpan(0.67f), 10, 21, 0);
+        footer.setText(styledString);
     }
 
     @Override
