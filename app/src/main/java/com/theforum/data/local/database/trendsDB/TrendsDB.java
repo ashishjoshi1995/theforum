@@ -28,7 +28,8 @@ public class TrendsDB extends SQLiteOpenHelper {
                 + TrendsDBConstants.KEY_OPINION+" TEXT,"
                 + TrendsDBConstants.KEY_UPVOTES+" INTEGER,"
                 + TrendsDBConstants.KEY_DOWNVOTES+" INTEGER,"
-                + TrendsDBConstants.KEY_HOURS_LEFT+" INTEGER)";
+                + TrendsDBConstants.KEY_HOURS_LEFT+" INTEGER,"
+                + TrendsDBConstants.KEY_VOTE_STATUS+" INTEGER)";
 
         db.execSQL(CREATE_TOPIC_TABLE);
 

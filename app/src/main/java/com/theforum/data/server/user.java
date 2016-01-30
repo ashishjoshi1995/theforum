@@ -24,7 +24,7 @@ public class user {
     private String mStatus;
 
     @com.google.gson.annotations.SerializedName("opinions_count")
-    private String mOpinionCount;
+    private int mOpinionCount;
 
     @com.google.gson.annotations.SerializedName("topics_created")
     private int mTopicsCreated;
@@ -130,11 +130,11 @@ public class user {
         this.mTotalCharacters = mTotalCharacters;
     }
 
-    public String getmOpinionCount() {
+    public int getmOpinionCount() {
         return mOpinionCount;
     }
 
-    public void setmOpinionCount(String mOpinionCount) {
+    public void setmOpinionCount(int mOpinionCount) {
         this.mOpinionCount = mOpinionCount;
     }
 

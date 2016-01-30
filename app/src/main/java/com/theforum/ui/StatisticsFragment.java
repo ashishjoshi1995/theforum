@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.theforum.R;
+import com.theforum.utils.ProfileUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -39,6 +40,14 @@ public class StatisticsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        //downVote;
+        downVotesCount.setText(""+ProfileUtils.getInstance().getIntPreference(ProfileUtils.mRecUpvotes));
+        opinionsCount.setText(""+ProfileUtils.getInstance().getIntPreference(ProfileUtils.mRecOpinions));
+        topicsRenewedCount.setText(""+ProfileUtils.getInstance().getIntPreference(ProfileUtils.mRecTopicsRenewed));
+        renewalsCount.setText(""+ProfileUtils.getInstance().getIntPreference(ProfileUtils.mRecRenewals));
+        upVotesCount.setText(""+ProfileUtils.getInstance().getIntPreference(ProfileUtils.mRecUpvotes));
+        cDownVotesCount.setText(""+ProfileUtils.getInstance().getIntPreference(ProfileUtils.mCrcDownvotes));
+        cOpinionsCount.setText(""+ProfileUtils.getInstance().getIntPreference(ProfileUtils.mCrcOpinions));
+        cRenewalsCount.setText(""+ProfileUtils.getInstance().getIntPreference(ProfileUtils.mCrcRenewals));
+        cUpvotesCount.setText(""+ProfileUtils.getInstance().getIntPreference(ProfileUtils.mCrcUpvotes));
     }
 }

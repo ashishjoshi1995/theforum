@@ -52,6 +52,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/received_card_upvotes_count"
+                            android:layout_gravity="right"
                             />
                     </LinearLayout>
                     <View
@@ -72,6 +73,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/received_card_downvotes_count"
+                            android:layout_gravity="right"
                             />
                     </LinearLayout>
                     <View
@@ -92,6 +94,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/received_card_opinions_count"
+                            android:layout_gravity="right"
                             />
                     </LinearLayout>
                     <View
@@ -113,7 +116,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/received_card_renewals_count"
-                            />
+                            android:layout_gravity="right"/>
                     </LinearLayout>
                     <View
                         android:layout_width="match_parent"
@@ -134,7 +137,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/received_card_topics_renewed_count"
-                        />
+                        android:layout_gravity="right"/>
 
                 </LinearLayout>
                 </LinearLayout>
@@ -173,7 +176,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/croaked_card_upvotes_count"
-                            />
+                            android:layout_gravity="right"/>
                     </LinearLayout>
                     <View
                         android:layout_width="match_parent"
@@ -193,7 +196,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/croaked_card_downvotes_count"
-                            />
+                            android:layout_gravity="right"/>
                     </LinearLayout>
                     <View
                         android:layout_width="match_parent"
@@ -213,7 +216,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/croaked_card_opinions_count"
-                            />
+                            android:layout_gravity="right"/>
                     </LinearLayout>
                     <View
                         android:layout_width="match_parent"
@@ -236,7 +239,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/croaked_card_renewals_count"
-                            />
+                            android:layout_gravity="right"/>
                     </LinearLayout>
 
                 </LinearLayout>

@@ -34,7 +34,7 @@ public class ProfileUtils {
     public static final String mCrcUpvotes = "cupvotes";
     public static final String mCrcDownvotes = "cdownvotes";
     public static final String mCrcOpinions = "copinions";
-    public static final String mRenewals = "crenewals";
+    public static final String mCrcRenewals = "crenewals";
 
     public static ProfileUtils getInstance() {
         return profileUtils;
@@ -75,7 +75,7 @@ public class ProfileUtils {
         int value = getPreferences().getInt(key, -1);
 
         if (value == -1) {
-            value = -1;
+            value = 0;
         }
 
         return value;
