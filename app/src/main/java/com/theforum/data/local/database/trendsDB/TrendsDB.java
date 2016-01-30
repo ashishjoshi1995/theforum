@@ -43,6 +43,6 @@ public class TrendsDB extends SQLiteOpenHelper {
         }
 
     }
-
+//eoeoeo
 
 }

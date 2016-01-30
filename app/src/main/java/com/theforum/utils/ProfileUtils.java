@@ -35,6 +35,7 @@ public class ProfileUtils {
     public static final String mCrcDownvotes = "cdownvotes";
     public static final String mCrcOpinions = "copinions";
     public static final String mCrcRenewals = "crenewals";
+    public static final String mCrcTopicsRenewed = "ctopicsrenewed";
 
     public static ProfileUtils getInstance() {
         return profileUtils;

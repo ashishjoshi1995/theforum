@@ -146,6 +146,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 ProfileUtils.getInstance().saveIntegralPreference(ProfileUtils.mCrcOpinions,user.getmOpinionCount());
                 ProfileUtils.getInstance().saveIntegralPreference(ProfileUtils.mCrcUpvotes,user.getUpvotes_croaked());
                 ProfileUtils.getInstance().saveIntegralPreference(ProfileUtils.mCrcRenewals,user.getRenewal_request_croaked());
+                ProfileUtils.getInstance().saveIntegralPreference(ProfileUtils.mCrcTopicsRenewed,user.getToatal_topic_renewed());
+
 
                 pd.dismiss();
 

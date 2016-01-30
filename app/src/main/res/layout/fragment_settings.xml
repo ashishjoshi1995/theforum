@@ -30,8 +30,7 @@
             android:layout_weight="1"
             android:textSize="14sp"
             android:textColor="#878787"
-            android:text="If you are not in this country, then turn on the Switch and we'll know the country you are in"
-            />
+            android:text="If you are not in this country, then turn on the Switch and we'll know the country you are in" />
 
         <Switch android:id="@+id/settings_location_toggle_button"
             android:layout_width="wrap_content"
@@ -66,6 +65,11 @@
                     android:button="@null"
                     android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
                     />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#e0e0e0"/>
+
 
                 <CheckBox android:id="@+id/settings_notification_renewal_requests"
                     android:layout_width="match_parent"
@@ -73,6 +77,10 @@
                     android:text="Renewal Requests"
                     android:button="@null"
                     android:drawableRight="?android:attr/listChoiceIndicatorMultiple"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#e0e0e0"/>
 
                 <CheckBox android:id="@+id/settings_notification_topic_renewed"
                     android:layout_width="match_parent"
@@ -80,6 +88,10 @@
                     android:text="Topic Renewed"
                     android:button="@null"
                     android:drawableRight="?android:attr/listChoiceIndicatorMultiple"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#e0e0e0"/>
 
                 <CheckBox android:id="@+id/settings_notification_opinions"
                     android:layout_width="match_parent"
@@ -111,7 +123,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#24a5ff"
-                    android:text="Application" />
+                    android:text="Application"
+                    android:layout_marginBottom="16dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -122,7 +135,8 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp" />
+                    android:layout_height="1dp"
+                    android:background="#e0e0e0"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -133,7 +147,8 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp" />
+                    android:layout_height="1dp"
+                    android:background="#e0e0e0"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -144,7 +159,8 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp" />
+                    android:layout_height="1dp"
+                    android:background="#e0e0e0"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="56dp"
@@ -175,7 +191,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#24a5ff"
-                    android:text="Legal" />
+                    android:text="Legal"
+                    android:layout_marginBottom="16dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -185,7 +202,8 @@
                     android:id="@+id/settings_legal_terms_of_service" />
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp" />
+                    android:layout_height="1dp"
+                    android:background="#e0e0e0"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="56dp"
@@ -194,7 +212,8 @@
                     android:id="@+id/settings_legal_privacy_policy" />
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp" />
+                    android:layout_height="1dp"
+                    android:background="#e0e0e0"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="56dp"
@@ -210,7 +229,12 @@
                 android:layout_height="wrap_content"
                 android:text="theforum | speak free"
                 android:gravity="center_horizontal"
-                />
+                android:background="#00000000"
+                android:id="@+id/settings_footer"
+                android:textSize="34sp"
+                android:layout_marginTop="22dp"
+                android:layout_marginBottom="8dp"
+                android:textColor="#a7a7a7"              />
 
         </LinearLayout>
     </ScrollView>
