@@ -45,7 +45,7 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
 
         @Bind(R.id.opinion_opinion) TextView opinionText;
         @Bind(R.id.upvote_btn) TextView upVoteBtn;
-        @Bind(R.id.downvote_btn) TextView downVoteBtn;
+        @Bind(R.id.down_vote_btn) TextView downVoteBtn;
 
         @BindDrawable(R.drawable.upvote) Drawable upVoteIcon;
         @BindDrawable(R.drawable.upvote_on) Drawable upVotedIcon;
@@ -88,7 +88,7 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
                     }else CommonUtils.showToast(mContext, "Cannot UpVote");
                     break;
 
-                case R.id.downvote_btn:
+                case R.id.down_vote_btn:
                     final OpinionDataModel opinionModel2 = mOpinionList.get(getLayoutPosition());
                     if(opinionModel2.getVoteStatus() == VoteStatus.NONE) {
 

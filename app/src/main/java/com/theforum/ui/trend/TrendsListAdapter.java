@@ -51,7 +51,7 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
         @Bind(R.id.trends_description) TextView description;
         @Bind(R.id.trends_decay_time)TextView timeHolder;
         @Bind(R.id.upvote_btn) TextView upVoteBtn;
-        @Bind(R.id.downvote_btn) TextView downVoteBtn;
+        @Bind(R.id.down_vote_btn) TextView downVoteBtn;
 
 
         @BindDrawable(R.drawable.upvote) Drawable upVoteIcon;

@@ -181,6 +181,7 @@ public class TopicsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         mTopics.add(position, topicDataModel);
         notifyDataSetChanged();
     }
+
     private void setCompoundDrawables(TextView textView, Drawable drawable){
         textView.setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null);
     }

@@ -45,7 +45,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
         @Bind(R.id.notification_description)TextView description;
         @Bind(R.id.notification_decay_time) TextView timeHolder;
         @Bind(R.id.upvote_btn) TextView upVoteBtn;
-        @Bind(R.id.downvote_btn) TextView downVoteBtn;
+        @Bind(R.id.down_vote_btn) TextView downVoteBtn;
 
         public ViewHolderOne(View v) {
             super(v);
