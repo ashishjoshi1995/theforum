@@ -15,7 +15,6 @@ import android.support.v4.app.TaskStackBuilder;
 import com.theforum.R;
 import com.theforum.TheForumApplication;
 import com.theforum.constants.NotificationType;
-import com.theforum.data.helpers.NotificationHelper;
 import com.theforum.data.local.database.notificationDB.NotificationDBHelper;
 import com.theforum.data.server.NotificationDataModel;
 import com.theforum.data.server.opinion;
@@ -50,6 +49,7 @@ public class NotificationService extends Service {
         return START_NOT_STICKY;
     }
 
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -58,10 +58,9 @@ public class NotificationService extends Service {
     }
 
     private void handleIntent() {
-        // obtain the wake lock
 
         PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
-        mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "TheForumWakeLog");
+        mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "TheForumWakeLock");
         mWakeLock.acquire();
 
         // check the global background data setting
@@ -78,21 +77,22 @@ public class NotificationService extends Service {
 
     private class PollTask extends AsyncTask<Void, Void, Void> {
         int stream=0;
+
         @Override
         protected Void doInBackground(Void... params) {
 
-
             final NotificationHelper helper = new NotificationHelper();
             helper.readNotification(new NotificationListener() {
-            int notificationCount = 0;
+
+                int notificationCount = 0;
 
                 @Override
                 public void topicNotification(List<topic> topics) {
 
                     ArrayList<NotificationDataModel> notificationsList = new ArrayList<>();
 
-                    for(int j =0; j<topics.size();j++){
-                        if(topics.get(j).getmNotifRenewalRequests()>0) {
+                    for (int j = 0; j < topics.size(); j++) {
+                        if (topics.get(j).getmNotifRenewalRequests() > 0) {
                             NotificationDataModel notificationModel = new NotificationDataModel();
                             notificationModel.hoursLeft = topics.get(j).getHoursLeft();
                             notificationModel.topicId = topics.get(j).getTopicId();
@@ -100,11 +100,11 @@ public class NotificationService extends Service {
                             notificationModel.renewalRequest = topics.get(j).getmNotifRenewalRequests();
                             notificationModel.notificationType = NotificationType.NOTIFICATION_TYPE_RENEWAL_REQUEST;
                             notificationsList.add(notificationModel);
-                            if(SettingsUtils.getInstance().getBoolPreference(SettingsUtils.ENABLE_RENEWAL_REQUESTS_NOTIFICATION))
+                            if (SettingsUtils.getInstance().getBoolPreference(SettingsUtils.ENABLE_RENEWAL_REQUESTS_NOTIFICATION))
                                 notificationCount++;
                         }
 
-                        if(topics.get(j).getmNotifOpinions()>0) {
+                        if (topics.get(j).getmNotifOpinions() > 0) {
                             NotificationDataModel inflatorItemDataOpinions = new NotificationDataModel();
                             inflatorItemDataOpinions.notificationType = NotificationType.NOTIFICATION_TYPE_OPINIONS;
                             inflatorItemDataOpinions.hoursLeft = topics.get(j).getHoursLeft();
@@ -112,65 +112,65 @@ public class NotificationService extends Service {
                             inflatorItemDataOpinions.topicText = topics.get(j).getTopicName();
                             inflatorItemDataOpinions.opinions = topics.get(j).getmNotifOpinions();
                             notificationsList.add(inflatorItemDataOpinions);
-                            if(SettingsUtils.getInstance().getBoolPreference(SettingsUtils.ENABLE_OPINIONS_RECEIVED_NOTIFICATION))
+                            if (SettingsUtils.getInstance().getBoolPreference(SettingsUtils.ENABLE_OPINIONS_RECEIVED_NOTIFICATION))
                                 notificationCount++;
                         }
                     }
 
-                    if(notificationsList.size()>0) {
-                        if(NotificationHelper.one && NotificationHelper.two && count ==0){
-                            helper.cleanItUP();
+                    if (notificationsList.size() > 0) {
+                        if (NotificationHelper.one && NotificationHelper.two && count == 0) {
+                            helper.cleanItUp();
                             count++;
                         }
                         NotificationDBHelper.getHelper().addNotifications(notificationsList);
 
 
-                        if(notificationCount>0 && stream == 1){
+                        if (notificationCount > 0 && stream == 1) {
 
                             Notify(notificationCount, TheForumApplication.getAppContext());
                             stream = 0;
 
-                        } else if(stream == 0){
+                        } else if (stream == 0) {
                             stream++;
                         }
 
-                    } else if(count>0){
+                    } else if (count > 0) {
                         count = 0;
                     }
 
                 }
+
                 @Override
                 public void opinionNotification(List<opinion> opinions) {
                     ArrayList<NotificationDataModel> inflatorItemDatas = new ArrayList<>();
 
-                        for(int j=0;j<opinions.size();j++){
+                    for (int j = 0; j < opinions.size(); j++) {
 
-                            NotificationDataModel notificationDataModel = new NotificationDataModel();
-                            notificationDataModel.notificationType = NotificationType.NOTIFICATION_TYPE_OPINION_UP_VOTES;
-                            notificationDataModel.topicText = opinions.get(j).getTopicName();
-                            notificationDataModel.topicId =opinions.get(j).getTopicId();
-                            notificationDataModel.newCount = opinions.get(j).getmNotifCount();
-                            notificationDataModel.totalUpvotes = opinions.get(j).getUpVotes();
-                            notificationDataModel.totalDownvotes = opinions.get(j).getDownVotes();
-                            notificationDataModel.opinionText = opinions.get(j).getOpinionName();
-                            inflatorItemDatas.add(notificationDataModel);
-                            notificationCount++;
+                        NotificationDataModel notificationDataModel = new NotificationDataModel();
+                        notificationDataModel.notificationType = NotificationType.NOTIFICATION_TYPE_OPINION_UP_VOTES;
+                        notificationDataModel.topicText = opinions.get(j).getTopicName();
+                        notificationDataModel.topicId = opinions.get(j).getTopicId();
+                        notificationDataModel.newCount = opinions.get(j).getmNotifCount();
+                        notificationDataModel.totalUpvotes = opinions.get(j).getUpVotes();
+                        notificationDataModel.totalDownvotes = opinions.get(j).getDownVotes();
+                        notificationDataModel.opinionText = opinions.get(j).getOpinionName();
+                        inflatorItemDatas.add(notificationDataModel);
+                        notificationCount++;
 
-                        }
+                    }
 
 
-                    if(inflatorItemDatas.size()>0){
-                        if(NotificationHelper.one && NotificationHelper.two && count == 0){
-                            helper.cleanItUP();
-                            count ++;
-                        }
-                        else if(count>0){
+                    if (inflatorItemDatas.size() > 0) {
+                        if (NotificationHelper.one && NotificationHelper.two && count == 0) {
+                            helper.cleanItUp();
+                            count++;
+                        } else if (count > 0) {
                             count = 0;
                         }
 
-                        if(notificationCount>0 && stream == 1){
+                        if (notificationCount > 0 && stream == 1) {
                             Notify(notificationCount, TheForumApplication.getAppContext());
-                        stream = 0;
+                            stream = 0;
                         }
 
                         NotificationDBHelper.getHelper().addNotifications(inflatorItemDatas);
@@ -183,34 +183,34 @@ public class NotificationService extends Service {
             return null;
         }
 
-
         @Override
         protected void onPostExecute(Void result) {
             stopSelf();
         }
 
-        private void Notify(int notificationCount, Context context){
+    }
 
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
-                                        .setLargeIcon(BitmapFactory.decodeResource(context.getResources(),
-                                                R.drawable.notification_icon))
-                                        .setSmallIcon(R.drawable.system_bar_icon)
-                                        .setContentTitle("the forum")
-                                        .setContentText("You have "+notificationCount+" new Notifications");
+    private void Notify(int notificationCount, Context context){
 
-            Intent resultIntent = new Intent(context, NotificationActivity.class);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(),
+                        R.drawable.notification_icon))
+                .setSmallIcon(R.drawable.system_bar_icon)
+                .setContentTitle("the forum")
+                .setContentText("You have "+notificationCount+" new Notifications");
 
-            TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-            stackBuilder.addParentStack(NotificationActivity.class);
-            stackBuilder.addNextIntent(resultIntent);
+        Intent resultIntent = new Intent(context, NotificationActivity.class);
 
-            PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-            mBuilder.setContentIntent(resultPendingIntent);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+        stackBuilder.addParentStack(NotificationActivity.class);
+        stackBuilder.addNextIntent(resultIntent);
 
-            NotificationManager mNotificationManager =
-                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        mBuilder.setContentIntent(resultPendingIntent);
 
-            mNotificationManager.notify(1, mBuilder.build());
-        }
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        mNotificationManager.notify(1, mBuilder.build());
     }
 }

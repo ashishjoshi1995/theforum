@@ -91,8 +91,9 @@ public class NewTopicFragment extends Fragment {
 
     private void uploadData(){
         topic topic = new topic();
-        topic.setTopicName(mTopicText.getText().toString());
-        topic.setTopicDescription(mDescription.getText().toString());
+
+        topic.setTopicName(mTopicText.getText().toString().trim());
+        topic.setTopicDescription(mDescription.getText().toString().trim());
         topic.setUserId(User.getInstance().getId());
 
         final ProgressDialog pd = new ProgressDialog(getActivity(), R.style.MyDialog);

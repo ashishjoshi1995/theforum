@@ -1,6 +1,4 @@
-package com.theforum.data.helpers;
-
-import android.util.Log;
+package com.theforum.notification;
 
 import com.microsoft.windowsazure.mobileservices.ApiOperationCallback;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
@@ -10,10 +8,10 @@ import com.microsoft.windowsazure.mobileservices.table.TableQueryCallback;
 import com.theforum.TheForumApplication;
 import com.theforum.data.helpers.notificationClearApi.NotificationClearApiRequest;
 import com.theforum.data.helpers.notificationClearApi.NotificationClearApiResponse;
-import com.theforum.utils.listeners.NotificationListener;
 import com.theforum.data.server.opinion;
 import com.theforum.data.server.topic;
 import com.theforum.utils.User;
+import com.theforum.utils.listeners.NotificationListener;
 
 import java.util.List;
 
@@ -27,10 +25,10 @@ import java.util.List;
  */
 public class NotificationHelper {
 
-
     MobileServiceClient mobileServiceClient;
     MobileServiceTable<topic> topic;
     MobileServiceTable<opinion> opinion;
+
     public static boolean one = false;
     public static boolean two = false;
 
@@ -47,7 +45,8 @@ public class NotificationHelper {
                .execute(new TableQueryCallback<opinion>() {
 
                    @Override
-                   public void onCompleted(List<opinion> result, int count, Exception exception, ServiceFilterResponse response) {
+                   public void onCompleted(List<opinion> result, int count, Exception exception,
+                                           ServiceFilterResponse response) {
                        one = true;
                        if (count > 0) {
                            notificationListener.opinionNotification(result);
@@ -68,15 +67,16 @@ public class NotificationHelper {
         });
     }
 
-    public void cleanItUP(){
+    public void cleanItUp(){
         NotificationClearApiRequest request = new NotificationClearApiRequest();
         request.uid = User.getInstance().getId();
+
         mobileServiceClient.invokeApi("notificationclearapi", request, NotificationClearApiResponse.class,
                 new ApiOperationCallback<NotificationClearApiResponse>() {
             @Override
             public void onCompleted(NotificationClearApiResponse result, Exception exception,
                                     ServiceFilterResponse response) {
-                Log.e("sdsdsd",result.message);
+
             }
         });
         one = false;
