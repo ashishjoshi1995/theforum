@@ -5,11 +5,9 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.theforum.R;
@@ -18,7 +16,6 @@ import com.theforum.data.helpers.TopicHelper;
 import com.theforum.data.local.database.topicDB.TopicDBHelper;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.utils.CommonUtils;
-import com.theforum.utils.listeners.OnLoadMoreListener;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -37,10 +34,8 @@ import butterknife.ButterKnife;
 public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.TopicsItemViewHolder> {
 
     private Context mContext;
-
     private List<TopicDataModel> mTopics;
-    private OnLoadMoreListener loadMoreListener;
-
+    
     private final static int VIEW_TYPE_TOPIC = 0;
 
     public TopicsListAdapter(Context context, List<TopicDataModel> feeds){
@@ -48,10 +43,6 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
         mTopics = feeds;
     }
 
-
-    public void setOnLoadMoreListener(OnLoadMoreListener loadMoreListener){
-        this.loadMoreListener = loadMoreListener;
-    }
 
     public class TopicsItemViewHolder extends RecyclerView.ViewHolder {
 
@@ -83,7 +74,7 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
                     final int b = mTopicModel.getRenewalRequests();
 
                     if(!mTopicModel.isRenewed()) {
-                        renewBtn.setBackgroundDrawable(renewedIcon);
+                        setCompoundDrawables(renewBtn,renewedIcon);
                         timeHolder.setText(Html.fromHtml(mContext.getResources().getQuantityString(
                                 R.plurals.opinion_time_holder_message,
                                 b + 1, mTopicModel.getHoursLeft(), b + 1)));
@@ -106,7 +97,7 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
                                         CommonUtils.showToast(mContext, error);
 
                                         // revert the changes made in the UI
-                                        renewBtn.setBackgroundDrawable(renewedIcon);
+                                        setCompoundDrawables(renewBtn, renewIcon);
                                         timeHolder.setText(Html.fromHtml(mContext.getResources().getQuantityString(
                                                 R.plurals.opinion_time_holder_message,
                                                 b, mTopicModel.getHoursLeft(), b)));
@@ -114,7 +105,7 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
                                 });
 
                     } else {
-                        renewBtn.setBackgroundDrawable(renewIcon);
+                        setCompoundDrawables(renewBtn, renewIcon);
                         timeHolder.setText(Html.fromHtml(mContext.getResources().getQuantityString(
                                 R.plurals.opinion_time_holder_message,
                                 b - 1, mTopicModel.getHoursLeft(), b - 1)));
@@ -134,20 +125,18 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
                                         CommonUtils.showToast(mContext, error);
 
                                         // revert the changes made in the UI
-                                        renewBtn.setBackgroundDrawable(renewedIcon);
+                                        setCompoundDrawables(renewBtn, renewedIcon);
                                         timeHolder.setText(Html.fromHtml(mContext.getResources().getQuantityString(
                                                 R.plurals.opinion_time_holder_message,
                                                 b, mTopicModel.getHoursLeft(), b)));
                                     }
 
                                 });
-
                     }
                 }
             });
 
         }
-
     }
 
 

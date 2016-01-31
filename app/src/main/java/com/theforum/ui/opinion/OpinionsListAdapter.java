@@ -34,7 +34,6 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
     /* list of data */
     private List<OpinionDataModel> mOpinionList;
 
-
     public OpinionsListAdapter(Context context, List<OpinionDataModel> feeds){
         mContext = context;
         mOpinionList = feeds;

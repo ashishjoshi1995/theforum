@@ -67,14 +67,6 @@ public class TopicsFragment extends Fragment {
             }
         });
 
-        mAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void loadMore() {
-                TopicHelper.getHelper().loadTopics(SettingsUtils.getInstance()
-                        .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS));
-            }
-        });
-
     }
 
     @Override

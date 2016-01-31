@@ -213,7 +213,7 @@ public class OpinionsFragment extends Fragment {
                             CommonUtils.showToast(getContext(), error);
 
                             // revert the changes made in the UI
-                            renewBtn.setBackgroundDrawable(renewedIcon);
+                            renewBtn.setBackgroundDrawable(renewIcon);
                             timeHolder.setText(Html.fromHtml(getContext().getResources().getQuantityString(
                                     R.plurals.opinion_time_holder_message,
                                     b , mTopicModel.getHoursLeft(), b)));
