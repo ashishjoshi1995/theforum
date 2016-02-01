@@ -2,80 +2,61 @@ package com.theforum.data.local.models;
 
 /**
  * @author Ashish
- * @since 1/15/2016
+ * @since 1/6/2016.
+ */
+
+/**
+ * data models for all type of notification
+ *
+ * Opinion UpVoted/DownVoted
+ * Renewal Requests
+ * Renewal Days
+ * Opinions Added
  */
 public class NotificationDataModel {
 
-    private int key;
-    private int notificationType;
-    private String timeHolder;
-    private String mainText;
-    private String header;
-    private String description;
-    private String topicId;
-    private boolean isRead = false;
+    /**
+     * type of notification
+     */
+    public int notificationType;
 
-    public int getKey() {
-        return key;
-    }
+    /**
+     * topic Id of the notification
+     */
+    public String topicId;
 
-    public void setKey(int key) {
-        this.key = key;
-    }
+    /**
+     * name of the topic
+     */
+    public String topicText;
 
-    public int getNotificationType() {
-        return notificationType;
-    }
+    /**
+     * contains count of total notifications in each type of notification
+     *
+     * Opinion UpVoted/DownVoted - number of upVotes or downVotes
+     * Renewal Requests          - number of renewal requests
+     * Renewal Days              - number of days for renewal
+     * Opinions Added            - number of new opinions added
+     */
+    public int notificationCount;
 
-    public void setNotificationType(int notificationType) {
-        this.notificationType = notificationType;
-    }
+    /**
+     * contains additional description if any
+     *
+     * Opinion UpVoted/DownVoted - opinion text
+     * Renewal Days              - number of renewal requests
+     */
+    public String description;
 
-    public String getTimeHolder() {
-        return timeHolder;
-    }
+    /**
+     * holds hours left for topic to decay and local time when notification was received
+     */
+    public String timeHolder;
 
-    public void setTimeHolder(String timeHolder) {
-        this.timeHolder = timeHolder;
-    }
 
-    public String getMainText() {
-        return mainText;
-    }
+    /**
+     * whether the notification is seen/read by user or not
+     */
+    public boolean isRead;
 
-    public void setMainText(String mainText) {
-        this.mainText = mainText;
-    }
-
-    public String getHeader() {
-        return header;
-    }
-
-    public void setHeader(String header) {
-        this.header = header;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getTopicId() {
-        return topicId;
-    }
-
-    public void setTopicId(String topicId) {
-        this.topicId = topicId;
-    }
-
-    public boolean isRead() {
-        return isRead;
-    }
-
-    public void setIsRead(boolean isRead) {
-        this.isRead = isRead;
-    }
 }

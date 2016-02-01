@@ -35,7 +35,7 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
 
     private Context mContext;
     private List<TopicDataModel> mTopics;
-    
+
     private final static int VIEW_TYPE_TOPIC = 0;
 
     public TopicsListAdapter(Context context, List<TopicDataModel> feeds){
@@ -75,9 +75,7 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
 
                     if(!mTopicModel.isRenewed()) {
                         setCompoundDrawables(renewBtn,renewedIcon);
-                        timeHolder.setText(Html.fromHtml(mContext.getResources().getQuantityString(
-                                R.plurals.opinion_time_holder_message,
-                                b + 1, mTopicModel.getHoursLeft(), b + 1)));
+                        renewBtn.setText(String.valueOf(b+1));
 
                         TopicHelper.getHelper().addRenewalRequest(mTopicModel.getTopicId(),
                                 new TopicHelper.OnRenewalRequestListener() {
@@ -98,17 +96,14 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
 
                                         // revert the changes made in the UI
                                         setCompoundDrawables(renewBtn, renewIcon);
-                                        timeHolder.setText(Html.fromHtml(mContext.getResources().getQuantityString(
-                                                R.plurals.opinion_time_holder_message,
-                                                b, mTopicModel.getHoursLeft(), b)));
+                                        renewBtn.setText(String.valueOf(b));
+
                                     }
                                 });
 
                     } else {
                         setCompoundDrawables(renewBtn, renewIcon);
-                        timeHolder.setText(Html.fromHtml(mContext.getResources().getQuantityString(
-                                R.plurals.opinion_time_holder_message,
-                                b - 1, mTopicModel.getHoursLeft(), b - 1)));
+                        renewBtn.setText(String.valueOf(b-1));
 
                         TopicHelper.getHelper().removeRenewal(mTopicModel.getTopicId(),
                                 new TopicHelper.OnRemoveRenewalRequestListener() {
@@ -126,9 +121,7 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
 
                                         // revert the changes made in the UI
                                         setCompoundDrawables(renewBtn, renewedIcon);
-                                        timeHolder.setText(Html.fromHtml(mContext.getResources().getQuantityString(
-                                                R.plurals.opinion_time_holder_message,
-                                                b, mTopicModel.getHoursLeft(), b)));
+                                        renewBtn.setText(String.valueOf(b));
                                     }
 
                                 });

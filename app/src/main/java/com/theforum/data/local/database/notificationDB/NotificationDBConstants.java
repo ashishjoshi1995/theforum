@@ -14,7 +14,7 @@ public class NotificationDBConstants {
     // Table name
     public static final String TABLE_NAME = "NOTIFICATION_TABLE";
 
-    //Coloumn names
+    //Column names
     public static final String KEY_ID = "id";
     public static final String KEY_TOPIC_ID = "topic_id";
     public static final String KEY_NOTIFICATION_TYPE = "notification_type";

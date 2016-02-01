@@ -50,7 +50,7 @@ public class ProfileFragment extends Fragment {
 
         status.setText(User.getInstance().getStatus());
         points.setText("$ "+User.getInstance().getPointCollected());
-        topics.setText(""+User.getInstance().getTopicsCreated());
+        topics.setText(String.valueOf(User.getInstance().getTopicsCreated()));
 
         setBackgroundColor(statusIcon, "#313c44");
         setBackgroundColor(pointsIcon,"#d9ab1d");
@@ -62,7 +62,8 @@ public class ProfileFragment extends Fragment {
                 CommonUtils.openContainerActivity(getActivity(), LayoutType.STATS_FRAGMENT);
             }
         });
-        ((GradientDrawable)frogBody.getBackground()).setColor(Color.parseColor("#a56c1f"));
+
+        ((GradientDrawable)frogBody.getBackground()).setColor(Color.RED);
         notifications.getBackground().setColorFilter(Color.parseColor("#d0d4d9"), PorterDuff.Mode.SRC_ATOP);
 
         notifications.setOnClickListener(new View.OnClickListener() {
@@ -72,7 +73,6 @@ public class ProfileFragment extends Fragment {
 
                 if(NotificationDBHelper.getHelper().checkIfNotificationExist()) {
                     startActivity(new Intent(getActivity(), NotificationActivity.class));
-
                 } else {
                     CommonUtils.showToast(getContext(), "No new Notification");
                 }

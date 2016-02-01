@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.theforum.R;
-import com.theforum.data.helpers.OpinionHelper;
+import com.theforum.data.helpers.TrendsHelper;
 import com.theforum.data.local.models.OpinionDataModel;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.enums.VoteStatus;
@@ -78,19 +78,60 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
                         /*
                          *  send the request to server to increase the count
                          */
-                        OpinionHelper.getHelper().upVoteDownVote(true, opinionModel.getOpinionId(),
-                                new OpinionHelper.OnUVDVOperationCompleteListener() {
+                        TrendsHelper.getHelper().upVoteDownVote(true, opinionModel.getTopicId(), new TrendsHelper.OnUVDVOperationCompleteListener() {
+                            @Override
+                            public void onCompleteMessage(String message) {
+                                CommonUtils.showToast(mContext, message);
+                            }
+                        });
+
+                    }
+                    else if(opinionModel.getVoteStatus() == VoteStatus.UPVOTED){
+                        int upvotes = opinionModel.getUpVoteCount();
+                        upvotes = upvotes-1;
+
+                        upVoteBtn.setText(String.valueOf(upvotes));
+                        setCompoundDrawables(upVoteBtn, upVoteIcon);
+                        opinionModel.setUpVoteCount(upvotes);
+                        opinionModel.setVoteStatus(VoteStatus.NONE);
+
+                        /*
+                         *  send the request to server to increase the count
+                         */
+                        TrendsHelper.getHelper().removeUpDownVote(true, opinionModel.getTopicId(),
+                                new TrendsHelper.OnRUDAOperationCompleteListener() {
                                     @Override
                                     public void onCompleteMessage(String message) {
                                         CommonUtils.showToast(mContext, message);
                                     }
                                 });
-                    }else CommonUtils.showToast(mContext, "Cannot UpVote");
+                    }
+                    else if(opinionModel.getVoteStatus() == VoteStatus.DOWNVOTED){
+                        int downvotes = opinionModel.getDownVoteCount();
+                        downvotes = downvotes - 1;
+                        downVoteBtn.setText(String.valueOf(downvotes));
+                        setCompoundDrawables(downVoteBtn, downVoteIcon);
+                        opinionModel.setDownVoteCount(downvotes);
+                        //opinionModel.setVoteStatus(VoteStatus.NONE);
+                        int upvotes = opinionModel.getUpVoteCount();
+                        upvotes = upvotes+1;
+
+                        upVoteBtn.setText(String.valueOf(upvotes));
+                        setCompoundDrawables(upVoteBtn, upVotedIcon);
+                        opinionModel.setUpVoteCount(upvotes);
+                        opinionModel.setVoteStatus(VoteStatus.UPVOTED);
+                        TrendsHelper.getHelper().directUpDownVoteChange(true, opinionModel.getTopicId(), new TrendsHelper.OnDUDAOperationCompleteListener() {
+                            @Override
+                            public void onCompleteMessage(String message) {
+                                CommonUtils.showToast(mContext, message);
+                            }
+                        });
+                    }
                     break;
 
                 case R.id.down_vote_btn:
                     final OpinionDataModel opinionModel2 = mOpinionList.get(getLayoutPosition());
-                    if(opinionModel2.getVoteStatus() == VoteStatus.NONE) {
+                    if (opinionModel2.getVoteStatus() == VoteStatus.NONE) {
 
                         int downvotes = opinionModel2.getDownVoteCount();
                         downvotes = downvotes + 1;
@@ -98,20 +139,59 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
                         setCompoundDrawables(downVoteBtn, downVotedIcon);
                         opinionModel2.setDownVoteCount(downvotes);
                         opinionModel2.setVoteStatus(VoteStatus.DOWNVOTED);
-
+                        //TrendsDBHelper.getHelper().updateUPDVStatus(opinionModel2);
                         /*
                          *  send the request to server to decrease the count
                          */
-                        OpinionHelper.getHelper().upVoteDownVote(false, opinionModel2.getOpinionId(),
-                                new OpinionHelper.OnUVDVOperationCompleteListener() {
+                        TrendsHelper.getHelper().upVoteDownVote(false, opinionModel2.getTopicId(), new TrendsHelper.OnUVDVOperationCompleteListener() {
+                            @Override
+                            public void onCompleteMessage(String message) {
+                                CommonUtils.showToast(mContext, message);
+                            }
+                        });
+                    }
+
+                    else if(opinionModel2.getVoteStatus() == VoteStatus.DOWNVOTED){
+                        int downvotes = opinionModel2.getDownVoteCount();
+                        downvotes = downvotes - 1;
+                        downVoteBtn.setText(String.valueOf(downvotes));
+                        setCompoundDrawables(downVoteBtn, downVoteIcon);
+                        opinionModel2.setDownVoteCount(downvotes);
+                        opinionModel2.setVoteStatus(VoteStatus.NONE);
+                        // TrendsDBHelper.getHelper().updateUPDVStatus(opinionModel2);
+                        TrendsHelper.getHelper().removeUpDownVote(false, opinionModel2.getTopicId(), new TrendsHelper.OnRUDAOperationCompleteListener() {
+                            @Override
+                            public void onCompleteMessage(String message) {
+                                CommonUtils.showToast(mContext, message);
+                            }
+                        });
+                    }
+                    else if(opinionModel2.getVoteStatus() == VoteStatus.UPVOTED){
+                        int upvotes = opinionModel2.getUpVoteCount();
+                        upvotes = upvotes-1;
+
+                        upVoteBtn.setText(String.valueOf(upvotes));
+                        setCompoundDrawables(upVoteBtn, upVoteIcon);
+                        opinionModel2.setUpVoteCount(upvotes);
+                        //opinionModel2.setVoteStatus(VoteStatus.NONE);
+                        int downvotes = opinionModel2.getDownVoteCount();
+                        downvotes = downvotes + 1;
+                        downVoteBtn.setText(String.valueOf(downvotes));
+                        setCompoundDrawables(downVoteBtn, downVotedIcon);
+                        opinionModel2.setDownVoteCount(downvotes);
+                        opinionModel2.setVoteStatus(VoteStatus.DOWNVOTED);
+                        // TrendsDBHelper.getHelper().updateUPDVStatus(opinionModel2);
+                        /*
+                         *  send the request to server to increase the count
+                         */
+                        TrendsHelper.getHelper().directUpDownVoteChange(false, opinionModel2.getTopicId(),
+                                new TrendsHelper.OnDUDAOperationCompleteListener() {
                                     @Override
                                     public void onCompleteMessage(String message) {
                                         CommonUtils.showToast(mContext, message);
                                     }
                                 });
-
-                    }else CommonUtils.showToast(mContext, "Cannot DownVote");
-
+                    }
                     break;
             }
         }

@@ -1,4 +1,4 @@
-package com.theforum.ui;
+package com.theforum.ui.activity;
 
 
 import android.os.Bundle;
@@ -8,8 +8,10 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.theforum.R;
 import com.theforum.constants.LayoutType;
+import com.theforum.ui.SortFragment;
 import com.theforum.ui.opinion.NewOpinionFragment;
 import com.theforum.ui.opinion.OpinionsFragment;
+import com.theforum.ui.settings.StatisticsFragment;
 import com.theforum.ui.topic.NewTopicFragment;
 import com.theforum.ui.settings.SettingsFragment;
 

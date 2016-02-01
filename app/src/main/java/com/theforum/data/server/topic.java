@@ -39,16 +39,16 @@ public class topic {
     private int hoursLeft;
 
     @com.google.gson.annotations.SerializedName("notif_new_opinions")
-    private int mNotifOpinions;
+    private int notifOpinions;
 
     @com.google.gson.annotations.SerializedName("notif_new_renewal_request")
-    private int mNotifRenewalRequests;
+    private int notifRenewalRequests;
 
     @com.google.gson.annotations.SerializedName("points")
     private int mPoints;
 
     @com.google.gson.annotations.SerializedName("notif_count")
-    private int mNotifCount;
+    private int notificationCount;
 
 
     public String getServerId() {
@@ -115,28 +115,20 @@ public class topic {
         this.topicName = topicName;
     }
 
-    public int getmNotifOpinions() {
-        return mNotifOpinions;
+    public int getNotifOpinions() {
+        return notifOpinions;
     }
 
-    public void setmNotifOpinions(int mNotifOpinionIds) {
-        this.mNotifOpinions = mNotifOpinionIds;
+    public int getNotifRenewalRequests() {
+        return notifRenewalRequests;
     }
 
-    public int getmNotifRenewalRequests() {
-        return mNotifRenewalRequests;
-    }
-
-    public void setmNotifRenewalRequests(int mNotifRenewalRequests) {
-        this.mNotifRenewalRequests = mNotifRenewalRequests;
+    public void setNotifRenewalRequests(int notifRenewalRequests) {
+        this.notifRenewalRequests = notifRenewalRequests;
     }
 
     public int getHoursLeft() {
         return hoursLeft;
-    }
-
-    public void setHoursLeft(int hoursLeft) {
-        this.hoursLeft = hoursLeft;
     }
 
 
@@ -144,9 +136,6 @@ public class topic {
         return renewedCount;
     }
 
-    public void setRenewedCount(int renewedCount) {
-        this.renewedCount = renewedCount;
-    }
 
     public int getmPoints() {
         return mPoints;
@@ -156,19 +145,16 @@ public class topic {
         this.mPoints = mPoints;
     }
 
-    public int getmNotifCount() {
-        return mNotifCount;
+    public int getNotificationCount() {
+        return notificationCount;
     }
 
-    public void setmNotifCount(int mNotifCount) {
-        this.mNotifCount = mNotifCount;
+    public void setNotificationCount(int notificationCount) {
+        this.notificationCount = notificationCount;
     }
 
     public String getRenewalRequestIds() {
         return renewalRequestIds;
     }
 
-    public void setRenewalRequestIds(String renewalRequestIds) {
-        this.renewalRequestIds = renewalRequestIds;
-    }
 }

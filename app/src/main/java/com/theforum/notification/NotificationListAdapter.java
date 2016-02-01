@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.theforum.R;
 import com.theforum.constants.NotificationType;
-import com.theforum.data.local.models.NotificationDataModel;
 
 import java.util.ArrayList;
 
@@ -44,6 +43,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
         @Bind(R.id.notification_main_text) TextView mainText;
         @Bind(R.id.notification_description)TextView description;
         @Bind(R.id.notification_decay_time) TextView timeHolder;
+
         @Bind(R.id.upvote_btn) TextView upVoteBtn;
         @Bind(R.id.down_vote_btn) TextView downVoteBtn;
 

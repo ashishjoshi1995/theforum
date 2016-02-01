@@ -8,11 +8,9 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 
-import com.theforum.constants.LayoutType;
 import com.theforum.R;
+import com.theforum.constants.LayoutType;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.listeners.OnHomeUiChangeListener;
 
@@ -51,8 +49,7 @@ public class HomeFragment extends Fragment {
         mViewPager.setOffscreenPageLimit(2);
         mTabLayout.setupWithViewPager(mViewPager);
 
-       // mFab.hide();
-
+        mFab.hide();
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,13 +68,9 @@ public class HomeFragment extends Fragment {
                 homeUiChangeListener.onPageSelected(position);
 
                 if (position != 1) {
-                    Animation animFadeOut = AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out);
-                    mFab.setAnimation(animFadeOut);
-                    mFab.setVisibility(View.GONE);
+                    mFab.hide();
                 } else {
-                    mFab.setVisibility(View.VISIBLE);
-                    Animation animFadeIn = AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in);
-                    mFab.setAnimation(animFadeIn);
+                    mFab.show();
                 }
 
                 mPosition = position;

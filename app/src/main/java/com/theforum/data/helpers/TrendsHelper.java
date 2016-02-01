@@ -8,6 +8,8 @@ import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.theforum.TheForumApplication;
+import com.theforum.data.helpers.directUpDownApi.DUDARequest;
+import com.theforum.data.helpers.directUpDownApi.DUDAResponse;
 import com.theforum.data.helpers.removeUpDownApi.RUDAResponse;
 import com.theforum.data.helpers.trendinOpinionApi.TrendingInput;
 import com.theforum.data.helpers.trendinOpinionApi.TrendingResponse;
@@ -115,7 +117,7 @@ public class TrendsHelper {
                                         topic.setDownVoteCount(Integer.parseInt(jsonObject.get("downvotes").toString()));
                                         topic.setTopicName(jsonObject.get("topic_name").toString());
                                         topic.setTopicId(jsonObject.get("topic_id").toString());
-                                        topic.setOpinionText(jsonObject.get("opinionText").toString());
+                                        topic.setOpinionText(jsonObject.get("description").toString());
                                         topic.setServerId(jsonObject.get("serverId").toString());
                                         topic.setDescription(jsonObject.get("description").toString());
                                         topic.setRenewalIds(jsonObject.get("renewalIds").toString());
@@ -308,6 +310,32 @@ public class TrendsHelper {
                 });
 
     }
+    public void directUpDownVoteChange(boolean ifUpVote, String opinionId, final OnDUDAOperationCompleteListener listener){
+        DUDARequest updvRequest= new DUDARequest();
+        updvRequest.opinion_id = opinionId;
+        updvRequest.id = User.getInstance().getId();
+
+        if(ifUpVote){
+            updvRequest.operation_chosen = 1;
+        }
+        else{
+            updvRequest.operation_chosen = 0;
+        }
+
+        //update server
+
+        TheForumApplication.getClient().invokeApi("direct_up_down_change", updvRequest, DUDAResponse.class, new ApiOperationCallback<DUDAResponse>() {
+            @Override
+            public void onCompleted(DUDAResponse result, Exception exception, ServiceFilterResponse response) {
+                if (exception == null) {
+                    listener.onCompleteMessage("Opinion removed UpVoted");
+                } else {
+                    listener.onCompleteMessage(exception.getMessage());
+                }
+            }
+        });
+
+    }
 
 
 
@@ -335,6 +363,13 @@ public class TrendsHelper {
         void onCompleteMessage(String message);
     }
     public interface OnRUDAOperationCompleteListener{
+        /**
+         *
+         * @param  message opinion data model with updated params
+         */
+        void onCompleteMessage(String message);
+    }
+    public interface OnDUDAOperationCompleteListener{
         /**
          *
          * @param  message opinion data model with updated params
