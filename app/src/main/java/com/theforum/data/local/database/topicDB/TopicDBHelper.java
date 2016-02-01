@@ -19,10 +19,6 @@ public class TopicDBHelper {
     private static TopicDBHelper topicDBHelper;
     private SQLiteDatabase topicDatabase;
 
-    public TopicDB getTopicDB(){
-        return this.topicDB;
-    }
-
 
     public static TopicDBHelper getHelper(){
         if(topicDBHelper == null) topicDBHelper = new TopicDBHelper();
@@ -141,17 +137,12 @@ public class TopicDBHelper {
                 } while (cursor.moveToNext());
             }
             topics.addAll(0,myTopics);
+            cursor.close();
         }
 
         return topics;
     }
 
-    public void deleteTopic(){
-        SQLiteDatabase db = topicDB.getWritableDatabase();
-        String sql = "DELETE FROM "+TopicDBConstants.TABLE_NAME +" WHERE "+ TopicDBConstants.KEY_HOURS_LEFT +" <= date('now','-2 day')";
-        //  SELECT * FROM test WHERE age <= datetime('now', '-5 minutes')
-        db.execSQL(sql);
-    }
 
     public void deleteAll() {
         topicDatabase.execSQL("DELETE from " + TopicDBConstants.TABLE_NAME);
@@ -163,12 +154,15 @@ public class TopicDBHelper {
         ArrayList<String> s = new ArrayList<>();
         String readTopicId = "SELECT DISTINCT" + TopicDBConstants.KEY_TOPIC_ID +"FROM" + TopicDBConstants.TABLE_NAME;
         Cursor c = topicDatabase.rawQuery(readTopicId,null);
+
         if(c!=null){
             c.moveToFirst();
+            for(int i =0; i<c.getCount();i++){
+                s.add(c.getString(0));
+            }
+            c.close();
         }
-        for(int i =0; i<c.getCount();i++){
-            s.add(c.getString(0));
-        }
+
         return s;
     }
     public ArrayList<String> getMyTopicText(){
@@ -176,13 +170,18 @@ public class TopicDBHelper {
         ArrayList<String> s = new ArrayList<>();
         String readTopicId = "SELECT DISTINCT " + TopicDBConstants.KEY_TOPIC +" FROM " + TopicDBConstants.TABLE_NAME;
         Cursor c = topicDatabase.rawQuery(readTopicId,null);
+
         if(c!=null){
             c.moveToFirst();
+
+            for(int i =0; i<c.getCount();i++){
+                s.add(c.getString(0));
+                c.moveToNext();
+            }
+
+            c.close();
         }
-        for(int i =0; i<c.getCount();i++){
-            s.add(c.getString(0));
-            c.moveToNext();
-        }
+
         return s;
     }
 

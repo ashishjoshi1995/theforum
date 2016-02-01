@@ -26,5 +26,9 @@
         <item quantity="other">%1$s hrs left to decay | <![CDATA[<font color=#ed52bf>%2$d Renewal Requests]]></item>
     </plurals>
 
+    <!-- notification messages -->
+    <string name="opinion_notification">Your Opinion on %1$s received</string>
+    <string name="topic_notification">Your Topic on %1$s received</string>
+
 
 </resources>

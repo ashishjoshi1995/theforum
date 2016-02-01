@@ -122,7 +122,7 @@ public class TrendsHelper {
                                         topic.setDescription(jsonObject.get("description").toString());
                                         topic.setRenewalIds(jsonObject.get("renewalIds").toString());
                                         topic.setRenewCount(Integer.parseInt(jsonObject.get("renewal").toString()));
-                                        //topic.setVoteStatus();
+
 
                                         boolean statusReceived = false;
                                         if(jsonObject.get("upvote_ids") != null) {
@@ -158,9 +158,6 @@ public class TrendsHelper {
                                     // save the data to local database.
                                     TrendsDBHelper.getHelper().deleteAllTrends();
                                     TrendsDBHelper.getHelper().addTrends(trends);
-                                    for(int j =0;j<trends.size();j++){
-                                        Log.e("votestatus", trends.get(j).getVoteStatus().toString());
-                                    }
 
                                     /**
                                      * passing the data to ui
@@ -336,8 +333,6 @@ public class TrendsHelper {
         });
 
     }
-
-
 
 
     private static AsyncTask<Void, Void,topic> runAsyncTask3(AsyncTask<Void, Void, topic> task) {

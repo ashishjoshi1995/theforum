@@ -12,6 +12,7 @@ import com.theforum.R;
 import com.theforum.data.helpers.ProfileHelper;
 import com.theforum.data.helpers.TopicHelper;
 import com.theforum.data.helpers.TrendsHelper;
+import com.theforum.notification.NotificationService;
 import com.theforum.ui.home.HomeActivity;
 import com.theforum.utils.SettingsUtils;
 
@@ -47,6 +48,9 @@ public class SplashActivity extends AppCompatActivity {
                 finish();
             }
         }, SPLASH_TIME_OUT);
+
+        Intent intent = new Intent(this, NotificationService.class);
+        this.startService(intent);
     }
 
 }

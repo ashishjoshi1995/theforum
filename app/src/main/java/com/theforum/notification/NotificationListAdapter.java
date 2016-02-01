@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.theforum.R;
@@ -35,7 +34,6 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
     public NotificationListAdapter(Activity activity, ArrayList<NotificationDataModel> dataSet) {
         mContext = activity;
         mData = dataSet;
-
     }
 
     public class ViewHolderOne extends RecyclerView.ViewHolder {
@@ -45,8 +43,6 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
         @Bind(R.id.notification_description)TextView description;
         @Bind(R.id.notification_decay_time) TextView timeHolder;
 
-        @Bind(R.id.upvote_btn) TextView upVoteBtn;
-        @Bind(R.id.down_vote_btn) TextView downVoteBtn;
 
         public ViewHolderOne(View v) {
             super(v);
@@ -61,7 +57,6 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
         @Bind(R.id.notification_main_text) TextView mainText;
         @Bind(R.id.notification_description)TextView description;
         @Bind(R.id.notification_decay_time) TextView timeHolder;
-        @Bind(R.id.notification_renew_btn) ImageButton renewBtn;
 
         public ViewHolderTwo(View v) {
             super(v);
@@ -79,7 +74,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public int getItemViewType(int position) {
 
-        if(mData.get(position).getNotificationType() == NotificationType.NOTIFICATION_TYPE_OPINION_UP_VOTES){
+        if(mData.get(position).notificationType == NotificationType.NOTIFICATION_TYPE_OPINION_UP_VOTES){
             return VIEW_TYPE_ONE;
         }else return VIEW_TYPE_TWO;
     }
@@ -102,28 +97,33 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
         if(holder.getItemViewType()== VIEW_TYPE_ONE){
 
             final ViewHolderOne viewHolderOne = (ViewHolderOne) holder;
-            if(mData.get(position).getNotificationType() == NotificationType.NOTIFICATION_TYPE_OPINION_UP_VOTES) {
+            NotificationDataModel dataModel = mData.get(position);
 
-                viewHolderOne.header.setText(mData.get(position).getHeader());
-                viewHolderOne.mainText.setText(mData.get(position).getMainText());
-                viewHolderOne.description.setText(mData.get(position).getDescription());
-                viewHolderOne.timeHolder.setText(mData.get(position).getTimeHolder());
-            }
+            viewHolderOne.header.setText(mContext.getResources().getString(R.string.opinion_notification,
+                                                                            dataModel.topicText));
+            viewHolderOne.mainText.setText(dataModel.notificationCount + " more Upvotes");
+            viewHolderOne.description.setText(dataModel.description);
+            viewHolderOne.timeHolder.setText(dataModel.timeHolder);
+
         }else {
             final ViewHolderTwo viewHolderTwo = (ViewHolderTwo)holder;
+            NotificationDataModel dataModel = mData.get(position);
 
-            viewHolderTwo.header.setText(mData.get(position).getHeader());
-            viewHolderTwo.timeHolder.setText(mData.get(position).getTimeHolder());
+            viewHolderTwo.header.setText(mContext.getResources().getString(R.string.topic_notification,
+                                                                            dataModel.topicText));
+            viewHolderTwo.timeHolder.setText(dataModel.timeHolder);
 
-            switch (mData.get(position).getNotificationType()) {
+            switch (dataModel.notificationType) {
                 case NotificationType.NOTIFICATION_TYPE_OPINIONS:
-                    viewHolderTwo.mainText.setText(mData.get(position).getMainText());
+                    viewHolderTwo.mainText.setText(dataModel.notificationCount + " more Opinions added");
                     break;
+
                 case NotificationType.NOTIFICATION_TYPE_RENEWAL_REQUEST:
-                    viewHolderTwo.mainText.setText(mData.get(position).getMainText());
+                    viewHolderTwo.mainText.setText(dataModel.notificationCount + " Renewal Requests");
                     break;
+
                 case NotificationType.NOTIFICATION_TYPE_RENEWED:
-                    viewHolderTwo.mainText.setText(mData.get(position).getMainText());
+                    viewHolderTwo.mainText.setText(dataModel.notificationCount + " Renewal");
                     break;
             }
 

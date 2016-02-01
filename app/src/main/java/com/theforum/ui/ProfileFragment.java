@@ -74,7 +74,7 @@ public class ProfileFragment extends Fragment {
                 if(NotificationDBHelper.getHelper().checkIfNotificationExist()) {
                     startActivity(new Intent(getActivity(), NotificationActivity.class));
                 } else {
-                    CommonUtils.showToast(getContext(), "No new Notification");
+                    CommonUtils.showToast(getContext(), "You do not have any Notifications");
                 }
 
                 NotificationDBHelper.getHelper().closeDataBase();

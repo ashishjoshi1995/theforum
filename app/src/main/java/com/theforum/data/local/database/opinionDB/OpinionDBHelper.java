@@ -3,7 +3,6 @@ package com.theforum.data.local.database.opinionDB;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.theforum.TheForumApplication;
 import com.theforum.data.local.models.OpinionDataModel;
@@ -33,10 +32,11 @@ public class OpinionDBHelper {
     }
 
     public void addOpinion(opinion opinion){
-        SQLiteDatabase db = opinionDB.getWritableDatabase();
+
         ContentValues values = new ContentValues();
 
-        Cursor c=db.rawQuery("SELECT * FROM user WHERE"+ OpinionDBConstants.KEY_OPINION_ID +"="+opinion.getOpinionId(), null);
+        Cursor c = opinionDatabase.rawQuery("SELECT * FROM user WHERE"+ OpinionDBConstants.KEY_OPINION_ID
+                +"="+opinion.getOpinionId(), null);
 
         values.put(OpinionDBConstants.KEY_ID,opinion.getServerId());
         values.put(OpinionDBConstants.KEY_DOWNVOTES,opinion.getDownVotes());
@@ -51,16 +51,14 @@ public class OpinionDBHelper {
         values.put(OpinionDBConstants.KEY_TOPIC_ID,opinion.getTopicId());
         values.put(OpinionDBConstants.KEY_TIME,"datetime(now)");
 
-        if(c.moveToFirst())
-        {
-            Log.e("Error", "Record exist");
-            db.update(OpinionDBConstants.TABLE_OPINION_NAME, values, OpinionDBConstants.KEY_ID+" = ?" + c.getInt(0), null);
+        if(c.moveToFirst()) {
+            opinionDatabase.update(OpinionDBConstants.TABLE_OPINION_NAME, values, OpinionDBConstants.KEY_ID+" = ?" + c.getInt(0), null);
         }
         else {
-            db.insert(OpinionDBConstants.TABLE_OPINION_NAME, null, values);            // Inserting record
+            opinionDatabase.insert(OpinionDBConstants.TABLE_OPINION_NAME, null, values);            // Inserting record
         }
         c.close();
-        db.close();
+        opinionDatabase.close();
     }
 
      public void addOpinions(ArrayList<opinion> opinions){
