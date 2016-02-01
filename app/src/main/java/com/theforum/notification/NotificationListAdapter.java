@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.theforum.R;
 import com.theforum.constants.NotificationType;
+import com.theforum.data.local.models.NotificationDataModel;
 
 import java.util.ArrayList;
 
