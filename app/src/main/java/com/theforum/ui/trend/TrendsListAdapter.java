@@ -116,8 +116,15 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                       downVoteBtn.setText(String.valueOf(downvotes));
                       setCompoundDrawables(downVoteBtn, downVoteIcon);
                       opinionModel.setDownVoteCount(downvotes);
-                      opinionModel.setVoteStatus(VoteStatus.NONE);
-                      TrendsHelper.getHelper().removeUpDownVote(false, opinionModel.getTrendId(), new TrendsHelper.OnRUDAOperationCompleteListener() {
+                      //opinionModel.setVoteStatus(VoteStatus.NONE);
+                      int upvotes = opinionModel.getUpVoteCount();
+                      upvotes = upvotes+1;
+
+                      upVoteBtn.setText(String.valueOf(upvotes));
+                      setCompoundDrawables(upVoteBtn, upVotedIcon);
+                      opinionModel.setUpVoteCount(upvotes);
+                      opinionModel.setVoteStatus(VoteStatus.UPVOTED);
+                      TrendsHelper.getHelper().directUpDownVoteChange(true, opinionModel.getTrendId(), new TrendsHelper.OnDUDAOperationCompleteListener() {
                           @Override
                           public void onCompleteMessage(String message) {
                               CommonUtils.showToast(mContext, message);
@@ -175,13 +182,19 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                         upVoteBtn.setText(String.valueOf(upvotes));
                         setCompoundDrawables(upVoteBtn, upVoteIcon);
                         opinionModel2.setUpVoteCount(upvotes);
-                        opinionModel2.setVoteStatus(VoteStatus.NONE);
+                        //opinionModel2.setVoteStatus(VoteStatus.NONE);
+                        int downvotes = opinionModel2.getDownVoteCount();
+                        downvotes = downvotes + 1;
+                        downVoteBtn.setText(String.valueOf(downvotes));
+                        setCompoundDrawables(downVoteBtn, downVotedIcon);
+                        opinionModel2.setDownVoteCount(downvotes);
+                        opinionModel2.setVoteStatus(VoteStatus.DOWNVOTED);
                        // TrendsDBHelper.getHelper().updateUPDVStatus(opinionModel2);
                         /*
                          *  send the request to server to increase the count
                          */
-                        TrendsHelper.getHelper().removeUpDownVote(true, opinionModel2.getTrendId(),
-                                new TrendsHelper.OnRUDAOperationCompleteListener() {
+                        TrendsHelper.getHelper().directUpDownVoteChange(false, opinionModel2.getTrendId(),
+                                new TrendsHelper.OnDUDAOperationCompleteListener() {
                                     @Override
                                     public void onCompleteMessage(String message) {
                                         CommonUtils.showToast(mContext, message);
