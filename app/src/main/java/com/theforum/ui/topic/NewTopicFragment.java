@@ -1,5 +1,6 @@
 package com.theforum.ui.topic;
 
+import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.widget.EditText;
 import com.theforum.R;
 import com.theforum.data.helpers.TopicHelper;
 import com.theforum.data.server.topic;
+import com.theforum.ui.ProgresssDialog;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.User;
 
@@ -96,23 +98,29 @@ public class NewTopicFragment extends Fragment {
         topic.setTopicDescription(mDescription.getText().toString().trim());
         topic.setUserId(User.getInstance().getId());
 
-        final ProgressDialog pd = new ProgressDialog(getActivity(), R.style.MyDialog);
+    /*    final ProgressDialog pd = new ProgressDialog(getActivity(), R.style.MyDialog);
         pd.setCanceledOnTouchOutside(false);
         pd.setCancelable(false);
         pd.setMessage("Adding a New Topic. Please Wait...");
+        pd.isIndeterminate();
         pd.show();
+*/
+        final DialogFragment dialog = new ProgresssDialog();
+        dialog.show(getActivity().getFragmentManager(), "hghg");
+
+
         TopicHelper.getHelper().addTopic(topic, new TopicHelper.OnTopicInsertListener() {
             @Override
             public void onCompleted() {
                 CommonUtils.showToast(getActivity(), "Topic created");
-                pd.dismiss();
+                dialog.dismiss();
                 getActivity().finish();
             }
 
             @Override
             public void onError(String error) {
                 Log.e("UploadTopic error", "" + error);
-                pd.dismiss();
+                dialog.dismiss();
             }
         });
     }

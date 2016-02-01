@@ -21,6 +21,7 @@ import com.theforum.data.helpers.OpinionHelper;
 import com.theforum.data.local.models.OpinionDataModel;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.data.server.opinion;
+import com.theforum.ui.ProgresssDialog;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.User;
 import com.theforum.utils.views.KeyboardListenerEditText;
@@ -28,6 +29,8 @@ import com.theforum.utils.listeners.SoftKeyboardStateWatcher;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
+import android.app.DialogFragment;
 
 /**
  * @author DEEPANKAR
@@ -127,25 +130,32 @@ public class NewOpinionFragment extends Fragment {
         opinion.setTopicId(topicModel.getTopicId());
         opinion.setTopicName(topicModel.getTopicName());
         opinion.setUserId(User.getInstance().getId());
-        final ProgressDialog pd = new ProgressDialog(getActivity(), R.style.MyDialog);
+
+
+      /* final ProgressDialog pd = new ProgressDialog(getActivity(), R.style.MyDialog);
         pd.setCanceledOnTouchOutside(false);
         pd.setCancelable(false);
         pd.setMessage("Adding your Opinion. Please Wait...");
         pd.show();
 
+*/
+        final DialogFragment dialog = new ProgresssDialog();
+        dialog.show(getActivity().getFragmentManager(), "hghg");
         OpinionHelper.getHelper().addOpinion(opinion, new OpinionHelper.OnOpinionAddListener() {
             @Override
             public void onCompleted(OpinionDataModel opinion) {
-                CommonUtils.showToast(getContext(),"Your Opinion is added");
-                pd.dismiss();
+                CommonUtils.showToast(getContext(), "Your Opinion is added");
+ //                  pd.dismiss();
+                dialog.dismiss();
                 getActivity().finish();
             }
 
             @Override
             public void onError(String error) {
-                Log.e("Opinionerror",error);
-                CommonUtils.showToast(getContext(),"Check your Internet Connection");
-                pd.dismiss();
+                Log.e("Opinionerror", error);
+                CommonUtils.showToast(getContext(), "Check your Internet Connection");
+   //                pd.dismiss();
+                dialog.dismiss();
             }
         });
 
