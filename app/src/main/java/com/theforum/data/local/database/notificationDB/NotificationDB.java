@@ -26,6 +26,7 @@ public class NotificationDB extends SQLiteOpenHelper {
                 + NotificationDBConstants.KEY_DESCRIPTION+" TEXT,"
                 + NotificationDBConstants.KEY_TIME_HOLDER+" TEXT,"
                 + NotificationDBConstants.KEY_TOPIC_ID + " TEXT)";
+
         db.execSQL(CREATE_TOPIC_TABLE);
     }
 

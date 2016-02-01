@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.theforum.TheForumApplication;
-import com.theforum.constants.NotificationType;
 import com.theforum.data.local.models.NotificationDataModel;
 
 import java.util.ArrayList;
@@ -37,39 +36,20 @@ public class NotificationDBHelper {
 
     public void addNotification(NotificationDataModel NotificationDataModel){
         ContentValues values = new ContentValues();
+
         values.put(NotificationDBConstants.KEY_NOTIFICATION_TYPE,NotificationDataModel.notificationType);
+        values.put(NotificationDBConstants.KEY_IS_READ,0);
+        values.put(NotificationDBConstants.KEY_MAIN_TEXT, NotificationDataModel.topicText);
+        values.put(NotificationDBConstants.KEY_HEADER, String.valueOf(NotificationDataModel.notificationCount));
 
-        switch (NotificationDataModel.notificationType){
-
-            case NotificationType.NOTIFICATION_TYPE_RENEWED:
-                values.put(NotificationDBConstants.KEY_HEADER,"Your Topic " + NotificationDataModel.topicText + " recieved");
-                values.put(NotificationDBConstants.KEY_MAIN_TEXT, NotificationDataModel.renewedCount + " Renewal");
-                values.put(NotificationDBConstants.KEY_TOPIC_ID, NotificationDataModel.topicId);
-                break;
-
-            case NotificationType.NOTIFICATION_TYPE_RENEWAL_REQUEST:
-                values.put(NotificationDBConstants.KEY_HEADER, "Your Topic " + NotificationDataModel.topicText + " recieved");
-                values.put(NotificationDBConstants.KEY_MAIN_TEXT, NotificationDataModel.renewalRequest+ " Renewal Requests");
-                values.put(NotificationDBConstants.KEY_TOPIC_ID, NotificationDataModel.topicId);
-                break;
-
-            case NotificationType.NOTIFICATION_TYPE_OPINIONS:
-                values.put(NotificationDBConstants.KEY_HEADER, "Your Topic " + NotificationDataModel.topicText + " recieved");
-                values.put(NotificationDBConstants.KEY_MAIN_TEXT, NotificationDataModel.opinions + " opinions");
-                values.put(NotificationDBConstants.KEY_TOPIC_ID, NotificationDataModel.topicId);
-                break;
-
-            case NotificationType.NOTIFICATION_TYPE_OPINION_UP_VOTES:
-                values.put(NotificationDBConstants.KEY_HEADER,"Your Opinion on " + NotificationDataModel.topicText + " received");
-                values.put(NotificationDBConstants.KEY_MAIN_TEXT, NotificationDataModel.newCount + " more Upvotes");
-                values.put(NotificationDBConstants.KEY_DESCRIPTION, NotificationDataModel.description);
-                values.put(NotificationDBConstants.KEY_TOPIC_ID, NotificationDataModel.topicId);
-                break;
-
+        if(NotificationDataModel.description!=null) {
+            values.put(NotificationDBConstants.KEY_DESCRIPTION, NotificationDataModel.description);
         }
-        values.put(NotificationDBConstants.KEY_TIME_HOLDER, NotificationDataModel.hoursLeft + "hrs left to decay | 01:30 PM Today");
-        notificationDatabase.insert(NotificationDBConstants.TABLE_NAME, null, values);
 
+        values.put(NotificationDBConstants.KEY_TIME_HOLDER, NotificationDataModel.timeHolder);
+        values.put(NotificationDBConstants.KEY_TOPIC_ID, NotificationDataModel.topicId);
+
+        notificationDatabase.insert(NotificationDBConstants.TABLE_NAME, null, values);
     }
 
     public boolean checkIfNotificationExist(){
@@ -78,8 +58,8 @@ public class NotificationDBHelper {
         if(cursor.getCount()>0){
             cursor.close();
             return true;
-        } else return false;
 
+        } else return false;
     }
 
     public void addNotifications(List<NotificationDataModel> NotificationDataModels){
@@ -89,31 +69,36 @@ public class NotificationDBHelper {
         }
     }
 
-    public void deleteNotification(){
-        //delete notification from table when the entries exceed a certain fixed number
+    public int getNewNotificationCount(){
+        int count = 0;
+
+        return count;
     }
 
-    public void deleteAllNotif(){
+    public void deleteAllNotifications(){
         notificationDatabase.execSQL("delete from " + NotificationDBConstants.TABLE_NAME);
     }
 
     public ArrayList<NotificationDataModel> getAllNotifications(){
+
         ArrayList<NotificationDataModel> notifications = new ArrayList<>();
         Cursor cursor = notificationDatabase.rawQuery("SELECT  * FROM " + NotificationDBConstants.TABLE_NAME, null);
 
         if(cursor!=null){
+            NotificationDataModel dataModel;
 
             if (cursor.moveToLast()) {
                 do {
-                    NotificationDataModel obj = new NotificationDataModel();
-                    obj.setNotificationType(cursor.getInt(1));
-                    if(cursor.getInt(2)==1) obj.setIsRead(true);
-                    obj.setMainText(cursor.getString(3));
-                    obj.setHeader(cursor.getString(4));
-                    obj.setDescription(cursor.getString(5));
-                    obj.setTimeHolder(cursor.getString(6));
-                    obj.setTopicId(cursor.getString(7));
-                    notifications.add(obj);
+                    dataModel = new NotificationDataModel();
+                    dataModel.notificationType = cursor.getInt(1);
+                    if(cursor.getInt(2)==1) dataModel.isRead = true;
+                    dataModel.topicText = cursor.getString(3);
+                    dataModel.notificationCount = Integer.parseInt(cursor.getString(4));
+                    dataModel.description = cursor.getString(5);
+                    dataModel.timeHolder = cursor.getString(6);
+                    dataModel.topicId = cursor.getString(7);
+
+                    notifications.add(dataModel);
                 } while (cursor.moveToPrevious());
             }
             cursor.close();

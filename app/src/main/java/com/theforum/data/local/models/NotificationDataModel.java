@@ -1,20 +1,33 @@
 package com.theforum.data.local.models;
 
-import com.theforum.constants.NotificationType;
-import com.theforum.utils.enums.VoteStatus;
-
 /**
  * @author Ashish
  * @since 1/6/2016.
  */
 
+/**
+ * data models for all type of notification
+ *
+ * Opinion UpVoted/DownVoted
+ * Renewal Requests
+ * Renewal Days
+ * Opinions Added
+ */
 public class NotificationDataModel {
 
-    /*
-     * type of notification, hours left to delete and topic
+    /**
+     * type of notification
      */
-    public int notificationType = NotificationType.NOTIFICATION_TYPE_OPINION_UP_VOTES;
+    public int notificationType;
+
+    /**
+     * topic Id of the notification
+     */
     public String topicId;
+
+    /**
+     * name of the topic
+     */
     public String topicText;
 
     /**
@@ -26,18 +39,24 @@ public class NotificationDataModel {
      * Opinions Added            - number of new opinions added
      */
     public int notificationCount;
-    public int hoursLeft;
 
-
-   //notification of opinions
-
-    public int upVoteCount;
-    public int downVoteCount;
+    /**
+     * contains additional description if any
+     *
+     * Opinion UpVoted/DownVoted - opinion text
+     * Renewal Days              - number of renewal requests
+     */
     public String description;
-    public VoteStatus voteStatus;
 
-    //notification of renewal request
-    public boolean ifRenewed;
-    public int renewalRequest;
+    /**
+     * holds hours left for topic to decay and local time when notification was received
+     */
+    public String timeHolder;
+
+
+    /**
+     * whether the notification is seen/read by user or not
+     */
+    public boolean isRead;
 
 }
