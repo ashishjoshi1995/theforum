@@ -53,8 +53,8 @@ public class NotificationDBHelper {
     }
 
     public boolean checkIfNotificationExist(){
-        Cursor cursor = notificationDatabase.rawQuery("SELECT DISTINCT" + NotificationDBConstants.KEY_ID +"FROM"
-                + NotificationDBConstants.TABLE_NAME,null);
+        Cursor cursor = notificationDatabase.rawQuery("SELECT " + NotificationDBConstants.KEY_ID +" FROM "
+                + NotificationDBConstants.TABLE_NAME, null);
 
         if(cursor.getCount()>0){
             cursor.close();

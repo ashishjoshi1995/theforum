@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,7 +76,6 @@ public class TrendsFragment extends Fragment {
 
             @Override
             public void onCompleted(ArrayList<TrendsDataModel> trends) {
-                Log.e("trends size", ""+trends.size());
                 mAdapter.clearList();
                 mAdapter.addAllTrends(trends);
                 swipeRefreshLayout.setRefreshing(false);
@@ -90,10 +88,10 @@ public class TrendsFragment extends Fragment {
                     @Override
                     public void run() {
                         swipeRefreshLayout.setRefreshing(false);
+                        CommonUtils.showToast(getContext(), "Check your Internet Connection");
                     }
                 });
 
-                CommonUtils.showToast(getContext(),"Check your Internet Connection");
             }
         });
     }

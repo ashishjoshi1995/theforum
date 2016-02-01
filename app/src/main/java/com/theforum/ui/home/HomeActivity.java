@@ -80,8 +80,6 @@ public class HomeActivity extends AppCompatActivity implements OnHomeUiChangeLis
             }
         });
 
-        Intent intent = new Intent(this, NotificationService.class);
-        startService(intent);
     }
 
 

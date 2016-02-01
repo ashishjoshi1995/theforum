@@ -79,6 +79,7 @@ public class NotificationHelper {
 
             }
         });
+
         one = false;
         two = false;
     }
