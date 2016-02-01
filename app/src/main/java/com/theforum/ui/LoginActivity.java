@@ -1,6 +1,7 @@
 package com.theforum.ui;
 
 import android.app.AlarmManager;
+import android.app.DialogFragment;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -115,11 +116,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         user.setAge(age);
 
         LoginHelper loginHelper = new LoginHelper();
-        final ProgressDialog pd = new ProgressDialog(this, R.style.MyDialog);
+     /*   final ProgressDialog pd = new ProgressDialog(this, R.style.MyDialog);
         pd.setCanceledOnTouchOutside(false);
         pd.setCancelable(false);
         pd.setMessage("Please Wait...");
-        pd.show();
+        pd.show();*/
+        final DialogFragment dialog = new ProgresssDialog();
+        dialog.show(getFragmentManager(), "hghg");
+
         loginHelper.login(user, new LoginHelper.OnLoginCompleteListener() {
             @Override
             public void onCompleted(user user) {
@@ -138,18 +142,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                 ProfileUtils.getInstance().saveIntegralPreference(ProfileUtils.mRecDownvoted, user.getDownvotes_received());
                 ProfileUtils.getInstance().saveIntegralPreference(ProfileUtils.mRecOpinions, user.getOpinions_received());
-                ProfileUtils.getInstance().saveIntegralPreference(ProfileUtils.mRecRenewals,user.getRenewal_request_received());
-                ProfileUtils.getInstance().saveIntegralPreference(ProfileUtils.mRecTopicsRenewed,user.getToatal_topic_renewed());
-                ProfileUtils.getInstance().saveIntegralPreference(ProfileUtils.mRecUpvotes,user.getUpvotes_received());
+                ProfileUtils.getInstance().saveIntegralPreference(ProfileUtils.mRecRenewals, user.getRenewal_request_received());
+                ProfileUtils.getInstance().saveIntegralPreference(ProfileUtils.mRecTopicsRenewed, user.getToatal_topic_renewed());
+                ProfileUtils.getInstance().saveIntegralPreference(ProfileUtils.mRecUpvotes, user.getUpvotes_received());
 
-                ProfileUtils.getInstance().saveIntegralPreference(ProfileUtils.mCrcDownvotes,user.getDownvotes_croaked());
-                ProfileUtils.getInstance().saveIntegralPreference(ProfileUtils.mCrcOpinions,user.getmOpinionCount());
-                ProfileUtils.getInstance().saveIntegralPreference(ProfileUtils.mCrcUpvotes,user.getUpvotes_croaked());
-                ProfileUtils.getInstance().saveIntegralPreference(ProfileUtils.mCrcRenewals,user.getRenewal_request_croaked());
-                ProfileUtils.getInstance().saveIntegralPreference(ProfileUtils.mCrcTopicsRenewed,user.getToatal_topic_renewed());
+                ProfileUtils.getInstance().saveIntegralPreference(ProfileUtils.mCrcDownvotes, user.getDownvotes_croaked());
+                ProfileUtils.getInstance().saveIntegralPreference(ProfileUtils.mCrcOpinions, user.getmOpinionCount());
+                ProfileUtils.getInstance().saveIntegralPreference(ProfileUtils.mCrcUpvotes, user.getUpvotes_croaked());
+                ProfileUtils.getInstance().saveIntegralPreference(ProfileUtils.mCrcRenewals, user.getRenewal_request_croaked());
+                ProfileUtils.getInstance().saveIntegralPreference(ProfileUtils.mCrcTopicsRenewed, user.getToatal_topic_renewed());
 
 
-                pd.dismiss();
+                dialog.dismiss();
 
                 /**
                  * starting notification service
@@ -174,7 +178,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void onError(String error) {
-                pd.dismiss();
+                dialog.dismiss();
 
                 runOnUiThread(new Runnable() {
                     @Override
