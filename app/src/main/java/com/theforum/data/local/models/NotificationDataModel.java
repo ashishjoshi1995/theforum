@@ -1,81 +1,43 @@
 package com.theforum.data.local.models;
 
+import com.theforum.constants.NotificationType;
+import com.theforum.utils.enums.VoteStatus;
+
 /**
  * @author Ashish
- * @since 1/15/2016
+ * @since 1/6/2016.
  */
+
 public class NotificationDataModel {
 
-    private int key;
-    private int notificationType;
-    private String timeHolder;
-    private String mainText;
-    private String header;
-    private String description;
-    private String topicId;
-    private boolean isRead = false;
+    /*
+     * type of notification, hours left to delete and topic
+     */
+    public int notificationType = NotificationType.NOTIFICATION_TYPE_OPINION_UP_VOTES;
+    public String topicId;
+    public String topicText;
 
-    public int getKey() {
-        return key;
-    }
+    /**
+     * contains count of total notifications in each type of notification
+     *
+     * Opinion UpVoted/DownVoted - number of upVotes or downVotes
+     * Renewal Requests          - number of renewal requests
+     * Renewal Days              - number of days for renewal
+     * Opinions Added            - number of new opinions added
+     */
+    public int notificationCount;
+    public int hoursLeft;
 
-    public void setKey(int key) {
-        this.key = key;
-    }
 
-    public int getNotificationType() {
-        return notificationType;
-    }
+   //notification of opinions
 
-    public void setNotificationType(int notificationType) {
-        this.notificationType = notificationType;
-    }
+    public int upVoteCount;
+    public int downVoteCount;
+    public String description;
+    public VoteStatus voteStatus;
 
-    public String getTimeHolder() {
-        return timeHolder;
-    }
+    //notification of renewal request
+    public boolean ifRenewed;
+    public int renewalRequest;
 
-    public void setTimeHolder(String timeHolder) {
-        this.timeHolder = timeHolder;
-    }
-
-    public String getMainText() {
-        return mainText;
-    }
-
-    public void setMainText(String mainText) {
-        this.mainText = mainText;
-    }
-
-    public String getHeader() {
-        return header;
-    }
-
-    public void setHeader(String header) {
-        this.header = header;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getTopicId() {
-        return topicId;
-    }
-
-    public void setTopicId(String topicId) {
-        this.topicId = topicId;
-    }
-
-    public boolean isRead() {
-        return isRead;
-    }
-
-    public void setIsRead(boolean isRead) {
-        this.isRead = isRead;
-    }
 }

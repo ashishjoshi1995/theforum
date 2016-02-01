@@ -1,4 +1,4 @@
-package com.theforum.ui;
+package com.theforum.ui.activity;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;

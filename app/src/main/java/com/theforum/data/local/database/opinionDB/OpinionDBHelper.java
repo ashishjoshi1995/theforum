@@ -83,7 +83,7 @@ public class OpinionDBHelper {
             if(cursor.moveToFirst()){
                 opinionToReturn.setDownVoteCount(cursor.getInt(3));
                 opinionToReturn.setServerId(cursor.getString(1));
-                //opinionToReturn.setmNotifCount(cursor.getInt(8));
+                //opinionToReturn.setNotificationCount(cursor.getInt(8));
                 opinionToReturn.setOpinionId(cursor.getString(5));
                 opinionToReturn. setTopicId(cursor.getString(7));
                 opinionToReturn.setTopicName(cursor.getString(11));
@@ -105,7 +105,7 @@ public class OpinionDBHelper {
             if(cursor.moveToFirst()){
                 opinionToReturn.setDownVoteCount(cursor.getInt(3));
                 opinionToReturn.setServerId(cursor.getString(1));
-                //opinionToReturn.setmNotifCount(cursor.getInt(8));
+                //opinionToReturn.setNotificationCount(cursor.getInt(8));
                 opinionToReturn.setOpinionId(cursor.getString(5));
                 opinionToReturn.setTopicId(cursor.getString(7));
                 opinionToReturn.setTopicName(cursor.getString(11));

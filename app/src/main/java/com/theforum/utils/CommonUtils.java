@@ -15,13 +15,12 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Build;
 import android.support.v4.util.Pair;
 import android.util.DisplayMetrics;
 import android.widget.Toast;
 
-import com.theforum.ui.ContainerActivity;
+import com.theforum.ui.activity.ContainerActivity;
 import com.theforum.TheForumApplication;
 
 import java.io.Serializable;

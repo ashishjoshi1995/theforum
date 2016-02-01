@@ -35,38 +35,39 @@ public class NotificationDBHelper {
         notificationDatabase = notificationDB.getWritableDatabase();
     }
 
-    public void addNotification(com.theforum.data.server.NotificationDataModel notificationDataModel){
+    public void addNotification(NotificationDataModel NotificationDataModel){
         ContentValues values = new ContentValues();
-        int k = notificationDataModel.notificationType;
-        switch (k){
+        values.put(NotificationDBConstants.KEY_NOTIFICATION_TYPE,NotificationDataModel.notificationType);
+
+        switch (NotificationDataModel.notificationType){
+
             case NotificationType.NOTIFICATION_TYPE_RENEWED:
-                values.put(NotificationDBConstants.KEY_HEADER,"Your Topic " + notificationDataModel.topicText + " recieved");
-                values.put(NotificationDBConstants.KEY_MAIN_TEXT,notificationDataModel.renewedCount + " Renewal");
-                values.put(NotificationDBConstants.KEY_NOTIFICATION_TYPE,k);
-                values.put(NotificationDBConstants.KEY_TOPIC_ID,notificationDataModel.topicId);
+                values.put(NotificationDBConstants.KEY_HEADER,"Your Topic " + NotificationDataModel.topicText + " recieved");
+                values.put(NotificationDBConstants.KEY_MAIN_TEXT, NotificationDataModel.renewedCount + " Renewal");
+                values.put(NotificationDBConstants.KEY_TOPIC_ID, NotificationDataModel.topicId);
                 break;
+
             case NotificationType.NOTIFICATION_TYPE_RENEWAL_REQUEST:
-                values.put(NotificationDBConstants.KEY_HEADER, "Your Topic " + notificationDataModel.topicText + " recieved");
-                values.put(NotificationDBConstants.KEY_MAIN_TEXT,notificationDataModel.renewalRequest+ " Renewal Requests");
-                values.put(NotificationDBConstants.KEY_NOTIFICATION_TYPE,k);
-                values.put(NotificationDBConstants.KEY_TOPIC_ID,notificationDataModel.topicId);
+                values.put(NotificationDBConstants.KEY_HEADER, "Your Topic " + NotificationDataModel.topicText + " recieved");
+                values.put(NotificationDBConstants.KEY_MAIN_TEXT, NotificationDataModel.renewalRequest+ " Renewal Requests");
+                values.put(NotificationDBConstants.KEY_TOPIC_ID, NotificationDataModel.topicId);
                 break;
+
             case NotificationType.NOTIFICATION_TYPE_OPINIONS:
-                values.put(NotificationDBConstants.KEY_HEADER, "Your Topic " + notificationDataModel.topicText + " recieved");
-                values.put(NotificationDBConstants.KEY_MAIN_TEXT,notificationDataModel.opinions + " opinions");
-                values.put(NotificationDBConstants.KEY_NOTIFICATION_TYPE,k);
-                values.put(NotificationDBConstants.KEY_TOPIC_ID,notificationDataModel.topicId);
+                values.put(NotificationDBConstants.KEY_HEADER, "Your Topic " + NotificationDataModel.topicText + " recieved");
+                values.put(NotificationDBConstants.KEY_MAIN_TEXT, NotificationDataModel.opinions + " opinions");
+                values.put(NotificationDBConstants.KEY_TOPIC_ID, NotificationDataModel.topicId);
                 break;
+
             case NotificationType.NOTIFICATION_TYPE_OPINION_UP_VOTES:
-                values.put(NotificationDBConstants.KEY_HEADER,"Your Opinion on " + notificationDataModel.topicText + " received");
-                values.put(NotificationDBConstants.KEY_MAIN_TEXT,notificationDataModel.newCount + " more Upvotes");
-                values.put(NotificationDBConstants.KEY_DESCRIPTION, notificationDataModel.opinionText);
-                values.put(NotificationDBConstants.KEY_NOTIFICATION_TYPE,k);
-                values.put(NotificationDBConstants.KEY_TOPIC_ID,notificationDataModel.topicId);
+                values.put(NotificationDBConstants.KEY_HEADER,"Your Opinion on " + NotificationDataModel.topicText + " received");
+                values.put(NotificationDBConstants.KEY_MAIN_TEXT, NotificationDataModel.newCount + " more Upvotes");
+                values.put(NotificationDBConstants.KEY_DESCRIPTION, NotificationDataModel.description);
+                values.put(NotificationDBConstants.KEY_TOPIC_ID, NotificationDataModel.topicId);
                 break;
 
         }
-        values.put(NotificationDBConstants.KEY_TIME_HOLDER, notificationDataModel.hoursLeft + "hrs left to decay | 01:30 PM Today");
+        values.put(NotificationDBConstants.KEY_TIME_HOLDER, NotificationDataModel.hoursLeft + "hrs left to decay | 01:30 PM Today");
         notificationDatabase.insert(NotificationDBConstants.TABLE_NAME, null, values);
 
     }
@@ -81,10 +82,10 @@ public class NotificationDBHelper {
 
     }
 
-    public void addNotifications(List<com.theforum.data.server.NotificationDataModel> notificationDataModels){
+    public void addNotifications(List<NotificationDataModel> NotificationDataModels){
 
-        for(int j=0; j<notificationDataModels.size();j++){
-            addNotification(notificationDataModels.get(j));
+        for(int j=0; j< NotificationDataModels.size();j++){
+            addNotification(NotificationDataModels.get(j));
         }
     }
 
@@ -93,9 +94,6 @@ public class NotificationDBHelper {
     }
 
     public void deleteAllNotif(){
-        Cursor cursor = notificationDatabase.rawQuery("SELECT  * FROM " + NotificationDBConstants.TABLE_NAME, null);
-
-        cursor.close();
         notificationDatabase.execSQL("delete from " + NotificationDBConstants.TABLE_NAME);
     }
 

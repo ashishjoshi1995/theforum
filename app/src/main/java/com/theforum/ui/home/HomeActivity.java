@@ -12,7 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.theforum.constants.LayoutType;
-import com.theforum.ui.LoginActivity;
+import com.theforum.ui.activity.LoginActivity;
 import com.theforum.R;
 import com.theforum.notification.NotificationService;
 import com.theforum.ui.search.SearchResultFragment;
