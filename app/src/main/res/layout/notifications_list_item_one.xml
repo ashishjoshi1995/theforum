@@ -4,11 +4,9 @@
     android:layout_height="wrap_content"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/notification_header"
+    <TextView android:id="@+id/notification_header"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Text 2"/>
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/notification_main_text"
@@ -16,8 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/notification_header"
         android:layout_marginTop="10dp"
-        android:textSize="24sp"
-        android:text="New Text" />
+        android:textSize="24sp" />
 
     <TextView
         android:id="@+id/notification_description"
@@ -34,12 +31,5 @@
         android:layout_below="@+id/notification_description"
         android:layout_marginTop="20dp"
         />
-
-    <include layout="@layout/vote_holder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@id/notification_description"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="4dp"/>
 
 </RelativeLayout>

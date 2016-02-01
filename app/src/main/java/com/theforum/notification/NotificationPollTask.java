@@ -21,6 +21,7 @@ import com.theforum.utils.SettingsUtils;
 import com.theforum.utils.listeners.NotificationListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -30,12 +31,16 @@ import java.util.List;
 public class NotificationPollTask extends AsyncTask<Void, Void, Void> {
 
     private Service mService;
+    private  ArrayList<NotificationDataModel> notificationsList;
+
     int stream=0;
     int notificationCount = 0;
     private int count = 0;
 
+
     public NotificationPollTask(Service service){
         this.mService = service;
+        notificationsList = new ArrayList<>();
     }
 
     @Override
@@ -47,53 +52,60 @@ public class NotificationPollTask extends AsyncTask<Void, Void, Void> {
 
             @Override
             public void topicNotification(List<topic> topics) {
-
-                ArrayList<NotificationDataModel> notificationsList = new ArrayList<>();
-
+                Calendar calendar;
                 for (int j = 0; j < topics.size(); j++) {
+
                     if (topics.get(j).getNotifRenewalRequests() > 0) {
 
-                        NotificationDataModel notificationDataModelModel = new NotificationDataModel();
-                        notificationDataModelModel.hoursLeft = topics.get(j).getHoursLeft();
-                        notificationDataModelModel.topicId = topics.get(j).getTopicId();
-                        notificationDataModelModel.topicText = topics.get(j).getTopicName();
-                        notificationDataModelModel.renewalRequest = topics.get(j).getNotifRenewalRequests();
-                        notificationDataModelModel.notificationType = NotificationType.NOTIFICATION_TYPE_RENEWAL_REQUEST;
-                        notificationsList.add(notificationDataModelModel);
+                        NotificationDataModel notificationDataModel = new NotificationDataModel();
+                        notificationDataModel.notificationType = NotificationType.NOTIFICATION_TYPE_RENEWAL_REQUEST;
+                        notificationDataModel.topicId = topics.get(j).getTopicId();
+                        notificationDataModel.topicText = topics.get(j).getTopicName();
+                        notificationDataModel.notificationCount = topics.get(j).getNotifRenewalRequests();
+                        notificationDataModel.isRead = false;
+                        calendar = Calendar.getInstance();
+                        notificationDataModel.timeHolder = topics.get(j).getHoursLeft() + " hrs left to decay | "
+                                +calendar.get(Calendar.HOUR) + ":" +calendar.get(Calendar.MINUTE) +" "
+                                +calendar.get(Calendar.AM_PM)+" Today" ;
+
+                        notificationsList.add(notificationDataModel);
 
                         if (SettingsUtils.getInstance().getBoolPreference(SettingsUtils.ENABLE_RENEWAL_REQUESTS_NOTIFICATION))
                             notificationCount++;
                     }
 
                     if (topics.get(j).getNotifOpinions() > 0) {
-                        NotificationDataModel inflatorItemDataOpinions = new NotificationDataModel();
-                        inflatorItemDataOpinions.notificationType = NotificationType.NOTIFICATION_TYPE_OPINIONS;
-                        inflatorItemDataOpinions.hoursLeft = topics.get(j).getHoursLeft();
-                        inflatorItemDataOpinions.topicId = topics.get(j).getTopicId();
-                        inflatorItemDataOpinions.topicText = topics.get(j).getTopicName();
-                        inflatorItemDataOpinions.opinions = topics.get(j).getNotifOpinions();
-                        notificationsList.add(inflatorItemDataOpinions);
+                        NotificationDataModel dataModel = new NotificationDataModel();
+                        dataModel.notificationType = NotificationType.NOTIFICATION_TYPE_OPINIONS;
+                        dataModel.topicId = topics.get(j).getTopicId();
+                        dataModel.topicText = topics.get(j).getTopicName();
+                        dataModel.notificationCount = topics.get(j).getNotifOpinions();
+                        dataModel.isRead = false;
+
+                        calendar = Calendar.getInstance();
+                        dataModel.timeHolder = topics.get(j).getHoursLeft() + " hrs left to decay | "
+                                +calendar.get(Calendar.HOUR) + ":" +calendar.get(Calendar.MINUTE) +" "
+                                +calendar.get(Calendar.AM_PM)+" Today" ;
+
+                        notificationsList.add(dataModel);
+
                         if (SettingsUtils.getInstance().getBoolPreference(SettingsUtils.ENABLE_OPINIONS_RECEIVED_NOTIFICATION))
                             notificationCount++;
                     }
                 }
 
-                if (notificationsList.size() > 0) {
+                if (topics.size() > 0) {
+
                     if (NotificationHelper.one && NotificationHelper.two && count == 0) {
                         helper.cleanItUp();
                         count++;
                     }
-                    NotificationDBHelper.getHelper().addNotifications(notificationsList);
-
 
                     if (notificationCount > 0 && stream == 1) {
-
                         Notify(notificationCount, TheForumApplication.getAppContext());
                         stream = 0;
 
-                    } else if (stream == 0) {
-                        stream++;
-                    }
+                    } else if (stream == 0) stream++;
 
                 } else if (count > 0) {
                     count = 0;
@@ -103,7 +115,6 @@ public class NotificationPollTask extends AsyncTask<Void, Void, Void> {
 
             @Override
             public void opinionNotification(List<opinion> opinions) {
-                ArrayList<NotificationDataModel> inflatorItemDatas = new ArrayList<>();
 
                 for (int j = 0; j < opinions.size(); j++) {
 
@@ -111,17 +122,15 @@ public class NotificationPollTask extends AsyncTask<Void, Void, Void> {
                     NotificationDataModel.notificationType = NotificationType.NOTIFICATION_TYPE_OPINION_UP_VOTES;
                     NotificationDataModel.topicText = opinions.get(j).getTopicName();
                     NotificationDataModel.topicId = opinions.get(j).getTopicId();
-                    NotificationDataModel.newCount = opinions.get(j).getmNotifCount();
-                    NotificationDataModel.upVoteCount = opinions.get(j).getUpVotes();
-                    NotificationDataModel.downVoteCount = opinions.get(j).getDownVotes();
+                    NotificationDataModel.notificationCount = opinions.get(j).getmNotifCount();
                     NotificationDataModel.description = opinions.get(j).getOpinionName();
-                    inflatorItemDatas.add(NotificationDataModel);
+
+                    notificationsList.add(NotificationDataModel);
                     notificationCount++;
 
                 }
 
-
-                if (inflatorItemDatas.size() > 0) {
+                if (opinions.size() > 0) {
                     if (NotificationHelper.one && NotificationHelper.two && count == 0) {
                         helper.cleanItUp();
                         count++;
@@ -134,8 +143,7 @@ public class NotificationPollTask extends AsyncTask<Void, Void, Void> {
                         stream = 0;
                     }
 
-                    NotificationDBHelper.getHelper().addNotifications(inflatorItemDatas);
-                    //OpinionDBHelper.getHelper().addOpinions(opinions);
+                    NotificationDBHelper.getHelper().addNotifications(notificationsList);
                 }
 
             }
