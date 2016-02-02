@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.theforum.data.local.database.trendsDB.TrendsDBHelper;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.data.local.models.TrendsDataModel;
 import com.theforum.utils.CommonUtils;
+import com.theforum.utils.User;
 import com.theforum.utils.enums.VoteStatus;
 
 import java.io.Serializable;
@@ -214,7 +216,20 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
 
             TopicDataModel topicDataModel = new TopicDataModel();
             topicDataModel.setTopicDescription(trend.getDescription());
-            topicDataModel.setRenewalRequests(trend.getRenewCount());
+            int p=0;
+            if(trend.getRenewalIds()!=null) {
+                String[] r = trend.getRenewalIds().split(" ");
+                p=r.length;
+                for (int k = 0; k < r.length; k++) {
+                    if (r[k].equals(User.getInstance().getId())) {
+                        topicDataModel.setIsRenewed(true);
+                        break;
+                    }
+                }
+            }
+            //topicDataModel.setIsRenewed();
+            topicDataModel.setRenewalRequests(p);
+            //topicDataModel.setRenewalRequests(trend.getRenewCount());
             topicDataModel.setTopicName(trend.getTopicName());
             topicDataModel.setTopicId(trend.getTopicId());
             topicDataModel.setHoursLeft(trend.getHoursLeft());
@@ -237,6 +252,7 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
         TrendsDataModel trendsDataModel = mFeeds.get(position);
 
         holder.topicName.setText(trendsDataModel.getTopicName());
+        Log.e("trends", "" + trendsDataModel.getDescription() + "hello" + trendsDataModel.getOpinionText() + "ddd" + trendsDataModel.getRenewalIds());
         holder.description.setText(trendsDataModel.getOpinionText());
         holder.upVoteBtn.setText(String.valueOf(trendsDataModel.getUpVoteCount()));
         holder.downVoteBtn.setText(String.valueOf(trendsDataModel.getDownVoteCount()));
