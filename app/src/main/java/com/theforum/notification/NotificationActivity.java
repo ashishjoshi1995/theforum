@@ -47,6 +47,7 @@ public class NotificationActivity extends AppCompatActivity {
                 finish();
             }
         });
+        NotificationDBHelper.getHelper().openDatabase();
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         mRecyclerView.addItemDecoration(new DividerItemDecorator(this, R.drawable.recycler_view_divider));

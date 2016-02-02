@@ -19,8 +19,10 @@ import android.widget.TextView;
 
 import com.theforum.R;
 import com.theforum.data.helpers.LoginHelper;
+import com.theforum.data.local.database.notificationDB.NotificationDBHelper;
 import com.theforum.data.server.user;
 import com.theforum.notification.NotificationService;
+import com.theforum.ui.ProgresssDialog;
 import com.theforum.ui.home.HomeActivity;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.NetworkUtils;
@@ -66,6 +68,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         contactUs.setOnClickListener(this);
 
         setNotificationSettings();
+        //NotificationDBHelper.getHelper().openDatabase();
 
         ProfileUtils.getInstance().savePreferences(ProfileUtils.COUNTRY,"India");
 
@@ -158,7 +161,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 /**
                  * starting notification service
                  */
-                int minutes = 60;
+                int minutes = 1;
                 AlarmManager am = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
                 PendingIntent pi = PendingIntent.getService(getApplicationContext(), 0,
                         new Intent(getApplicationContext(), NotificationService.class), 0);

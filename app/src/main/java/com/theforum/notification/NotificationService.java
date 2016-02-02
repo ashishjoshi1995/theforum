@@ -50,13 +50,14 @@ public class NotificationService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-
+        Log.e("hello","mmmmmmmmmmmmmmmmmmmmmmmmmm");
         PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
         PowerManager.WakeLock wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "TheForumWakeLock");
         wakeLock.acquire();
 
         if (!CommonUtils.isInternetAvailable()) {
             stopSelf();
+            Log.e("no net","no net");
             return;
         }
 
@@ -75,7 +76,7 @@ public class NotificationService extends IntentService {
             @Override
             public void topicNotification(List<topic> topics) {
                 Calendar calendar;
-                Log.i("topic size", "" + topics.size());
+                Log.e("topic size", "" + topics.size());
                 for (int j = 0; j < topics.size(); j++) {
 
                     if (topics.get(j).getNotifRenewalRequests() > 0) {
@@ -85,6 +86,7 @@ public class NotificationService extends IntentService {
                         notificationDataModel.topicId = topics.get(j).getTopicId();
                         notificationDataModel.topicText = topics.get(j).getTopicName();
                         notificationDataModel.notificationCount = topics.get(j).getNotifRenewalRequests();
+                        Log.e("ooooo",""+notificationDataModel.notificationCount);
                         notificationDataModel.isRead = false;
                         calendar = Calendar.getInstance();
                         notificationDataModel.timeHolder = topics.get(j).getHoursLeft() + " hrs left to decay | "
@@ -103,6 +105,7 @@ public class NotificationService extends IntentService {
                         dataModel.topicId = topics.get(j).getTopicId();
                         dataModel.topicText = topics.get(j).getTopicName();
                         dataModel.notificationCount = topics.get(j).getNotifOpinions();
+                        Log.e("ggghhhhh",""+dataModel.notificationCount);
                         dataModel.isRead = false;
 
                         calendar = Calendar.getInstance();
@@ -116,7 +119,7 @@ public class NotificationService extends IntentService {
                             notificationCount++;
                     }
                 }
-                Log.i("notification count", "" + notificationCount);
+                Log.e("notification count", "" + notificationCount);
 
                 if (topics.size() > 0) {
 
@@ -125,13 +128,20 @@ public class NotificationService extends IntentService {
                         count++;
                     }
 
-                    if (notificationCount > 0 && stream == 1) {
+                    if (notificationCount > 0) {
                         Log.i("notify is calling", "");
                         Notify(notificationCount, TheForumApplication.getAppContext());
                         stream = 0;
 
-                    } else if (stream == 0) stream++;
+                    }
 
+                    else if (stream == 0) stream++;
+                    NotificationDBHelper.getHelper().openDatabase();
+                    NotificationDBHelper.getHelper().addNotifications(notificationsList);
+                    for(int i = 0;i<notificationsList.size();i++){
+                        Log.e("checcnt inside db",""+notificationsList.get(i).notificationCount);
+                    }
+                    notificationsList.clear();
                 } else if (count > 0) {
                     count = 0;
                 }
@@ -147,12 +157,12 @@ public class NotificationService extends IntentService {
                     NotificationDataModel.notificationType = NotificationType.NOTIFICATION_TYPE_OPINION_UP_VOTES;
                     NotificationDataModel.topicText = opinions.get(j).getTopicName();
                     NotificationDataModel.topicId = opinions.get(j).getTopicId();
-                    NotificationDataModel.notificationCount = opinions.get(j).getmNotifCount();
+                    NotificationDataModel.notificationCount = opinions.get(j).getmNotifNewUpvotes();
                     NotificationDataModel.description = opinions.get(j).getOpinionName();
 
                     notificationsList.add(NotificationDataModel);
                     notificationCount++;
-
+                    Log.e("ffffffffff",""+notificationCount);
                 }
 
                 if (opinions.size() > 0) {
@@ -163,14 +173,19 @@ public class NotificationService extends IntentService {
                         count = 0;
                     }
 
-                    if (notificationCount > 0 && stream == 1) {
+                    if (notificationCount > 0) {
                         Notify(notificationCount, TheForumApplication.getAppContext());
                         stream = 0;
                     }
-                    Log.i("task started", "" + notificationsList.size());
+                    Log.e("task started", "" + notificationsList.size());
+                    NotificationDBHelper.getHelper().openDatabase();
                     NotificationDBHelper.getHelper().addNotifications(notificationsList);
+                    for(int i = 0;i<notificationsList.size();i++){
+                        Log.e("checking cnt inside db",""+notificationsList.get(i).notificationCount);
+                    }
+                    notificationsList.clear();
+                    Log.e("temporary", notificationsList.toString());
                 }
-
             }
         });
     }
@@ -181,7 +196,7 @@ public class NotificationService extends IntentService {
      * @param context context of the app to notify
      */
     private void Notify(int notificationCount, Context context){
-
+Log.e("bbbbbbbb",""+notificationCount);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(),
                         R.drawable.notification_icon))

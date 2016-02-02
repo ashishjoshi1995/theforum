@@ -3,6 +3,7 @@ package com.theforum.data.local.database.notificationDB;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.theforum.TheForumApplication;
 import com.theforum.data.local.models.NotificationDataModel;
@@ -36,7 +37,7 @@ public class NotificationDBHelper {
 
     public void addNotification(NotificationDataModel NotificationDataModel){
         ContentValues values = new ContentValues();
-
+        Log.e("addNotification","addNotification");
         values.put(NotificationDBConstants.KEY_NOTIFICATION_TYPE,NotificationDataModel.notificationType);
         values.put(NotificationDBConstants.KEY_IS_READ,0);
         values.put(NotificationDBConstants.KEY_MAIN_TEXT, NotificationDataModel.topicText);
