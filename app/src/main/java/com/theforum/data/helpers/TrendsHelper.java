@@ -117,7 +117,7 @@ public class TrendsHelper {
                                         topic.setDownVoteCount(Integer.parseInt(jsonObject.get("downvotes").toString()));
                                         topic.setTopicName(jsonObject.get("topic_name").toString());
                                         topic.setTopicId(jsonObject.get("topic_id").toString());
-                                        topic.setOpinionText(jsonObject.get("description").toString());
+                                        topic.setOpinionText(jsonObject.get("opinionText").toString());
                                         topic.setServerId(jsonObject.get("serverId").toString());
                                         topic.setDescription(jsonObject.get("description").toString());
                                         topic.setRenewalIds(jsonObject.get("renewalIds").toString());
@@ -321,7 +321,7 @@ public class TrendsHelper {
 
         //update server
 
-        TheForumApplication.getClient().invokeApi("direct_up_down_change", updvRequest, DUDAResponse.class, new ApiOperationCallback<DUDAResponse>() {
+        TheForumApplication.getClient().invokeApi("direct_up_downChange", updvRequest, DUDAResponse.class, new ApiOperationCallback<DUDAResponse>() {
             @Override
             public void onCompleted(DUDAResponse result, Exception exception, ServiceFilterResponse response) {
                 if (exception == null) {

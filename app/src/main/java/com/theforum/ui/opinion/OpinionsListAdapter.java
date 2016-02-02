@@ -78,7 +78,7 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
                         /*
                          *  send the request to server to increase the count
                          */
-                        TrendsHelper.getHelper().upVoteDownVote(true, opinionModel.getTopicId(), new TrendsHelper.OnUVDVOperationCompleteListener() {
+                        TrendsHelper.getHelper().upVoteDownVote(true, opinionModel.getOpinionId(), new TrendsHelper.OnUVDVOperationCompleteListener() {
                             @Override
                             public void onCompleteMessage(String message) {
                                 CommonUtils.showToast(mContext, message);
@@ -98,7 +98,7 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
                         /*
                          *  send the request to server to increase the count
                          */
-                        TrendsHelper.getHelper().removeUpDownVote(true, opinionModel.getTopicId(),
+                        TrendsHelper.getHelper().removeUpDownVote(true, opinionModel.getOpinionId(),
                                 new TrendsHelper.OnRUDAOperationCompleteListener() {
                                     @Override
                                     public void onCompleteMessage(String message) {
@@ -120,7 +120,7 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
                         setCompoundDrawables(upVoteBtn, upVotedIcon);
                         opinionModel.setUpVoteCount(upvotes);
                         opinionModel.setVoteStatus(VoteStatus.UPVOTED);
-                        TrendsHelper.getHelper().directUpDownVoteChange(true, opinionModel.getTopicId(), new TrendsHelper.OnDUDAOperationCompleteListener() {
+                        TrendsHelper.getHelper().directUpDownVoteChange(true, opinionModel.getOpinionId(), new TrendsHelper.OnDUDAOperationCompleteListener() {
                             @Override
                             public void onCompleteMessage(String message) {
                                 CommonUtils.showToast(mContext, message);
@@ -143,7 +143,7 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
                         /*
                          *  send the request to server to decrease the count
                          */
-                        TrendsHelper.getHelper().upVoteDownVote(false, opinionModel2.getTopicId(), new TrendsHelper.OnUVDVOperationCompleteListener() {
+                        TrendsHelper.getHelper().upVoteDownVote(false, opinionModel2.getOpinionId(), new TrendsHelper.OnUVDVOperationCompleteListener() {
                             @Override
                             public void onCompleteMessage(String message) {
                                 CommonUtils.showToast(mContext, message);
@@ -159,7 +159,7 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
                         opinionModel2.setDownVoteCount(downvotes);
                         opinionModel2.setVoteStatus(VoteStatus.NONE);
                         // TrendsDBHelper.getHelper().updateUPDVStatus(opinionModel2);
-                        TrendsHelper.getHelper().removeUpDownVote(false, opinionModel2.getTopicId(), new TrendsHelper.OnRUDAOperationCompleteListener() {
+                        TrendsHelper.getHelper().removeUpDownVote(false, opinionModel2.getOpinionId(), new TrendsHelper.OnRUDAOperationCompleteListener() {
                             @Override
                             public void onCompleteMessage(String message) {
                                 CommonUtils.showToast(mContext, message);
@@ -184,7 +184,7 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
                         /*
                          *  send the request to server to increase the count
                          */
-                        TrendsHelper.getHelper().directUpDownVoteChange(false, opinionModel2.getTopicId(),
+                        TrendsHelper.getHelper().directUpDownVoteChange(false, opinionModel2.getOpinionId(),
                                 new TrendsHelper.OnDUDAOperationCompleteListener() {
                                     @Override
                                     public void onCompleteMessage(String message) {
