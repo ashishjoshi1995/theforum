@@ -321,7 +321,7 @@ public class TrendsHelper {
 
         //update server
 
-        TheForumApplication.getClient().invokeApi("direct_up_down_change", updvRequest, DUDAResponse.class, new ApiOperationCallback<DUDAResponse>() {
+        TheForumApplication.getClient().invokeApi("direct_up_downChange", updvRequest, DUDAResponse.class, new ApiOperationCallback<DUDAResponse>() {
             @Override
             public void onCompleted(DUDAResponse result, Exception exception, ServiceFilterResponse response) {
                 if (exception == null) {
