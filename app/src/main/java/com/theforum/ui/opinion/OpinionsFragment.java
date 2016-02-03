@@ -194,6 +194,8 @@ public class OpinionsFragment extends Fragment {
             timeHolder.setText(Html.fromHtml(getContext().getResources().getQuantityString(
                     R.plurals.opinion_time_holder_message,
                     b +1, mTopicModel.getHoursLeft(), b+1)));
+            mTopicModel.setRenewalRequests(b + 1);
+            mTopicModel.setIsRenewed(true);
 
             TopicHelper.getHelper().addRenewalRequest(mTopicModel.getTopicId(),
                     new TopicHelper.OnRenewalRequestListener() {
@@ -202,8 +204,6 @@ public class OpinionsFragment extends Fragment {
                         public void onCompleted() {
                             // update the local database
 
-                            mTopicModel.setRenewalRequests(b + 1);
-                            mTopicModel.setIsRenewed(true);
                             TopicDBHelper.getHelper().updateTopicRenewalStatus(mTopicModel);
                         }
 
@@ -211,6 +211,10 @@ public class OpinionsFragment extends Fragment {
                         public void onError(String error) {
                             // notify the user that renew have failed
                             CommonUtils.showToast(getContext(), error);
+                            
+                            // revert the changes in local dataModel
+                            mTopicModel.setRenewalRequests(b);
+                            mTopicModel.setIsRenewed(false);
 
                             // revert the changes made in the UI
                             renewBtn.setBackgroundDrawable(renewIcon);
@@ -225,13 +229,13 @@ public class OpinionsFragment extends Fragment {
             timeHolder.setText(Html.fromHtml(getContext().getResources().getQuantityString(
                     R.plurals.opinion_time_holder_message,
                     b - 1, mTopicModel.getHoursLeft(), b-1)));
+            mTopicModel.setRenewalRequests(b-1);
+            mTopicModel.setIsRenewed(false);
 
             TopicHelper.getHelper().removeRenewal(mTopicModel.getTopicId(),
                     new TopicHelper.OnRemoveRenewalRequestListener() {
                         @Override
                         public void onCompleted() {
-                            mTopicModel.setRenewalRequests(b-1);
-                            mTopicModel.setIsRenewed(false);
                             TopicDBHelper.getHelper().updateTopicRenewalStatus(mTopicModel);
                         }
 
@@ -239,6 +243,10 @@ public class OpinionsFragment extends Fragment {
                         public void onError(String error) {
                             // notify the user that renew removal have failed
                             CommonUtils.showToast(getContext(), error);
+
+                            // revert the changes in local dataModel
+                            mTopicModel.setRenewalRequests(b);
+                            mTopicModel.setIsRenewed(true);
 
                             // revert the changes made in the UI
                             renewBtn.setBackgroundDrawable(renewedIcon);

@@ -116,6 +116,5 @@ public class TopicsFragment extends Fragment {
         if(classification!=SettingsUtils.getInstance().getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS))
         TopicHelper.getHelper().loadTopics(SettingsUtils.getInstance()
                 .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS));
-        Log.e("mamamam","aaaaaaaaaaaakkk");
     }
 }
