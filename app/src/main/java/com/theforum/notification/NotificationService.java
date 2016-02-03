@@ -129,10 +129,8 @@ public class NotificationService extends IntentService {
                     }
 
                     if (notificationCount > 0) {
-                        Log.i("notify is calling", "");
                         Notify(notificationCount, TheForumApplication.getAppContext());
                         stream = 0;
-
                     }
 
                     else if (stream == 0) stream++;
@@ -177,14 +175,11 @@ public class NotificationService extends IntentService {
                         Notify(notificationCount, TheForumApplication.getAppContext());
                         stream = 0;
                     }
-                    Log.e("task started", "" + notificationsList.size());
+
                     NotificationDBHelper.getHelper().openDatabase();
                     NotificationDBHelper.getHelper().addNotifications(notificationsList);
-                    for(int i = 0;i<notificationsList.size();i++){
-                        Log.e("checking cnt inside db",""+notificationsList.get(i).notificationCount);
-                    }
                     notificationsList.clear();
-                    Log.e("temporary", notificationsList.toString());
+
                 }
             }
         });
@@ -196,7 +191,7 @@ public class NotificationService extends IntentService {
      * @param context context of the app to notify
      */
     private void Notify(int notificationCount, Context context){
-Log.e("bbbbbbbb",""+notificationCount);
+
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(),
                         R.drawable.notification_icon))

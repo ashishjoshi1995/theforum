@@ -3,6 +3,7 @@ package com.theforum.notification;
 import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
     private Context mContext;
 
     private final static int VIEW_TYPE_ONE = 0;
-    private final static int VIEW_TYPE_TWO = 1;
+    //private final static int VIEW_TYPE_TWO = 1;
 
     public NotificationListAdapter(Activity activity, ArrayList<NotificationDataModel> dataSet) {
         mContext = activity;
@@ -50,7 +51,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
 
     }
-
+    /*
     public  class ViewHolderTwo extends RecyclerView.ViewHolder {
 
         @Bind(R.id.notification_header) TextView header;
@@ -64,7 +65,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         }
 
-    }
+    }*/
 
     @Override
     public int getItemCount() {
@@ -74,21 +75,17 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public int getItemViewType(int position) {
 
-        if(mData.get(position).notificationType == NotificationType.NOTIFICATION_TYPE_OPINION_UP_VOTES){
+     //   if(mData.get(position).notificationType == NotificationType.NOTIFICATION_TYPE_OPINION_UP_VOTES){
             return VIEW_TYPE_ONE;
-        }else return VIEW_TYPE_TWO;
+     //   }else return VIEW_TYPE_TWO;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        if(viewType== VIEW_TYPE_ONE){
-            return new ViewHolderOne(LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.notifications_list_item_one, parent, false));
-        }else{
-            return new ViewHolderTwo(LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.notifications_list_item_two, parent, false));
-        }
+        return new ViewHolderOne(LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.notifications_list_item, parent, false));
+
     }
 
     @Override
@@ -99,35 +96,39 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
             final ViewHolderOne viewHolderOne = (ViewHolderOne) holder;
             NotificationDataModel dataModel = mData.get(position);
 
-            viewHolderOne.header.setText(mContext.getResources().getString(R.string.opinion_notification,
-                                                                            dataModel.topicText));
-            viewHolderOne.mainText.setText(dataModel.notificationCount + " more Upvotes");
-            viewHolderOne.description.setText(dataModel.description);
-            viewHolderOne.timeHolder.setText(dataModel.timeHolder);
-
-        }else {
-            final ViewHolderTwo viewHolderTwo = (ViewHolderTwo)holder;
-            NotificationDataModel dataModel = mData.get(position);
-
-            viewHolderTwo.header.setText(mContext.getResources().getString(R.string.topic_notification,
-                                                                            dataModel.topicText));
-            viewHolderTwo.timeHolder.setText(dataModel.timeHolder);
-
             switch (dataModel.notificationType) {
+
+                case NotificationType.NOTIFICATION_TYPE_OPINION_UP_VOTES:
+                    viewHolderOne.header.setText(Html.fromHtml(mContext.getResources().getString(R.string.opinion_notification,
+                            dataModel.topicText)));
+                    viewHolderOne.mainText.setText(dataModel.notificationCount + " UpVotes");
+                    break;
+
                 case NotificationType.NOTIFICATION_TYPE_OPINIONS:
-                    viewHolderTwo.mainText.setText(dataModel.notificationCount + " more Opinions added");
+                    viewHolderOne.header.setText(Html.fromHtml(mContext.getResources().getString(R.string.topic_notification,
+                            dataModel.topicText)));
+                    viewHolderOne.mainText.setText(dataModel.notificationCount + " Opinions added");
                     break;
 
                 case NotificationType.NOTIFICATION_TYPE_RENEWAL_REQUEST:
-                    viewHolderTwo.mainText.setText(dataModel.notificationCount + " Renewal Requests");
+                    viewHolderOne.header.setText(Html.fromHtml(mContext.getResources().getString(R.string.topic_notification,
+                            dataModel.topicText)));
+                    viewHolderOne.mainText.setText(dataModel.notificationCount + " Renewal Requests");
                     break;
 
                 case NotificationType.NOTIFICATION_TYPE_RENEWED:
-                    viewHolderTwo.mainText.setText(dataModel.notificationCount + " Renewal");
+                    viewHolderOne.header.setText(Html.fromHtml(mContext.getResources().getString(R.string.topic_notification,
+                            dataModel.topicText)));
+                    viewHolderOne.mainText.setText(dataModel.notificationCount + " Renewal");
                     break;
             }
 
+            if(dataModel.description.length()>0){
+                viewHolderOne.description.setText(dataModel.description);
+            }else viewHolderOne.description.setVisibility(View.GONE);
 
-            }
+            viewHolderOne.timeHolder.setText(dataModel.timeHolder);
+
         }
     }
+}

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.theforum.R;
+import com.theforum.constants.Messages;
 import com.theforum.data.helpers.TrendsHelper;
 import com.theforum.data.local.models.TrendsDataModel;
 import com.theforum.utils.CommonUtils;
@@ -70,6 +71,15 @@ public class TrendsFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if(TrendsHelper.getHelper().requestStatus == RequestStatus.EXECUTING){
+            swipeRefreshLayout.setRefreshing(true);
+        }
+    }
+
     private void getData(){
 
         TrendsHelper.getHelper().getTrends(new TrendsHelper.OnTrendsReceivedListener() {
@@ -88,7 +98,7 @@ public class TrendsFragment extends Fragment {
                     @Override
                     public void run() {
                         swipeRefreshLayout.setRefreshing(false);
-                        CommonUtils.showToast(getContext(), "Check your Internet Connection");
+                        CommonUtils.showToast(getContext(), Messages.NO_NET_CONNECTION);
                     }
                 });
 

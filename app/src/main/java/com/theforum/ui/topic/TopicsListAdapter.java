@@ -79,15 +79,11 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
                         mTopicModel.setRenewalRequests(b + 1);
                         mTopicModel.setIsRenewed(true);
 
-                        TopicHelper.getHelper().addRenewalRequest(mTopicModel.getTopicId(),
+                        TopicHelper.getHelper().addRenewalRequest(mTopicModel,
                                 new TopicHelper.OnRenewalRequestListener() {
 
                                     @Override
-                                    public void onCompleted() {
-                                        // update the local database
-
-                                        TopicDBHelper.getHelper().updateTopicRenewalStatus(mTopicModel);
-                                    }
+                                    public void onCompleted() {}
 
                                     @Override
                                     public void onError(String error) {
