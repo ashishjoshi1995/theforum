@@ -211,7 +211,7 @@ public class OpinionsFragment extends Fragment {
                         public void onError(String error) {
                             // notify the user that renew have failed
                             CommonUtils.showToast(getContext(), error);
-                            
+
                             // revert the changes in local dataModel
                             mTopicModel.setRenewalRequests(b);
                             mTopicModel.setIsRenewed(false);
