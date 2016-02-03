@@ -203,9 +203,9 @@ public class TopicHelper {
 
     }
 
-    public void addRenewalRequest(String topic_id , final OnRenewalRequestListener listener) {
+    public void addRenewalRequest(final TopicDataModel topicDataModel , final OnRenewalRequestListener listener) {
         final Request request = new Request();
-        request.topic_id = topic_id;
+        request.topic_id = topicDataModel.getTopicId();
         request.uid = User.getInstance().getId();
 
         if(CommonUtils.isInternetAvailable()){
@@ -215,7 +215,12 @@ public class TopicHelper {
 
                 if (exception != null) {
                     listener.onError(exception.getMessage());
-                }else listener.onCompleted();
+                } else {
+                    listener.onCompleted();
+
+                    // update the local database
+                    TopicDBHelper.getHelper().updateTopicRenewalStatus(topicDataModel);
+                }
             }
         });
 

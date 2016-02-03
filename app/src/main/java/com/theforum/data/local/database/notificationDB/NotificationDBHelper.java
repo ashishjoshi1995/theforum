@@ -3,7 +3,6 @@ package com.theforum.data.local.database.notificationDB;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.theforum.TheForumApplication;
 import com.theforum.data.local.models.NotificationDataModel;
@@ -35,20 +34,20 @@ public class NotificationDBHelper {
         notificationDatabase = notificationDB.getWritableDatabase();
     }
 
-    public void addNotification(NotificationDataModel NotificationDataModel){
+    public void addNotification(NotificationDataModel notificationDataModel){
         ContentValues values = new ContentValues();
-        Log.e("addNotification","addNotification");
-        values.put(NotificationDBConstants.KEY_NOTIFICATION_TYPE,NotificationDataModel.notificationType);
-        values.put(NotificationDBConstants.KEY_IS_READ,0);
-        values.put(NotificationDBConstants.KEY_MAIN_TEXT, NotificationDataModel.topicText);
-        values.put(NotificationDBConstants.KEY_HEADER, String.valueOf(NotificationDataModel.notificationCount));
 
-        if(NotificationDataModel.description!=null) {
-            values.put(NotificationDBConstants.KEY_DESCRIPTION, NotificationDataModel.description);
+        values.put(NotificationDBConstants.KEY_NOTIFICATION_TYPE,notificationDataModel.notificationType);
+        values.put(NotificationDBConstants.KEY_IS_READ,0);
+        values.put(NotificationDBConstants.KEY_MAIN_TEXT, notificationDataModel.topicText);
+        values.put(NotificationDBConstants.KEY_HEADER, String.valueOf(notificationDataModel.notificationCount));
+
+        if(notificationDataModel.description!=null) {
+            values.put(NotificationDBConstants.KEY_DESCRIPTION, notificationDataModel.description);
         }
 
-        values.put(NotificationDBConstants.KEY_TIME_HOLDER, NotificationDataModel.timeHolder);
-        values.put(NotificationDBConstants.KEY_TOPIC_ID, NotificationDataModel.topicId);
+        values.put(NotificationDBConstants.KEY_TIME_HOLDER, notificationDataModel.timeHolder);
+        values.put(NotificationDBConstants.KEY_TOPIC_ID, notificationDataModel.topicId);
 
         notificationDatabase.insert(NotificationDBConstants.TABLE_NAME, null, values);
     }

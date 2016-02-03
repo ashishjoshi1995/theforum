@@ -25,7 +25,6 @@ import com.theforum.R;
 import com.theforum.constants.LayoutType;
 import com.theforum.data.helpers.OpinionHelper;
 import com.theforum.data.helpers.TopicHelper;
-import com.theforum.data.local.database.topicDB.TopicDBHelper;
 import com.theforum.data.local.models.OpinionDataModel;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.utils.CommonUtils;
@@ -197,15 +196,11 @@ public class OpinionsFragment extends Fragment {
             mTopicModel.setRenewalRequests(b + 1);
             mTopicModel.setIsRenewed(true);
 
-            TopicHelper.getHelper().addRenewalRequest(mTopicModel.getTopicId(),
+            TopicHelper.getHelper().addRenewalRequest(mTopicModel,
                     new TopicHelper.OnRenewalRequestListener() {
 
                         @Override
-                        public void onCompleted() {
-                            // update the local database
-
-                            TopicDBHelper.getHelper().updateTopicRenewalStatus(mTopicModel);
-                        }
+                        public void onCompleted() {}
 
                         @Override
                         public void onError(String error) {
@@ -235,9 +230,7 @@ public class OpinionsFragment extends Fragment {
             TopicHelper.getHelper().removeRenewal(mTopicModel.getTopicId(),
                     new TopicHelper.OnRemoveRenewalRequestListener() {
                         @Override
-                        public void onCompleted() {
-                            TopicDBHelper.getHelper().updateTopicRenewalStatus(mTopicModel);
-                        }
+                        public void onCompleted() {}
 
                         @Override
                         public void onError(String error) {

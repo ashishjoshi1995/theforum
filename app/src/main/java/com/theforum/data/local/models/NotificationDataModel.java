@@ -53,7 +53,6 @@ public class NotificationDataModel {
      */
     public String timeHolder;
 
-
     /**
      * whether the notification is seen/read by user or not
      */
