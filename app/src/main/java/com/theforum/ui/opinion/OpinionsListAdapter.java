@@ -61,6 +61,7 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
 
         @Override
         public void onClick(View v) {
+           if( CommonUtils.isInternetAvailable()){
             switch (v.getId()){
 
                 case R.id.upvote_btn:
@@ -193,7 +194,10 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
                                 });
                     }
                     break;
-            }
+            }}
+            else {
+               CommonUtils.showToast(mContext,"Please Check Your Internet Connection");
+           }
         }
     }
 
