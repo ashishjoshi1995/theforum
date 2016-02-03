@@ -7,14 +7,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.theforum.R;
 import com.theforum.constants.LayoutType;
 import com.theforum.ui.activity.LoginActivity;
-import com.theforum.R;
-import com.theforum.notification.NotificationService;
 import com.theforum.ui.search.SearchResultFragment;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.ProfileUtils;
@@ -36,7 +37,8 @@ public class HomeActivity extends AppCompatActivity implements OnHomeUiChangeLis
     private FragmentManager mFragmentManager;
 
     private SearchResultFragment mSearchResultFragment;
-    private int currentViewPagerPosition;
+
+    private boolean mSearchActive;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +68,7 @@ public class HomeActivity extends AppCompatActivity implements OnHomeUiChangeLis
         mMaterialSearchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
             @Override
             public void onSearchViewShown() {
+                mSearchActive = true;
                 mToolbar.setVisibility(View.GONE);
 
                 mSearchResultFragment = new SearchResultFragment();
@@ -74,6 +77,7 @@ public class HomeActivity extends AppCompatActivity implements OnHomeUiChangeLis
 
             @Override
             public void onSearchViewClosed() {
+                mSearchActive = false;
                 mToolbar.setVisibility(View.VISIBLE);
 
                 mFragmentManager.beginTransaction().remove(mSearchResultFragment).commit();
@@ -82,9 +86,21 @@ public class HomeActivity extends AppCompatActivity implements OnHomeUiChangeLis
 
     }
 
-
     public MaterialSearchView getSearchView(){
         return mMaterialSearchView;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            Log.d("CDA", "onKeyDown Called");
+            if(mSearchActive){
+               mMaterialSearchView.closeSearch();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 
@@ -98,9 +114,7 @@ public class HomeActivity extends AppCompatActivity implements OnHomeUiChangeLis
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        int id = item.getItemId();
-
-        switch (id){
+        switch (item.getItemId()){
             case R.id.action_settings:
                 CommonUtils.openContainerActivity(this, LayoutType.SETTINGS_FRAGMENT);
                 break;
@@ -119,7 +133,7 @@ public class HomeActivity extends AppCompatActivity implements OnHomeUiChangeLis
     @Override
     public void onPageSelected(int position) {
 
-        currentViewPagerPosition = position;
+        //currentViewPagerPosition = position;
     }
 
 }

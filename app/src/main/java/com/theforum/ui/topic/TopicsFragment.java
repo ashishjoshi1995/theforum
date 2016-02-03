@@ -16,7 +16,6 @@ import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.SettingsUtils;
 import com.theforum.utils.enums.RequestStatus;
-import com.theforum.utils.listeners.OnLoadMoreListener;
 import com.theforum.utils.views.DividerItemDecorator;
 
 import java.util.ArrayList;

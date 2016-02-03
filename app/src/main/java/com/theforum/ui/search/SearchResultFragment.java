@@ -2,7 +2,9 @@ package com.theforum.ui.search;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import com.theforum.R;
 import com.theforum.data.local.database.topicDB.TopicDBHelper;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.ui.home.HomeActivity;
+import com.theforum.utils.views.DividerItemDecorator;
 import com.theforum.utils.views.MaterialSearchView;
 
 import java.util.ArrayList;
@@ -29,6 +32,10 @@ public class SearchResultFragment extends Fragment {
 
     MaterialSearchView mMaterialSearchView;
 
+    private ArrayList<TopicDataModel>  mAllTopics;
+    private ArrayList<TopicDataModel>  mFilteredList;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_search_result, container, false);
@@ -41,13 +48,16 @@ public class SearchResultFragment extends Fragment {
 
         ButterKnife.bind(this, view);
 
-        mMaterialSearchView = ((HomeActivity)getActivity()).getSearchView();
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        recyclerView.addItemDecoration(new DividerItemDecorator(getActivity(), R.drawable.recycler_view_divider));
 
-        ArrayList<TopicDataModel>  topics = TopicDBHelper.getHelper().getAllTopics();
+        mAllTopics = TopicDBHelper.getHelper().getAllTopics();
+        mFilteredList = new ArrayList<>();
 
-        mAdapter = new ResultAdapter(getContext(),topics);
+        mAdapter = new ResultAdapter(getContext(),mAllTopics);
         recyclerView.setAdapter(mAdapter);
 
+        mMaterialSearchView = ((HomeActivity)getActivity()).getSearchView();
         mMaterialSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public void onQueryTextSubmit(String query) {
@@ -56,22 +66,31 @@ public class SearchResultFragment extends Fragment {
 
             @Override
             public void onQueryTextChange(CharSequence changedText) {
-                // SearchResultFragment.this.adapter.getFilter().filter(changedText);
+
+                mAdapter.animateTo(filter(changedText.toString(),mFilteredList));
+                recyclerView.scrollToPosition(0);
             }
         });
 
     }
-/*
-    private List<ExampleModel> filter(List<ExampleModel> models, String query) {
+
+    /**
+     *
+     * @param query changed text to search in list
+     * @param filteredList empty list to return filtered objects
+     *
+     * @return filteredList
+     */
+    private ArrayList<TopicDataModel> filter(String query, final ArrayList<TopicDataModel> filteredList) {
         query = query.toLowerCase();
 
-        final List<ExampleModel> filteredModelList = new ArrayList<>();
-        for (ExampleModel model : models) {
-            final String text = model.getText().toLowerCase();
+        filteredList.clear();
+        for (TopicDataModel model : mAllTopics) {
+            final String text = model.getTopicName().toLowerCase();
             if (text.contains(query)) {
-                filteredModelList.add(model);
+                filteredList.add(model);
             }
         }
-        return filteredModelList;
-    }*/
+        return filteredList;
+    }
 }

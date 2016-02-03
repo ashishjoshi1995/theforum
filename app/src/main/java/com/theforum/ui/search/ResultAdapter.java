@@ -30,7 +30,7 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder
 
 
     public ResultAdapter(Context context, ArrayList<TopicDataModel> myDataSet) {
-        mDataSet = myDataSet;
+        mDataSet = new ArrayList<>(myDataSet);
         mContext = context;
     }
 
