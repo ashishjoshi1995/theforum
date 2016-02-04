@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -255,7 +254,6 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
         TrendsDataModel trendsDataModel = mFeeds.get(position);
 
         holder.topicName.setText(trendsDataModel.getTopicName());
-        Log.e("trends", "" + trendsDataModel.getDescription() + "hello" + trendsDataModel.getOpinionText() + "ddd" + trendsDataModel.getRenewalIds());
         holder.description.setText(trendsDataModel.getOpinionText());
         holder.upVoteBtn.setText(String.valueOf(trendsDataModel.getUpVoteCount()));
         holder.downVoteBtn.setText(String.valueOf(trendsDataModel.getDownVoteCount()));

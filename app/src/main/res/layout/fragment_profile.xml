@@ -136,7 +136,7 @@
         android:src="@drawable/topics_created"
         android:background="@drawable/profile_circle_drawable"/>
 
-    <!-- frog -->
+    <!-- frog_body -->
 
     <include layout="@layout/frog"
         android:layout_height="wrap_content"

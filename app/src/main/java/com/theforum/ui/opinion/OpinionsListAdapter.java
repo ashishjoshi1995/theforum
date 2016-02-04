@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.theforum.R;
+import com.theforum.constants.Messages;
 import com.theforum.data.helpers.TrendsHelper;
 import com.theforum.data.local.models.OpinionDataModel;
 import com.theforum.utils.CommonUtils;
@@ -196,7 +197,7 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
                     break;
             }}
             else {
-               CommonUtils.showToast(mContext,"Please Check Your Internet Connection");
+               CommonUtils.showToast(mContext, Messages.NO_NET_CONNECTION);
            }
         }
     }

@@ -52,7 +52,6 @@ public class NotificationHelper {
                        one = true;
                        if (count > 0) {
                            notificationListener.opinionNotification(result);
-                           Log.e("opinionNotifListener","opinionNotifListener");
                        }
                    }
 
@@ -65,7 +64,6 @@ public class NotificationHelper {
                 two = true;
                 if (count > 0) {
                     notificationListener.topicNotification(result);
-                    Log.e("topicNotifListener","topicNotifListener");
                 }
             }
         });
