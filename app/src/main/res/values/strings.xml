@@ -27,8 +27,10 @@
     </plurals>
 
     <!-- notification messages -->
-    <string name="opinion_notification">Your Opinion on <![CDATA[<font color=#296acb>%1$s <font color=#4b4b4b>received]]></string>
-    <string name="topic_notification">Your Topic on <![CDATA[<font color=#296acb>%1$s <font color=#4b4b4b>received]]></string>
+    <string name="opinion_notification">Your Opinion on <![CDATA[<font color=\"#296acb\">%1$s]]>
+        <![CDATA[<font color=\"#4b4b4b\"> received]]></string>
+    <string name="topic_notification">Your Topic <![CDATA[<font color=\"#296acb\">%1$s]]>
+        <![CDATA[<font color=\"#4b4b4b\"> received]]></string>
 
 
 </resources>

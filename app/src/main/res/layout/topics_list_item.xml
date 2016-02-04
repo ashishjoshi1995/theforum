@@ -15,7 +15,7 @@
         android:layout_marginRight="50dp"
         android:textSize="32sp"
         android:textColor="@color/blue"
-        app:fontName="Roboto-Light.ttf" />
+        app:fontName="@string/roboto_light" />
 
     <TextView
         android:id="@+id/topics_renew_btn"

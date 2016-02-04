@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,78 +67,81 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
             v.setOnClickListener(this);
 
             upVoteBtn.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View v) {
-                  TrendsDataModel opinionModel = mFeeds.get(getLayoutPosition());
+                @Override
+                public void onClick(View v) {
+                    if (CommonUtils.isInternetAvailable()) {
+                        TrendsDataModel opinionModel = mFeeds.get(getLayoutPosition());
 
-                  if(opinionModel.getVoteStatus() == VoteStatus.NONE) {
-                      int upvotes = opinionModel.getUpVoteCount();
-                      upvotes = upvotes+1;
+                        if (opinionModel.getVoteStatus() == VoteStatus.NONE) {
+                            int upvotes = opinionModel.getUpVoteCount();
+                            upvotes = upvotes + 1;
 
-                      upVoteBtn.setText(String.valueOf(upvotes));
-                      setCompoundDrawables(upVoteBtn, upVotedIcon);
-                      opinionModel.setUpVoteCount(upvotes);
-                      opinionModel.setVoteStatus(VoteStatus.UPVOTED);
-
-                        /*
-                         *  send the request to server to increase the count
-                         */
-                      TrendsHelper.getHelper().upVoteDownVote(true, opinionModel.getTrendId(), new TrendsHelper.OnUVDVOperationCompleteListener() {
-                          @Override
-                          public void onCompleteMessage(String message) {
-                              CommonUtils.showToast(mContext, message);
-                          }
-                      });
-
-                  }
-                  else if(opinionModel.getVoteStatus() == VoteStatus.UPVOTED){
-                      int upvotes = opinionModel.getUpVoteCount();
-                      upvotes = upvotes-1;
-
-                      upVoteBtn.setText(String.valueOf(upvotes));
-                      setCompoundDrawables(upVoteBtn, upVoteIcon);
-                      opinionModel.setUpVoteCount(upvotes);
-                      opinionModel.setVoteStatus(VoteStatus.NONE);
+                            upVoteBtn.setText(String.valueOf(upvotes));
+                            setCompoundDrawables(upVoteBtn, upVotedIcon);
+                            opinionModel.setUpVoteCount(upvotes);
+                            opinionModel.setVoteStatus(VoteStatus.UPVOTED);
 
                         /*
                          *  send the request to server to increase the count
                          */
-                      TrendsHelper.getHelper().removeUpDownVote(true, opinionModel.getTrendId(),
-                              new TrendsHelper.OnRUDAOperationCompleteListener() {
-                                  @Override
-                                  public void onCompleteMessage(String message) {
-                                      CommonUtils.showToast(mContext, message);
-                                  }
-                              });
-                  }
-                  else if(opinionModel.getVoteStatus() == VoteStatus.DOWNVOTED){
-                      int downvotes = opinionModel.getDownVoteCount();
-                      downvotes = downvotes - 1;
-                      downVoteBtn.setText(String.valueOf(downvotes));
-                      setCompoundDrawables(downVoteBtn, downVoteIcon);
-                      opinionModel.setDownVoteCount(downvotes);
-                      //opinionModel.setVoteStatus(VoteStatus.NONE);
-                      int upvotes = opinionModel.getUpVoteCount();
-                      upvotes = upvotes+1;
+                            TrendsHelper.getHelper().upVoteDownVote(true, opinionModel.getTrendId(), new TrendsHelper.OnUVDVOperationCompleteListener() {
+                                @Override
+                                public void onCompleteMessage(String message) {
+                                    CommonUtils.showToast(mContext, message);
+                                }
+                            });
 
-                      upVoteBtn.setText(String.valueOf(upvotes));
-                      setCompoundDrawables(upVoteBtn, upVotedIcon);
-                      opinionModel.setUpVoteCount(upvotes);
-                      opinionModel.setVoteStatus(VoteStatus.UPVOTED);
-                      TrendsHelper.getHelper().directUpDownVoteChange(true, opinionModel.getTrendId(), new TrendsHelper.OnDUDAOperationCompleteListener() {
-                          @Override
-                          public void onCompleteMessage(String message) {
-                              CommonUtils.showToast(mContext, message);
-                          }
-                      });
-                  }
-                  TrendsDBHelper.getHelper().updateUPDVStatus(opinionModel);
-              }
-          });
+                        } else if (opinionModel.getVoteStatus() == VoteStatus.UPVOTED) {
+                            int upvotes = opinionModel.getUpVoteCount();
+                            upvotes = upvotes - 1;
+
+                            upVoteBtn.setText(String.valueOf(upvotes));
+                            setCompoundDrawables(upVoteBtn, upVoteIcon);
+                            opinionModel.setUpVoteCount(upvotes);
+                            opinionModel.setVoteStatus(VoteStatus.NONE);
+
+                        /*
+                         *  send the request to server to increase the count
+                         */
+                            TrendsHelper.getHelper().removeUpDownVote(true, opinionModel.getTrendId(),
+                                    new TrendsHelper.OnRUDAOperationCompleteListener() {
+                                        @Override
+                                        public void onCompleteMessage(String message) {
+                                            CommonUtils.showToast(mContext, message);
+                                        }
+                                    });
+                        } else if (opinionModel.getVoteStatus() == VoteStatus.DOWNVOTED) {
+                            int downvotes = opinionModel.getDownVoteCount();
+                            downvotes = downvotes - 1;
+                            downVoteBtn.setText(String.valueOf(downvotes));
+                            setCompoundDrawables(downVoteBtn, downVoteIcon);
+                            opinionModel.setDownVoteCount(downvotes);
+                            //opinionModel.setVoteStatus(VoteStatus.NONE);
+                            int upvotes = opinionModel.getUpVoteCount();
+                            upvotes = upvotes + 1;
+
+                            upVoteBtn.setText(String.valueOf(upvotes));
+                            setCompoundDrawables(upVoteBtn, upVotedIcon);
+                            opinionModel.setUpVoteCount(upvotes);
+                            opinionModel.setVoteStatus(VoteStatus.UPVOTED);
+                            TrendsHelper.getHelper().directUpDownVoteChange(true, opinionModel.getTrendId(), new TrendsHelper.OnDUDAOperationCompleteListener() {
+                                @Override
+                                public void onCompleteMessage(String message) {
+                                    CommonUtils.showToast(mContext, message);
+                                }
+                            });
+                        }
+                        TrendsDBHelper.getHelper().updateUPDVStatus(opinionModel);
+                    } else {
+                        CommonUtils.showToast(mContext, "Please Check Your Internet Connection");
+                    }
+                }
+            });
 
             downVoteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if(CommonUtils.isInternetAvailable()){
                     TrendsDataModel opinionModel2 = mFeeds.get(getLayoutPosition());
 
                     if (opinionModel2.getVoteStatus() == VoteStatus.NONE) {
@@ -160,26 +162,23 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                                 CommonUtils.showToast(mContext, message);
                             }
                         });
-                }
-
-                else if(opinionModel2.getVoteStatus() == VoteStatus.DOWNVOTED){
+                    } else if (opinionModel2.getVoteStatus() == VoteStatus.DOWNVOTED) {
                         int downvotes = opinionModel2.getDownVoteCount();
                         downvotes = downvotes - 1;
                         downVoteBtn.setText(String.valueOf(downvotes));
                         setCompoundDrawables(downVoteBtn, downVoteIcon);
                         opinionModel2.setDownVoteCount(downvotes);
                         opinionModel2.setVoteStatus(VoteStatus.NONE);
-                       // TrendsDBHelper.getHelper().updateUPDVStatus(opinionModel2);
+                        // TrendsDBHelper.getHelper().updateUPDVStatus(opinionModel2);
                         TrendsHelper.getHelper().removeUpDownVote(false, opinionModel2.getTrendId(), new TrendsHelper.OnRUDAOperationCompleteListener() {
                             @Override
                             public void onCompleteMessage(String message) {
                                 CommonUtils.showToast(mContext, message);
                             }
                         });
-                    }
-                    else if(opinionModel2.getVoteStatus() == VoteStatus.UPVOTED){
+                    } else if (opinionModel2.getVoteStatus() == VoteStatus.UPVOTED) {
                         int upvotes = opinionModel2.getUpVoteCount();
-                        upvotes = upvotes-1;
+                        upvotes = upvotes - 1;
 
                         upVoteBtn.setText(String.valueOf(upvotes));
                         setCompoundDrawables(upVoteBtn, upVoteIcon);
@@ -191,7 +190,7 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                         setCompoundDrawables(downVoteBtn, downVotedIcon);
                         opinionModel2.setDownVoteCount(downvotes);
                         opinionModel2.setVoteStatus(VoteStatus.DOWNVOTED);
-                       // TrendsDBHelper.getHelper().updateUPDVStatus(opinionModel2);
+                        // TrendsDBHelper.getHelper().updateUPDVStatus(opinionModel2);
                         /*
                          *  send the request to server to increase the count
                          */
@@ -204,6 +203,9 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                                 });
                     }
                     TrendsDBHelper.getHelper().updateUPDVStatus(opinionModel2);
+                }else {
+                        CommonUtils.showToast(mContext,"Please Check your Internet");
+                    }
             }
         });
         }
@@ -252,7 +254,6 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
         TrendsDataModel trendsDataModel = mFeeds.get(position);
 
         holder.topicName.setText(trendsDataModel.getTopicName());
-        Log.e("trends", "" + trendsDataModel.getDescription() + "hello" + trendsDataModel.getOpinionText() + "ddd" + trendsDataModel.getRenewalIds());
         holder.description.setText(trendsDataModel.getOpinionText());
         holder.upVoteBtn.setText(String.valueOf(trendsDataModel.getUpVoteCount()));
         holder.downVoteBtn.setText(String.valueOf(trendsDataModel.getDownVoteCount()));

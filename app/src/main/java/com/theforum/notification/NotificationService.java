@@ -7,9 +7,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.PowerManager;
+import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
-import android.util.Log;
 
 import com.theforum.R;
 import com.theforum.TheForumApplication;
@@ -50,14 +50,12 @@ public class NotificationService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.e("hello","mmmmmmmmmmmmmmmmmmmmmmmmmm");
         PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
         PowerManager.WakeLock wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "TheForumWakeLock");
         wakeLock.acquire();
 
         if (!CommonUtils.isInternetAvailable()) {
             stopSelf();
-            Log.e("no net","no net");
             return;
         }
 
@@ -76,7 +74,7 @@ public class NotificationService extends IntentService {
             @Override
             public void topicNotification(List<topic> topics) {
                 Calendar calendar;
-                Log.e("topic size", "" + topics.size());
+                String median ;
                 for (int j = 0; j < topics.size(); j++) {
 
                     if (topics.get(j).getNotifRenewalRequests() > 0) {
@@ -86,12 +84,15 @@ public class NotificationService extends IntentService {
                         notificationDataModel.topicId = topics.get(j).getTopicId();
                         notificationDataModel.topicText = topics.get(j).getTopicName();
                         notificationDataModel.notificationCount = topics.get(j).getNotifRenewalRequests();
-                        Log.e("ooooo",""+notificationDataModel.notificationCount);
                         notificationDataModel.isRead = false;
+
                         calendar = Calendar.getInstance();
+                        if(calendar.get(Calendar.AM_PM)==1){
+                            median = "PM";
+                        }else median = "AM";
                         notificationDataModel.timeHolder = topics.get(j).getHoursLeft() + " hrs left to decay | "
                                 + calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE) + " "
-                                + calendar.get(Calendar.AM_PM) + " Today";
+                                + median + " Today";
 
                         notificationsList.add(notificationDataModel);
 
@@ -105,13 +106,15 @@ public class NotificationService extends IntentService {
                         dataModel.topicId = topics.get(j).getTopicId();
                         dataModel.topicText = topics.get(j).getTopicName();
                         dataModel.notificationCount = topics.get(j).getNotifOpinions();
-                        Log.e("ggghhhhh",""+dataModel.notificationCount);
                         dataModel.isRead = false;
 
                         calendar = Calendar.getInstance();
+                        if(calendar.get(Calendar.AM_PM)==1){
+                            median = "PM";
+                        }else median = "AM";
                         dataModel.timeHolder = topics.get(j).getHoursLeft() + " hrs left to decay | "
                                 + calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE) + " "
-                                + calendar.get(Calendar.AM_PM) + " Today";
+                                + median + " Today";
 
                         notificationsList.add(dataModel);
 
@@ -119,7 +122,6 @@ public class NotificationService extends IntentService {
                             notificationCount++;
                     }
                 }
-                Log.e("notification count", "" + notificationCount);
 
                 if (topics.size() > 0) {
 
@@ -136,9 +138,6 @@ public class NotificationService extends IntentService {
                     else if (stream == 0) stream++;
                     NotificationDBHelper.getHelper().openDatabase();
                     NotificationDBHelper.getHelper().addNotifications(notificationsList);
-                    for(int i = 0;i<notificationsList.size();i++){
-                        Log.e("checcnt inside db",""+notificationsList.get(i).notificationCount);
-                    }
                     notificationsList.clear();
                 } else if (count > 0) {
                     count = 0;
@@ -148,19 +147,25 @@ public class NotificationService extends IntentService {
 
             @Override
             public void opinionNotification(List<opinion> opinions) {
-
+                Calendar calendar = Calendar.getInstance();
+                String median;
                 for (int j = 0; j < opinions.size(); j++) {
 
-                    NotificationDataModel NotificationDataModel = new NotificationDataModel();
-                    NotificationDataModel.notificationType = NotificationType.NOTIFICATION_TYPE_OPINION_UP_VOTES;
-                    NotificationDataModel.topicText = opinions.get(j).getTopicName();
-                    NotificationDataModel.topicId = opinions.get(j).getTopicId();
-                    NotificationDataModel.notificationCount = opinions.get(j).getmNotifNewUpvotes();
-                    NotificationDataModel.description = opinions.get(j).getOpinionName();
+                    NotificationDataModel notificationDataModel = new NotificationDataModel();
+                    notificationDataModel.notificationType = NotificationType.NOTIFICATION_TYPE_OPINION_UP_VOTES;
+                    notificationDataModel.topicText = opinions.get(j).getTopicName();
+                    notificationDataModel.topicId = opinions.get(j).getTopicId();
+                    notificationDataModel.notificationCount = opinions.get(j).getmNotifNewUpvotes();
+                    notificationDataModel.description = opinions.get(j).getOpinionName();
 
-                    notificationsList.add(NotificationDataModel);
+                    if(calendar.get(Calendar.AM_PM)==1){
+                        median = "PM";
+                    }else median = "AM";
+                    notificationDataModel.timeHolder = calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE) + " "
+                            + median + " Today";
+
+                    notificationsList.add(notificationDataModel);
                     notificationCount++;
-                    Log.e("ffffffffff",""+notificationCount);
                 }
 
                 if (opinions.size() > 0) {
@@ -198,7 +203,9 @@ public class NotificationService extends IntentService {
                 .setSmallIcon(R.drawable.system_bar_icon)
                 .setAutoCancel(true)
                 .setContentTitle("the forum")
-                .setContentText("You have "+notificationCount+" new Notifications");
+                .setContentText("You have " + notificationCount + " new Notifications");
+
+        mBuilder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
 
         Intent resultIntent = new Intent(context, NotificationActivity.class);
 

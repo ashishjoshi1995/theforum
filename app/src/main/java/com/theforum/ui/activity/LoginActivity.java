@@ -18,10 +18,9 @@ import android.widget.TextView;
 
 import com.theforum.R;
 import com.theforum.data.helpers.LoginHelper;
-import com.theforum.data.local.database.notificationDB.NotificationDBHelper;
 import com.theforum.data.server.user;
 import com.theforum.notification.NotificationService;
-import com.theforum.ui.ProgresssDialog;
+import com.theforum.ui.ProgressDialog;
 import com.theforum.ui.home.HomeActivity;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.NetworkUtils;
@@ -118,13 +117,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         user.setAge(age);
 
         LoginHelper loginHelper = new LoginHelper();
-     /*   final ProgressDialog pd = new ProgressDialog(this, R.style.MyDialog);
-        pd.setCanceledOnTouchOutside(false);
-        pd.setCancelable(false);
-        pd.setMessage("Please Wait...");
-        pd.show();*/
-        final DialogFragment dialog = new ProgresssDialog();
-        dialog.show(getFragmentManager(), "hghg");
+
+        final ProgressDialog progressDialog = ProgressDialog.createDialog(this);
+        progressDialog.show();
 
         loginHelper.login(user, new LoginHelper.OnLoginCompleteListener() {
             @Override
@@ -155,12 +150,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 ProfileUtils.getInstance().saveIntegralPreference(ProfileUtils.mCrcTopicsRenewed, user.getToatal_topic_renewed());
 
 
-                dialog.dismiss();
+                progressDialog.dismiss();
 
                 /**
                  * starting notification service
                  */
-                int minutes = 1;
+                int minutes = 60;
                 AlarmManager am = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
                 PendingIntent pi = PendingIntent.getService(getApplicationContext(), 0,
                         new Intent(getApplicationContext(), NotificationService.class), 0);
@@ -180,7 +175,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void onError(String error) {
-                dialog.dismiss();
+                progressDialog.dismiss();
 
                 runOnUiThread(new Runnable() {
                     @Override

@@ -1,13 +1,11 @@
 package com.theforum.ui.opinion;
 
-import android.app.ProgressDialog;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,22 +13,21 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
-import com.theforum.constants.LayoutType;
 import com.theforum.R;
+import com.theforum.constants.LayoutType;
+import com.theforum.constants.Messages;
 import com.theforum.data.helpers.OpinionHelper;
 import com.theforum.data.local.models.OpinionDataModel;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.data.server.opinion;
-import com.theforum.ui.ProgresssDialog;
+import com.theforum.ui.ProgressDialog;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.User;
-import com.theforum.utils.views.KeyboardListenerEditText;
 import com.theforum.utils.listeners.SoftKeyboardStateWatcher;
+import com.theforum.utils.views.KeyboardListenerEditText;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-
-import android.app.DialogFragment;
 
 /**
  * @author DEEPANKAR
@@ -131,30 +128,20 @@ public class NewOpinionFragment extends Fragment {
         opinion.setTopicName(topicModel.getTopicName());
         opinion.setUserId(User.getInstance().getId());
 
+        final ProgressDialog dialog = ProgressDialog.createDialog(getContext());
+        dialog.show();
 
-      /* final ProgressDialog pd = new ProgressDialog(getActivity(), R.style.MyDialog);
-        pd.setCanceledOnTouchOutside(false);
-        pd.setCancelable(false);
-        pd.setMessage("Adding your Opinion. Please Wait...");
-        pd.show();
-
-*/
-        final DialogFragment dialog = new ProgresssDialog();
-        dialog.show(getActivity().getFragmentManager(), "hghg");
         OpinionHelper.getHelper().addOpinion(opinion, new OpinionHelper.OnOpinionAddListener() {
             @Override
             public void onCompleted(OpinionDataModel opinion) {
                 CommonUtils.showToast(getContext(), "Your Opinion is added");
- //                  pd.dismiss();
                 dialog.dismiss();
                 getActivity().finish();
             }
 
             @Override
             public void onError(String error) {
-                Log.e("Opinionerror", error);
-                CommonUtils.showToast(getContext(), "Check your Internet Connection");
-   //                pd.dismiss();
+                CommonUtils.showToast(getContext(), Messages.NO_NET_CONNECTION);
                 dialog.dismiss();
             }
         });

@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -94,11 +93,11 @@ public class HomeActivity extends AppCompatActivity implements OnHomeUiChangeLis
     public boolean onKeyDown(int keyCode, KeyEvent event)  {
 
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-            Log.d("CDA", "onKeyDown Called");
             if(mSearchActive){
                mMaterialSearchView.closeSearch();
+               mSearchActive = false;
+                return true;
             }
-            return true;
         }
         return super.onKeyDown(keyCode, event);
     }

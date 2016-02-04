@@ -99,31 +99,43 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
             switch (dataModel.notificationType) {
 
                 case NotificationType.NOTIFICATION_TYPE_OPINION_UP_VOTES:
-                    viewHolderOne.header.setText(Html.fromHtml(mContext.getResources().getString(R.string.opinion_notification,
-                            dataModel.topicText)));
+                    viewHolderOne.header.setText(Html.fromHtml("<font color=\"#4b4b4b\">" + "Your Opinion on </font>"
+                             + "<font color=\"#296acb\">" + dataModel.topicText + "</font>"
+                             + "<font color=\"#4b4b4b\">received</font>"));
+                   // viewHolderOne.header.setText(Html.fromHtml(mContext.getResources().getString(R.string.opinion_notification,
+                   //         dataModel.topicText)));
                     viewHolderOne.mainText.setText(dataModel.notificationCount + " UpVotes");
                     break;
 
                 case NotificationType.NOTIFICATION_TYPE_OPINIONS:
-                    viewHolderOne.header.setText(Html.fromHtml(mContext.getResources().getString(R.string.topic_notification,
-                            dataModel.topicText)));
+                  //  viewHolderOne.header.setText(Html.fromHtml(mContext.getResources().getString(R.string.topic_notification,
+                  //          dataModel.topicText)));
+                    viewHolderOne.header.setText(Html.fromHtml("<font color=\"#4b4b4b\">" + "Your Topic </font>"
+                            + "<font color=\"#296acb\">" + dataModel.topicText + "</font>"
+                            + "<font color=\"#4b4b4b\">received</font>"));
                     viewHolderOne.mainText.setText(dataModel.notificationCount + " Opinions added");
                     break;
 
                 case NotificationType.NOTIFICATION_TYPE_RENEWAL_REQUEST:
-                    viewHolderOne.header.setText(Html.fromHtml(mContext.getResources().getString(R.string.topic_notification,
-                            dataModel.topicText)));
+                  //  viewHolderOne.header.setText(Html.fromHtml(mContext.getResources().getString(R.string.topic_notification,
+                  //          dataModel.topicText)));
+                    viewHolderOne.header.setText(Html.fromHtml("<font color=\"#4b4b4b\">" + "Your Topic </font>"
+                            + "<font color=\"#296acb\">" + dataModel.topicText + "</font>"
+                            + "<font color=\"#4b4b4b\">received</font>"));
                     viewHolderOne.mainText.setText(dataModel.notificationCount + " Renewal Requests");
                     break;
 
                 case NotificationType.NOTIFICATION_TYPE_RENEWED:
-                    viewHolderOne.header.setText(Html.fromHtml(mContext.getResources().getString(R.string.topic_notification,
-                            dataModel.topicText)));
+                   // viewHolderOne.header.setText(Html.fromHtml(mContext.getResources().getString(R.string.topic_notification,
+                   //         dataModel.topicText)));
+                    viewHolderOne.header.setText(Html.fromHtml("<font color=\"#4b4b4b\">" + "Your Topic </font>"
+                            + "<font color=\"#296acb\">" + dataModel.topicText + "</font>"
+                            + "<font color=\"#4b4b4b\">received</font>"));
                     viewHolderOne.mainText.setText(dataModel.notificationCount + " Renewal");
                     break;
             }
 
-            if(dataModel.description.length()>0){
+            if(dataModel.description!=null){
                 viewHolderOne.description.setText(dataModel.description);
             }else viewHolderOne.description.setVisibility(View.GONE);
 
