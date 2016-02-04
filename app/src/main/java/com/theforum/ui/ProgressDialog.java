@@ -2,11 +2,14 @@ package com.theforum.ui;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.theforum.R;
+import com.theforum.utils.CommonUtils;
 
 /**
  * @author Ashish
@@ -32,7 +35,13 @@ public class ProgressDialog extends android.app.ProgressDialog {
         setContentView(R.layout.progress_dialog_layout);
 
         ImageView frogBody = (ImageView)findViewById(R.id.frog_body);
-        ((GradientDrawable)frogBody.getBackground()).setColor(Color.parseColor("#30ed17"));
+        ProgressBar progressBar = (ProgressBar)findViewById(R.id.progress_bar);
+
+        GradientDrawable drawable = (GradientDrawable) frogBody.getBackground();
+        drawable.setColor(Color.parseColor("#30ed17"));
+        drawable.setStroke((int) CommonUtils.convertDpToPixel(3, getContext()), Color.BLACK);
+
+        progressBar.getProgressDrawable().setColorFilter(Color.parseColor("#1b91d5"), PorterDuff.Mode.MULTIPLY);
     }
 
 

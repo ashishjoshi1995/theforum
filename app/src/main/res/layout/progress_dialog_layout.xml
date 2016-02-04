@@ -2,32 +2,48 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:layout_width="match_parent"
+    android:layout_width="271dp"
     android:layout_height="wrap_content"
     android:background="@color/colorPrimary">
 
     <com.theforum.utils.views.customFont.TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="Happy Croaking..."
-        android:textSize="20sp"
+        android:textSize="22sp"
         android:textColor="@android:color/white"
         android:layout_gravity="center_horizontal"
         app:fontName="@string/roboto_light"/>
 
-    <ProgressBar
+    <ProgressBar android:id="@+id/progress_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="?android:attr/progressBarStyleHorizontal"
         android:indeterminate="true"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp" />
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="10dp"/>
 
-    <include layout="@layout/dialog_frog"
-        android:layout_height="wrap_content"
+    <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="-88dp"
-        android:layout_gravity="center"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="-62dp"
+        android:layout_gravity="center">
+
+        <ImageView android:id="@+id/frog_body"
+            android:layout_width="168dp"
+            android:layout_height="122dp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/frog_body"/>
+
+        <ImageView
+            android:layout_width="99dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/frog_face"
+            android:layout_gravity="center_horizontal" />
+    </FrameLayout>
+
 
 </LinearLayout>
