@@ -28,8 +28,8 @@
 
     <!-- notification -->
     <plurals name="notification_count_message">
-        <item quantity="one">%1$s hrs left to decay</item>
-        <item quantity="other">%1$s hrs left to decay | <![CDATA[<font color=#ed52bf>%2$d Renewal Requests]]></item>
+        <item quantity="one">"You have %1$s new Notification"</item>
+        <item quantity="other">You have %1$s new Notifications</item>
     </plurals>
 
 </resources>

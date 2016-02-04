@@ -205,7 +205,8 @@ public class NotificationService extends IntentService {
                 .setSmallIcon(R.drawable.system_bar_icon)
                 .setAutoCancel(true)
                 .setContentTitle("theforum")
-                .setContentText("You have " + notificationCount + " new Notifications");
+                .setContentText(context.getResources().getQuantityString(R.plurals.notification_count_message,
+                        notificationCount,notificationCount));
 
         mBuilder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
 

@@ -45,7 +45,7 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        mViewPager.setAdapter(new HomePagerAdapter(getChildFragmentManager()));
+        mViewPager.setAdapter(new HomePagerAdapter(getContext(), getChildFragmentManager()));
         mViewPager.setOffscreenPageLimit(2);
         mTabLayout.setupWithViewPager(mViewPager);
 
