@@ -35,10 +35,10 @@ public class opinion {
     @com.google.gson.annotations.SerializedName("notif_count")
     private int mNotifCount;
 
-    @com.google.gson.annotations.SerializedName("notif_newdownvotes")
+    @com.google.gson.annotations.SerializedName("notif_downvotes")
     private int mNotifNewDownvotes;
 
-    @com.google.gson.annotations.SerializedName("notif_newupvotes")
+    @com.google.gson.annotations.SerializedName("notif_upvotes")
     private int mNotifNewUpvotes;
 
     @com.google.gson.annotations.SerializedName("topic")

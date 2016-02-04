@@ -43,7 +43,7 @@ public class NotificationHelper {
 
     public void readNotification(final NotificationListener notificationListener){
 
-       opinion.where().field("uid").eq(User.getInstance().getId()).and().field("notif_count").gt(0)
+       opinion.where().field("uid").eq(User.getInstance().getId()).and().field("notif_upvotes").gt(0)
                .execute(new TableQueryCallback<opinion>() {
 
                    @Override
