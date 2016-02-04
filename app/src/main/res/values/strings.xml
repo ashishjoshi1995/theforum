@@ -26,4 +26,10 @@
         <item quantity="other">%1$s hrs left to decay | <![CDATA[<font color=#ed52bf>%2$d Renewal Requests]]></item>
     </plurals>
 
+    <!-- notification -->
+    <plurals name="notification_count_message">
+        <item quantity="one">%1$s hrs left to decay</item>
+        <item quantity="other">%1$s hrs left to decay | <![CDATA[<font color=#ed52bf>%2$d Renewal Requests]]></item>
+    </plurals>
+
 </resources>

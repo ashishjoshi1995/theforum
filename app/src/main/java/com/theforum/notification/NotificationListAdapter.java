@@ -51,21 +51,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
 
     }
-    /*
-    public  class ViewHolderTwo extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.notification_header) TextView header;
-        @Bind(R.id.notification_main_text) TextView mainText;
-        @Bind(R.id.notification_description)TextView description;
-        @Bind(R.id.notification_decay_time) TextView timeHolder;
-
-        public ViewHolderTwo(View v) {
-            super(v);
-            ButterKnife.bind(this, v);
-
-        }
-
-    }*/
 
     @Override
     public int getItemCount() {

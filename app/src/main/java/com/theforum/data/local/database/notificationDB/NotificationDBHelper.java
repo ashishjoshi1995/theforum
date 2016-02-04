@@ -73,7 +73,7 @@ public class NotificationDBHelper {
     public int getNewNotificationCount(){
 
         int count = 0;
-        Cursor cursor = notificationDatabase.rawQuery("SELECT DISTINCT" + NotificationDBConstants.KEY_IS_READ +"FROM"
+        Cursor cursor = notificationDatabase.rawQuery("SELECT " + NotificationDBConstants.KEY_IS_READ +" FROM "
                 + NotificationDBConstants.TABLE_NAME,null);
 
         if(cursor!=null){
@@ -88,6 +88,17 @@ public class NotificationDBHelper {
         }
 
         return count;
+    }
+
+    public void updateNotificationReadStatus(ArrayList<NotificationDataModel> list){
+
+        for(int i=0;i<list.size();i++){
+            ContentValues values = new ContentValues();
+            values.put(NotificationDBConstants.KEY_IS_READ, 1);
+            notificationDatabase.update(NotificationDBConstants.TABLE_NAME, values,
+                    NotificationDBConstants.KEY_ID+"="+list.get(i).localId, null);
+        }
+
     }
 
     public void deleteAllNotifications(){
@@ -105,6 +116,7 @@ public class NotificationDBHelper {
             if (cursor.moveToLast()) {
                 do {
                     dataModel = new NotificationDataModel();
+                    dataModel.localId = cursor.getInt(0);
                     dataModel.notificationType = cursor.getInt(1);
                     if(cursor.getInt(2)==1) dataModel.isRead = true;
                     dataModel.topicText = cursor.getString(3);
