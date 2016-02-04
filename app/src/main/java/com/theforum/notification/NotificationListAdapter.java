@@ -100,25 +100,25 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
 
                 case NotificationType.NOTIFICATION_TYPE_OPINION_UP_VOTES:
                     viewHolderOne.header.setText(Html.fromHtml(mContext.getResources().getString(R.string.opinion_notification,
-                            dataModel.topicText))+" received");
+                            dataModel.topicText)));
                     viewHolderOne.mainText.setText(dataModel.notificationCount + " UpVotes");
                     break;
 
                 case NotificationType.NOTIFICATION_TYPE_OPINIONS:
                     viewHolderOne.header.setText(Html.fromHtml(mContext.getResources().getString(R.string.topic_notification,
-                            dataModel.topicText))+" received");
+                            dataModel.topicText)));
                     viewHolderOne.mainText.setText(dataModel.notificationCount + " Opinions added");
                     break;
 
                 case NotificationType.NOTIFICATION_TYPE_RENEWAL_REQUEST:
                     viewHolderOne.header.setText(Html.fromHtml(mContext.getResources().getString(R.string.topic_notification,
-                            dataModel.topicText))+" received");
+                            dataModel.topicText)));
                     viewHolderOne.mainText.setText(dataModel.notificationCount + " Renewal Requests");
                     break;
 
                 case NotificationType.NOTIFICATION_TYPE_RENEWED:
                     viewHolderOne.header.setText(Html.fromHtml(mContext.getResources().getString(R.string.topic_notification,
-                            dataModel.topicText))+" received");
+                            dataModel.topicText)));
                     viewHolderOne.mainText.setText(dataModel.notificationCount + " Renewal");
                     break;
             }
