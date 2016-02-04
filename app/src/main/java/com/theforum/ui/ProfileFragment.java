@@ -63,7 +63,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        ((GradientDrawable)frogBody.getBackground()).setColor(Color.RED);
+        ((GradientDrawable)frogBody.getBackground()).setColor(Color.parseColor("#ff2222"));
         notifications.getBackground().setColorFilter(Color.parseColor("#d0d4d9"), PorterDuff.Mode.SRC_ATOP);
 
         notifications.setOnClickListener(new View.OnClickListener() {

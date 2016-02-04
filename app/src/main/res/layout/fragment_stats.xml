@@ -18,7 +18,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#202020"
-                android:text="Color: Brown" />
+                android:text="Color: Red" />
+
             <TextView android:id="@+id/stats_color_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

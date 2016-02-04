@@ -44,13 +44,10 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder
 
         @Bind(R.id.topics_name) TextView topicName;
         @Bind(R.id.topics_time_holder) TextView timeHolder;
-        @Bind(R.id.topics_renew_btn)TextView renewCountBtn;
 
         public ViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, v);
-
-            renewCountBtn.setVisibility(View.GONE);
 
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -78,7 +75,6 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder
         final TopicDataModel topic = mDataSet.get(position);
 
         holder.topicName.setText(topic.getTopicName());
-        holder.renewCountBtn.setText(String.valueOf(topic.getRenewalRequests()));
         holder.timeHolder.setText(mContext.getResources().getQuantityString(R.plurals.time_holder_message,
                 topic.getRenewedCount()+1,
                 topic.getHoursLeft(),
