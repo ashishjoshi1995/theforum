@@ -5,8 +5,8 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +18,7 @@ import com.theforum.constants.LayoutType;
 import com.theforum.data.helpers.ProfileHelper;
 import com.theforum.data.local.database.notificationDB.NotificationDBHelper;
 import com.theforum.notification.NotificationActivity;
+import com.theforum.ui.home.HomeFragment;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.User;
 
@@ -41,10 +42,12 @@ public class ProfileFragment extends Fragment {
 
     @Bind(R.id.frog_body) ImageView frogBody;
 
+    private TabLayout.Tab mProfileTab;
     private User mUser;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mUser = User.getInstance();
+        mProfileTab = ((HomeFragment)getParentFragment()).getTab(2);
         return inflater.inflate(R.layout.fragment_profile, container, false);
     }
 
@@ -52,7 +55,7 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        Log.e("profileUp", "points" + mUser.getPointCollected() + "/topics" + mUser.getTopicsCreated());
+
         status.setText(mUser.getStatus());
         points.setText("$ "+mUser.getPointCollected());
         topics.setText(String.valueOf(mUser.getTopicsCreated()));
@@ -60,16 +63,13 @@ public class ProfileFragment extends Fragment {
         ProfileHelper.getHelper().getProfile(new ProfileHelper.OnProfileLoadListener() {
             @Override
             public void onCompleted() {
-                Log.e("profileUp","points"+mUser.getPointCollected()+"/topics"+mUser.getTopicsCreated());
                 status.setText(mUser.getStatus());
                 points.setText("$ " + mUser.getPointCollected());
                 topics.setText(String.valueOf(mUser.getTopicsCreated()));
             }
 
             @Override
-            public void onError(String error) {
-
-            }
+            public void onError(String error) {}
         });
 
         setBackgroundColor(statusIcon, "#313c44");
@@ -101,6 +101,9 @@ public class ProfileFragment extends Fragment {
 
                 if (NotificationDBHelper.getHelper().checkIfNotificationExist()) {
                     startActivity(new Intent(getActivity(), NotificationActivity.class));
+                    notifications.setText(getContext().getResources().getQuantityString(R.plurals.profile_notifications,
+                            1, 0));
+                    mProfileTab.setText("PROFILE");
                 } else {
                     CommonUtils.showToast(getContext(), "You do not have any Notifications");
                 }

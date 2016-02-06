@@ -72,5 +72,9 @@ public class HomeFragment extends Fragment {
 
     }
 
+    public TabLayout.Tab getTab(int position){
+        return mTabLayout.getTabAt(position);
+    }
+
 
 }
