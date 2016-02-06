@@ -10,7 +10,6 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -206,7 +205,7 @@ public class MaterialSearchView extends LinearLayout{
             f.setAccessible(true);
             f.set(mQueryTextView, drawable);
         } catch (Exception ignored) {
-            Log.e("MaterialSearchView", ignored.toString());
+            //Log.e("MaterialSearchView", ignored.toString());
         }
     }
 

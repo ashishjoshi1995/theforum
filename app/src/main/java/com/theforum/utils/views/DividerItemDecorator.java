@@ -35,8 +35,8 @@ public class DividerItemDecorator extends RecyclerView.ItemDecoration {
     public DividerItemDecorator(Context context, int resId) {
         mDivider = ContextCompat.getDrawable(context, resId);
         if(mDivider!=null){
-            Log.e("divider found","");
-        }else Log.e("divider not found", "");
+           // Log.e("divider found","");
+        }else ;//Log.e("divider not found", "");
     }
 
     @Override
