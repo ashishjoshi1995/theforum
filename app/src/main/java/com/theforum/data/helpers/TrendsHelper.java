@@ -8,6 +8,7 @@ import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.theforum.TheForumApplication;
+import com.theforum.constants.Messages;
 import com.theforum.data.helpers.directUpDownApi.DUDARequest;
 import com.theforum.data.helpers.directUpDownApi.DUDAResponse;
 import com.theforum.data.helpers.removeUpDownApi.RUDAResponse;
@@ -280,7 +281,7 @@ public class TrendsHelper {
                 });
 
     }
-    public void removeUpDownVote(boolean ifUpVote, String opinionId, final OnRUDAOperationCompleteListener listener){
+    public void removeUpDownVote(final boolean ifUpVote, String opinionId, final OnRUDAOperationCompleteListener listener){
         UPDVRequest updvRequest= new UPDVRequest();
         updvRequest.opinion_id = opinionId;
         updvRequest.id = User.getInstance().getId();
@@ -299,15 +300,18 @@ public class TrendsHelper {
                     @Override
                     public void onCompleted(RUDAResponse result, Exception exception, ServiceFilterResponse response) {
                         if (exception == null) {
-                            listener.onCompleteMessage("Opinion removed UpVoted");
+                            if(ifUpVote)
+                            listener.onCompleteMessage("Upvote Removed");
+                            else listener.onCompleteMessage("Downvote Removed");
                         } else {
-                            listener.onCompleteMessage(exception.getMessage());
+                            //listener.onCompleteMessage(exception.getMessage());
+                            listener.onCompleteMessage(Messages.NO_NET_CONNECTION);
                         }
                     }
                 });
 
     }
-    public void directUpDownVoteChange(boolean ifUpVote, String opinionId, final OnDUDAOperationCompleteListener listener){
+    public void directUpDownVoteChange(final boolean ifUpVote, String opinionId, final OnDUDAOperationCompleteListener listener){
         DUDARequest updvRequest= new DUDARequest();
         updvRequest.opinion_id = opinionId;
         updvRequest.id = User.getInstance().getId();
@@ -325,9 +329,12 @@ public class TrendsHelper {
             @Override
             public void onCompleted(DUDAResponse result, Exception exception, ServiceFilterResponse response) {
                 if (exception == null) {
-                    listener.onCompleteMessage("Opinion removed UpVoted");
+                    if(!ifUpVote)
+                    listener.onCompleteMessage("Opinion Downvoted");
+                    else listener.onCompleteMessage("Opinion Upvoted");
                 } else {
-                    listener.onCompleteMessage(exception.getMessage());
+                    //listener.onCompleteMessage(exception.getMessage());
+                    listener.onCompleteMessage(Messages.NO_NET_CONNECTION);
                 }
             }
         });

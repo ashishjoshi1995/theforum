@@ -77,7 +77,6 @@ public class OpinionHelper {
                                     opinionDataModel.setVoteStatus(VoteStatus.UPVOTED);
                                     break;
                                 }
-
                             }
                         }
 

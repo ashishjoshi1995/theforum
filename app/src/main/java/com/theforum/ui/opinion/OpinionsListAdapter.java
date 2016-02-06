@@ -83,7 +83,7 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
                         TrendsHelper.getHelper().upVoteDownVote(true, opinionModel.getOpinionId(), new TrendsHelper.OnUVDVOperationCompleteListener() {
                             @Override
                             public void onCompleteMessage(String message) {
-                                CommonUtils.showToast(mContext, message);
+                                //CommonUtils.showToast(mContext, message);
                             }
                         });
 
@@ -104,7 +104,7 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
                                 new TrendsHelper.OnRUDAOperationCompleteListener() {
                                     @Override
                                     public void onCompleteMessage(String message) {
-                                        CommonUtils.showToast(mContext, message);
+                                        //CommonUtils.showToast(mContext, message);
                                     }
                                 });
                     }
@@ -125,7 +125,7 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
                         TrendsHelper.getHelper().directUpDownVoteChange(true, opinionModel.getOpinionId(), new TrendsHelper.OnDUDAOperationCompleteListener() {
                             @Override
                             public void onCompleteMessage(String message) {
-                                CommonUtils.showToast(mContext, message);
+                                //CommonUtils.showToast(mContext, message);
                             }
                         });
                     }
@@ -148,7 +148,7 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
                         TrendsHelper.getHelper().upVoteDownVote(false, opinionModel2.getOpinionId(), new TrendsHelper.OnUVDVOperationCompleteListener() {
                             @Override
                             public void onCompleteMessage(String message) {
-                                CommonUtils.showToast(mContext, message);
+                                //CommonUtils.showToast(mContext, message);
                             }
                         });
                     }
@@ -164,7 +164,7 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
                         TrendsHelper.getHelper().removeUpDownVote(false, opinionModel2.getOpinionId(), new TrendsHelper.OnRUDAOperationCompleteListener() {
                             @Override
                             public void onCompleteMessage(String message) {
-                                CommonUtils.showToast(mContext, message);
+                                //CommonUtils.showToast(mContext, message);
                             }
                         });
                     }
@@ -190,7 +190,7 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
                                 new TrendsHelper.OnDUDAOperationCompleteListener() {
                                     @Override
                                     public void onCompleteMessage(String message) {
-                                        CommonUtils.showToast(mContext, message);
+                                        //CommonUtils.showToast(mContext, message);
                                     }
                                 });
                     }
