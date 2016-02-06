@@ -173,18 +173,17 @@ public class TopicHelper {
                     if(topics!=null) {
                         requestStatus = RequestStatus.COMPLETED;
                         convertDataModel(topics);
-
                         if (topicsReceiveListener != null) {
                             topicsReceiveListener.onCompleted(topicArrayList);
                             requestStatus = RequestStatus.IDLE;
                         }
                         TopicDBHelper.getHelper().deleteAll();
                         TopicDBHelper.getHelper().addTopicsFromServer(topicArrayList);
-                    }else {
 
+                    }else {
                         requestStatus = RequestStatus.IDLE;
                         if(topicsReceiveListener!= null) {
-                            topicsReceiveListener.onError(Messages.NO_NET_CONNECTION);
+                            topicsReceiveListener.onError(Messages.SERVER_ERROR);
                         }
                     }
                 }
@@ -201,7 +200,6 @@ public class TopicHelper {
                 topicsReceiveListener.onCompleted(topicArrayList);
                 requestStatus = RequestStatus.IDLE;
             }
-
         }
 
     }

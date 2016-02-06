@@ -86,8 +86,8 @@ public class TrendsHelper {
             requestStatus = RequestStatus.IDLE;
             trends.clear();
         }
-
     }
+
     private void loadTopicsFromServer() {
         TrendingInput updvRequest= new TrendingInput();
 
@@ -169,10 +169,9 @@ public class TrendsHelper {
 
                                 }  else {
                                     if (trendsReceivedListener != null) {
-                                        trendsReceivedListener.onError(Messages.NO_NET_CONNECTION);
+                                        trendsReceivedListener.onError(Messages.SERVER_ERROR);
                                     }
                                     requestStatus = RequestStatus.IDLE;
-
                                 }
 
                             } catch (JSONException e) {
@@ -182,6 +181,9 @@ public class TrendsHelper {
 
                         } else {
                             requestStatus = RequestStatus.IDLE;
+                            if (trendsReceivedListener != null) {
+                                trendsReceivedListener.onError(Messages.NO_NET_CONNECTION);
+                            }
                         }
                     }
                 });

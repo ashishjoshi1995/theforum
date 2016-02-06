@@ -98,6 +98,4 @@ public class User {
         profileUtils.savePreferences(ProfileUtils.AGE, String.valueOf(age));
         mAge = age;
     }
-
-
 }

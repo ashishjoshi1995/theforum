@@ -18,7 +18,7 @@
             android:textSize="22sp"
             android:textColorHint="#6d7175"
             android:textColor="@android:color/white"
-            android:hint="Please fill your Correct Age"
+            android:hint="Enter your Age"
             android:inputType="number" />
 
         <Button

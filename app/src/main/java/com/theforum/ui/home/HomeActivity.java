@@ -19,13 +19,12 @@ import com.theforum.ui.search.SearchResultFragment;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.ProfileUtils;
 import com.theforum.utils.TypefaceSpan;
-import com.theforum.utils.listeners.OnHomeUiChangeListener;
 import com.theforum.utils.views.MaterialSearchView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class HomeActivity extends AppCompatActivity implements OnHomeUiChangeListener{
+public class HomeActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
@@ -127,12 +126,6 @@ public class HomeActivity extends AppCompatActivity implements OnHomeUiChangeLis
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-
-        //currentViewPagerPosition = position;
     }
 
 }
