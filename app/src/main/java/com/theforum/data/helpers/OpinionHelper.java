@@ -9,6 +9,7 @@ import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.microsoft.windowsazure.mobileservices.table.TableOperationCallback;
 import com.theforum.TheForumApplication;
+import com.theforum.constants.Messages;
 import com.theforum.data.helpers.upvoteDownvoteApi.UPDVRequest;
 import com.theforum.data.helpers.upvoteDownvoteApi.UPDVResponse;
 import com.theforum.data.local.models.OpinionDataModel;
@@ -52,7 +53,7 @@ public class OpinionHelper {
                 try {
                     result = mOpinion.where().field("topic_id").eq(topicId).execute().get();
                 } catch (Exception e) {
-                    listener.onError(e.getMessage());
+                    listener.onError(Messages.NO_NET_CONNECTION);
                 }
                 return result;
             }
@@ -76,7 +77,6 @@ public class OpinionHelper {
                                     opinionDataModel.setVoteStatus(VoteStatus.UPVOTED);
                                     break;
                                 }
-
                             }
                         }
 
@@ -165,7 +165,7 @@ public class OpinionHelper {
                     listener.onCompleteMessage("Opinion Upvoted");
                     //Log.e("message UpdvAPi", result.message);
                 } else {
-                    listener.onCompleteMessage(exception.getMessage());
+                    listener.onErrorMessage(exception.getMessage());
                 }
             }
         });
@@ -261,6 +261,7 @@ public class OpinionHelper {
          * @param  message opinion data model with updated params
          */
         void onCompleteMessage(String message);
+        void onErrorMessage(String message);
     }
 
 

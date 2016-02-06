@@ -134,14 +134,14 @@ public class NewOpinionFragment extends Fragment {
         OpinionHelper.getHelper().addOpinion(opinion, new OpinionHelper.OnOpinionAddListener() {
             @Override
             public void onCompleted(OpinionDataModel opinion) {
-                CommonUtils.showToast(getContext(), "Your Opinion is added");
+               // CommonUtils.showToast(getContext(), "Your Opinion is added");
                 dialog.dismiss();
                 getActivity().finish();
             }
 
             @Override
             public void onError(String error) {
-                CommonUtils.showToast(getContext(), Messages.NO_NET_CONNECTION);
+              //  CommonUtils.showToast(getContext(), Messages.NO_NET_CONNECTION);
                 dialog.dismiss();
             }
         });

@@ -8,6 +8,7 @@ import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.theforum.TheForumApplication;
+import com.theforum.constants.Messages;
 import com.theforum.data.helpers.directUpDownApi.DUDARequest;
 import com.theforum.data.helpers.directUpDownApi.DUDAResponse;
 import com.theforum.data.helpers.removeUpDownApi.RUDAResponse;
@@ -169,7 +170,7 @@ public class TrendsHelper {
 
                                 }  else {
                                     if (trendsReceivedListener != null) {
-                                        trendsReceivedListener.onError("Check Your Internet Connection");
+                                        trendsReceivedListener.onError(Messages.NO_NET_CONNECTION);
                                     }
                                     requestStatus = RequestStatus.IDLE;
 
@@ -180,7 +181,7 @@ public class TrendsHelper {
                             }
 
                         } else {
-                           Log.e("fuck","you");
+                           //Log.e("fuck","you");
                         }
                     }
                 });
@@ -199,7 +200,7 @@ public class TrendsHelper {
                     return result.get(0);
 
                 } catch (Exception e) {
-                    listener.onError("Check Your Internet Connection");
+                    listener.onError(Messages.NO_NET_CONNECTION);
 
                     return null;
                 }
@@ -231,7 +232,7 @@ public class TrendsHelper {
                     result = mTopic.where().field("topic_id").eq(topic_id).execute().get();
                     return result.get(0);
                 } catch (Exception e) {
-                    listener.onError("Check Your Internet Connection");
+                    listener.onError(Messages.NO_NET_CONNECTION);
                     return null;
                 }
 
@@ -273,13 +274,13 @@ public class TrendsHelper {
                         if (exception == null) {
                             listener.onCompleteMessage("Opinion has been UpVoted");
                         } else {
-                            listener.onCompleteMessage(exception.getMessage());
+                            listener.onErrorMessage(exception.getMessage());
                         }
                     }
                 });
 
     }
-    public void removeUpDownVote(boolean ifUpVote, String opinionId, final OnRUDAOperationCompleteListener listener){
+    public void removeUpDownVote(final boolean ifUpVote, String opinionId, final OnRUDAOperationCompleteListener listener){
         UPDVRequest updvRequest= new UPDVRequest();
         updvRequest.opinion_id = opinionId;
         updvRequest.id = User.getInstance().getId();
@@ -298,15 +299,18 @@ public class TrendsHelper {
                     @Override
                     public void onCompleted(RUDAResponse result, Exception exception, ServiceFilterResponse response) {
                         if (exception == null) {
-                            listener.onCompleteMessage("Opinion removed UpVoted");
+                            if(ifUpVote)
+                            listener.onCompleteMessage("Upvote Removed");
+                            else listener.onCompleteMessage("Downvote Removed");
                         } else {
-                            listener.onCompleteMessage(exception.getMessage());
+                            //listener.onCompleteMessage(exception.getMessage());
+                            listener.onErrorMessage(Messages.NO_NET_CONNECTION);
                         }
                     }
                 });
 
     }
-    public void directUpDownVoteChange(boolean ifUpVote, String opinionId, final OnDUDAOperationCompleteListener listener){
+    public void directUpDownVoteChange(final boolean ifUpVote, String opinionId, final OnDUDAOperationCompleteListener listener){
         DUDARequest updvRequest= new DUDARequest();
         updvRequest.opinion_id = opinionId;
         updvRequest.id = User.getInstance().getId();
@@ -324,9 +328,12 @@ public class TrendsHelper {
             @Override
             public void onCompleted(DUDAResponse result, Exception exception, ServiceFilterResponse response) {
                 if (exception == null) {
-                    listener.onCompleteMessage("Opinion removed UpVoted");
+                    if(!ifUpVote)
+                    listener.onCompleteMessage("Opinion Downvoted");
+                    else listener.onCompleteMessage("Opinion Upvoted");
                 } else {
-                    listener.onCompleteMessage(exception.getMessage());
+                    //listener.onCompleteMessage(exception.getMessage());
+                    listener.onErrorMessage(Messages.NO_NET_CONNECTION);
                 }
             }
         });
@@ -355,6 +362,7 @@ public class TrendsHelper {
          * @param  message opinion data model with updated params
          */
         void onCompleteMessage(String message);
+        void onErrorMessage(String message);
     }
     public interface OnRUDAOperationCompleteListener{
         /**
@@ -362,6 +370,7 @@ public class TrendsHelper {
          * @param  message opinion data model with updated params
          */
         void onCompleteMessage(String message);
+        void onErrorMessage(String message);
     }
     public interface OnDUDAOperationCompleteListener{
         /**
@@ -369,6 +378,7 @@ public class TrendsHelper {
          * @param  message opinion data model with updated params
          */
         void onCompleteMessage(String message);
+        void onErrorMessage(String message);
     }
 
     public interface OnTopicDetailReceived{

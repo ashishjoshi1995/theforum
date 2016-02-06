@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.theforum.R;
 import com.theforum.constants.LayoutType;
+import com.theforum.constants.Messages;
 import com.theforum.data.helpers.TrendsHelper;
 import com.theforum.data.local.database.trendsDB.TrendsDBHelper;
 import com.theforum.data.local.models.TopicDataModel;
@@ -87,7 +88,12 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                             TrendsHelper.getHelper().upVoteDownVote(true, opinionModel.getTrendId(), new TrendsHelper.OnUVDVOperationCompleteListener() {
                                 @Override
                                 public void onCompleteMessage(String message) {
-                                    CommonUtils.showToast(mContext, message);
+                                    //CommonUtils.showToast(mContext, message);
+                                }
+
+                                @Override
+                                public void onErrorMessage(String message) {
+                                    CommonUtils.showToast(mContext,message);
                                 }
                             });
 
@@ -107,7 +113,12 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                                     new TrendsHelper.OnRUDAOperationCompleteListener() {
                                         @Override
                                         public void onCompleteMessage(String message) {
-                                            CommonUtils.showToast(mContext, message);
+                                            //CommonUtils.showToast(mContext, message);
+                                        }
+
+                                        @Override
+                                        public void onErrorMessage(String message) {
+                                            CommonUtils.showToast(mContext,message);
                                         }
                                     });
                         } else if (opinionModel.getVoteStatus() == VoteStatus.DOWNVOTED) {
@@ -127,13 +138,18 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                             TrendsHelper.getHelper().directUpDownVoteChange(true, opinionModel.getTrendId(), new TrendsHelper.OnDUDAOperationCompleteListener() {
                                 @Override
                                 public void onCompleteMessage(String message) {
-                                    CommonUtils.showToast(mContext, message);
+                                    //CommonUtils.showToast(mContext, message);
+                                }
+
+                                @Override
+                                public void onErrorMessage(String message) {
+                                    CommonUtils.showToast(mContext,Messages.SERVER_ERROR);
                                 }
                             });
                         }
                         TrendsDBHelper.getHelper().updateUPDVStatus(opinionModel);
                     } else {
-                        CommonUtils.showToast(mContext, "Please Check Your Internet Connection");
+                        CommonUtils.showToast(mContext, Messages.NO_NET_CONNECTION);
                     }
                 }
             });
@@ -159,7 +175,12 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                         TrendsHelper.getHelper().upVoteDownVote(false, opinionModel2.getTrendId(), new TrendsHelper.OnUVDVOperationCompleteListener() {
                             @Override
                             public void onCompleteMessage(String message) {
-                                CommonUtils.showToast(mContext, message);
+                                //CommonUtils.showToast(mContext, message);
+                            }
+
+                            @Override
+                            public void onErrorMessage(String message) {
+                                CommonUtils.showToast(mContext,message);
                             }
                         });
                     } else if (opinionModel2.getVoteStatus() == VoteStatus.DOWNVOTED) {
@@ -173,7 +194,12 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                         TrendsHelper.getHelper().removeUpDownVote(false, opinionModel2.getTrendId(), new TrendsHelper.OnRUDAOperationCompleteListener() {
                             @Override
                             public void onCompleteMessage(String message) {
-                                CommonUtils.showToast(mContext, message);
+                                //CommonUtils.showToast(mContext, message);
+                            }
+
+                            @Override
+                            public void onErrorMessage(String message) {
+                                CommonUtils.showToast(mContext,Messages.SERVER_ERROR);
                             }
                         });
                     } else if (opinionModel2.getVoteStatus() == VoteStatus.UPVOTED) {
@@ -198,13 +224,18 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                                 new TrendsHelper.OnDUDAOperationCompleteListener() {
                                     @Override
                                     public void onCompleteMessage(String message) {
-                                        CommonUtils.showToast(mContext, message);
+                                        //CommonUtils.showToast(mContext, message);
+                                    }
+
+                                    @Override
+                                    public void onErrorMessage(String message) {
+                                        CommonUtils.showToast(mContext,Messages.SERVER_ERROR);
                                     }
                                 });
                     }
                     TrendsDBHelper.getHelper().updateUPDVStatus(opinionModel2);
                 }else {
-                        CommonUtils.showToast(mContext,"Please Check your Internet");
+                        CommonUtils.showToast(mContext, Messages.NO_NET_CONNECTION);
                     }
             }
         });
