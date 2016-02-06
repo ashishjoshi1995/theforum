@@ -38,6 +38,7 @@ public class TopicsFragment extends Fragment {
 
     private TopicsListAdapter mAdapter;
     private int classification;
+    private boolean dataReceived;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -74,15 +75,10 @@ public class TopicsFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        if(TopicHelper.getHelper().requestStatus == RequestStatus.IDLE){
+        if(TopicHelper.getHelper().requestStatus == RequestStatus.IDLE && !dataReceived){
             TopicHelper.getHelper().loadTopics(SettingsUtils.getInstance()
                     .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS));
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
 
         if(classification!=SettingsUtils.getInstance().getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS))
             TopicHelper.getHelper().loadTopics(SettingsUtils.getInstance()
@@ -93,19 +89,20 @@ public class TopicsFragment extends Fragment {
         }
     }
 
+
     private void getTopics(){
 
         TopicHelper.getHelper().getTopics(new TopicHelper.OnTopicsReceiveListener() {
             @Override
             public void onCompleted(ArrayList<TopicDataModel> topics) {
-                swipeRefreshLayout.setRefreshing(false);
-
+                dataReceived = true;
                 if (topics.size() == 1 && topics.get(0).isMyTopic()) {
                     mAdapter.addTopic(topics.get(0), 0);
                 } else {
                     mAdapter.removeAllTopics();
                     mAdapter.addTopics(topics);
                 }
+                swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override

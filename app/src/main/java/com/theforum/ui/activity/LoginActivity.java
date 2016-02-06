@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.theforum.R;
+import com.theforum.constants.Messages;
 import com.theforum.data.helpers.LoginHelper;
 import com.theforum.data.server.user;
 import com.theforum.notification.NotificationService;
@@ -179,7 +180,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        CommonUtils.showToast(LoginActivity.this, "Please Check Your Internet Connection");
+                        CommonUtils.showToast(LoginActivity.this, Messages.NO_NET_CONNECTION);
                     }
                 });
             }

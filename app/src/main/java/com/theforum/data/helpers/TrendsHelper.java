@@ -86,8 +86,8 @@ public class TrendsHelper {
             requestStatus = RequestStatus.IDLE;
             trends.clear();
         }
-
     }
+
     private void loadTopicsFromServer() {
         TrendingInput updvRequest= new TrendingInput();
 
@@ -172,7 +172,6 @@ public class TrendsHelper {
                                         trendsReceivedListener.onError(Messages.NO_NET_CONNECTION);
                                     }
                                     requestStatus = RequestStatus.IDLE;
-
                                 }
 
                             } catch (JSONException e) {

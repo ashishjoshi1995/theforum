@@ -6,6 +6,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +41,7 @@ public class ProfileFragment extends Fragment {
 
     @Bind(R.id.frog_body) ImageView frogBody;
 
-    User mUser;
+    private User mUser;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mUser = User.getInstance();
@@ -51,7 +52,7 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-
+        Log.e("profileUp", "points" + mUser.getPointCollected() + "/topics" + mUser.getTopicsCreated());
         status.setText(mUser.getStatus());
         points.setText("$ "+mUser.getPointCollected());
         topics.setText(String.valueOf(mUser.getTopicsCreated()));
@@ -59,6 +60,7 @@ public class ProfileFragment extends Fragment {
         ProfileHelper.getHelper().getProfile(new ProfileHelper.OnProfileLoadListener() {
             @Override
             public void onCompleted() {
+                Log.e("profileUp","points"+mUser.getPointCollected()+"/topics"+mUser.getTopicsCreated());
                 status.setText(mUser.getStatus());
                 points.setText("$ " + mUser.getPointCollected());
                 topics.setText(String.valueOf(mUser.getTopicsCreated()));
@@ -97,7 +99,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if(NotificationDBHelper.getHelper().checkIfNotificationExist()) {
+                if (NotificationDBHelper.getHelper().checkIfNotificationExist()) {
                     startActivity(new Intent(getActivity(), NotificationActivity.class));
                 } else {
                     CommonUtils.showToast(getContext(), "You do not have any Notifications");
