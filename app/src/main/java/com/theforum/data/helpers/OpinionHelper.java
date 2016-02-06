@@ -165,7 +165,7 @@ public class OpinionHelper {
                     listener.onCompleteMessage("Opinion Upvoted");
                     //Log.e("message UpdvAPi", result.message);
                 } else {
-                    listener.onCompleteMessage(exception.getMessage());
+                    listener.onErrorMessage(exception.getMessage());
                 }
             }
         });
@@ -261,6 +261,7 @@ public class OpinionHelper {
          * @param  message opinion data model with updated params
          */
         void onCompleteMessage(String message);
+        void onErrorMessage(String message);
     }
 
 

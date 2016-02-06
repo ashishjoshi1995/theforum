@@ -85,6 +85,11 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
                             public void onCompleteMessage(String message) {
                                 //CommonUtils.showToast(mContext, message);
                             }
+
+                            @Override
+                            public void onErrorMessage(String message) {
+                                CommonUtils.showToast(mContext,Messages.SERVER_ERROR);
+                            }
                         });
 
                     }
@@ -106,6 +111,11 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
                                     public void onCompleteMessage(String message) {
                                         //CommonUtils.showToast(mContext, message);
                                     }
+
+                                    @Override
+                                    public void onErrorMessage(String message) {
+                                        CommonUtils.showToast(mContext,Messages.SERVER_ERROR);
+                                    }
                                 });
                     }
                     else if(opinionModel.getVoteStatus() == VoteStatus.DOWNVOTED){
@@ -126,6 +136,11 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
                             @Override
                             public void onCompleteMessage(String message) {
                                 //CommonUtils.showToast(mContext, message);
+                            }
+
+                            @Override
+                            public void onErrorMessage(String message) {
+                                CommonUtils.showToast(mContext,Messages.SERVER_ERROR);
                             }
                         });
                     }
@@ -150,6 +165,11 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
                             public void onCompleteMessage(String message) {
                                 //CommonUtils.showToast(mContext, message);
                             }
+
+                            @Override
+                            public void onErrorMessage(String message) {
+                                CommonUtils.showToast(mContext,Messages.SERVER_ERROR);
+                            }
                         });
                     }
 
@@ -165,6 +185,11 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
                             @Override
                             public void onCompleteMessage(String message) {
                                 //CommonUtils.showToast(mContext, message);
+                            }
+
+                            @Override
+                            public void onErrorMessage(String message) {
+                                CommonUtils.showToast(mContext,Messages.SERVER_ERROR);
                             }
                         });
                     }
@@ -191,6 +216,11 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
                                     @Override
                                     public void onCompleteMessage(String message) {
                                         //CommonUtils.showToast(mContext, message);
+                                    }
+
+                                    @Override
+                                    public void onErrorMessage(String message) {
+                                        CommonUtils.showToast(mContext,Messages.SERVER_ERROR);
                                     }
                                 });
                     }

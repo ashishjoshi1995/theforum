@@ -171,7 +171,7 @@ public class TrendsHelper {
 
                                 }  else {
                                     if (trendsReceivedListener != null) {
-                                        trendsReceivedListener.onError("Check Your Internet Connection");
+                                        trendsReceivedListener.onError(Messages.NO_NET_CONNECTION);
                                     }
                                     requestStatus = RequestStatus.IDLE;
 
@@ -182,7 +182,7 @@ public class TrendsHelper {
                             }
 
                         } else {
-                           Log.e("fuck","you");
+                           //Log.e("fuck","you");
                         }
                     }
                 });
@@ -201,7 +201,7 @@ public class TrendsHelper {
                     return result.get(0);
 
                 } catch (Exception e) {
-                    listener.onError("Check Your Internet Connection");
+                    listener.onError(Messages.NO_NET_CONNECTION);
 
                     return null;
                 }
@@ -233,7 +233,7 @@ public class TrendsHelper {
                     result = mTopic.where().field("topic_id").eq(topic_id).execute().get();
                     return result.get(0);
                 } catch (Exception e) {
-                    listener.onError("Check Your Internet Connection");
+                    listener.onError(Messages.NO_NET_CONNECTION);
                     return null;
                 }
 
@@ -275,7 +275,7 @@ public class TrendsHelper {
                         if (exception == null) {
                             listener.onCompleteMessage("Opinion has been UpVoted");
                         } else {
-                            listener.onCompleteMessage(exception.getMessage());
+                            listener.onErrorMessage(exception.getMessage());
                         }
                     }
                 });
@@ -305,7 +305,7 @@ public class TrendsHelper {
                             else listener.onCompleteMessage("Downvote Removed");
                         } else {
                             //listener.onCompleteMessage(exception.getMessage());
-                            listener.onCompleteMessage(Messages.NO_NET_CONNECTION);
+                            listener.onErrorMessage(Messages.NO_NET_CONNECTION);
                         }
                     }
                 });
@@ -334,7 +334,7 @@ public class TrendsHelper {
                     else listener.onCompleteMessage("Opinion Upvoted");
                 } else {
                     //listener.onCompleteMessage(exception.getMessage());
-                    listener.onCompleteMessage(Messages.NO_NET_CONNECTION);
+                    listener.onErrorMessage(Messages.NO_NET_CONNECTION);
                 }
             }
         });
@@ -363,6 +363,7 @@ public class TrendsHelper {
          * @param  message opinion data model with updated params
          */
         void onCompleteMessage(String message);
+        void onErrorMessage(String message);
     }
     public interface OnRUDAOperationCompleteListener{
         /**
@@ -370,6 +371,7 @@ public class TrendsHelper {
          * @param  message opinion data model with updated params
          */
         void onCompleteMessage(String message);
+        void onErrorMessage(String message);
     }
     public interface OnDUDAOperationCompleteListener{
         /**
@@ -377,6 +379,7 @@ public class TrendsHelper {
          * @param  message opinion data model with updated params
          */
         void onCompleteMessage(String message);
+        void onErrorMessage(String message);
     }
 
     public interface OnTopicDetailReceived{

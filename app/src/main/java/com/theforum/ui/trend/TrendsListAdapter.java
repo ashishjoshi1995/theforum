@@ -90,6 +90,11 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                                 public void onCompleteMessage(String message) {
                                     //CommonUtils.showToast(mContext, message);
                                 }
+
+                                @Override
+                                public void onErrorMessage(String message) {
+                                    CommonUtils.showToast(mContext,message);
+                                }
                             });
 
                         } else if (opinionModel.getVoteStatus() == VoteStatus.UPVOTED) {
@@ -110,6 +115,11 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                                         public void onCompleteMessage(String message) {
                                             //CommonUtils.showToast(mContext, message);
                                         }
+
+                                        @Override
+                                        public void onErrorMessage(String message) {
+                                            CommonUtils.showToast(mContext,message);
+                                        }
                                     });
                         } else if (opinionModel.getVoteStatus() == VoteStatus.DOWNVOTED) {
                             int downvotes = opinionModel.getDownVoteCount();
@@ -129,6 +139,11 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                                 @Override
                                 public void onCompleteMessage(String message) {
                                     //CommonUtils.showToast(mContext, message);
+                                }
+
+                                @Override
+                                public void onErrorMessage(String message) {
+                                    CommonUtils.showToast(mContext,Messages.SERVER_ERROR);
                                 }
                             });
                         }
@@ -162,6 +177,11 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                             public void onCompleteMessage(String message) {
                                 //CommonUtils.showToast(mContext, message);
                             }
+
+                            @Override
+                            public void onErrorMessage(String message) {
+                                CommonUtils.showToast(mContext,message);
+                            }
                         });
                     } else if (opinionModel2.getVoteStatus() == VoteStatus.DOWNVOTED) {
                         int downvotes = opinionModel2.getDownVoteCount();
@@ -175,6 +195,11 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                             @Override
                             public void onCompleteMessage(String message) {
                                 //CommonUtils.showToast(mContext, message);
+                            }
+
+                            @Override
+                            public void onErrorMessage(String message) {
+                                CommonUtils.showToast(mContext,Messages.SERVER_ERROR);
                             }
                         });
                     } else if (opinionModel2.getVoteStatus() == VoteStatus.UPVOTED) {
@@ -200,6 +225,11 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                                     @Override
                                     public void onCompleteMessage(String message) {
                                         //CommonUtils.showToast(mContext, message);
+                                    }
+
+                                    @Override
+                                    public void onErrorMessage(String message) {
+                                        CommonUtils.showToast(mContext,Messages.SERVER_ERROR);
                                     }
                                 });
                     }
