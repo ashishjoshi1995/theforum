@@ -53,7 +53,7 @@ public class ProfileFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         status.setText(mUser.getStatus());
-        points.setText("$ "+mUser.getPointCollected());
+        points.setText("$ " + mUser.getPointCollected());
         topics.setText(String.valueOf(mUser.getTopicsCreated()));
 
         ProfileHelper.getHelper().getProfile(new ProfileHelper.OnProfileLoadListener() {
@@ -71,10 +71,13 @@ public class ProfileFragment extends Fragment {
         });
 
         setBackgroundColor(statusIcon, "#313c44");
-        setBackgroundColor(pointsIcon,"#d9ab1d");
+        setBackgroundColor(pointsIcon, "#d9ab1d");
         setBackgroundColor(topicsIcon, "#643173");
 
-        ((GradientDrawable)frogBody.getBackground()).setColor(Color.parseColor("#ff2222"));
+
+        String color="#ff2222";
+        color=getColor(mUser.getStatus());
+        ((GradientDrawable) frogBody.getBackground()).setColor(Color.parseColor(color));
         frogBody.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,13 +94,13 @@ public class ProfileFragment extends Fragment {
 
         int count = NotificationDBHelper.getHelper().getNewNotificationCount();
         notifications.setText(getContext().getResources().getQuantityString(R.plurals.profile_notifications,
-                    count+1,count));
+                count + 1, count));
 
         notifications.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(NotificationDBHelper.getHelper().checkIfNotificationExist()) {
+                if (NotificationDBHelper.getHelper().checkIfNotificationExist()) {
                     startActivity(new Intent(getActivity(), NotificationActivity.class));
                 } else {
                     CommonUtils.showToast(getContext(), "You do not have any Notifications");
@@ -106,7 +109,31 @@ public class ProfileFragment extends Fragment {
             }
         });
     }
+    public String getColor(String status){
+        String c="#ff2d2d";
+        switch(status) {
+            case "Rookie":
+                c= "#ff2d2d";
+            break;
+            case "Spawn":
+               c= "#a56c1f";
+            break;
+            case "Tadpole":
+                c= "#f0b518";
+            break;
+            case "Froglet":
+                c= "#fdff2d";
+            break;
+            case "Frog":
+                c= "#30ed17";
+            break;
+            case "Toad":
+                c= "#19afee";
+            break;
+        }
+        return c;
 
+    }
     private void setBackgroundColor(ImageView imageView,String hexColor){
         imageView.getBackground().setColorFilter(Color.parseColor(hexColor), PorterDuff.Mode.SRC_ATOP);
     }
