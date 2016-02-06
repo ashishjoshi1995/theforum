@@ -11,8 +11,7 @@ public class user {
     @com.google.gson.annotations.SerializedName("id")
     private String mId;
 
-    @com.google.gson.annotations.SerializedName("current_topics")
-    private String mCurrentTopics;
+
 
     @com.google.gson.annotations.SerializedName("points_collected")
     private int mPointCollected;
@@ -82,13 +81,7 @@ public class user {
         this.mId = mId;
     }
 
-    public String getmCurrentTopics() {
-        return mCurrentTopics;
-    }
 
-    public void setmCurrentTopics(String mCurrentTopics) {
-        this.mCurrentTopics = mCurrentTopics;
-    }
 
     public int getmPointCollected() {
         return mPointCollected;
