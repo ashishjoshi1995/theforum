@@ -766,19 +766,13 @@ public enum CountryCodesIso {
     private static final Map<Integer, CountryCodesIso> numericMap = new HashMap<Integer, CountryCodesIso>();
 
 
-    static
-    {
-        for (CountryCodesIso cc : values())
-        {
-            alpha3Map.put(cc.getAlpha3(), cc);
-            numericMap.put(cc.getNumeric(), cc);
-        }
-    }
 
 
-    private final String name;
-    private final String alpha3;
-    private final int numeric;
+    private String name;
+    private String alpha3;
+    private int numeric ;
+
+
 
 
     private CountryCodesIso(String name, String alpha3, int numeric)
@@ -786,81 +780,18 @@ public enum CountryCodesIso {
         this.name = name;
         this.alpha3 = alpha3;
         this.numeric = numeric;
+
+    }
+
+    private  String countryNames = "";
+
+     CountryCodesIso(String a){
+       // this.countryNames =
+    }
+
+    public String getCountryyName(String a){
+        return CountryCodesIso.valueOf(a).name;
     }
 
 
-    /**
-     * Get the country name.
-     *
-     * @return
-     *         The country name.
-     */
-    public String getName()
-    {
-        return name;
-    }
-
-    public String getCountryName(String isoCode)
-    {
-        return null;
-    }
-
-    public String getAlpha2()
-    {
-        return name();
-    }
-
-    public String getAlpha3()
-    {
-        return alpha3;
-    }
-
-    public int getNumeric()
-    {
-        return numeric;
-    }
-
-    public static CountryCodesIso getByCode(String code)
-    {
-        if (code == null)
-        {
-            return null;
-        }
-
-        switch (code.length())
-        {
-            case 2:
-                return getByAlpha2Code(code);
-
-            case 3:
-                return getByAlpha3Code(code);
-
-            default:
-                return null;
-        }
-    }
-
-
-    private static CountryCodesIso getByAlpha2Code(String code)
-    {
-        try
-        {
-            return Enum.valueOf(CountryCodesIso.class, code);
-        }
-        catch (IllegalArgumentException e)
-        {
-            return null;
-        }
-    }
-
-
-    private static CountryCodesIso getByAlpha3Code(String code)
-    {
-        return alpha3Map.get(code);
-    }
-
-    public static CountryCodesIso getByCode(int code)
-    {
-        return numericMap.get(code);
-    }
 }

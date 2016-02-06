@@ -18,6 +18,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.theforum.R;
+import com.theforum.constants.CountryCodesIso;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.ProfileUtils;
 import com.theforum.utils.SettingsUtils;
@@ -177,10 +178,30 @@ public class SettingsFragment extends Fragment implements View.OnClickListener,
                 if (teleMgr != null) {
 
                     country = teleMgr.getNetworkCountryIso();
+                   // Log.e("asasas",country);
+                    String sentence="";
+                    for(int i=0;i<country.length();i++)
+                    {
+                        if(Character.isUpperCase(country.charAt(i))==true)
+                        {
+                            char ch2= (char)(country.charAt(i)+32);
+                            sentence = sentence + ch2;
+                        }
+                        else if(Character.isLowerCase(country.charAt(i))==true)
+                        {
+                            char ch2= (char)(country.charAt(i)-32);
+                            sentence = sentence + ch2;
+                        }
+                        else
+                            sentence= sentence + country.charAt(i);
 
-                    ProfileUtils.getInstance().savePreferences(ProfileUtils.COUNTRY,country);
+                    }
+                  //  CountryCodesIso iso = new CountryCodesIso(sentence);
+                    //Log.e("jjjjjjj",sentence);
+                    //Log.e("ffffffffff", "" + CountryCodesIso.valueOf(sentence).getCountryyName(sentence).toString());
+                    ProfileUtils.getInstance().savePreferences(ProfileUtils.COUNTRY, country);
 
-                    location.setText("Location: "+ country);
+                    location.setText("Location: "+ "" + CountryCodesIso.valueOf(sentence).getCountryyName(sentence).toString());
 
                 } else{
                     CommonUtils.showToast(getActivity(),"Cannot find your country, please try after some time");
