@@ -35,7 +35,6 @@ public class NotificationDB extends SQLiteOpenHelper {
         if(oldVersion<2){
             db.execSQL("DROP TABLE IF EXISTS " + NotificationDBConstants.TABLE_NAME);
             onCreate(db);
-           // Log.e("onUpgrade","onUpgrade");
         }
     }
 }

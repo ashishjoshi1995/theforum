@@ -3,14 +3,17 @@ package com.theforum.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.securepreferences.SecurePreferences;
+
 /**
  * @author  Ashish on 1/2/2016.
  */
 public class ProfileUtils {
     private Context mContext;
     private static ProfileUtils profileUtils;
-    private SharedPreferences sharedPreferences;
+    private SecurePreferences sharedPreferences;
 
+    //private SecurePreferences securePreferences;
     /**
      * Key Values to store in SharedPreferences
      */
@@ -46,6 +49,7 @@ public class ProfileUtils {
         if (profileUtils == null) {
             profileUtils = new ProfileUtils(context);
         }
+
     }
 
     private ProfileUtils(Context context) {
@@ -53,12 +57,17 @@ public class ProfileUtils {
     }
 
     private SharedPreferences getPreferences() {
-        if (sharedPreferences == null) {
+       /* if (sharedPreferences == null) {
             sharedPreferences = mContext.getApplicationContext().getSharedPreferences(
                     "theforum_profile", Context.MODE_PRIVATE);
+        }*/
+        if(sharedPreferences == null){
+        sharedPreferences = new SecurePreferences(mContext,"haginomotato","theforum_profile");
+
         }
         return sharedPreferences;
     }
+
 
     public void savePreferences(String key, String value) {
         SharedPreferences.Editor editor = getPreferences().edit();
