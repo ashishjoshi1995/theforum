@@ -66,7 +66,7 @@ public class User {
 
     public void setTopicsCreated(int topicsCreated){
         profileUtils.savePreferences(ProfileUtils.TOPICS_CREATED,String.valueOf(topicsCreated));
-        mPointCollected = topicsCreated;
+        mTopicsCreated = topicsCreated;
     }
 
     public String getStatus() {

@@ -78,7 +78,6 @@ public class TrendsHelper {
     }
 
 
-
     public void getTrends(OnTrendsReceivedListener listener){
         this.trendsReceivedListener = listener;
 

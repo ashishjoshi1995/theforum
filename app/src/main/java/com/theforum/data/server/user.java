@@ -34,22 +34,31 @@ public class user {
 
     @com.google.gson.annotations.SerializedName("country")
     private String country;
+
     @com.google.gson.annotations.SerializedName("upvotes_received")
-    private int upvotes_received;
+    private int upvotesReceived;
+
     @com.google.gson.annotations.SerializedName("downvotes_croaked")
     private int downvotes_croaked;
+
     @com.google.gson.annotations.SerializedName("upvotes_croaked")
     private int upvotes_croaked;
+
     @com.google.gson.annotations.SerializedName("downvotes_received")
     private int downvotes_received;
+
     @com.google.gson.annotations.SerializedName("renewal_request_croaked")
     private int renewal_request_croaked;
+
     @com.google.gson.annotations.SerializedName("renewal_request_received")
     private int renewal_request_received;
+
     @com.google.gson.annotations.SerializedName("toatal_topic_renewed")
     private int toatal_topic_renewed;
+
     @com.google.gson.annotations.SerializedName("total_topic_renewed_croaked")
     private int total_topic_renewed_croaked;
+
     @com.google.gson.annotations.SerializedName("opinions_received")
     private int opinions_received;
 
@@ -138,12 +147,12 @@ public class user {
         this.mOpinionCount = mOpinionCount;
     }
 
-    public int getUpvotes_received() {
-        return upvotes_received;
+    public int getUpvotesReceived() {
+        return upvotesReceived;
     }
 
-    public void setUpvotes_received(int upvotes_received) {
-        this.upvotes_received = upvotes_received;
+    public void setUpvotesReceived(int upvotesReceived) {
+        this.upvotesReceived = upvotesReceived;
     }
 
     public int getDownvotes_croaked() {
