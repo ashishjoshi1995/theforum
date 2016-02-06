@@ -169,7 +169,7 @@ public class TrendsHelper {
 
                                 }  else {
                                     if (trendsReceivedListener != null) {
-                                        trendsReceivedListener.onError(Messages.NO_NET_CONNECTION);
+                                        trendsReceivedListener.onError(Messages.SERVER_ERROR);
                                     }
                                     requestStatus = RequestStatus.IDLE;
                                 }
@@ -181,6 +181,9 @@ public class TrendsHelper {
 
                         } else {
                             requestStatus = RequestStatus.IDLE;
+                            if (trendsReceivedListener != null) {
+                                trendsReceivedListener.onError(Messages.NO_NET_CONNECTION);
+                            }
                         }
                     }
                 });

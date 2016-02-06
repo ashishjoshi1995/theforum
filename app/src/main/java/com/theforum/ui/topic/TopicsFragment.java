@@ -111,12 +111,9 @@ public class TopicsFragment extends Fragment {
                     @Override
                     public void run() {
                         swipeRefreshLayout.setRefreshing(false);
-                        CommonUtils.showToast(getContext(), Messages.NO_NET_CONNECTION);
+                        CommonUtils.showToast(getActivity(), Messages.NO_NET_CONNECTION);
                     }
                 });
-
-               // Log.e("TopicsFragment error", error);
-
             }
         });
 
