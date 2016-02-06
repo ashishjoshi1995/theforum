@@ -1,6 +1,5 @@
 package com.theforum.notification;
 
-import android.util.Log;
 
 import com.microsoft.windowsazure.mobileservices.ApiOperationCallback;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;

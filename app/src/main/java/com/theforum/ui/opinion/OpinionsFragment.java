@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.theforum.R;
 import com.theforum.constants.LayoutType;
+import com.theforum.constants.Messages;
 import com.theforum.data.helpers.OpinionHelper;
 import com.theforum.data.helpers.TopicHelper;
 import com.theforum.data.local.models.OpinionDataModel;
@@ -177,7 +178,7 @@ public class OpinionsFragment extends Fragment {
                     @Override
                     public void run() {
                         swipeRefreshLayout.setRefreshing(false);
-                        CommonUtils.showToast(getContext(),error);
+                        CommonUtils.showToast(getContext(), Messages.NO_NET_CONNECTION);
                     }
                 });
             }

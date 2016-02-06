@@ -16,7 +16,7 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         if(CommonUtils.isInternetAvailable()){
-            Log.e("NetworkCHangeReceiver", "net chalu hai");
+            //Log.e("NetworkCHangeReceiver", "net chalu hai");
             Intent i = new Intent(context,NotificationService.class);
             context.startService(i);
 
