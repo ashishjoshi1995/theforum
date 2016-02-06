@@ -9,7 +9,10 @@ import android.view.View;
 
 import com.theforum.R;
 import com.theforum.data.local.database.notificationDB.NotificationDBHelper;
+import com.theforum.data.local.models.NotificationDataModel;
 import com.theforum.utils.views.DividerItemDecorator;
+
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -32,10 +35,8 @@ public class NotificationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_notifications);
-
-        NotificationDBHelper.getHelper().openDatabase();
-
         ButterKnife.bind(this);
 
         mToolbar.setTitle("Notifications");
@@ -47,22 +48,18 @@ public class NotificationActivity extends AppCompatActivity {
                 finish();
             }
         });
-        NotificationDBHelper.getHelper().openDatabase();
+
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         mRecyclerView.addItemDecoration(new DividerItemDecorator(this, R.drawable.recycler_view_divider));
 
-        mAdapter = new NotificationListAdapter(this, NotificationDBHelper.getHelper().getAllNotifications());
+        ArrayList<NotificationDataModel> dataModels = NotificationDBHelper.getHelper().getAllNotifications();
+        mAdapter = new NotificationListAdapter(this, dataModels);
         mRecyclerView.setAdapter(mAdapter);
 
+        NotificationDBHelper.getHelper().updateNotificationReadStatus(dataModels);
 
     }
 
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-        NotificationDBHelper.getHelper().closeDataBase();
-    }
 }

@@ -90,9 +90,10 @@ public class NotificationService extends IntentService {
                         if(calendar.get(Calendar.AM_PM)==1){
                             median = "PM";
                         }else median = "AM";
+
                         notificationDataModel.timeHolder = topics.get(j).getHoursLeft() + " hrs left to decay | "
                                 + calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE) + " "
-                                + median + " Today";
+                                + median;
 
                         notificationsList.add(notificationDataModel);
 
@@ -114,7 +115,7 @@ public class NotificationService extends IntentService {
                         }else median = "AM";
                         dataModel.timeHolder = topics.get(j).getHoursLeft() + " hrs left to decay | "
                                 + calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE) + " "
-                                + median + " Today";
+                                + median;
 
                         notificationsList.add(dataModel);
 
@@ -149,6 +150,7 @@ public class NotificationService extends IntentService {
             public void opinionNotification(List<opinion> opinions) {
                 Calendar calendar = Calendar.getInstance();
                 String median;
+
                 for (int j = 0; j < opinions.size(); j++) {
 
                     NotificationDataModel notificationDataModel = new NotificationDataModel();
@@ -162,7 +164,7 @@ public class NotificationService extends IntentService {
                         median = "PM";
                     }else median = "AM";
                     notificationDataModel.timeHolder = calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE) + " "
-                            + median + " Today";
+                            + median;
 
                     notificationsList.add(notificationDataModel);
                     notificationCount++;
@@ -202,8 +204,9 @@ public class NotificationService extends IntentService {
                         R.drawable.notification_icon))
                 .setSmallIcon(R.drawable.system_bar_icon)
                 .setAutoCancel(true)
-                .setContentTitle("the forum")
-                .setContentText("You have " + notificationCount + " new Notifications");
+                .setContentTitle("theforum")
+                .setContentText(context.getResources().getQuantityString(R.plurals.notification_count_message,
+                        notificationCount,notificationCount));
 
         mBuilder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
 

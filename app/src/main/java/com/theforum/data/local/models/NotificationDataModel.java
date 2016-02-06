@@ -16,6 +16,10 @@ package com.theforum.data.local.models;
 public class NotificationDataModel {
 
     /**
+     * id in the database to update the row
+     */
+    public int localId;
+    /**
      * type of notification
      */
     public int notificationType;

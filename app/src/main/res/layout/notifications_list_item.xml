@@ -26,11 +26,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginRight="56dp"
-        app:fontName="Roboto-Light.ttf"/>
+        app:fontName="@string/roboto_light"/>
 
     <TextView android:id="@+id/notification_decay_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp" />
+        android:layout_marginTop="22dp"
+        android:textSize="12sp"
+        android:textColor="@color/timerTextColor"/>
 
 </LinearLayout>

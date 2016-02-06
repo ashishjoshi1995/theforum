@@ -26,11 +26,10 @@
         <item quantity="other">%1$s hrs left to decay | <![CDATA[<font color=#ed52bf>%2$d Renewal Requests]]></item>
     </plurals>
 
-    <!-- notification messages -->
-    <string name="opinion_notification">Your Opinion on <![CDATA[<font color=\"#296acb\">%1$s]]>
-        <![CDATA[<font color=\"#4b4b4b\"> received]]></string>
-    <string name="topic_notification">Your Topic <![CDATA[<font color=\"#296acb\">%1$s]]>
-        <![CDATA[<font color=\"#4b4b4b\"> received]]></string>
-
+    <!-- notification -->
+    <plurals name="notification_count_message">
+        <item quantity="one">"You have %1$s new Notification"</item>
+        <item quantity="other">You have %1$s new Notifications</item>
+    </plurals>
 
 </resources>

@@ -63,13 +63,17 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        ((GradientDrawable)frogBody.getBackground()).setColor(Color.RED);
+        ((GradientDrawable)frogBody.getBackground()).setColor(Color.parseColor("#ff2222"));
         notifications.getBackground().setColorFilter(Color.parseColor("#d0d4d9"), PorterDuff.Mode.SRC_ATOP);
+
+        int count = NotificationDBHelper.getHelper().getNewNotificationCount();
+        if(count>0){
+            notifications.setText("Notifications("+count+")");
+        }else notifications.setText("Notifications");
 
         notifications.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NotificationDBHelper.getHelper().openDatabase();
 
                 if(NotificationDBHelper.getHelper().checkIfNotificationExist()) {
                     startActivity(new Intent(getActivity(), NotificationActivity.class));
@@ -77,7 +81,6 @@ public class ProfileFragment extends Fragment {
                     CommonUtils.showToast(getContext(), "You do not have any Notifications");
                 }
 
-                NotificationDBHelper.getHelper().closeDataBase();
             }
         });
     }

@@ -17,8 +17,7 @@
         android:textStyle="bold"
         android:gravity="center"
         android:background="@drawable/rounded_button"
-        android:clickable="true"
-        android:text="Notifications" />
+        android:clickable="true" />
 
     <!-- status -->
 
