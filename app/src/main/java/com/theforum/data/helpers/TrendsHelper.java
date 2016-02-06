@@ -1,7 +1,6 @@
 package com.theforum.data.helpers;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.microsoft.windowsazure.mobileservices.ApiOperationCallback;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
@@ -177,11 +176,12 @@ public class TrendsHelper {
                                 }
 
                             } catch (JSONException e) {
+                                requestStatus = RequestStatus.IDLE;
                                 e.printStackTrace();
                             }
 
                         } else {
-                           //Log.e("fuck","you");
+                            requestStatus = RequestStatus.IDLE;
                         }
                     }
                 });
