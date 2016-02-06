@@ -40,7 +40,6 @@ public class TopicHelper {
 
     public RequestStatus requestStatus;
 
-
     public static TopicHelper getHelper(){
         if(mTopicHelper ==null) mTopicHelper = new TopicHelper();
         return mTopicHelper;
@@ -121,7 +120,7 @@ public class TopicHelper {
     }
 
 
-    public void loadTopics(final int sortMode){
+    public void loadTopics(final int sortMode, boolean refresh){
         requestStatus = RequestStatus.EXECUTING;
 
         if(CommonUtils.isInternetAvailable()){
@@ -143,7 +142,8 @@ public class TopicHelper {
                                 break;
 
                             case SortType.SORT_BASIS_CREATED_BY_ME:
-                                topics = mTopicTable.where().field("uid").eq(User.getInstance().getId()).execute().get();
+                                topics = mTopicTable.where().field("uid").eq(User.getInstance().getId())
+                                        .execute().get();
                                 break;
 
                             case SortType.SORT_BASIS_LEAST_RENEWAL:
@@ -158,10 +158,7 @@ public class TopicHelper {
                         }
 
                     } catch (Exception e) {
-                        requestStatus = RequestStatus.IDLE;
-                        if(topicsReceiveListener!= null) {
-                            topicsReceiveListener.onError(e.getCause().getMessage());
-                        }
+                        sendError(Messages.SERVER_ERROR);
                     }
                     return topics;
                 }
@@ -181,10 +178,7 @@ public class TopicHelper {
                         TopicDBHelper.getHelper().addTopicsFromServer(topicArrayList);
 
                     }else {
-                        requestStatus = RequestStatus.IDLE;
-                        if(topicsReceiveListener!= null) {
-                            topicsReceiveListener.onError(Messages.SERVER_ERROR);
-                        }
+                        sendError(Messages.SERVER_ERROR);
                     }
                 }
             };
@@ -192,16 +186,26 @@ public class TopicHelper {
             runAsyncTask(task);
 
         }else {
+            if(!refresh) {
+                topicArrayList = TopicDBHelper.getHelper().getAllTopics();
+                requestStatus = RequestStatus.COMPLETED;
 
-            topicArrayList = TopicDBHelper.getHelper().getAllTopics();
-            requestStatus = RequestStatus.COMPLETED;
-
-            if (topicsReceiveListener != null) {
-                topicsReceiveListener.onCompleted(topicArrayList);
-                requestStatus = RequestStatus.IDLE;
+                if (topicsReceiveListener != null) {
+                    topicsReceiveListener.onCompleted(topicArrayList);
+                    requestStatus = RequestStatus.IDLE;
+                }
+            }else {
+                sendError(Messages.NO_NET_CONNECTION);
             }
         }
 
+    }
+
+    private void sendError(String error){
+        requestStatus = RequestStatus.IDLE;
+        if(topicsReceiveListener!= null) {
+            topicsReceiveListener.onError(error);
+        }
     }
 
     public void addRenewalRequest(final TopicDataModel topicDataModel , final OnRenewalRequestListener listener) {
@@ -265,6 +269,7 @@ public class TopicHelper {
         }
 
     }
+
 
     private AsyncTask<Void, Void,ArrayList<topic>> runAsyncTask(AsyncTask<Void, Void, ArrayList<topic>> task) {
         return task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);

@@ -56,21 +56,25 @@ public class TrendsHelper {
     }
 
 
-    public void loadTrends(){
+    public void loadTrends(boolean refresh){
 
         if(requestStatus == RequestStatus.IDLE) {
 
             requestStatus = RequestStatus.EXECUTING;
             if (CommonUtils.isInternetAvailable()) {
-                loadTopicsFromServer();
+                loadTrendsFromServer();
             } else {
-                trends.addAll(TrendsDBHelper.getHelper().getAllTrends());
-                requestStatus = RequestStatus.COMPLETED;
+                if(!refresh) {
+                    trends.addAll(TrendsDBHelper.getHelper().getAllTrends());
+                    requestStatus = RequestStatus.COMPLETED;
 
-                if(trendsReceivedListener!= null){
-                    trendsReceivedListener.onCompleted(trends);
-                    requestStatus = RequestStatus.IDLE;
-                    trends.clear();
+                    if (trendsReceivedListener != null) {
+                        trendsReceivedListener.onCompleted(trends);
+                        requestStatus = RequestStatus.IDLE;
+                        trends.clear();
+                    }
+                }else {
+                    sendError(Messages.NO_NET_CONNECTION);
                 }
             }
         }
@@ -88,7 +92,7 @@ public class TrendsHelper {
         }
     }
 
-    private void loadTopicsFromServer() {
+    private void loadTrendsFromServer() {
         TrendingInput updvRequest= new TrendingInput();
 
         updvRequest.uid = User.getInstance().getId();
@@ -148,11 +152,8 @@ public class TrendsHelper {
                                                 }
                                             }
                                         }
-
-
                                         trends.add(topic);
                                     }
-
 
                                     // save the data to local database.
                                     TrendsDBHelper.getHelper().deleteAllTrends();
@@ -168,25 +169,25 @@ public class TrendsHelper {
                                     }
 
                                 }  else {
-                                    if (trendsReceivedListener != null) {
-                                        trendsReceivedListener.onError(Messages.SERVER_ERROR);
-                                    }
-                                    requestStatus = RequestStatus.IDLE;
+                                    sendError(Messages.SERVER_ERROR);
                                 }
 
                             } catch (JSONException e) {
-                                requestStatus = RequestStatus.IDLE;
-                                e.printStackTrace();
+                                sendError(Messages.NO_NET_CONNECTION);
                             }
 
                         } else {
-                            requestStatus = RequestStatus.IDLE;
-                            if (trendsReceivedListener != null) {
-                                trendsReceivedListener.onError(Messages.NO_NET_CONNECTION);
-                            }
+                            sendError(Messages.NO_NET_CONNECTION);
                         }
                     }
                 });
+    }
+
+    private void sendError(String message){
+        requestStatus = RequestStatus.IDLE;
+        if (trendsReceivedListener != null) {
+            trendsReceivedListener.onError(message);
+        }
     }
 
 

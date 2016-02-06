@@ -35,7 +35,7 @@ public class SplashActivity extends AppCompatActivity {
         ((GradientDrawable) frogBody.getBackground()).setColor(Color.parseColor("#30ed17"));
 
         TopicHelper.getHelper().loadTopics(SettingsUtils.getInstance().getIntFromPreferences(
-                SettingsUtils.TOPIC_FEED_SORT_STATUS));
+                SettingsUtils.TOPIC_FEED_SORT_STATUS), false);
         TrendsHelper.getHelper().loadTrends();
         ProfileHelper.getHelper().loadProfile();
 

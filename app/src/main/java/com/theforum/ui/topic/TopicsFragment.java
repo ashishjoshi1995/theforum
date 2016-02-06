@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.theforum.R;
-import com.theforum.constants.Messages;
 import com.theforum.data.helpers.TopicHelper;
 import com.theforum.data.helpers.TrendsHelper;
 import com.theforum.data.local.models.TopicDataModel;
@@ -65,7 +64,7 @@ public class TopicsFragment extends Fragment {
             public void onRefresh() {
 
                 TopicHelper.getHelper().loadTopics(SettingsUtils.getInstance()
-                        .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS));
+                        .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS), true);
             }
         });
 
@@ -77,12 +76,12 @@ public class TopicsFragment extends Fragment {
 
         if(TopicHelper.getHelper().requestStatus == RequestStatus.IDLE && !dataReceived){
             TopicHelper.getHelper().loadTopics(SettingsUtils.getInstance()
-                    .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS));
+                    .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS), false);
         }
 
         if(classification!=SettingsUtils.getInstance().getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS))
             TopicHelper.getHelper().loadTopics(SettingsUtils.getInstance()
-                    .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS));
+                    .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS),true);
 
         if(TrendsHelper.getHelper().requestStatus == RequestStatus.EXECUTING){
             swipeRefreshLayout.setRefreshing(true);
@@ -106,12 +105,12 @@ public class TopicsFragment extends Fragment {
             }
 
             @Override
-            public void onError(String error) {
+            public void onError(final String error) {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         swipeRefreshLayout.setRefreshing(false);
-                        CommonUtils.showToast(getActivity(), Messages.NO_NET_CONNECTION);
+                        CommonUtils.showToast(getActivity(), error);
                     }
                 });
             }
