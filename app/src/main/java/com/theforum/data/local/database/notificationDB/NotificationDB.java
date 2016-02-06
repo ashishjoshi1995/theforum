@@ -3,6 +3,7 @@ package com.theforum.data.local.database.notificationDB;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 
 /**
@@ -32,9 +33,10 @@ public class NotificationDB extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS" + NotificationDBConstants.TABLE_NAME);
-        onCreate(db);
+        if(oldVersion<2){
+            db.execSQL("DROP TABLE IF EXISTS" + NotificationDBConstants.TABLE_NAME);
+            onCreate(db);
+            Log.e("onUpgrade","onUpgrade");
+        }
     }
-
-
 }

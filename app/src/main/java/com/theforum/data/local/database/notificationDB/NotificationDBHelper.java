@@ -79,7 +79,7 @@ public class NotificationDBHelper {
         if(cursor!=null){
             if (cursor.moveToLast()) {
                 do {
-                    if(cursor.getInt(2)==0) {
+                    if(cursor.getInt(0)==0) {
                         count++;
                     }else break;
                 } while (cursor.moveToPrevious());
