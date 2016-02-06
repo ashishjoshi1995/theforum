@@ -1,7 +1,6 @@
 package com.theforum.ui.activity;
 
 import android.app.AlarmManager;
-import android.app.DialogFragment;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -141,7 +140,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 ProfileUtils.getInstance().saveIntegralPreference(ProfileUtils.mRecOpinions, user.getOpinions_received());
                 ProfileUtils.getInstance().saveIntegralPreference(ProfileUtils.mRecRenewals, user.getRenewal_request_received());
                 ProfileUtils.getInstance().saveIntegralPreference(ProfileUtils.mRecTopicsRenewed, user.getToatal_topic_renewed());
-                ProfileUtils.getInstance().saveIntegralPreference(ProfileUtils.mRecUpvotes, user.getUpvotes_received());
+                ProfileUtils.getInstance().saveIntegralPreference(ProfileUtils.mRecUpvotes, user.getUpvotesReceived());
 
                 ProfileUtils.getInstance().saveIntegralPreference(ProfileUtils.mCrcDownvotes, user.getDownvotes_croaked());
                 ProfileUtils.getInstance().saveIntegralPreference(ProfileUtils.mCrcOpinions, user.getmOpinionCount());

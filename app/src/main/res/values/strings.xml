@@ -27,6 +27,11 @@
     </plurals>
 
     <!-- notification -->
+    <plurals name="profile_notifications">
+        <item quantity="one">Notifications</item>
+        <item quantity="other">Notifications(%1$s)</item>
+    </plurals>
+
     <plurals name="notification_count_message">
         <item quantity="one">"You have %1$s new Notification"</item>
         <item quantity="other">You have %1$s new Notifications</item>

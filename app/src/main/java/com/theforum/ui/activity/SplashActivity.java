@@ -37,7 +37,7 @@ public class SplashActivity extends AppCompatActivity {
         TopicHelper.getHelper().loadTopics(SettingsUtils.getInstance().getIntFromPreferences(
                 SettingsUtils.TOPIC_FEED_SORT_STATUS));
         TrendsHelper.getHelper().loadTrends();
-        ProfileHelper.getHelper().viewProfile();
+        ProfileHelper.getHelper().loadProfile();
 
 
         new Handler().postDelayed(new Runnable() {

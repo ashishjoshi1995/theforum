@@ -122,11 +122,9 @@ public class TopicHelper {
 
 
     public void loadTopics(final int sortMode){
-
+        requestStatus = RequestStatus.EXECUTING;
 
         if(CommonUtils.isInternetAvailable()){
-
-            requestStatus = RequestStatus.EXECUTING;
 
             AsyncTask<Void, Void, ArrayList<topic>> task = new AsyncTask<Void, Void, ArrayList<topic>>() {
                 MobileServiceList<topic> topics = null;
@@ -157,10 +155,10 @@ public class TopicHelper {
                                 topics = mTopicTable.orderBy("renewal_requests", QueryOrder.Descending)
                                         .execute().get();
                                 break;
-
                         }
 
                     } catch (Exception e) {
+                        requestStatus = RequestStatus.IDLE;
                         if(topicsReceiveListener!= null) {
                             topicsReceiveListener.onError(e.getCause().getMessage());
                         }
@@ -182,8 +180,13 @@ public class TopicHelper {
                         }
                         TopicDBHelper.getHelper().deleteAll();
                         TopicDBHelper.getHelper().addTopicsFromServer(topicArrayList);
-                    }
+                    }else {
 
+                        requestStatus = RequestStatus.IDLE;
+                        if(topicsReceiveListener!= null) {
+                            topicsReceiveListener.onError(Messages.NO_NET_CONNECTION);
+                        }
+                    }
                 }
             };
 

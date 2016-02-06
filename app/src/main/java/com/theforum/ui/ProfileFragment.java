@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.theforum.R;
 import com.theforum.constants.LayoutType;
+import com.theforum.data.helpers.ProfileHelper;
 import com.theforum.data.local.database.notificationDB.NotificationDBHelper;
 import com.theforum.notification.NotificationActivity;
 import com.theforum.utils.CommonUtils;
@@ -39,7 +40,10 @@ public class ProfileFragment extends Fragment {
 
     @Bind(R.id.frog_body) ImageView frogBody;
 
+    User mUser;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mUser = User.getInstance();
         return inflater.inflate(R.layout.fragment_profile, container, false);
     }
 
@@ -48,14 +52,29 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        status.setText(User.getInstance().getStatus());
-        points.setText("$ "+User.getInstance().getPointCollected());
-        topics.setText(String.valueOf(User.getInstance().getTopicsCreated()));
+        status.setText(mUser.getStatus());
+        points.setText("$ "+mUser.getPointCollected());
+        topics.setText(String.valueOf(mUser.getTopicsCreated()));
+
+        ProfileHelper.getHelper().getProfile(new ProfileHelper.OnProfileLoadListener() {
+            @Override
+            public void onCompleted() {
+                status.setText(mUser.getStatus());
+                points.setText("$ " + mUser.getPointCollected());
+                topics.setText(String.valueOf(mUser.getTopicsCreated()));
+            }
+
+            @Override
+            public void onError(String error) {
+
+            }
+        });
 
         setBackgroundColor(statusIcon, "#313c44");
         setBackgroundColor(pointsIcon,"#d9ab1d");
-        setBackgroundColor(topicsIcon,"#643173");
+        setBackgroundColor(topicsIcon, "#643173");
 
+        ((GradientDrawable)frogBody.getBackground()).setColor(Color.parseColor("#ff2222"));
         frogBody.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,13 +82,16 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        ((GradientDrawable)frogBody.getBackground()).setColor(Color.parseColor("#ff2222"));
+        setNotifications();
+
+    }
+
+    private void setNotifications(){
         notifications.getBackground().setColorFilter(Color.parseColor("#d0d4d9"), PorterDuff.Mode.SRC_ATOP);
 
         int count = NotificationDBHelper.getHelper().getNewNotificationCount();
-        if(count>0){
-            notifications.setText("Notifications("+count+")");
-        }else notifications.setText("Notifications");
+        notifications.setText(getContext().getResources().getQuantityString(R.plurals.profile_notifications,
+                    count+1,count));
 
         notifications.setOnClickListener(new View.OnClickListener() {
             @Override
