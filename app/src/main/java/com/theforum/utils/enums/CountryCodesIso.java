@@ -1,4 +1,4 @@
-package com.theforum.constants;
+package com.theforum.utils.enums;
 
 
 import java.util.HashMap;

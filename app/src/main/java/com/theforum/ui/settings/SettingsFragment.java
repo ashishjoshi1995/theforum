@@ -18,7 +18,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.theforum.R;
-import com.theforum.constants.CountryCodesIso;
+import com.theforum.utils.enums.CountryCodesIso;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.ProfileUtils;
 import com.theforum.utils.SettingsUtils;
