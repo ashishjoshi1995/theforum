@@ -88,21 +88,30 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
                     viewHolderOne.header.setText(Html.fromHtml("<font color=\"#4b4b4b\">" + "Your Opinion on</font>"
                              + "<font color=\"#296acb\">" + dataModel.topicText + "</font>"
                              + "<font color=\"#4b4b4b\"> received</font>"));
-                    viewHolderOne.mainText.setText(dataModel.notificationCount + " UpVotes");
+                    viewHolderOne.mainText.setText(mContext.getResources().getQuantityString(
+                            R.plurals.notification_up_vote,
+                            dataModel.notificationCount,
+                            dataModel.notificationCount));
                     break;
 
                 case NotificationType.NOTIFICATION_TYPE_OPINIONS:
                     viewHolderOne.header.setText(Html.fromHtml("<font color=\"#4b4b4b\">" + "Your Topic</font>"
                             + "<font color=\"#296acb\">" + dataModel.topicText + "</font>"
                             + "<font color=\"#4b4b4b\"> received</font>"));
-                    viewHolderOne.mainText.setText(dataModel.notificationCount + " Opinions added");
+                    viewHolderOne.mainText.setText(mContext.getResources().getQuantityString(
+                            R.plurals.notification_add_opinion,
+                            dataModel.notificationCount,
+                            dataModel.notificationCount));
                     break;
 
                 case NotificationType.NOTIFICATION_TYPE_RENEWAL_REQUEST:
                     viewHolderOne.header.setText(Html.fromHtml("<font color=\"#4b4b4b\">" + "Your Topic</font>"
                             + "<font color=\"#296acb\">" + dataModel.topicText + "</font>"
                             + "<font color=\"#4b4b4b\"> received</font>"));
-                    viewHolderOne.mainText.setText(dataModel.notificationCount + " Renewal Requests");
+                    viewHolderOne.mainText.setText(mContext.getResources().getQuantityString(
+                            R.plurals.notification_renewal_request,
+                            dataModel.notificationCount,
+                            dataModel.notificationCount));
                     break;
 
                 case NotificationType.NOTIFICATION_TYPE_RENEWED:
