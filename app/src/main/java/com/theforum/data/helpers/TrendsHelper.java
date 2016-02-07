@@ -283,7 +283,9 @@ public class TrendsHelper {
                 });
 
     }
-    public void removeUpDownVote(final boolean ifUpVote, String opinionId, final OnRUDAOperationCompleteListener listener){
+
+    public void removeUpDownVote(final boolean ifUpVote, String opinionId,
+                                 final OnRUDAOperationCompleteListener listener){
         UPDVRequest updvRequest= new UPDVRequest();
         updvRequest.opinion_id = opinionId;
         updvRequest.id = User.getInstance().getId();
@@ -327,7 +329,8 @@ public class TrendsHelper {
 
         //update server
 
-        TheForumApplication.getClient().invokeApi("direct_up_downChange", updvRequest, DUDAResponse.class, new ApiOperationCallback<DUDAResponse>() {
+        TheForumApplication.getClient().invokeApi("direct_up_downChange", updvRequest, DUDAResponse.class,
+                new ApiOperationCallback<DUDAResponse>() {
             @Override
             public void onCompleted(DUDAResponse result, Exception exception, ServiceFilterResponse response) {
                 if (exception == null) {
