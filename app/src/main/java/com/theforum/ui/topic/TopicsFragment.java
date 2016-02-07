@@ -84,7 +84,12 @@ public class TopicsFragment extends Fragment {
                     .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS),true);
 
         if(TrendsHelper.getHelper().requestStatus == RequestStatus.EXECUTING){
-            swipeRefreshLayout.setRefreshing(true);
+            swipeRefreshLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    swipeRefreshLayout.setRefreshing(true);
+                }
+            });
         }
     }
 

@@ -34,11 +34,6 @@ public class SplashActivity extends AppCompatActivity {
 
         ((GradientDrawable) frogBody.getBackground()).setColor(Color.parseColor("#30ed17"));
 
-        TopicHelper.getHelper().loadTopics(SettingsUtils.getInstance().getIntFromPreferences(
-                SettingsUtils.TOPIC_FEED_SORT_STATUS), false);
-        TrendsHelper.getHelper().loadTrends(false);
-        ProfileHelper.getHelper().loadProfile();
-
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -47,9 +42,19 @@ public class SplashActivity extends AppCompatActivity {
                 finish();
             }
         }, SPLASH_TIME_OUT);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        TopicHelper.getHelper().loadTopics(SettingsUtils.getInstance().getIntFromPreferences(
+                SettingsUtils.TOPIC_FEED_SORT_STATUS), false);
+        TrendsHelper.getHelper().loadTrends(false);
+        ProfileHelper.getHelper().loadProfile();
 
         Intent intent = new Intent(this, NotificationService.class);
         this.startService(intent);
-    }
 
+    }
 }

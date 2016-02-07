@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 
 import com.theforum.R;
@@ -24,7 +25,6 @@ import com.theforum.ui.ProgressDialog;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.User;
 import com.theforum.utils.listeners.SoftKeyboardStateWatcher;
-import com.theforum.utils.views.KeyboardListenerEditText;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -47,15 +47,15 @@ public class NewOpinionFragment extends Fragment {
     @Bind(R.id.new_opinion_root_view)
     RelativeLayout mRootView;
 
-    KeyboardListenerEditText mUploadText;
+    EditText mUploadText;
 
     private TopicDataModel topicModel;
+    private int mKeyboardHeight;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if(getArguments()!=null){
             topicModel = (TopicDataModel) getArguments().getSerializable(LayoutType.TOPIC_MODEL);
         }
@@ -63,7 +63,6 @@ public class NewOpinionFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-
         return inflater.inflate(R.layout.fragment_new_opinion, container, false);
     }
 
@@ -83,30 +82,25 @@ public class NewOpinionFragment extends Fragment {
         });
 
         mTopicNameHolder.setHint("Your Opinion On " + topicModel.getTopicName());
-
-        mUploadText = (KeyboardListenerEditText)mTopicNameHolder.getEditText();
+        mUploadText = mTopicNameHolder.getEditText();
         mUploadText.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/Roboto-Light.ttf"));
-        mUploadText.setOnBackPressListener(new KeyboardListenerEditText.OnBackPressListener() {
-            @Override
-            public boolean onBackPressed() {
-                getActivity().finish();
-                return true;
-            }
-        });
 
         SoftKeyboardStateWatcher softKeyboardStateWatcher
-                = new SoftKeyboardStateWatcher(mRootView,getActivity(),true);
+                = new SoftKeyboardStateWatcher(mRootView, getActivity());
         softKeyboardStateWatcher.addSoftKeyboardStateListener(new SoftKeyboardStateWatcher.SoftKeyboardStateListener() {
             @Override
             public void onSoftKeyboardOpened(int keyboardHeight) {
                 ViewGroup.LayoutParams params = mRootView.getLayoutParams();
-                params.height = mRootView.getHeight()-keyboardHeight;
+                params.height = mRootView.getHeight()- keyboardHeight;
                 mRootView.setLayoutParams(params);
+                mKeyboardHeight = keyboardHeight;
             }
 
             @Override
             public void onSoftKeyboardClosed() {
-
+                ViewGroup.LayoutParams params = mRootView.getLayoutParams();
+                params.height = mRootView.getHeight()+ mKeyboardHeight;
+                mRootView.setLayoutParams(params);
             }
         });
 
@@ -134,14 +128,13 @@ public class NewOpinionFragment extends Fragment {
         OpinionHelper.getHelper().addOpinion(opinion, new OpinionHelper.OnOpinionAddListener() {
             @Override
             public void onCompleted(OpinionDataModel opinion) {
-               // CommonUtils.showToast(getContext(), "Your Opinion is added");
                 dialog.dismiss();
                 getActivity().finish();
             }
 
             @Override
             public void onError(String error) {
-              //  CommonUtils.showToast(getContext(), Messages.NO_NET_CONNECTION);
+                CommonUtils.showToast(getContext(), Messages.NO_NET_CONNECTION);
                 dialog.dismiss();
             }
         });

@@ -19,6 +19,10 @@
         <item name="android:textColorSecondary">#fff</item>
     </style>
 
+    <style name="SplashStyle" parent="AppTheme">
+        <item name="android:windowBackground">@color/colorPrimary</item>
+    </style>
+
     <style name="homeTabStyle" parent="android:Widget">
         <item name="tabIndicatorHeight">2dp</item>
         <item name="tabPaddingStart">12dp</item>

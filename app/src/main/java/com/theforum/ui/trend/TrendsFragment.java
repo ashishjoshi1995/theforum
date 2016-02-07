@@ -71,7 +71,12 @@ public class TrendsFragment extends Fragment {
         }
 
         if(TrendsHelper.getHelper().requestStatus == RequestStatus.EXECUTING){
-            swipeRefreshLayout.setRefreshing(true);
+            swipeRefreshLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    swipeRefreshLayout.setRefreshing(true);
+                }
+            });
         }
     }
 
