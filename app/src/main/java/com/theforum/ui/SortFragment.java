@@ -95,7 +95,7 @@ public class SortFragment extends Fragment implements RadioGroup.OnCheckedChange
         switch (checkedId){
             case R.id.sort_relevance_btn:
                 SettingsUtils.getInstance().saveIntegerarPreference(SettingsUtils.TOPIC_FEED_SORT_STATUS,
-                        SortType.SORT_BASIS_MOST_RENEWAL);
+                        SortType.SORT_BASIS_MOST_POPULAR);
                 break;
             case R.id.sort_latest_btn:
                 SettingsUtils.getInstance().saveIntegerarPreference(SettingsUtils.TOPIC_FEED_SORT_STATUS,
