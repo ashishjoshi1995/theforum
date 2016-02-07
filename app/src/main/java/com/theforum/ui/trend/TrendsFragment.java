@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.theforum.R;
-import com.theforum.constants.Messages;
 import com.theforum.data.helpers.TrendsHelper;
 import com.theforum.data.local.models.TrendsDataModel;
 import com.theforum.utils.CommonUtils;
@@ -35,6 +34,7 @@ public class TrendsFragment extends Fragment {
     SwipeRefreshLayout swipeRefreshLayout;
 
     private TrendsListAdapter mAdapter;
+    private boolean dataReceived;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_topics, container, false);
@@ -54,7 +54,7 @@ public class TrendsFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                TrendsHelper.getHelper().loadTrends();
+                TrendsHelper.getHelper().loadTrends(true);
             }
         });
 
@@ -66,19 +66,15 @@ public class TrendsFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        if(TrendsHelper.getHelper().requestStatus == RequestStatus.IDLE){
-            TrendsHelper.getHelper().loadTrends();
+        if(TrendsHelper.getHelper().requestStatus == RequestStatus.IDLE && !dataReceived){
+            TrendsHelper.getHelper().loadTrends(false);
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
 
         if(TrendsHelper.getHelper().requestStatus == RequestStatus.EXECUTING){
             swipeRefreshLayout.setRefreshing(true);
         }
     }
+
 
     private void getData(){
 
@@ -86,19 +82,20 @@ public class TrendsFragment extends Fragment {
 
             @Override
             public void onCompleted(ArrayList<TrendsDataModel> trends) {
+                dataReceived = true;
                 mAdapter.clearList();
                 mAdapter.addAllTrends(trends);
                 swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
-            public void onError(String error) {
+            public void onError(final String error) {
 
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         swipeRefreshLayout.setRefreshing(false);
-                        CommonUtils.showToast(getContext(), Messages.NO_NET_CONNECTION);
+                        CommonUtils.showToast(getActivity(), error);
                     }
                 });
 

@@ -33,8 +33,24 @@
     </plurals>
 
     <plurals name="notification_count_message">
-        <item quantity="one">"You have %1$s new Notification"</item>
+        <item quantity="one">You have %1$s new Notification</item>
         <item quantity="other">You have %1$s new Notifications</item>
     </plurals>
+
+    <plurals name="notification_up_vote">
+        <item quantity="one">%1$s UpVote</item>
+        <item quantity="other">%1$s UpVotes</item>
+    </plurals>
+
+    <plurals name="notification_add_opinion">
+        <item quantity="one">%1$s Opinion Added</item>
+        <item quantity="other">%1$s Opinions Added</item>
+    </plurals>
+
+    <plurals name="notification_renewal_request">
+        <item quantity="one">%1$s Renewal Request</item>
+        <item quantity="other">%1$s Renewal Requests</item>
+    </plurals>
+
 
 </resources>

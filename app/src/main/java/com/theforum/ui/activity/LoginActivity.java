@@ -19,7 +19,11 @@ import android.widget.TextView;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.theforum.R;
+
 import com.theforum.TheForumApplication;
+
+import com.theforum.constants.Messages;
+
 import com.theforum.data.helpers.LoginHelper;
 import com.theforum.data.server.user;
 import com.theforum.notification.NotificationService;
@@ -109,7 +113,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     if(age > 12 && age <123) {
                         register(age);
 
-                    }else CommonUtils.showToast(LoginActivity.this,"Please enter a valid age");
+                    }else
+                        if(age<=12){
+                        CommonUtils.showToast(LoginActivity.this,"Sorry!! The minimum age for login is 13");}
+                    else {
+                            CommonUtils.showToast(LoginActivity.this,"Please enter a valid age");
+                        }
 
                 } else CommonUtils.showToast(LoginActivity.this, "Please enter your age. Don't Panic!!");
 
@@ -193,7 +202,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        CommonUtils.showToast(LoginActivity.this, "Please Check Your Internet Connection");
+                        CommonUtils.showToast(LoginActivity.this, Messages.NO_NET_CONNECTION);
                     }
                 });
             }

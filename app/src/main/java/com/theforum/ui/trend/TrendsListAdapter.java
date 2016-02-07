@@ -209,14 +209,14 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                         upVoteBtn.setText(String.valueOf(upvotes));
                         setCompoundDrawables(upVoteBtn, upVoteIcon);
                         opinionModel2.setUpVoteCount(upvotes);
-                        //opinionModel2.setVoteStatus(VoteStatus.NONE);
+
                         int downvotes = opinionModel2.getDownVoteCount();
                         downvotes = downvotes + 1;
                         downVoteBtn.setText(String.valueOf(downvotes));
                         setCompoundDrawables(downVoteBtn, downVotedIcon);
                         opinionModel2.setDownVoteCount(downvotes);
                         opinionModel2.setVoteStatus(VoteStatus.DOWNVOTED);
-                        // TrendsDBHelper.getHelper().updateUPDVStatus(opinionModel2);
+
                         /*
                          *  send the request to server to increase the count
                          */
@@ -224,7 +224,6 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                                 new TrendsHelper.OnDUDAOperationCompleteListener() {
                                     @Override
                                     public void onCompleteMessage(String message) {
-                                        //CommonUtils.showToast(mContext, message);
                                     }
 
                                     @Override
