@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:hint="Title"
             android:textColor="@android:color/white"
-            android:textSize="28sp"
+            android:textSize="29sp"
             android:inputType="text"
             app:fontName = "@string/roboto_light"/>
     </android.support.design.widget.TextInputLayout>

@@ -38,18 +38,18 @@
     </plurals>
 
     <plurals name="notification_up_vote">
-        <item quantity="one">%1$s UpVote</item>
-        <item quantity="other">%1$s UpVotes</item>
+        <item quantity="one">%1$s new UpVote</item>
+        <item quantity="other">%1$s new UpVotes</item>
     </plurals>
 
     <plurals name="notification_add_opinion">
-        <item quantity="one">%1$s Opinion Added</item>
-        <item quantity="other">%1$s Opinions Added</item>
+        <item quantity="one">%1$s new Opinion Added</item>
+        <item quantity="other">%1$s new Opinions Added</item>
     </plurals>
 
     <plurals name="notification_renewal_request">
-        <item quantity="one">%1$s Renewal Request</item>
-        <item quantity="other">%1$s Renewal Requests</item>
+        <item quantity="one">%1$s new Renewal Request</item>
+        <item quantity="other">%1$s new Renewal Requests</item>
     </plurals>
 
 

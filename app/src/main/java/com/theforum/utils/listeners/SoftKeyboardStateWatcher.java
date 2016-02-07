@@ -21,10 +21,10 @@ public class SoftKeyboardStateWatcher implements ViewTreeObserver.OnGlobalLayout
     private boolean isSoftKeyboardOpened;
     private Context mContext;
 
-    public SoftKeyboardStateWatcher(View activityRootView, Context context, boolean isSoftKeyboardOpened) {
+    public SoftKeyboardStateWatcher(View activityRootView, Context context) {
         this.mContext = context;
         this.activityRootView     = activityRootView;
-        this.isSoftKeyboardOpened = isSoftKeyboardOpened;
+        this.isSoftKeyboardOpened = false;
         activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(this);
     }
 
@@ -32,23 +32,20 @@ public class SoftKeyboardStateWatcher implements ViewTreeObserver.OnGlobalLayout
     @Override
     public void onGlobalLayout() {
         final Rect r = new Rect();
-
         activityRootView.getWindowVisibleDisplayFrame(r);
-
         final int heightDiff = activityRootView.getHeight() - (r.bottom - r.top);
-        if (!isSoftKeyboardOpened && heightDiff > CommonUtils.convertDpToPixel(100, mContext)) {
-            isSoftKeyboardOpened = true;
-            this.lastSoftKeyboardHeightInPx = heightDiff;
 
-            if (listener != null) {
-                listener.onSoftKeyboardOpened(heightDiff);
+        if(Math.abs(heightDiff) > CommonUtils.convertDpToPixel(100, mContext)){
+            if(!isSoftKeyboardOpened){
+                if (listener != null) {
+                    listener.onSoftKeyboardOpened(heightDiff);
+                }
+            }else {
+                if (listener != null) {
+                    listener.onSoftKeyboardClosed();
+                }
             }
-
-        } else if (isSoftKeyboardOpened && heightDiff < CommonUtils.convertDpToPixel(100,mContext)) {
-            isSoftKeyboardOpened = false;
-            if (listener != null) {
-                listener.onSoftKeyboardClosed();
-            }
+            isSoftKeyboardOpened = !isSoftKeyboardOpened;
         }
     }
 
