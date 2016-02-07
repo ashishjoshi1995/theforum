@@ -10,7 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.theforum.R;
+import com.theforum.TheForumApplication;
 import com.theforum.constants.LayoutType;
 import com.theforum.data.helpers.TopicHelper;
 import com.theforum.data.local.database.topicDB.TopicDBHelper;
