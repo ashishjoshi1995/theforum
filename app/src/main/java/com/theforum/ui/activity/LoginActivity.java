@@ -184,7 +184,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 /**
                  * starting notification service
                  */
-                int minutes = 60;
+                int minutes = 39;
                 AlarmManager am = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
                 PendingIntent pi = PendingIntent.getService(getApplicationContext(), 0,
                         new Intent(getApplicationContext(), NotificationService.class), 0);

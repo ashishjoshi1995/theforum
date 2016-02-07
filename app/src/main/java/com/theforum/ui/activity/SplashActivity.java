@@ -53,8 +53,8 @@ public class SplashActivity extends AppCompatActivity {
         TrendsHelper.getHelper().loadTrends(false);
         ProfileHelper.getHelper().loadProfile();
 
-        Intent intent = new Intent(this, NotificationService.class);
-        this.startService(intent);
+        //Intent intent = new Intent(this, NotificationService.class);
+        //this.startService(intent);
 
     }
 }

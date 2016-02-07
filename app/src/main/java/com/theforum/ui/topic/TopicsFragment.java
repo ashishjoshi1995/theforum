@@ -58,7 +58,7 @@ public class TopicsFragment extends Fragment {
         mAdapter = new TopicsListAdapter(getActivity(), new ArrayList<TopicDataModel>());
         recyclerView.setAdapter(mAdapter);
 
-        getTopics();
+
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -68,7 +68,7 @@ public class TopicsFragment extends Fragment {
                         .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS), true);
             }
         });
-
+        getTopics();
     }
 
     @Override
@@ -79,14 +79,20 @@ public class TopicsFragment extends Fragment {
             TopicHelper.getHelper().loadTopics(SettingsUtils.getInstance()
                     .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS), false);
         }
-        Log.e(""+classification,""+SettingsUtils.getInstance().getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS));
-        if(classification!=SettingsUtils.getInstance().getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS)) {
-            TopicHelper.getHelper().loadTopics(SettingsUtils.getInstance()
-                    .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS), true);
+        //Log.e(""+classification,""+SettingsUtils.getInstance().getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS));
 
+        if(classification!=SettingsUtils.getInstance().getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS)){
+            TopicHelper.getHelper().loadTopics(SettingsUtils.getInstance()
+                    .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS),true);
+            swipeRefreshLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    swipeRefreshLayout.setRefreshing(true);
+                }
+            });
         }
 
-        if(TrendsHelper.getHelper().requestStatus == RequestStatus.EXECUTING){
+        if(TrendsHelper.getHelper().requestStatus == RequestStatus.EXECUTING && mAdapter.getItemCount()==0){
             swipeRefreshLayout.post(new Runnable() {
                 @Override
                 public void run() {
@@ -109,6 +115,7 @@ public class TopicsFragment extends Fragment {
                     mAdapter.removeAllTopics();
                     mAdapter.addTopics(topics);
                 }
+                classification = SettingsUtils.getInstance().getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS);
                 swipeRefreshLayout.setRefreshing(false);
             }
 

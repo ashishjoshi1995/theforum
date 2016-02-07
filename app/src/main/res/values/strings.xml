@@ -29,7 +29,7 @@
     <!-- notification -->
     <plurals name="profile_notifications">
         <item quantity="one">Notifications</item>
-        <item quantity="other">Notifications(%1$s)</item>
+        <item quantity="other">Notifications (%1$s)</item>
     </plurals>
 
     <plurals name="notification_count_message">
@@ -43,8 +43,8 @@
     </plurals>
 
     <plurals name="notification_add_opinion">
-        <item quantity="one">%1$s new Opinion Added</item>
-        <item quantity="other">%1$s new Opinions Added</item>
+        <item quantity="one">%1$s new Opinion</item>
+        <item quantity="other">%1$s new Opinions</item>
     </plurals>
 
     <plurals name="notification_renewal_request">
