@@ -9,6 +9,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -34,11 +35,12 @@ import com.theforum.utils.NetworkUtils;
 import com.theforum.utils.ProfileUtils;
 import com.theforum.utils.SettingsUtils;
 import com.theforum.utils.User;
+import com.theforum.utils.enums.CountryCodesIso;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     Tracker mTracker;
 
@@ -61,6 +63,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Bind(R.id.login_contact_us)
     TextView contactUs;
 
+    @Bind(R.id.login_country)
+    TextView loginCountry;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,13 +73,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         ButterKnife.bind(this);
 
-        ((GradientDrawable)frogBody.getBackground()).setColor(Color.parseColor("#30ed17"));
+        ((GradientDrawable) frogBody.getBackground()).setColor(Color.parseColor("#30ed17"));
 
         mLogin.setOnClickListener(this);
         termsOfService.setOnClickListener(this);
         privacyPolicy.setOnClickListener(this);
         contactUs.setOnClickListener(this);
 
+        String s = "Location: "+getCountry() +" You can always change this in Options";
+        loginCountry.setText(s);
         setNotificationSettings();
         //NotificationDBHelper.getHelper().openDatabase();
 
@@ -91,14 +98,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 .setCategory("Action")
                 .setAction("Login")
                 .build());
-        switch(v.getId()){
+        switch (v.getId()) {
 
             case R.id.login_contact_us:
                 NetworkUtils.emailIntent(this);
                 break;
 
             case R.id.login_terms:
-                NetworkUtils.goToUrl(this ,"http://theforumapp.co/terms.html");
+                NetworkUtils.goToUrl(this, "http://theforumapp.co/terms.html");
                 break;
 
             case R.id.login_privacy_policy:
@@ -110,24 +117,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 if (!mAge.getText().toString().equals("")) {
 
                     int age = Integer.parseInt(mAge.getText().toString());
-                    if(age > 12 && age <123) {
+                    if (age > 12 && age < 123) {
                         register(age);
 
-                    }else
-                        if(age<=12){
-                        CommonUtils.showToast(LoginActivity.this,"Sorry!! The minimum age for login is 13");}
-                    else {
-                            CommonUtils.showToast(LoginActivity.this,"Please enter a valid age");
-                        }
+                    } else if (age <= 12) {
+                        CommonUtils.showToast(LoginActivity.this, "Sorry!! The minimum age for login is 13");
+                    } else {
+                        CommonUtils.showToast(LoginActivity.this, "Please enter a valid age");
+                    }
 
-                } else CommonUtils.showToast(LoginActivity.this, "Please enter your age. Don't Panic!!");
+                } else
+                    CommonUtils.showToast(LoginActivity.this, "Please enter your age. Don't Panic!!");
 
                 break;
         }
     }
 
 
-    private void setNotificationSettings(){
+    private void setNotificationSettings() {
         SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_OPINIONS_RECEIVED_NOTIFICATION, true);
         SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_RENEWAL_REQUESTS_NOTIFICATION, true);
         SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_TOPIC_RENEWED_NOTIFICATION, true);
@@ -209,5 +216,31 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         });
     }
 
+    private String getCountry() {
+        String country;
+        TelephonyManager teleMgr = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
+        if (teleMgr != null) {
 
+            country = teleMgr.getNetworkCountryIso();
+            // Log.e("asasas",country);
+            String sentence = "";
+            for (int i = 0; i < country.length(); i++) {
+                if (Character.isUpperCase(country.charAt(i)) == true) {
+                    char ch2 = (char) (country.charAt(i) + 32);
+                    sentence = sentence + ch2;
+                } else if (Character.isLowerCase(country.charAt(i)) == true) {
+                    char ch2 = (char) (country.charAt(i) - 32);
+                    sentence = sentence + ch2;
+                } else
+                    sentence = sentence + country.charAt(i);
+
+            }
+            //  CountryCodesIso iso = new CountryCodesIso(sentence);
+            //Log.e("jjjjjjj",sentence);
+            //Log.e("ffffffffff", "" + CountryCodesIso.valueOf(sentence).getCountryyName(sentence).toString());
+
+            return CountryCodesIso.valueOf(sentence).getCountryyName(sentence).toString();
+        }
+        return "India";
+    }
 }

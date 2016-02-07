@@ -39,7 +39,7 @@ public class TheForumApplication extends Application {
 
         if(!SettingsUtils.getInstance().contains(SettingsUtils.TOPIC_FEED_SORT_STATUS)){
             SettingsUtils.getInstance().saveIntegerarPreference(SettingsUtils.TOPIC_FEED_SORT_STATUS,
-                    SortType.SORT_BASIS_MOST_RENEWAL);
+                    SortType.SORT_BASIS_LATEST);
         }
 
 
