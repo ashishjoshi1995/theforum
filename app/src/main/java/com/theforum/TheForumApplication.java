@@ -8,6 +8,11 @@ import com.theforum.constants.SortType;
 import com.theforum.utils.ProfileUtils;
 import com.theforum.utils.SettingsUtils;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Logger;
+import com.google.android.gms.analytics.Tracker;
+
+
 import java.net.MalformedURLException;
 
 
@@ -19,6 +24,7 @@ public class TheForumApplication extends Application {
 
     private static MobileServiceClient mServerClient;
     private static Context context;
+    private Tracker mTracker;
 
 
     @Override
@@ -37,6 +43,15 @@ public class TheForumApplication extends Application {
         }
 
 
+    }
+
+ synchronized public Tracker getDefaultTracker() {
+        if (mTracker == null) {
+            GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+            // To enable debug logging use: adb shell setprop log.tag.GAv4 DEBUG
+            mTracker = analytics.newTracker(R.xml.global_tracker);
+        }
+        return mTracker;
     }
 
     public static MobileServiceClient getClient(){

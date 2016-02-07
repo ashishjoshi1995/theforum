@@ -9,14 +9,21 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.theforum.R;
+
+import com.theforum.TheForumApplication;
+
 import com.theforum.constants.Messages;
+
 import com.theforum.data.helpers.LoginHelper;
 import com.theforum.data.server.user;
 import com.theforum.notification.NotificationService;
@@ -32,6 +39,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
+
+    Tracker mTracker;
+
 
     @Bind(R.id.login_age)
     EditText mAge;
@@ -68,12 +78,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setNotificationSettings();
         //NotificationDBHelper.getHelper().openDatabase();
 
-        ProfileUtils.getInstance().savePreferences(ProfileUtils.COUNTRY,"India");
+        ProfileUtils.getInstance().savePreferences(ProfileUtils.COUNTRY, "India");
+        TheForumApplication application = (TheForumApplication) getApplication();
+        mTracker = application.getDefaultTracker();
 
     }
 
+
     @Override
     public void onClick(View v) {
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Action")
+                .setAction("Login")
+                .build());
         switch(v.getId()){
 
             case R.id.login_contact_us:
@@ -96,7 +113,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     if(age > 12 && age <123) {
                         register(age);
 
-                    }else CommonUtils.showToast(LoginActivity.this,"Please enter a valid age");
+                    }else
+                        if(age<=12){
+                        CommonUtils.showToast(LoginActivity.this,"Sorry!! The minimum age for login is 13");}
+                    else {
+                            CommonUtils.showToast(LoginActivity.this,"Please enter a valid age");
+                        }
 
                 } else CommonUtils.showToast(LoginActivity.this, "Please enter your age. Don't Panic!!");
 
