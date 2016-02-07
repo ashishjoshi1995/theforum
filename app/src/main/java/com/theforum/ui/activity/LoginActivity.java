@@ -79,13 +79,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         termsOfService.setOnClickListener(this);
         privacyPolicy.setOnClickListener(this);
         contactUs.setOnClickListener(this);
-
-        String s = "Location: "+getCountry() +" You can always change this in Options";
+        String j =getCountry();
+        String s = "Location: "+j +" You can always change this in Options";
         loginCountry.setText(s);
         setNotificationSettings();
         //NotificationDBHelper.getHelper().openDatabase();
 
-        ProfileUtils.getInstance().savePreferences(ProfileUtils.COUNTRY, "India");
+        ProfileUtils.getInstance().savePreferences(ProfileUtils.COUNTRY, j);
         TheForumApplication application = (TheForumApplication) getApplication();
         mTracker = application.getDefaultTracker();
 
