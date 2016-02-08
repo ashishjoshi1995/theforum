@@ -55,7 +55,10 @@ public class TrendsHelper {
         requestStatus = RequestStatus.IDLE;
     }
 
-
+    /**
+     *
+     * @param refresh true if current data is refreshed
+     */
     public void loadTrends(boolean refresh){
 
         if(requestStatus == RequestStatus.IDLE) {
@@ -81,7 +84,10 @@ public class TrendsHelper {
 
     }
 
-
+    /**
+     *
+     * @param listener callback for trends data
+     */
     public void getTrends(OnTrendsReceivedListener listener){
         this.trendsReceivedListener = listener;
 
@@ -92,170 +98,12 @@ public class TrendsHelper {
         }
     }
 
-    private void loadTrendsFromServer() {
-        TrendingInput updvRequest= new TrendingInput();
-
-        updvRequest.uid = User.getInstance().getId();
-
-        TheForumApplication.getClient().invokeApi("trendingopininos", updvRequest, TrendingResponse.class,
-                new ApiOperationCallback<TrendingResponse>() {
-
-                    @Override
-                    public void onCompleted(TrendingResponse result, Exception exception, ServiceFilterResponse response) {
-                        if (exception == null) {
-
-                            try {
-
-                                if (result.message != null) {
-                                    JSONArray jsonArray = new JSONArray(result.message);
-                                    requestStatus = RequestStatus.COMPLETED;
-
-                                    for (int i = 0; i < jsonArray.length(); i++) {
-                                        JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                        TrendsDataModel topic = new TrendsDataModel();
-
-                                        topic.setHoursLeft(Integer.parseInt(jsonObject.get("hours_left").toString()));
-                                        topic.setTrendId(jsonObject.get("trends_id").toString());
-                                        topic.setUpVoteCount(Integer.parseInt(jsonObject.get("upvotes").toString()));
-                                        topic.setDownVoteCount(Integer.parseInt(jsonObject.get("downvotes").toString()));
-                                        topic.setTopicName(jsonObject.get("topic_name").toString());
-                                        topic.setTopicId(jsonObject.get("topic_id").toString());
-                                        topic.setOpinionText(jsonObject.get("opinionText").toString());
-                                        topic.setServerId(jsonObject.get("serverId").toString());
-                                        topic.setDescription(jsonObject.get("description").toString());
-                                        topic.setRenewalIds(jsonObject.get("renewalIds").toString());
-                                        topic.setRenewCount(Integer.parseInt(jsonObject.get("renewal").toString()));
-
-
-                                        boolean statusReceived = false;
-                                        if(jsonObject.get("upvote_ids") != null) {
-                                            String upid = jsonObject.get("upvote_ids").toString();
-                                            String[] upids = upid.split(" ");
-
-                                            for(int j=0;j<upids.length;j++){
-                                                if(upids[j].equals(User.getInstance().getId())){
-                                                    topic.setVoteStatus(VoteStatus.UPVOTED);
-                                                    statusReceived = true;
-                                                    break;
-                                                }
-                                            }
-
-                                        }
-
-                                        if(jsonObject.get("downvote_ids").toString()!=null && !statusReceived) {
-                                            String downid = jsonObject.get("downvote_ids").toString();
-                                            String[] downids = downid.split(" ");
-                                            for(int j=0;j<downids.length;j++){
-                                                if(downids[j].equals(User.getInstance().getId())){
-                                                    topic.setVoteStatus(VoteStatus.DOWNVOTED);
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                        trends.add(topic);
-                                    }
-
-                                    // save the data to local database.
-                                    TrendsDBHelper.getHelper().deleteAllTrends();
-                                    TrendsDBHelper.getHelper().addTrends(trends);
-
-                                    /**
-                                     * passing the data to ui
-                                     */
-                                    if (trendsReceivedListener != null) {
-                                        trendsReceivedListener.onCompleted(trends);
-                                        requestStatus = RequestStatus.IDLE;
-                                        trends.clear();
-                                    }
-
-                                }  else {
-                                    sendError(Messages.SERVER_ERROR);
-                                }
-
-                            } catch (JSONException e) {
-                                sendError(Messages.NO_NET_CONNECTION);
-                            }
-
-                        } else {
-                            sendError(Messages.NO_NET_CONNECTION);
-                        }
-                    }
-                });
-    }
-
-    private void sendError(String message){
-        requestStatus = RequestStatus.IDLE;
-        if (trendsReceivedListener != null) {
-            trendsReceivedListener.onError(message);
-        }
-    }
-
-
-    public void getTopicByName(final String topic_name,final OnTopicDetailReceived listener){
-        if(mTopic == null) mTopic = TheForumApplication.getClient().getTable(topic.class);
-        AsyncTask<Void, Void,topic> task= new AsyncTask<Void, Void, topic>() {
-
-            @Override
-            protected topic doInBackground(Void... voids) {
-                MobileServiceList<topic> result;
-                try {
-                    result = mTopic.where().field("topic").eq(topic_name).execute().get();
-                    return result.get(0);
-
-                } catch (Exception e) {
-                    listener.onError(Messages.NO_NET_CONNECTION);
-
-                    return null;
-                }
-
-            }
-
-            @Override
-            protected void onPostExecute(topic topic) {
-                super.onPostExecute(topic);
-
-                if(topic!=null) {
-                    TopicDataModel topicDataModel = new TopicDataModel(topic);
-                    listener.onCompleted(topicDataModel);
-                }
-            }
-        };
-
-        runAsyncTask3(task);
-    }
-
-    public void getTopicDetails(final String topic_id,final OnTopicDetailReceived listener){
-        if(mTopic == null) mTopic = TheForumApplication.getClient().getTable(topic.class);
-        AsyncTask<Void, Void,topic> task= new AsyncTask<Void, Void, topic>() {
-
-            @Override
-            protected topic doInBackground(Void... voids) {
-                MobileServiceList<topic> result;
-                try {
-                    result = mTopic.where().field("topic_id").eq(topic_id).execute().get();
-                    return result.get(0);
-                } catch (Exception e) {
-                    listener.onError(Messages.NO_NET_CONNECTION);
-                    return null;
-                }
-
-            }
-
-            @Override
-            protected void onPostExecute(topic topic) {
-                super.onPostExecute(topic);
-
-                if(topic!=null) {
-                    TopicDataModel topicDataModel = new TopicDataModel(topic);
-                    listener.onCompleted(topicDataModel);
-                }
-            }
-        };
-
-        runAsyncTask3(task);
-    }
-
-
+    /**
+     *
+     * @param ifUpVote true if opinion is voted
+     * @param opinionId unique id of opinion
+     * @param listener callback from server
+     */
     public void upVoteDownVote(boolean ifUpVote, String opinionId, final OnUVDVOperationCompleteListener listener){
         UPDVRequest updvRequest= new UPDVRequest();
         updvRequest.opinion_id = opinionId;
@@ -305,7 +153,7 @@ public class TrendsHelper {
                     public void onCompleted(RUDAResponse result, Exception exception, ServiceFilterResponse response) {
                         if (exception == null) {
                             if(ifUpVote)
-                            listener.onCompleteMessage("Upvote Removed");
+                                listener.onCompleteMessage("Upvote Removed");
                             else listener.onCompleteMessage("Downvote Removed");
                         } else {
                             //listener.onCompleteMessage(exception.getMessage());
@@ -315,7 +163,9 @@ public class TrendsHelper {
                 });
 
     }
-    public void directUpDownVoteChange(final boolean ifUpVote, String opinionId, final OnDUDAOperationCompleteListener listener){
+
+    public void directUpDownVoteChange(final boolean ifUpVote, String opinionId,
+                                       final OnDUDAOperationCompleteListener listener){
         DUDARequest updvRequest= new DUDARequest();
         updvRequest.opinion_id = opinionId;
         updvRequest.id = User.getInstance().getId();
@@ -331,20 +181,157 @@ public class TrendsHelper {
 
         TheForumApplication.getClient().invokeApi("direct_up_downChange", updvRequest, DUDAResponse.class,
                 new ApiOperationCallback<DUDAResponse>() {
-            @Override
-            public void onCompleted(DUDAResponse result, Exception exception, ServiceFilterResponse response) {
-                if (exception == null) {
-                    if(!ifUpVote)
-                    listener.onCompleteMessage("Opinion Downvoted");
-                    else listener.onCompleteMessage("Opinion Upvoted");
-                } else {
-                    //listener.onCompleteMessage(exception.getMessage());
-                    listener.onErrorMessage(Messages.NO_NET_CONNECTION);
-                }
-            }
-        });
+                    @Override
+                    public void onCompleted(DUDAResponse result, Exception exception, ServiceFilterResponse response) {
+                        if (exception == null) {
+                            if(!ifUpVote)
+                                listener.onCompleteMessage("Opinion Downvoted");
+                            else listener.onCompleteMessage("Opinion Upvoted");
+
+                        } else {
+                            listener.onErrorMessage(Messages.NO_NET_CONNECTION);
+                        }
+                    }
+                });
 
     }
+
+
+
+    private void loadTrendsFromServer() {
+        TrendingInput updvRequest= new TrendingInput();
+
+        updvRequest.uid = User.getInstance().getId();
+
+        TheForumApplication.getClient().invokeApi("trendingopininos", updvRequest, TrendingResponse.class,
+                new ApiOperationCallback<TrendingResponse>() {
+
+                    @Override
+                    public void onCompleted(TrendingResponse result, Exception exception, ServiceFilterResponse response) {
+                        if (exception == null) {
+
+                            try {
+
+                                if (result.message != null) {
+                                    JSONArray jsonArray = new JSONArray(result.message);
+                                    requestStatus = RequestStatus.COMPLETED;
+
+                                    for (int i = 0; i < jsonArray.length(); i++) {
+                                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                        TrendsDataModel topic = new TrendsDataModel();
+
+                                        topic.setHoursLeft(Integer.parseInt(jsonObject.get("hours_left").toString()));
+                                        topic.setTrendId(jsonObject.get("trends_id").toString());
+                                        topic.setUpVoteCount(Integer.parseInt(jsonObject.get("upvotes").toString()));
+                                        topic.setDownVoteCount(Integer.parseInt(jsonObject.get("downvotes").toString()));
+                                        topic.setTopicName(jsonObject.get("topic_name").toString());
+                                        topic.setTopicId(jsonObject.get("topic_id").toString());
+                                        topic.setOpinionText(jsonObject.get("opinionText").toString());
+                                        topic.setServerId(jsonObject.get("serverId").toString());
+                                        topic.setDescription(jsonObject.get("description").toString());
+                                        topic.setRenewalIds(jsonObject.get("renewalIds").toString());
+                                        topic.setRenewCount(Integer.parseInt(jsonObject.get("renewal").toString()));
+
+
+                                        boolean statusReceived = false;
+                                        if (jsonObject.get("upvote_ids") != null) {
+                                            String upid = jsonObject.get("upvote_ids").toString();
+                                            String[] upids = upid.split(" ");
+
+                                            for (int j = 0; j < upids.length; j++) {
+                                                if (upids[j].equals(User.getInstance().getId())) {
+                                                    topic.setVoteStatus(VoteStatus.UPVOTED);
+                                                    statusReceived = true;
+                                                    break;
+                                                }
+                                            }
+
+                                        }
+
+                                        if (jsonObject.get("downvote_ids").toString() != null && !statusReceived) {
+                                            String downid = jsonObject.get("downvote_ids").toString();
+                                            String[] downids = downid.split(" ");
+                                            for (int j = 0; j < downids.length; j++) {
+                                                if (downids[j].equals(User.getInstance().getId())) {
+                                                    topic.setVoteStatus(VoteStatus.DOWNVOTED);
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        trends.add(topic);
+                                    }
+
+                                    // save the data to local database.
+                                    TrendsDBHelper.getHelper().deleteAllTrends();
+                                    TrendsDBHelper.getHelper().addTrends(trends);
+
+                                    /**
+                                     * passing the data to ui
+                                     */
+                                    if (trendsReceivedListener != null) {
+                                        trendsReceivedListener.onCompleted(trends);
+                                        requestStatus = RequestStatus.IDLE;
+                                        trends.clear();
+                                    }
+
+                                } else {
+                                    sendError(Messages.SERVER_ERROR);
+                                }
+
+                            } catch (JSONException e) {
+                                sendError(Messages.NO_NET_CONNECTION);
+                            }
+
+                        } else {
+                            sendError(Messages.SERVER_ERROR);
+                        }
+                    }
+                });
+    }
+
+    private void sendError(String message){
+        requestStatus = RequestStatus.IDLE;
+        if (trendsReceivedListener != null) {
+            trendsReceivedListener.onError(message);
+        }
+    }
+
+
+    public void getTopicDetails(final String topic_id,final OnTopicDetailReceived listener){
+        if(mTopic == null) mTopic = TheForumApplication.getClient().getTable(topic.class);
+        AsyncTask<Void, Void,topic> task= new AsyncTask<Void, Void, topic>() {
+
+            @Override
+            protected topic doInBackground(Void... voids) {
+                MobileServiceList<topic> result;
+                try {
+                    result = mTopic.where().field("topic_id").eq(topic_id).execute().get();
+                    return result.get(0);
+                } catch (Exception e) {
+                    listener.onError(Messages.NO_NET_CONNECTION);
+                    return null;
+                }
+
+            }
+
+            @Override
+            protected void onPostExecute(topic topic) {
+                super.onPostExecute(topic);
+
+                if(topic!=null) {
+                    TopicDataModel topicDataModel = new TopicDataModel(topic);
+                    listener.onCompleted(topicDataModel);
+                }
+            }
+        };
+
+        runAsyncTask3(task);
+    }
+
+
+
+
+
 
 
     private static AsyncTask<Void, Void,topic> runAsyncTask3(AsyncTask<Void, Void, topic> task) {
