@@ -1,12 +1,12 @@
 package com.theforum.ui.topic;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.util.Pair;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.theforum.R;
 import com.theforum.constants.LayoutType;
 import com.theforum.data.helpers.TopicHelper;
+import com.theforum.data.local.database.topicDB.TopicDBHelper;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.SettingsUtils;
@@ -21,7 +22,6 @@ import com.theforum.utils.enums.RequestStatus;
 import com.theforum.utils.listeners.OnListItemClickListener;
 import com.theforum.utils.views.DividerItemDecorator;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -84,16 +84,9 @@ public class TopicsFragment extends Fragment implements OnListItemClickListener{
                     .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS), false);
         }
 
-
         if(classification!=SettingsUtils.getInstance().getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS)){
             TopicHelper.getHelper().loadTopics(SettingsUtils.getInstance()
                     .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS), true);
-//            swipeRefreshLayout.post(new Runnable() {
-//                @Override
-//                public void run() {
-//                    swipeRefreshLayout.setRefreshing(true);
-//                }
-//            });
         }
 
         if(TopicHelper.getHelper().requestStatus == RequestStatus.EXECUTING){
@@ -104,10 +97,12 @@ public class TopicsFragment extends Fragment implements OnListItemClickListener{
                 }
             });
         }
-        Log.e("position",""+mPosition);
+
         if(mTopicsList.size()>0){
-        Log.e("gaura",""+mTopicsList.get(mPosition).isRenewed());
-        mAdapter.notifyItemChanged(mPosition);
+            String topicId = mTopicsList.get(mPosition).getTopicId();
+            mTopicsList.remove(mPosition);
+            mTopicsList.add(mPosition, TopicDBHelper.getHelper().getTopicById(topicId));
+            mAdapter.notifyItemChanged(mPosition);
         }
     }
 
@@ -139,7 +134,6 @@ public class TopicsFragment extends Fragment implements OnListItemClickListener{
                 });
             }
         });
-
     }
 
 
@@ -147,6 +141,7 @@ public class TopicsFragment extends Fragment implements OnListItemClickListener{
     public void onItemClick(View v, int position) {
         mPosition = position;
         CommonUtils.openContainerActivity(getContext(), LayoutType.OPINIONS_FRAGMENT,
-                Pair.create(LayoutType.TOPIC_MODEL, (Serializable) mTopicsList.get(position)));
+                Pair.create(LayoutType.TOPIC_MODEL,  (Parcelable) mTopicsList.get(position)));
     }
+
 }

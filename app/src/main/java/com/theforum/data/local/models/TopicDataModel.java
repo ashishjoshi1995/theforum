@@ -1,14 +1,16 @@
 package com.theforum.data.local.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.theforum.data.server.topic;
-import java.io.Serializable;
 
 /**
  * @author  Deepankar
  * @since  1/6/2016.
  */
 
-public class TopicDataModel implements Serializable{
+public class TopicDataModel implements Parcelable{
 
     private String serverId;
     private String topicId;
@@ -20,7 +22,10 @@ public class TopicDataModel implements Serializable{
     private boolean isRenewed;
     private boolean isMyTopic;
 
-    public TopicDataModel(){}
+    public TopicDataModel(){
+        isRenewed = false;
+        isMyTopic = false;
+    }
 
     public TopicDataModel(topic topic){
         this.serverId = topic.getServerId();
@@ -105,4 +110,47 @@ public class TopicDataModel implements Serializable{
     public void setIsMyTopic(boolean isMyTopic) {
         this.isMyTopic = isMyTopic;
     }
+
+    protected TopicDataModel(Parcel in) {
+        serverId = in.readString();
+        topicId = in.readString();
+        topicName = in.readString();
+        topicDescription = in.readString();
+        renewalRequests = in.readInt();
+        renewedCount = in.readInt();
+        hoursLeft = in.readInt();
+        isRenewed = in.readByte() != 0x00;
+        isMyTopic = in.readByte() != 0x00;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(serverId);
+        dest.writeString(topicId);
+        dest.writeString(topicName);
+        dest.writeString(topicDescription);
+        dest.writeInt(renewalRequests);
+        dest.writeInt(renewedCount);
+        dest.writeInt(hoursLeft);
+        dest.writeByte((byte) (isRenewed ? 0x01 : 0x00));
+        dest.writeByte((byte) (isMyTopic ? 0x01 : 0x00));
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<TopicDataModel> CREATOR = new Parcelable.Creator<TopicDataModel>() {
+        @Override
+        public TopicDataModel createFromParcel(Parcel in) {
+            return new TopicDataModel(in);
+        }
+
+        @Override
+        public TopicDataModel[] newArray(int size) {
+            return new TopicDataModel[size];
+        }
+    };
 }

@@ -1,27 +1,22 @@
 package com.theforum.data.local.models;
 
+import android.os.Parcel;
+
 import com.theforum.data.server.opinion;
 import com.theforum.utils.enums.VoteStatus;
-
-import java.io.Serializable;
 
 /**
  * @author  Deepankar on 1/6/2016.
  */
-public class OpinionDataModel implements Serializable{
+public class OpinionDataModel {
 
     private String serverId;
-
     private String opinionId;
-
     private String opinionText;
-
-    private int downVoteCount;
     private String topicName;
-
-    private int upVoteCount;
     private String topicId;
-
+    private int downVoteCount;
+    private int upVoteCount;
     private VoteStatus voteStatus = VoteStatus.NONE;
 
     public OpinionDataModel(){}
@@ -99,4 +94,45 @@ public class OpinionDataModel implements Serializable{
     public void setTopicName(String topicName) {
         this.topicName = topicName;
     }
+
+    protected OpinionDataModel(Parcel in) {
+        serverId = in.readString();
+        opinionId = in.readString();
+        opinionText = in.readString();
+        topicName = in.readString();
+        topicId = in.readString();
+        downVoteCount = in.readInt();
+        upVoteCount = in.readInt();
+        voteStatus = (VoteStatus) in.readValue(VoteStatus.class.getClassLoader());
+    }
+
+//    @Override
+//    public int describeContents() {
+//        return 0;
+//    }
+//
+//    @Override
+//    public void writeToParcel(Parcel dest, int flags) {
+//        dest.writeString(serverId);
+//        dest.writeString(opinionId);
+//        dest.writeString(opinionText);
+//        dest.writeString(topicName);
+//        dest.writeString(topicId);
+//        dest.writeInt(downVoteCount);
+//        dest.writeInt(upVoteCount);
+//        dest.writeValue(voteStatus);
+//    }
+//
+//    @SuppressWarnings("unused")
+//    public static final Parcelable.Creator<OpinionDataModel> CREATOR = new Parcelable.Creator<OpinionDataModel>() {
+//        @Override
+//        public OpinionDataModel createFromParcel(Parcel in) {
+//            return new OpinionDataModel(in);
+//        }
+//
+//        @Override
+//        public OpinionDataModel[] newArray(int size) {
+//            return new OpinionDataModel[size];
+//        }
+//    };
 }

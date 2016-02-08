@@ -18,6 +18,7 @@ public class TrendsDBHelper {
 
     private TrendsDB trendsDB;
     private static TrendsDBHelper trendsDBHelper;
+    private SQLiteDatabase trendsDatabase;
 
 
     public static TrendsDBHelper getHelper(){
@@ -26,13 +27,12 @@ public class TrendsDBHelper {
     }
     private TrendsDBHelper(){
         trendsDB = new TrendsDB(TheForumApplication.getAppContext());
+        trendsDatabase = trendsDB.getWritableDatabase();
     }
 
 
     public void addTrend(TrendsDataModel opinion){
-        SQLiteDatabase db = trendsDB.getWritableDatabase();
         ContentValues values = new ContentValues();
-
         values.put(TrendsDBConstants.KEY_SERVER_ID,opinion.getServerId());
         values.put(TrendsDBConstants.KEY_TOPIC_ID,opinion.getTopicId());
         values.put(TrendsDBConstants.KEY_TOPIC,opinion.getTopicName());
@@ -48,22 +48,19 @@ public class TrendsDBHelper {
         else if(opinion.getVoteStatus() == VoteStatus.UPVOTED)
             values.put(TrendsDBConstants.KEY_VOTE_STATUS,2);
 
-        db.insert(TrendsDBConstants.TABLE_NAME, null, values);            // Inserting record
-        //Log.e("db.insert",)
-        db.close();
-
+        trendsDatabase.insert(TrendsDBConstants.TABLE_NAME, null, values);
     }
 
     public void updateUPDVStatus(TrendsDataModel trend){
         ContentValues values = new ContentValues();
-
         if(trend.getVoteStatus()==VoteStatus.UPVOTED)
             values.put(TrendsDBConstants.KEY_VOTE_STATUS,2);
         else if (trend.getVoteStatus()==VoteStatus.NONE)
             values.put(TrendsDBConstants.KEY_VOTE_STATUS,1);
         else if (trend.getVoteStatus()==VoteStatus.DOWNVOTED)
             values.put(TrendsDBConstants.KEY_VOTE_STATUS,0);
-        trendsDB.getWritableDatabase().update(TrendsDBConstants.TABLE_NAME, values, TrendsDBConstants.KEY_OPINION
+
+        trendsDatabase.update(TrendsDBConstants.TABLE_NAME, values, TrendsDBConstants.KEY_OPINION
                        +" = ?", new String[]{trend.getOpinionText()});
     }
 
@@ -76,7 +73,7 @@ public class TrendsDBHelper {
     public ArrayList<TrendsDataModel> getAllTrends(){
         ArrayList<TrendsDataModel> trends = new ArrayList<>();
 
-        Cursor cursor = trendsDB.getWritableDatabase().rawQuery("SELECT  * FROM " + TrendsDBConstants.TABLE_NAME, null);
+        Cursor cursor = trendsDatabase.rawQuery("SELECT  * FROM " + TrendsDBConstants.TABLE_NAME, null);
 
         if(cursor!=null){
             if (cursor.moveToFirst()) {
@@ -103,14 +100,16 @@ public class TrendsDBHelper {
             }
             cursor.close();
         }
-        trendsDB.close();
 
         return trends;
     }
 
     public void deleteAllTrends(){
-        trendsDB.getWritableDatabase().execSQL("DELETE from " + TrendsDBConstants.TABLE_NAME);
-        trendsDB.close();
+        trendsDatabase.execSQL("DELETE from " + TrendsDBConstants.TABLE_NAME);
     }
 
+    public void closeDatabase(){
+        trendsDatabase.close();
+        trendsDB.close();
+    }
 }

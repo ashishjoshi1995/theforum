@@ -33,8 +33,6 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
 
     private Context mContext;
     private List<TopicDataModel> mTopics;
-
-    private final static int VIEW_TYPE_TOPIC = 0;
     private OnListItemClickListener onListItemClickListener;
 
     public TopicsListAdapter(Context context, List<TopicDataModel> feeds){
@@ -45,7 +43,6 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
     public void setOnListItemClickListener(OnListItemClickListener listItemClickListener){
         this.onListItemClickListener = listItemClickListener;
     }
-
 
     public class TopicsItemViewHolder extends RecyclerView.ViewHolder {
 
@@ -71,7 +68,6 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
                 @Override
                 public void onClick(View v) {
                     final TopicDataModel mTopicModel = mTopics.get(getLayoutPosition());
-
                     final int b = mTopicModel.getRenewalRequests();
 
                     if(!mTopicModel.isRenewed()) {
@@ -139,11 +135,6 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
 
 
     @Override
-    public int getItemViewType(int position) {
-        return VIEW_TYPE_TOPIC;
-    }
-
-    @Override
     public TopicsItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             return new TopicsItemViewHolder(LayoutInflater.from(parent.getContext()).inflate(
                     R.layout.topics_list_item, parent, false));
@@ -156,12 +147,10 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
 
         holder.topicName.setText(topic.getTopicName());
         holder.renewBtn.setText(String.valueOf(topic.getRenewalRequests()));
-
         holder.timeHolder.setText(Html.fromHtml(mContext.getResources().getQuantityString(R.plurals.time_holder_message,
                 topic.getRenewedCount() + 1,
                 topic.getHoursLeft(),
                 topic.getRenewedCount())));
-
         if(topic.isRenewed()){
             setCompoundDrawables(holder.renewBtn,holder.renewedIcon);
         }else setCompoundDrawables(holder.renewBtn,holder.renewIcon);
@@ -179,7 +168,6 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
 
 
     /**
-     *
      * @param topics list of topics to update ui
      */
 

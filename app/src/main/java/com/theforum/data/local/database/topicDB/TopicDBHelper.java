@@ -53,19 +53,6 @@ public class TopicDBHelper {
 
     }
 
-    public void addTopicFromServer(TopicDataModel topic){
-
-        Cursor c= topicDatabase.rawQuery("SELECT * FROM "+ TopicDBConstants.TABLE_NAME+ " WHERE " +
-                TopicDBConstants.KEY_TOPIC_ID + " =?", new String[] {topic.getTopicId()});
-
-        if(c.moveToFirst()) {
-            updateTopic(topic);
-        }
-        else {
-            addTopic(topic);
-        }
-        c.close();
-    }
 
     /**
      * This methods add the topics into the db.
@@ -80,12 +67,12 @@ public class TopicDBHelper {
     }
 
     public void updateTopic(TopicDataModel topic){
-        ContentValues values = new ContentValues();
 
+        ContentValues values = new ContentValues();
+        values.put(TopicDBConstants.KEY_TOPIC,topic.getTopicName());
         values.put(TopicDBConstants.KEY_RENEWAL_REQUEST, topic.getRenewalRequests());
         values.put(TopicDBConstants.KEY_RENEWED_COUNT, topic.getRenewedCount());
         values.put(TopicDBConstants.KEY_HOURS_LEFT, topic.getHoursLeft());
-
         topicDatabase.update(TopicDBConstants.TABLE_NAME, values, TopicDBConstants.KEY_TOPIC_ID
                 +" = ?", new String[]{topic.getTopicId()});
     }
@@ -94,7 +81,7 @@ public class TopicDBHelper {
         ContentValues values = new ContentValues();
 
         values.put(TopicDBConstants.KEY_IS_RENEWED, (topic.isRenewed())? "yes" :"no");
-
+        values.put(TopicDBConstants.KEY_RENEWAL_REQUEST, topic.getRenewalRequests());
         topicDatabase.update(TopicDBConstants.TABLE_NAME, values, TopicDBConstants.KEY_TOPIC_ID
                 +" = ?", new String[]{topic.getTopicId()});
     }
@@ -113,7 +100,6 @@ public class TopicDBHelper {
             if (cursor.moveToFirst()) {
                 do {
                     TopicDataModel obj = new TopicDataModel();
-                    boolean renewed=false;
                     obj.setServerId(cursor.getString(1));
                     obj.setTopicId(cursor.getString(2));
                     obj.setTopicName(cursor.getString(3));
@@ -122,9 +108,8 @@ public class TopicDBHelper {
                     obj.setRenewedCount(cursor.getInt(6));
                     obj.setHoursLeft(cursor.getInt(7));
                     if(cursor.getString(9).equals("yes")){
-                        renewed=true;
+                        obj.setIsRenewed(true);
                     }
-                    obj.setIsRenewed(renewed);
 
                     if(cursor.getString(8).equals("yes")) {
                         obj.setIsMyTopic(true);
@@ -144,28 +129,36 @@ public class TopicDBHelper {
         return topics;
     }
 
-
     public void deleteAll() {
         topicDatabase.execSQL("DELETE from " + TopicDBConstants.TABLE_NAME);
     }
 
-
-    public ArrayList<String> getMyTopicId(){
-        topicDatabase = topicDB.getWritableDatabase();
-        ArrayList<String> s = new ArrayList<>();
-        String readTopicId = "SELECT DISTINCT" + TopicDBConstants.KEY_TOPIC_ID +"FROM" + TopicDBConstants.TABLE_NAME;
-        Cursor c = topicDatabase.rawQuery(readTopicId,null);
-
-        if(c!=null){
-            c.moveToFirst();
-            for(int i =0; i<c.getCount();i++){
-                s.add(c.getString(0));
+    public TopicDataModel getTopicById(String id){
+        Cursor cursor= topicDatabase.rawQuery("SELECT * FROM "+ TopicDBConstants.TABLE_NAME+ " WHERE " +
+                TopicDBConstants.KEY_TOPIC_ID + " =?", new String[] {id});
+        if(cursor!=null) {
+            cursor.moveToFirst();
+            TopicDataModel obj = new TopicDataModel();
+            obj.setServerId(cursor.getString(1));
+            obj.setTopicId(cursor.getString(2));
+            obj.setTopicName(cursor.getString(3));
+            obj.setTopicDescription(cursor.getString(4));
+            obj.setRenewalRequests(cursor.getInt(5));
+            obj.setRenewedCount(cursor.getInt(6));
+            obj.setHoursLeft(cursor.getInt(7));
+            if (cursor.getString(9).equals("yes")) {
+                obj.setIsRenewed(true);
             }
-            c.close();
-        }
 
-        return s;
+            if (cursor.getString(8).equals("yes")) {
+                obj.setIsMyTopic(true);
+            }
+            cursor.close();
+            return obj;
+        }
+        else return null;
     }
+
     public ArrayList<String> getMyTopicText(){
         topicDatabase = topicDB.getWritableDatabase();
         ArrayList<String> s = new ArrayList<>();
@@ -187,6 +180,7 @@ public class TopicDBHelper {
     }
 
     public void closeDataBase(){
-        topicDatabase.close(); // Closing database connection
+        topicDatabase.close();
+        topicDB.close();
     }
 }

@@ -1,17 +1,13 @@
 package com.theforum.data.helpers;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
-import com.microsoft.windowsazure.mobileservices.ApiOperationCallback;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.microsoft.windowsazure.mobileservices.table.TableOperationCallback;
 import com.theforum.TheForumApplication;
 import com.theforum.constants.Messages;
-import com.theforum.data.helpers.upvoteDownvoteApi.UPDVRequest;
-import com.theforum.data.helpers.upvoteDownvoteApi.UPDVResponse;
 import com.theforum.data.local.models.OpinionDataModel;
 import com.theforum.data.server.opinion;
 import com.theforum.utils.User;
@@ -105,72 +101,42 @@ public class OpinionHelper {
 
         runAsyncTask2(task);
     }
-    /*public void upVoteDownVote(Boolean ifUpVote,String opinionId,
-                               final OnUVDVOperationCompleteListener listener){
-
-        TrendingInput updvRequest= new TrendingInput();
-
-        updvRequest.uid = User.getInstance().getId();
 
 
-
-        TheForumApplication.getClient().invokeApi("trendingopininos", updvRequest, TrendingResponse.class,
-                new ApiOperationCallback<TrendingResponse>() {
-            @Override
-            public void onCompleted(TrendingResponse result, Exception exception, ServiceFilterResponse response) {
-                if (exception == null) {
-                    listener.onCompleteMessage("The process has fucking been completed");
-                    Log.e("message UpdvAPi", result.message);
-                    try {
-                        JSONArray jsonArray = new JSONArray(result.message);
-                        JSONObject jsonObject = jsonArray.getJSONObject(0);
-                        Log.e("message UpdvAPi", jsonObject.toString());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                } else {
-                    listener.onCompleteMessage(exception.getMessage());
-                }
-            }
-        });
-
-    }*/
-
-    public void upVoteDownVote(Boolean ifUpVote,String opinionId,
-                               final OnUVDVOperationCompleteListener listener){
-
-        UPDVRequest updvRequest= new UPDVRequest();
-        updvRequest.opinion_id = opinionId;
-        updvRequest.id = User.getInstance().getId();
-
-        if(ifUpVote){
-            //update UI
-            //update Local db
-            updvRequest.operation_chosen = 1;
-        }
-        else{
-
-            //update UI
-            updvRequest.operation_chosen = 0;
-        }
-        //update server
-
-
-        TheForumApplication.getClient().invokeApi("upvote", updvRequest, UPDVResponse.class,
-                new ApiOperationCallback<UPDVResponse>() {
-            @Override
-            public void onCompleted(UPDVResponse result, Exception exception, ServiceFilterResponse response) {
-                if (exception == null) {
-                    listener.onCompleteMessage("Opinion Upvoted");
-                    //Log.e("message UpdvAPi", result.message);
-                } else {
-                    listener.onErrorMessage(exception.getMessage());
-                }
-            }
-        });
-
-    }
+//    public void upVoteDownVote(Boolean ifUpVote,String opinionId,
+//                               final OnUVDVOperationCompleteListener listener){
+//
+//        UPDVRequest updvRequest= new UPDVRequest();
+//        updvRequest.opinion_id = opinionId;
+//        updvRequest.id = User.getInstance().getId();
+//
+//        if(ifUpVote){
+//            //update UI
+//            //update Local db
+//            updvRequest.operation_chosen = 1;
+//        }
+//        else{
+//
+//            //update UI
+//            updvRequest.operation_chosen = 0;
+//        }
+//        //update server
+//
+//
+//        TheForumApplication.getClient().invokeApi("upvote", updvRequest, UPDVResponse.class,
+//                new ApiOperationCallback<UPDVResponse>() {
+//            @Override
+//            public void onCompleted(UPDVResponse result, Exception exception, ServiceFilterResponse response) {
+//                if (exception == null) {
+//                    listener.onCompleteMessage("Opinion Upvoted");
+//                    //Log.e("message UpdvAPi", result.message);
+//                } else {
+//                    listener.onErrorMessage(exception.getMessage());
+//                }
+//            }
+//        });
+//
+//    }
 
 
     public void addOpinion(final opinion opinion , final OnOpinionAddListener listener){
@@ -255,14 +221,14 @@ public class OpinionHelper {
         void onError(String error);
     }
 
-    public interface OnUVDVOperationCompleteListener{
-        /**
-         *
-         * @param  message opinion data model with updated params
-         */
-        void onCompleteMessage(String message);
-        void onErrorMessage(String message);
-    }
+//    public interface OnUVDVOperationCompleteListener{
+//        /**
+//         *
+//         * @param  message opinion data model with updated params
+//         */
+//        void onCompleteMessage(String message);
+//        void onErrorMessage(String message);
+//    }
 
 
 }

@@ -14,6 +14,8 @@ import android.view.View;
 
 import com.theforum.R;
 import com.theforum.constants.LayoutType;
+import com.theforum.data.local.database.topicDB.TopicDBHelper;
+import com.theforum.data.local.database.trendsDB.TrendsDBHelper;
 import com.theforum.ui.activity.LoginActivity;
 import com.theforum.ui.search.SearchResultFragment;
 import com.theforum.utils.CommonUtils;
@@ -53,7 +55,7 @@ public class HomeActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        SpannableString spannableString = new SpannableString("theforum");
+        SpannableString spannableString = new SpannableString("theforum_debug");
         spannableString.setSpan(new TypefaceSpan(this, "Roboto-Light.ttf"), 0, 3,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         spannableString.setSpan(new TypefaceSpan(this, "Roboto-Medium.ttf"), 4, 8,
@@ -128,4 +130,11 @@ public class HomeActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        TopicDBHelper.getHelper().closeDataBase();
+        TrendsDBHelper.getHelper().closeDatabase();
+    }
 }

@@ -2,6 +2,7 @@ package com.theforum.ui.opinion;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -31,7 +32,6 @@ import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.views.DividerItemDecorator;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -69,7 +69,7 @@ public class OpinionsFragment extends Fragment {
         setHasOptionsMenu(true);
 
         if(getArguments()!=null){
-            mTopicModel = (TopicDataModel) getArguments().getSerializable(LayoutType.TOPIC_MODEL);
+            mTopicModel = getArguments().getParcelable(LayoutType.TOPIC_MODEL);
         }
     }
 
@@ -97,7 +97,6 @@ public class OpinionsFragment extends Fragment {
             @Override
             public void run() {
                 recyclerView.setPadding(0, collapsingToolbarLayout.getHeight(), 0, 0);
-
                 int actionBarSize = (int) CommonUtils.convertDpToPixel(56, getContext());
                 int progressViewStart = collapsingToolbarLayout.getHeight() - actionBarSize;
                 int progressViewEnd = progressViewStart + (int) (actionBarSize * 1.2f);
@@ -124,7 +123,6 @@ public class OpinionsFragment extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new DividerItemDecorator(getActivity(), R.drawable.recycler_view_divider));
-
         mAdapter = new OpinionsListAdapter(getActivity(), new ArrayList<OpinionDataModel>());
         recyclerView.setAdapter(mAdapter);
         getOpinionsFromServer();
@@ -134,7 +132,7 @@ public class OpinionsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 CommonUtils.openContainerActivity(getActivity(), LayoutType.NEW_OPINION_FRAGMENT,
-                        Pair.create(LayoutType.TOPIC_MODEL, (Serializable) mTopicModel));
+                        Pair.create(LayoutType.TOPIC_MODEL, (Parcelable) mTopicModel));
             }
         });
 
@@ -158,6 +156,8 @@ public class OpinionsFragment extends Fragment {
         });
 
     }
+
+
 
 
     private void getOpinionsFromServer(){
@@ -186,7 +186,6 @@ public class OpinionsFragment extends Fragment {
     }
 
     private void handleRenewButton(){
-
         final int b = mTopicModel.getRenewalRequests();
 
         if(!mTopicModel.isRenewed()) {
@@ -253,7 +252,6 @@ public class OpinionsFragment extends Fragment {
         }
 
     }
-
 
 
     @Override

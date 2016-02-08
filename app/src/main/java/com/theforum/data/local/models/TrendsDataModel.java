@@ -21,6 +21,7 @@ public class TrendsDataModel {
     private int downVoteCount;
     private int upVoteCount;
     private VoteStatus voteStatus = VoteStatus.NONE;
+
     public TrendsDataModel(){}
 
     public TrendsDataModel(opinion opinion){
@@ -128,4 +129,6 @@ public class TrendsDataModel {
     public void setRenewalIds(String renewalIds) {
         this.renewalIds = renewalIds;
     }
+
+
 }
