@@ -1,6 +1,5 @@
 package com.theforum.ui.settings;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -8,7 +7,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
-import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,11 +52,12 @@ public class StatisticsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        downVotesCount.setText("" + ProfileUtils.getInstance().getIntPreference(ProfileUtils.mRecUpvotes));
+        downVotesCount.setText("" + ProfileUtils.getInstance().getIntPreference(ProfileUtils.mRecDownvoted));
         opinionsCount.setText("" + ProfileUtils.getInstance().getIntPreference(ProfileUtils.mRecOpinions));
         topicsRenewedCount.setText("" + ProfileUtils.getInstance().getIntPreference(ProfileUtils.mRecTopicsRenewed));
         renewalsCount.setText(""+ProfileUtils.getInstance().getIntPreference(ProfileUtils.mRecRenewals));
         upVotesCount.setText(""+ProfileUtils.getInstance().getIntPreference(ProfileUtils.mRecUpvotes));
+
         cDownVotesCount.setText(""+ProfileUtils.getInstance().getIntPreference(ProfileUtils.mCrcDownvotes));
         cOpinionsCount.setText(""+ProfileUtils.getInstance().getIntPreference(ProfileUtils.mCrcOpinions));
         cRenewalsCount.setText(""+ProfileUtils.getInstance().getIntPreference(ProfileUtils.mCrcRenewals));

@@ -131,7 +131,7 @@
                     android:layout_marginBottom="16dp"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:gravity="center_vertical"
                     android:text="Share the App"
@@ -143,7 +143,7 @@
                     android:background="#e0e0e0"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:gravity="center_vertical"
                     android:text="Rate Us"
@@ -155,7 +155,7 @@
                     android:background="#e0e0e0"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:gravity="center_vertical"
                     android:text="Feedback"
@@ -166,7 +166,7 @@
                     android:layout_height="1dp"
                     android:background="#e0e0e0"/>
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:gravity="center_vertical"
                     android:text="Contact Us"
@@ -199,7 +199,7 @@
                     android:layout_marginBottom="16dp"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:gravity="center_vertical"
                     android:text="Terms of Service"
@@ -209,7 +209,7 @@
                     android:layout_height="1dp"
                     android:background="#e0e0e0"/>
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:gravity="center_vertical"
                     android:text="Privacy Policy"
@@ -219,7 +219,7 @@
                     android:layout_height="1dp"
                     android:background="#e0e0e0"/>
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:gravity="center_vertical"
                     android:text="Copyrights"

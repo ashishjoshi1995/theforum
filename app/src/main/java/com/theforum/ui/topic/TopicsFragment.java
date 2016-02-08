@@ -5,14 +5,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.theforum.R;
 import com.theforum.data.helpers.TopicHelper;
-import com.theforum.data.helpers.TrendsHelper;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.SettingsUtils;
@@ -92,7 +90,7 @@ public class TopicsFragment extends Fragment {
             });
         }
 
-        if(TrendsHelper.getHelper().requestStatus == RequestStatus.EXECUTING && mAdapter.getItemCount()==0){
+        if(TopicHelper.getHelper().requestStatus == RequestStatus.EXECUTING && mAdapter.getItemCount()==0){
             swipeRefreshLayout.post(new Runnable() {
                 @Override
                 public void run() {
