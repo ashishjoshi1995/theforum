@@ -2,14 +2,21 @@ package com.theforum.ui.opinion;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.theforum.R;
 import com.theforum.constants.Messages;
+import com.theforum.data.helpers.FlagHelper;
 import com.theforum.data.helpers.TrendsHelper;
 import com.theforum.data.local.models.OpinionDataModel;
 import com.theforum.utils.CommonUtils;
@@ -46,11 +53,13 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
         @Bind(R.id.opinion_opinion) TextView opinionText;
         @Bind(R.id.upvote_btn) TextView upVoteBtn;
         @Bind(R.id.down_vote_btn) TextView downVoteBtn;
+        @Bind(R.id.tem)RelativeLayout l;
 
         @BindDrawable(R.drawable.upvote) Drawable upVoteIcon;
         @BindDrawable(R.drawable.upvote_on) Drawable upVotedIcon;
         @BindDrawable(R.drawable.downvote) Drawable downVoteIcon;
         @BindDrawable(R.drawable.downvote_on) Drawable downVotedIcon;
+
 
         public OpinionsItemViewHolder(View v) {
             super(v);
@@ -238,12 +247,40 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
 
     @Override
     public OpinionsItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
         return new OpinionsItemViewHolder(LayoutInflater.from(parent.getContext()).inflate(
                 R.layout.opinion_list_item, parent, false));
     }
 
     @Override
     public void onBindViewHolder(final OpinionsItemViewHolder holder, final int position) {
+
+        holder.l.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                PopupMenu popupMenu = new PopupMenu(mContext, v);
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()){
+                            case R.id.item_edit:
+
+                                break;
+                            case R.id.item_flag:
+                                FlagHelper helper = new FlagHelper();
+                                helper.addFlagOpinionRequest(mOpinionList.get(position).getOpinionId(),
+                                        mOpinionList.get(position).getOpinionText(),mOpinionList.get(position).getTopicId());
+                                Log.e("item_flag","outsode ok");
+                                break;
+                        }
+                        return false;
+                    }
+                });
+                popupMenu.inflate(R.menu.popup_menu);
+                popupMenu.show();
+                return false;
+            }
+        });
 
         final OpinionDataModel opinionModel = mOpinionList.get(position);
         holder.opinionText.setText(opinionModel.getOpinionText());

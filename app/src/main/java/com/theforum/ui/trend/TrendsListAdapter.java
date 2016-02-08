@@ -270,7 +270,6 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
             topicDataModel.setTopicId(trend.getTopicId());
             topicDataModel.setHoursLeft(trend.getHoursLeft());
 
-
             CommonUtils.openContainerActivity(mContext, LayoutType.OPINIONS_FRAGMENT,
                     Pair.create(LayoutType.TOPIC_MODEL, (Parcelable) topicDataModel));
 

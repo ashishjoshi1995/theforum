@@ -44,7 +44,6 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
         this.onListItemClickListener = listItemClickListener;
     }
 
-
     public class TopicsItemViewHolder extends RecyclerView.ViewHolder {
 
         @Bind(R.id.topics_name) TextView topicName;

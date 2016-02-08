@@ -13,7 +13,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -98,7 +97,6 @@ public class OpinionsFragment extends Fragment {
             @Override
             public void run() {
                 recyclerView.setPadding(0, collapsingToolbarLayout.getHeight(), 0, 0);
-
                 int actionBarSize = (int) CommonUtils.convertDpToPixel(56, getContext());
                 int progressViewStart = collapsingToolbarLayout.getHeight() - actionBarSize;
                 int progressViewEnd = progressViewStart + (int) (actionBarSize * 1.2f);
@@ -125,7 +123,6 @@ public class OpinionsFragment extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new DividerItemDecorator(getActivity(), R.drawable.recycler_view_divider));
-
         mAdapter = new OpinionsListAdapter(getActivity(), new ArrayList<OpinionDataModel>());
         recyclerView.setAdapter(mAdapter);
         getOpinionsFromServer();
@@ -161,6 +158,8 @@ public class OpinionsFragment extends Fragment {
     }
 
 
+
+
     private void getOpinionsFromServer(){
         OpinionHelper.getHelper().getTopicSpecificOpinions(mTopicModel.getTopicId(),
                 new OpinionHelper.OnOpinionsReceivedListener() {
@@ -187,7 +186,6 @@ public class OpinionsFragment extends Fragment {
     }
 
     private void handleRenewButton(){
-        Log.e("I m clicked", "fuck me"+mTopicModel.getTopicId());
         final int b = mTopicModel.getRenewalRequests();
 
         if(!mTopicModel.isRenewed()) {

@@ -7,7 +7,6 @@ import android.support.v4.util.Pair;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +14,7 @@ import android.view.ViewGroup;
 import com.theforum.R;
 import com.theforum.constants.LayoutType;
 import com.theforum.data.helpers.TopicHelper;
+import com.theforum.data.local.database.topicDB.TopicDBHelper;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.SettingsUtils;
@@ -99,8 +99,9 @@ public class TopicsFragment extends Fragment implements OnListItemClickListener{
         }
 
         if(mTopicsList.size()>0){
-            Log.e("position",""+mPosition+"/"+mTopicsList.get(mPosition).getTopicId());
-            Log.e("status",""+mTopicsList.get(mPosition).isRenewed());
+            String topicId = mTopicsList.get(mPosition).getTopicId();
+            mTopicsList.remove(mPosition);
+            mTopicsList.add(mPosition, TopicDBHelper.getHelper().getTopicById(topicId));
             mAdapter.notifyItemChanged(mPosition);
         }
     }
@@ -142,4 +143,5 @@ public class TopicsFragment extends Fragment implements OnListItemClickListener{
         CommonUtils.openContainerActivity(getContext(), LayoutType.OPINIONS_FRAGMENT,
                 Pair.create(LayoutType.TOPIC_MODEL,  (Parcelable) mTopicsList.get(position)));
     }
+
 }
