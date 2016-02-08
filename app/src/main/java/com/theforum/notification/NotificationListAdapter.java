@@ -10,9 +10,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.theforum.R;
+import com.theforum.constants.LayoutType;
+import com.theforum.constants.Messages;
 import com.theforum.constants.NotificationType;
+import com.theforum.data.local.database.topicDB.TopicDBHelper;
 import com.theforum.data.local.models.NotificationDataModel;
+import com.theforum.data.local.models.TopicDataModel;
+import com.theforum.utils.CommonUtils;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -58,45 +64,19 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
         @Override
         public void onClick(View view) {
             NotificationDataModel noti = mData.get(getLayoutPosition());
-            //TopicDBHelper.getHelper().getMyTopicId()
-//            NotificationDataModel noti = mData.get(getLayoutPosition());
-//
-//            //final TopicDataModel topicDataModel = new TopicDataModel();
-//            TrendsHelper.getHelper().getTopicDetails(noti.topicId, new TrendsHelper.OnTopicDetailReceived() {
-//                @Override
-//                public void onCompleted(TopicDataModel topicDataModel) {
-//                    topicDataModel.setTopicDescription(topicDataModel.getDescription());
-//                    int p = 0;
-//                    if (trend.getRenewalIds() != null) {
-//                        String[] r = trend.getRenewalIds().split(" ");
-//                        p = r.length;
-//                        for (int k = 0; k < r.length; k++) {
-//                            if (r[k].equals(User.getInstance().getId())) {
-//                                topicDataModel.setIsRenewed(true);
-//                                break;
-//                            }
-//                        }
-//                    }
-//                    //topicDataModel.setIsRenewed();
-//                    topicDataModel.setRenewalRequests(p);
-//                    //topicDataModel.setRenewalRequests(trend.getRenewCount());
-//                    topicDataModel.setTopicName(trend.getTopicName());
-//                    topicDataModel.setTopicId(trend.getTopicId());
-//                    topicDataModel.setHoursLeft(trend.getHoursLeft());
-//
-//
-//                    CommonUtils.openContainerActivity(mContext, LayoutType.OPINIONS_FRAGMENT,
-//                            Pair.create(LayoutType.TOPIC_MODEL, (Serializable) topicDataModel));
-//                }
-//
-//                @Override
-//                public void onError(String error) {
-//
-//                }
-//            });
-//
-//
-//        }
+           // TopicDataModel topicDataModel = new TopicDataModel();
+            TopicDataModel topicDataModel= TopicDBHelper.getHelper().getTopicById(noti.topicId);
+
+
+            if(topicDataModel!=null) {
+                CommonUtils.openContainerActivity(mContext, LayoutType.OPINIONS_FRAGMENT,
+                        android.support.v4.util.Pair.create(LayoutType.TOPIC_MODEL, (Serializable) topicDataModel));
+            }
+            else {
+
+                CommonUtils.showToast(mContext, Messages.TOPIC_DELETE);
+            }
+
         }
     }
 

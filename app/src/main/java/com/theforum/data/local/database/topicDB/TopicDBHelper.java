@@ -166,6 +166,36 @@ public class TopicDBHelper {
 
         return s;
     }
+    public TopicDataModel getTopicById(String id){
+        Cursor cursor= topicDatabase.rawQuery("SELECT * FROM "+ TopicDBConstants.TABLE_NAME+ " WHERE " +
+                TopicDBConstants.KEY_TOPIC_ID + " =?", new String[] {id});
+        if(cursor!=null) {
+            cursor.moveToFirst();
+            TopicDataModel obj = new TopicDataModel();
+            boolean renewed = false;
+            obj.setServerId(cursor.getString(1));
+            obj.setTopicId(cursor.getString(2));
+            obj.setTopicName(cursor.getString(3));
+            obj.setTopicDescription(cursor.getString(4));
+            obj.setRenewalRequests(cursor.getInt(5));
+            obj.setRenewedCount(cursor.getInt(6));
+            obj.setHoursLeft(cursor.getInt(7));
+            if (cursor.getString(9).equals("yes")) {
+                renewed = true;
+            }
+            obj.setIsRenewed(renewed);
+
+            if (cursor.getString(8).equals("yes")) {
+                obj.setIsMyTopic(true);
+                // myTopics.add(obj);
+            } else {
+                obj.setIsMyTopic(false);
+                //topics.add(obj);
+            }
+            return obj;
+        }
+        else return null;
+    }
     public ArrayList<String> getMyTopicText(){
         topicDatabase = topicDB.getWritableDatabase();
         ArrayList<String> s = new ArrayList<>();
