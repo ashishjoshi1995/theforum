@@ -76,7 +76,7 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
 
                     if(!mTopicModel.isRenewed()) {
                         setCompoundDrawables(renewBtn,renewedIcon);
-                        renewBtn.setText(String.valueOf(b+1));
+                        renewBtn.setText(String.valueOf(b + 1));
                         mTopicModel.setRenewalRequests(b + 1);
                         mTopicModel.setIsRenewed(true);
 
