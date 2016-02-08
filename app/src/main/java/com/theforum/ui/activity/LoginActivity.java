@@ -217,30 +217,37 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private String getCountry() {
-        String country;
-        TelephonyManager teleMgr = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
-        if (teleMgr != null) {
+        try {
+            //Log.e("yuyyyyyyyyyy", "teri maa ka bhosda");
+            String country;
+            TelephonyManager teleMgr = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
+            if (teleMgr != null) {
 
-            country = teleMgr.getNetworkCountryIso();
-            // Log.e("asasas",country);
-            String sentence = "";
-            for (int i = 0; i < country.length(); i++) {
-                if (Character.isUpperCase(country.charAt(i)) == true) {
-                    char ch2 = (char) (country.charAt(i) + 32);
-                    sentence = sentence + ch2;
-                } else if (Character.isLowerCase(country.charAt(i)) == true) {
-                    char ch2 = (char) (country.charAt(i) - 32);
-                    sentence = sentence + ch2;
-                } else
-                    sentence = sentence + country.charAt(i);
+                country = teleMgr.getNetworkCountryIso();
+                // Log.e("asasas",country);
+                String sentence = "";
+                for (int i = 0; i < country.length(); i++) {
+                    if (Character.isUpperCase(country.charAt(i)) == true) {
+                        char ch2 = (char) (country.charAt(i) + 32);
+                        sentence = sentence + ch2;
+                    } else if (Character.isLowerCase(country.charAt(i)) == true) {
+                        char ch2 = (char) (country.charAt(i) - 32);
+                        sentence = sentence + ch2;
+                    } else
+                        sentence = sentence + country.charAt(i);
 
+                }
+                //  CountryCodesIso iso = new CountryCodesIso(sentence);
+                //Log.e("jjjjjjj", sentence);
+              //  Log.e("ffffffffff", "" + CountryCodesIso.valueOf(sentence).getCountryyName(sentence).toString());
+
+                return CountryCodesIso.valueOf(sentence).getCountryyName(sentence).toString();
             }
-            //  CountryCodesIso iso = new CountryCodesIso(sentence);
-            //Log.e("jjjjjjj",sentence);
-            //Log.e("ffffffffff", "" + CountryCodesIso.valueOf(sentence).getCountryyName(sentence).toString());
 
-            return CountryCodesIso.valueOf(sentence).getCountryyName(sentence).toString();
+        }
+        catch (Exception e){
+            e.printStackTrace();
         }
         return "India";
-    }
+        }
 }

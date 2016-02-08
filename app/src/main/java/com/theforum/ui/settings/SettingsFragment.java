@@ -146,66 +146,73 @@ public class SettingsFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        switch (buttonView.getId()){
+        switch (buttonView.getId()) {
 
             case R.id.settings_notification_up_votes:
-                if(isChecked) SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_UPVOTES_RECIEVED_NOTIFICATION,true);
-                else SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_UPVOTES_RECIEVED_NOTIFICATION,false);
+                if (isChecked)
+                    SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_UPVOTES_RECIEVED_NOTIFICATION, true);
+                else
+                    SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_UPVOTES_RECIEVED_NOTIFICATION, false);
                 break;
 
             case R.id.settings_notification_renewal_requests:
 
-                if(isChecked)SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_RENEWAL_REQUESTS_NOTIFICATION,true);
-                else SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_RENEWAL_REQUESTS_NOTIFICATION,false);
+                if (isChecked)
+                    SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_RENEWAL_REQUESTS_NOTIFICATION, true);
+                else
+                    SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_RENEWAL_REQUESTS_NOTIFICATION, false);
                 break;
 
             case R.id.settings_notification_topic_renewed:
-                if(isChecked)SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_TOPIC_RENEWED_NOTIFICATION,true);
-                else SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_TOPIC_RENEWED_NOTIFICATION,false);
+                if (isChecked)
+                    SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_TOPIC_RENEWED_NOTIFICATION, true);
+                else
+                    SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_TOPIC_RENEWED_NOTIFICATION, false);
                 break;
 
             case R.id.settings_notification_opinions:
-                if(isChecked) SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_OPINIONS_RECEIVED_NOTIFICATION,true);
-                else SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_OPINIONS_RECEIVED_NOTIFICATION,false);
+                if (isChecked)
+                    SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_OPINIONS_RECEIVED_NOTIFICATION, true);
+                else
+                    SettingsUtils.getInstance().saveBooleanPreference(SettingsUtils.ENABLE_OPINIONS_RECEIVED_NOTIFICATION, false);
                 break;
 
             case R.id.settings_location_toggle_button:
 
-            if (isChecked) {
-                String country;
-                TelephonyManager teleMgr = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
-                if (teleMgr != null) {
+                if (isChecked) {
+                    try {
+                    String country;
+                    TelephonyManager teleMgr = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
+                    if (teleMgr != null) {
 
-                    country = teleMgr.getNetworkCountryIso();
-                   // Log.e("asasas",country);
-                    String sentence="";
-                    for(int i=0;i<country.length();i++)
-                    {
-                        if(Character.isUpperCase(country.charAt(i))==true)
-                        {
-                            char ch2= (char)(country.charAt(i)+32);
-                            sentence = sentence + ch2;
-                        }
-                        else if(Character.isLowerCase(country.charAt(i))==true)
-                        {
-                            char ch2= (char)(country.charAt(i)-32);
-                            sentence = sentence + ch2;
-                        }
-                        else
-                            sentence= sentence + country.charAt(i);
+                        country = teleMgr.getNetworkCountryIso();
+                        // Log.e("asasas",country);
+                        String sentence = "";
+                        for (int i = 0; i < country.length(); i++) {
+                            if (Character.isUpperCase(country.charAt(i)) == true) {
+                                char ch2 = (char) (country.charAt(i) + 32);
+                                sentence = sentence + ch2;
+                            } else if (Character.isLowerCase(country.charAt(i)) == true) {
+                                char ch2 = (char) (country.charAt(i) - 32);
+                                sentence = sentence + ch2;
+                            } else
+                                sentence = sentence + country.charAt(i);
 
+                        }
+                        //  CountryCodesIso iso = new CountryCodesIso(sentence);
+                        //Log.e("jjjjjjj",sentence);
+                        //Log.e("ffffffffff", "" + CountryCodesIso.valueOf(sentence).getCountryyName(sentence).toString());
+                        ProfileUtils.getInstance().savePreferences(ProfileUtils.COUNTRY, country);
+
+                        location.setText("Location: " + "" + CountryCodesIso.valueOf(sentence).getCountryyName(sentence).toString());
+
+                    } else {
+                        CommonUtils.showToast(getActivity(), "Cannot find your country, please try after some time");
                     }
-                  //  CountryCodesIso iso = new CountryCodesIso(sentence);
-                    //Log.e("jjjjjjj",sentence);
-                    //Log.e("ffffffffff", "" + CountryCodesIso.valueOf(sentence).getCountryyName(sentence).toString());
-                    ProfileUtils.getInstance().savePreferences(ProfileUtils.COUNTRY, country);
-
-                    location.setText("Location: "+ "" + CountryCodesIso.valueOf(sentence).getCountryyName(sentence).toString());
-
-                } else{
-                    CommonUtils.showToast(getActivity(),"Cannot find your country, please try after some time");
-                }
-            }
+                }catch (Exception e){
+                        e.printStackTrace();
+                    }
+        }
             break;
         }
     }
