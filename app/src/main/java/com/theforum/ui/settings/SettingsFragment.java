@@ -120,12 +120,11 @@ public class SettingsFragment extends Fragment implements View.OnClickListener,
 
             switch(v.getId()){
                 case R.id.settings_application_share_app:
-                    NetworkUtils.shareViaWatsapp(getActivity(), "Try this app theforum,\nregister as a tester on\nhttps://play.google.com/apps/testing/com.theforum " +
-                            "\nThen download it from playstore link on the page that follows.\n" +
-                            "For more details visit\nhttp://theforumapp.co/terms.html");
+                    NetworkUtils.shareViaWatsapp(getActivity(), "Try this app theforum,\nhttps://play.google.com/store/apps/details?id=com.theforum&hl=en " +
+                            "\nIt is an all anonymous platform for creating your opinions and topics for discussion"+" \nFor more details visit\nhttp://theforumapp.co/terms.html");
                     break;
                 case R.id.settings_application_rate_us:
-                    NetworkUtils.goToUrl(getActivity(), "https://play.google.com/store/apps/details?id=com.theforum");
+                    NetworkUtils.goToUrl(getActivity(), "https://play.google.com/store/apps/details?id=com.theforum&hl=en");
                     break;
                 case R.id.settings_application_feedback:
                     NetworkUtils.emailIntent(getActivity());
