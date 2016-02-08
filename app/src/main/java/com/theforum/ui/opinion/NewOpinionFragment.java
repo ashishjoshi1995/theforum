@@ -57,7 +57,7 @@ public class NewOpinionFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(getArguments()!=null){
-            topicModel = (TopicDataModel) getArguments().getSerializable(LayoutType.TOPIC_MODEL);
+            topicModel = getArguments().getParcelable(LayoutType.TOPIC_MODEL);
         }
     }
 
