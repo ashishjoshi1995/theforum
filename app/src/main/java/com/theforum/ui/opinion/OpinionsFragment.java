@@ -12,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -186,7 +187,7 @@ public class OpinionsFragment extends Fragment {
     }
 
     private void handleRenewButton(){
-
+        Log.e("I m clicked", "fuck me"+mTopicModel.getTopicId());
         final int b = mTopicModel.getRenewalRequests();
 
         if(!mTopicModel.isRenewed()) {
@@ -253,7 +254,6 @@ public class OpinionsFragment extends Fragment {
         }
 
     }
-
 
 
     @Override

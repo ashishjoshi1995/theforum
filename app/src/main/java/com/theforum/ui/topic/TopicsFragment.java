@@ -84,16 +84,9 @@ public class TopicsFragment extends Fragment implements OnListItemClickListener{
                     .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS), false);
         }
 
-
         if(classification!=SettingsUtils.getInstance().getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS)){
             TopicHelper.getHelper().loadTopics(SettingsUtils.getInstance()
                     .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS), true);
-//            swipeRefreshLayout.post(new Runnable() {
-//                @Override
-//                public void run() {
-//                    swipeRefreshLayout.setRefreshing(true);
-//                }
-//            });
         }
 
         if(TopicHelper.getHelper().requestStatus == RequestStatus.EXECUTING){
@@ -104,10 +97,11 @@ public class TopicsFragment extends Fragment implements OnListItemClickListener{
                 }
             });
         }
-        Log.e("position",""+mPosition);
+
         if(mTopicsList.size()>0){
-        Log.e("gaura",""+mTopicsList.get(mPosition).isRenewed());
-        mAdapter.notifyItemChanged(mPosition);
+            Log.e("position",""+mPosition+"/"+mTopicsList.get(mPosition).getTopicId());
+            Log.e("status",""+mTopicsList.get(mPosition).isRenewed());
+            mAdapter.notifyItemChanged(mPosition);
         }
     }
 
@@ -139,7 +133,6 @@ public class TopicsFragment extends Fragment implements OnListItemClickListener{
                 });
             }
         });
-
     }
 
 

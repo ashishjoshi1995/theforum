@@ -53,7 +53,7 @@ public class HomeActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        SpannableString spannableString = new SpannableString("theforum");
+        SpannableString spannableString = new SpannableString("theforum_debug");
         spannableString.setSpan(new TypefaceSpan(this, "Roboto-Light.ttf"), 0, 3,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         spannableString.setSpan(new TypefaceSpan(this, "Roboto-Medium.ttf"), 4, 8,
