@@ -269,9 +269,57 @@ public class TopicHelper {
         }
 
     }
-    private void updateTopic(){
+    private void updateTopic(final String name, final String description, final String tid,final OnTopicInsertListener listener) {
 
+        AsyncTask<Void, Void,Void> task= new AsyncTask<Void, Void, Void>() {
+            topic t;
+            MobileServiceList<topic> result;
+            @Override
+            protected Void doInBackground(Void... voids) {
+
+                try {
+                    result = mTopicTable.where().field("topic_id").eq(tid).execute().get();
+
+                } catch (Exception e) {
+                    listener.onError(Messages.NO_NET_CONNECTION);
+
+                }
+
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                t= result.get(0);
+                t.setTopicName(name);
+                t.setTopicDescription(description);
+                mTopicTable.update(t, new TableOperationCallback<topic>() {
+                    @Override
+                    public void onCompleted(topic entity, Exception exception, ServiceFilterResponse response) {
+                        if (exception == null) {
+                             listener.onCompleted();
+
+                        } else {
+                            listener.onError(exception.getMessage());
+                        }
+                    }
+                });
+
+
+            }
+        };
+
+        runAsyncTask3(task);
     }
+
+
+
+
+
+
+
+
 
 
     private AsyncTask<Void, Void,ArrayList<topic>> runAsyncTask(AsyncTask<Void, Void, ArrayList<topic>> task) {
@@ -279,6 +327,9 @@ public class TopicHelper {
     }
 
     private AsyncTask<Void, Void,Void> runAsyncTask2(AsyncTask<Void, Void, Void> task) {
+        return task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+    private AsyncTask<Void, Void, Void> runAsyncTask3(AsyncTask<Void, Void, Void> task) {
         return task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
