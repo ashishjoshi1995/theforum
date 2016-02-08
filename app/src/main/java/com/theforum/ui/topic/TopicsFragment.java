@@ -1,6 +1,7 @@
 package com.theforum.ui.topic;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.util.Pair;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -21,7 +22,6 @@ import com.theforum.utils.enums.RequestStatus;
 import com.theforum.utils.listeners.OnListItemClickListener;
 import com.theforum.utils.views.DividerItemDecorator;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -140,6 +140,6 @@ public class TopicsFragment extends Fragment implements OnListItemClickListener{
     public void onItemClick(View v, int position) {
         mPosition = position;
         CommonUtils.openContainerActivity(getContext(), LayoutType.OPINIONS_FRAGMENT,
-                Pair.create(LayoutType.TOPIC_MODEL, (Serializable) mTopicsList.get(position)));
+                Pair.create(LayoutType.TOPIC_MODEL,  (Parcelable) mTopicsList.get(position)));
     }
 }

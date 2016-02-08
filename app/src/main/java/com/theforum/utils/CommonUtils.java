@@ -5,7 +5,6 @@ package com.theforum.utils;
  * @since 31-12-2015.
  */
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -15,13 +14,13 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
+import android.os.Parcelable;
 import android.support.v4.util.Pair;
 import android.util.DisplayMetrics;
 import android.widget.Toast;
 
-import com.theforum.ui.activity.ContainerActivity;
 import com.theforum.TheForumApplication;
+import com.theforum.ui.activity.ContainerActivity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -52,7 +51,7 @@ public class CommonUtils {
         context.startActivity(intent);
     }
 
-    public static void openContainerActivity(Context context,int idValue,Pair<String,Serializable> extras){
+    public static void openContainerActivity(Context context,int idValue,Pair<String,Parcelable> extras){
         if(extras==null){
             openContainerActivity(context, idValue);
         }else{
@@ -64,7 +63,7 @@ public class CommonUtils {
         }
     }
 
-    public static void openContainerActivity(Context context,int idValue,ArrayList<Pair<String,Serializable>> extras){
+    public static void openContainerActivity(Context context,int idValue,ArrayList<Pair<String,Parcelable>> extras){
         if(extras==null){
             openContainerActivity(context, idValue);
         }else{
@@ -99,9 +98,4 @@ public class CommonUtils {
         return false;
     }
 
-    public static void setStatusBarColor(Activity activity, int color){
-        if(Build.VERSION.SDK_INT >= 21) {
-            activity.getWindow().setStatusBarColor(color);
-        }
-    }
 }

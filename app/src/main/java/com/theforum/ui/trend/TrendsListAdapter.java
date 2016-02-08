@@ -2,6 +2,7 @@ package com.theforum.ui.trend;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Parcelable;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -21,7 +22,6 @@ import com.theforum.utils.CommonUtils;
 import com.theforum.utils.User;
 import com.theforum.utils.enums.VoteStatus;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -264,16 +264,15 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                     }
                 }
             }
-            //topicDataModel.setIsRenewed();
+
             topicDataModel.setRenewalRequests(p);
-            //topicDataModel.setRenewalRequests(trend.getRenewCount());
             topicDataModel.setTopicName(trend.getTopicName());
             topicDataModel.setTopicId(trend.getTopicId());
             topicDataModel.setHoursLeft(trend.getHoursLeft());
 
 
             CommonUtils.openContainerActivity(mContext, LayoutType.OPINIONS_FRAGMENT,
-                    Pair.create(LayoutType.TOPIC_MODEL, (Serializable) topicDataModel));
+                    Pair.create(LayoutType.TOPIC_MODEL, (Parcelable) topicDataModel));
 
         }
     }
