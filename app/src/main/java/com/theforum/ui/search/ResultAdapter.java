@@ -1,6 +1,7 @@
 package com.theforum.ui.search;
 
 import android.content.Context;
+import android.os.Parcelable;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -14,7 +15,6 @@ import com.theforum.constants.LayoutType;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.utils.CommonUtils;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -55,7 +55,7 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder
                 public void onClick(View v) {
 
                     CommonUtils.openContainerActivity(mContext, LayoutType.OPINIONS_FRAGMENT,
-                            Pair.create(LayoutType.TOPIC_MODEL, (Serializable) mDataSet.get(getLayoutPosition())));
+                            Pair.create(LayoutType.TOPIC_MODEL, (Parcelable) mDataSet.get(getLayoutPosition())));
                 }
             });
         }
