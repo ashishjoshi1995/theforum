@@ -53,19 +53,6 @@ public class TopicDBHelper {
 
     }
 
-    public void addTopicFromServer(TopicDataModel topic){
-
-        Cursor c= topicDatabase.rawQuery("SELECT * FROM "+ TopicDBConstants.TABLE_NAME+ " WHERE " +
-                TopicDBConstants.KEY_TOPIC_ID + " =?", new String[] {topic.getTopicId()});
-
-        if(c.moveToFirst()) {
-            updateTopic(topic);
-        }
-        else {
-            addTopic(topic);
-        }
-        c.close();
-    }
 
     /**
      * This methods add the topics into the db.
@@ -80,12 +67,12 @@ public class TopicDBHelper {
     }
 
     public void updateTopic(TopicDataModel topic){
-        ContentValues values = new ContentValues();
 
+        ContentValues values = new ContentValues();
+        values.put(TopicDBConstants.KEY_TOPIC,topic.getTopicName());
         values.put(TopicDBConstants.KEY_RENEWAL_REQUEST, topic.getRenewalRequests());
         values.put(TopicDBConstants.KEY_RENEWED_COUNT, topic.getRenewedCount());
         values.put(TopicDBConstants.KEY_HOURS_LEFT, topic.getHoursLeft());
-
         topicDatabase.update(TopicDBConstants.TABLE_NAME, values, TopicDBConstants.KEY_TOPIC_ID
                 +" = ?", new String[]{topic.getTopicId()});
     }
@@ -94,7 +81,7 @@ public class TopicDBHelper {
         ContentValues values = new ContentValues();
 
         values.put(TopicDBConstants.KEY_IS_RENEWED, (topic.isRenewed())? "yes" :"no");
-
+        values.put(TopicDBConstants.KEY_RENEWAL_REQUEST, topic.getRenewalRequests());
         topicDatabase.update(TopicDBConstants.TABLE_NAME, values, TopicDBConstants.KEY_TOPIC_ID
                 +" = ?", new String[]{topic.getTopicId()});
     }
@@ -141,7 +128,6 @@ public class TopicDBHelper {
 
         return topics;
     }
-
 
     public void deleteAll() {
         topicDatabase.execSQL("DELETE from " + TopicDBConstants.TABLE_NAME);
@@ -194,6 +180,7 @@ public class TopicDBHelper {
     }
 
     public void closeDataBase(){
-        topicDatabase.close(); // Closing database connection
+        topicDatabase.close();
+        topicDB.close();
     }
 }

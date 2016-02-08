@@ -14,6 +14,8 @@ import android.view.View;
 
 import com.theforum.R;
 import com.theforum.constants.LayoutType;
+import com.theforum.data.local.database.topicDB.TopicDBHelper;
+import com.theforum.data.local.database.trendsDB.TrendsDBHelper;
 import com.theforum.ui.activity.LoginActivity;
 import com.theforum.ui.search.SearchResultFragment;
 import com.theforum.utils.CommonUtils;
@@ -128,4 +130,11 @@ public class HomeActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        TopicDBHelper.getHelper().closeDataBase();
+        TrendsDBHelper.getHelper().closeDatabase();
+    }
 }
