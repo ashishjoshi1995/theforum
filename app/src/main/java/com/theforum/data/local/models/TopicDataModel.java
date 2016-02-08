@@ -22,7 +22,10 @@ public class TopicDataModel implements Parcelable{
     private boolean isRenewed;
     private boolean isMyTopic;
 
-    public TopicDataModel(){}
+    public TopicDataModel(){
+        isRenewed = false;
+        isMyTopic = false;
+    }
 
     public TopicDataModel(topic topic){
         this.serverId = topic.getServerId();
