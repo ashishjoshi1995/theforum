@@ -70,7 +70,7 @@ public class TrendsFragment extends Fragment {
             TrendsHelper.getHelper().loadTrends(false);
         }
 
-        if(TrendsHelper.getHelper().requestStatus == RequestStatus.EXECUTING && mAdapter.getItemCount()==0){
+        if(TrendsHelper.getHelper().requestStatus == RequestStatus.EXECUTING ){
             swipeRefreshLayout.post(new Runnable() {
                 @Override
                 public void run() {

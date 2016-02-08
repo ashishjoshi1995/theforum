@@ -3,6 +3,7 @@ package com.theforum.ui.search;
 import android.content.Context;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,10 +76,11 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder
         final TopicDataModel topic = mDataSet.get(position);
 
         holder.topicName.setText(topic.getTopicName());
-        holder.timeHolder.setText(mContext.getResources().getQuantityString(R.plurals.time_holder_message,
-                topic.getRenewedCount()+1,
+        String time=mContext.getResources().getQuantityString(R.plurals.time_holder_message,
+                topic.getRenewedCount() + 1,
                 topic.getHoursLeft(),
-                topic.getRenewedCount()));
+                topic.getRenewedCount());
+        holder.timeHolder.setText(Html.fromHtml(time));
     }
 
     public TopicDataModel removeItem(int position) {

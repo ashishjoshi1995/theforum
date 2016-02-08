@@ -37,19 +37,67 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
         mData = dataSet;
     }
 
-    public class ViewHolderOne extends RecyclerView.ViewHolder {
+    public class ViewHolderOne extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        @Bind(R.id.notification_header) TextView header;
-        @Bind(R.id.notification_main_text) TextView mainText;
-        @Bind(R.id.notification_description)TextView description;
-        @Bind(R.id.notification_decay_time) TextView timeHolder;
+        @Bind(R.id.notification_header)
+        TextView header;
+        @Bind(R.id.notification_main_text)
+        TextView mainText;
+        @Bind(R.id.notification_description)
+        TextView description;
+        @Bind(R.id.notification_decay_time)
+        TextView timeHolder;
 
 
         public ViewHolderOne(View v) {
             super(v);
             ButterKnife.bind(this, v);
+            v.setOnClickListener(this);
         }
 
+        @Override
+        public void onClick(View view) {
+            NotificationDataModel noti = mData.get(getLayoutPosition());
+            //TopicDBHelper.getHelper().getMyTopicId()
+//            NotificationDataModel noti = mData.get(getLayoutPosition());
+//
+//            //final TopicDataModel topicDataModel = new TopicDataModel();
+//            TrendsHelper.getHelper().getTopicDetails(noti.topicId, new TrendsHelper.OnTopicDetailReceived() {
+//                @Override
+//                public void onCompleted(TopicDataModel topicDataModel) {
+//                    topicDataModel.setTopicDescription(topicDataModel.getDescription());
+//                    int p = 0;
+//                    if (trend.getRenewalIds() != null) {
+//                        String[] r = trend.getRenewalIds().split(" ");
+//                        p = r.length;
+//                        for (int k = 0; k < r.length; k++) {
+//                            if (r[k].equals(User.getInstance().getId())) {
+//                                topicDataModel.setIsRenewed(true);
+//                                break;
+//                            }
+//                        }
+//                    }
+//                    //topicDataModel.setIsRenewed();
+//                    topicDataModel.setRenewalRequests(p);
+//                    //topicDataModel.setRenewalRequests(trend.getRenewCount());
+//                    topicDataModel.setTopicName(trend.getTopicName());
+//                    topicDataModel.setTopicId(trend.getTopicId());
+//                    topicDataModel.setHoursLeft(trend.getHoursLeft());
+//
+//
+//                    CommonUtils.openContainerActivity(mContext, LayoutType.OPINIONS_FRAGMENT,
+//                            Pair.create(LayoutType.TOPIC_MODEL, (Serializable) topicDataModel));
+//                }
+//
+//                @Override
+//                public void onError(String error) {
+//
+//                }
+//            });
+//
+//
+//        }
+        }
     }
 
 

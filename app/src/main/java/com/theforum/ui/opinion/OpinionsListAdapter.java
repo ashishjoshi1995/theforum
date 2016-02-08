@@ -95,7 +95,8 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
                     }
                     else if(opinionModel.getVoteStatus() == VoteStatus.UPVOTED){
                         int upvotes = opinionModel.getUpVoteCount();
-                        upvotes = upvotes-1;
+                        if(upvotes!=0){
+                            upvotes = upvotes - 1;}
 
                         upVoteBtn.setText(String.valueOf(upvotes));
                         setCompoundDrawables(upVoteBtn, upVoteIcon);
@@ -120,7 +121,8 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
                     }
                     else if(opinionModel.getVoteStatus() == VoteStatus.DOWNVOTED){
                         int downvotes = opinionModel.getDownVoteCount();
-                        downvotes = downvotes - 1;
+                        if(downvotes!=0){
+                        downvotes = downvotes - 1;}
                         downVoteBtn.setText(String.valueOf(downvotes));
                         setCompoundDrawables(downVoteBtn, downVoteIcon);
                         opinionModel.setDownVoteCount(downvotes);
@@ -175,7 +177,8 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
 
                     else if(opinionModel2.getVoteStatus() == VoteStatus.DOWNVOTED){
                         int downvotes = opinionModel2.getDownVoteCount();
-                        downvotes = downvotes - 1;
+                        if(downvotes!=0){
+                            downvotes = downvotes - 1;}
                         downVoteBtn.setText(String.valueOf(downvotes));
                         setCompoundDrawables(downVoteBtn, downVoteIcon);
                         opinionModel2.setDownVoteCount(downvotes);
@@ -195,7 +198,8 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
                     }
                     else if(opinionModel2.getVoteStatus() == VoteStatus.UPVOTED){
                         int upvotes = opinionModel2.getUpVoteCount();
-                        upvotes = upvotes-1;
+                        if(upvotes!=0){
+                            upvotes = upvotes - 1;}
 
                         upVoteBtn.setText(String.valueOf(upvotes));
                         setCompoundDrawables(upVoteBtn, upVoteIcon);

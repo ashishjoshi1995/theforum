@@ -2,7 +2,6 @@ package com.theforum.ui.topic;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -10,17 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 import com.theforum.R;
-import com.theforum.TheForumApplication;
-import com.theforum.constants.LayoutType;
 import com.theforum.data.helpers.TopicHelper;
 import com.theforum.data.local.database.topicDB.TopicDBHelper;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.utils.CommonUtils;
+import com.theforum.utils.listeners.OnListItemClickListener;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,10 +35,15 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
     private List<TopicDataModel> mTopics;
 
     private final static int VIEW_TYPE_TOPIC = 0;
+    private OnListItemClickListener onListItemClickListener;
 
     public TopicsListAdapter(Context context, List<TopicDataModel> feeds){
         mContext = context;
         mTopics = feeds;
+    }
+
+    public void setOnListItemClickListener(OnListItemClickListener listItemClickListener){
+        this.onListItemClickListener = listItemClickListener;
     }
 
 
@@ -56,7 +56,6 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
         @BindDrawable(R.drawable.renew_icon) Drawable renewIcon;
         @BindDrawable(R.drawable.renew_icon_on) Drawable renewedIcon;
 
-
         public TopicsItemViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, v);
@@ -64,8 +63,7 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    CommonUtils.openContainerActivity(mContext, LayoutType.OPINIONS_FRAGMENT,
-                            Pair.create(LayoutType.TOPIC_MODEL, (Serializable) mTopics.get(getLayoutPosition())));
+                   onListItemClickListener.onItemClick(v, getLayoutPosition());
                 }
             });
 
@@ -78,7 +76,7 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
 
                     if(!mTopicModel.isRenewed()) {
                         setCompoundDrawables(renewBtn,renewedIcon);
-                        renewBtn.setText(String.valueOf(b+1));
+                        renewBtn.setText(String.valueOf(b + 1));
                         mTopicModel.setRenewalRequests(b + 1);
                         mTopicModel.setIsRenewed(true);
 
@@ -159,8 +157,7 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
         holder.topicName.setText(topic.getTopicName());
         holder.renewBtn.setText(String.valueOf(topic.getRenewalRequests()));
 
-        holder.timeHolder.setText(Html.fromHtml(mContext.getResources().getQuantityString(
-                R.plurals.time_holder_message,
+        holder.timeHolder.setText(Html.fromHtml(mContext.getResources().getQuantityString(R.plurals.time_holder_message,
                 topic.getRenewedCount() + 1,
                 topic.getHoursLeft(),
                 topic.getRenewedCount())));
@@ -179,7 +176,6 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
     private void setCompoundDrawables(TextView textView, Drawable drawable){
         textView.setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null);
     }
-
 
 
     /**
