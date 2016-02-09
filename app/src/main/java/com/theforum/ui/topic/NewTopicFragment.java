@@ -38,14 +38,15 @@ public class NewTopicFragment extends Fragment {
     EditText mTopicText;
 
     private TopicDataModel mTopicModel;
-    private boolean mUpdateTopic;
+    private boolean mUpdateTopic=false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mUpdateTopic = false;
         if(getArguments()!= null){
             mTopicModel = getArguments().getParcelable(LayoutType.TOPIC_MODEL);
-            mUpdateTopic = true;
+            if(mTopicModel!=null) mUpdateTopic = true;
         }
     }
 
