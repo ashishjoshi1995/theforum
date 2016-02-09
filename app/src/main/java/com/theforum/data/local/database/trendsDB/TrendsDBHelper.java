@@ -105,6 +105,7 @@ public class TrendsDBHelper {
     }
 
     public void deleteAllTrends(){
+        if(!trendsDatabase.isOpen()) trendsDatabase = trendsDB.getWritableDatabase();
         trendsDatabase.execSQL("DELETE from " + TrendsDBConstants.TABLE_NAME);
     }
 

@@ -131,6 +131,7 @@ public class TopicDBHelper {
     }
 
     public void deleteAll() {
+        if(topicDatabase.isOpen()){}else topicDatabase = topicDB.getWritableDatabase();
         topicDatabase.execSQL("DELETE from " + TopicDBConstants.TABLE_NAME);
     }
 
