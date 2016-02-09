@@ -73,6 +73,16 @@ public class TopicsFragment extends Fragment implements OnListItemClickListener{
         });
 
         getTopics();
+
+        TopicHelper.getHelper().setTopicInsertListener(new TopicHelper.OnTopicInsertListener() {
+            @Override
+            public void onCompleted(TopicDataModel topicDataModel, boolean isUpdated) {
+                 mAdapter.addTopic(topicDataModel, 0);
+            }
+
+            @Override
+            public void onError(String error) {}
+        });
     }
 
     @Override
@@ -113,12 +123,8 @@ public class TopicsFragment extends Fragment implements OnListItemClickListener{
             @Override
             public void onCompleted(ArrayList<TopicDataModel> topics) {
                 dataReceived = true;
-                if (topics.size() == 1 && topics.get(0).isMyTopic()) {
-                    mAdapter.addTopic(topics.get(0), 0);
-                } else {
-                    mAdapter.removeAllTopics();
-                    mAdapter.addTopics(topics);
-                }
+                mAdapter.removeAllTopics();
+                mAdapter.addTopics(topics);
                 classification = SettingsUtils.getInstance().getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS);
                 swipeRefreshLayout.setRefreshing(false);
             }

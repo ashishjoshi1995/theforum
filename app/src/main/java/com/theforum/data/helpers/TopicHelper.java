@@ -36,6 +36,7 @@ public class TopicHelper {
     private MobileServiceClient mClient;
     private MobileServiceTable<topic> mTopicTable;
     private ArrayList<TopicDataModel> topicArrayList;
+    private OnTopicInsertListener topicInsertListener;
     private OnTopicsReceiveListener topicsReceiveListener;
 
     public RequestStatus requestStatus;
@@ -81,13 +82,11 @@ public class TopicHelper {
                                     topicDataModel.setIsMyTopic(true);
                                     TopicDBHelper.getHelper().addTopic(topicDataModel);
 
-                                    if (topicsReceiveListener != null) {
-                                        topicArrayList.clear();
-                                        topicArrayList.add(topicDataModel);
-                                        topicsReceiveListener.onCompleted(topicArrayList);
+                                    if (topicInsertListener != null) {
+                                        topicInsertListener.onCompleted(topicDataModel, false);
                                     }
 
-                                    onTopicInsertListener.onCompleted();
+                                    onTopicInsertListener.onCompleted(topicDataModel, false);
 
                                 } else {
                                     onTopicInsertListener.onError(exception.getMessage());
@@ -106,9 +105,11 @@ public class TopicHelper {
         else{
             CommonUtils.showToast(TheForumApplication.getAppContext(),"Topic Already Exists");
         }
-
     }
 
+    public void setTopicInsertListener(OnTopicInsertListener listener){
+        topicInsertListener = listener;
+    }
 
     public void getTopics(OnTopicsReceiveListener listener){
         topicsReceiveListener = listener;
@@ -269,16 +270,17 @@ public class TopicHelper {
         }
 
     }
-    private void updateTopic(final String name, final String description, final String tid,final OnTopicInsertListener listener) {
+
+
+    public void updateTopic(final TopicDataModel topicDataModel ,final OnTopicInsertListener listener) {
 
         AsyncTask<Void, Void,Void> task= new AsyncTask<Void, Void, Void>() {
             topic t;
             MobileServiceList<topic> result;
             @Override
             protected Void doInBackground(Void... voids) {
-
                 try {
-                    result = mTopicTable.where().field("topic_id").eq(tid).execute().get();
+                    result = mTopicTable.where().field("topic_id").eq(topicDataModel.getTopicId()).execute().get();
 
                 } catch (Exception e) {
                     listener.onError(Messages.NO_NET_CONNECTION);
@@ -292,34 +294,28 @@ public class TopicHelper {
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 t= result.get(0);
-                t.setTopicName(name);
-                t.setTopicDescription(description);
+                t.setTopicName(topicDataModel.getTopicName());
+                t.setTopicDescription(topicDataModel.getTopicDescription());
                 mTopicTable.update(t, new TableOperationCallback<topic>() {
                     @Override
                     public void onCompleted(topic entity, Exception exception, ServiceFilterResponse response) {
                         if (exception == null) {
-                             listener.onCompleted();
-
+                            TopicDBHelper.getHelper().updateTopic(topicDataModel);
+                             listener.onCompleted(null, true);
+                            if (topicInsertListener != null) {
+                                topicInsertListener.onCompleted(topicDataModel, true);
+                            }
                         } else {
                             listener.onError(exception.getMessage());
                         }
                     }
                 });
 
-
             }
         };
 
         runAsyncTask3(task);
     }
-
-
-
-
-
-
-
-
 
 
     private AsyncTask<Void, Void,ArrayList<topic>> runAsyncTask(AsyncTask<Void, Void, ArrayList<topic>> task) {
@@ -362,7 +358,7 @@ public class TopicHelper {
     }
 
     public interface OnTopicInsertListener{
-        void onCompleted();
+        void onCompleted(TopicDataModel topicDataModel, boolean isUpdated);
         void onError(String error);
     }
 

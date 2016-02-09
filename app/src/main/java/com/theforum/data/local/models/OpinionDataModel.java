@@ -1,6 +1,7 @@
 package com.theforum.data.local.models;
 
 import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.theforum.data.server.opinion;
 import com.theforum.utils.enums.VoteStatus;
@@ -8,9 +9,9 @@ import com.theforum.utils.enums.VoteStatus;
 /**
  * @author  Deepankar on 1/6/2016.
  */
-public class OpinionDataModel {
+public class OpinionDataModel implements Parcelable{
 
-    private String serverId;
+    private String uId;
     private String opinionId;
     private String opinionText;
     private String topicName;
@@ -23,20 +24,15 @@ public class OpinionDataModel {
 
     public OpinionDataModel(opinion opinion){
 
-        this.serverId = opinion.getServerId();
+        this.uId = opinion.getUserId();
         this.opinionId = opinion.getOpinionId();
         this.opinionText = opinion.getOpinionName();
+        this.topicName = opinion.getTopicName();
+        this.topicId = opinion.getTopicId();
         this.upVoteCount = opinion.getUpVotes();
         this.downVoteCount = opinion.getDownVotes();
     }
 
-    public String getServerId() {
-        return serverId;
-    }
-
-    public void setServerId(String serverId) {
-        this.serverId = serverId;
-    }
 
     public String getOpinionId() {
         return opinionId;
@@ -95,8 +91,16 @@ public class OpinionDataModel {
         this.topicName = topicName;
     }
 
+    public String getuId() {
+        return uId;
+    }
+
+    public void setuId(String uId) {
+        this.uId = uId;
+    }
+
     protected OpinionDataModel(Parcel in) {
-        serverId = in.readString();
+        uId = in.readString();
         opinionId = in.readString();
         opinionText = in.readString();
         topicName = in.readString();
@@ -106,33 +110,35 @@ public class OpinionDataModel {
         voteStatus = (VoteStatus) in.readValue(VoteStatus.class.getClassLoader());
     }
 
-//    @Override
-//    public int describeContents() {
-//        return 0;
-//    }
-//
-//    @Override
-//    public void writeToParcel(Parcel dest, int flags) {
-//        dest.writeString(serverId);
-//        dest.writeString(opinionId);
-//        dest.writeString(opinionText);
-//        dest.writeString(topicName);
-//        dest.writeString(topicId);
-//        dest.writeInt(downVoteCount);
-//        dest.writeInt(upVoteCount);
-//        dest.writeValue(voteStatus);
-//    }
-//
-//    @SuppressWarnings("unused")
-//    public static final Parcelable.Creator<OpinionDataModel> CREATOR = new Parcelable.Creator<OpinionDataModel>() {
-//        @Override
-//        public OpinionDataModel createFromParcel(Parcel in) {
-//            return new OpinionDataModel(in);
-//        }
-//
-//        @Override
-//        public OpinionDataModel[] newArray(int size) {
-//            return new OpinionDataModel[size];
-//        }
-//    };
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(uId);
+        dest.writeString(opinionId);
+        dest.writeString(opinionText);
+        dest.writeString(topicName);
+        dest.writeString(topicId);
+        dest.writeInt(downVoteCount);
+        dest.writeInt(upVoteCount);
+        dest.writeValue(voteStatus);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<OpinionDataModel> CREATOR = new Parcelable.Creator<OpinionDataModel>() {
+        @Override
+        public OpinionDataModel createFromParcel(Parcel in) {
+            return new OpinionDataModel(in);
+        }
+
+        @Override
+        public OpinionDataModel[] newArray(int size) {
+            return new OpinionDataModel[size];
+        }
+    };
 }

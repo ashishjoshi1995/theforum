@@ -22,9 +22,7 @@ public class OpinionHelper {
 
     private static OpinionHelper mOpinionHelper;
     private  MobileServiceTable<opinion> mOpinion;
-
     private ArrayList<OpinionDataModel> opinionList;
-
     private OnOpinionAddListener opinionAddListener;
 
 
@@ -103,42 +101,6 @@ public class OpinionHelper {
     }
 
 
-//    public void upVoteDownVote(Boolean ifUpVote,String opinionId,
-//                               final OnUVDVOperationCompleteListener listener){
-//
-//        UPDVRequest updvRequest= new UPDVRequest();
-//        updvRequest.opinion_id = opinionId;
-//        updvRequest.id = User.getInstance().getId();
-//
-//        if(ifUpVote){
-//            //update UI
-//            //update Local db
-//            updvRequest.operation_chosen = 1;
-//        }
-//        else{
-//
-//            //update UI
-//            updvRequest.operation_chosen = 0;
-//        }
-//        //update server
-//
-//
-//        TheForumApplication.getClient().invokeApi("upvote", updvRequest, UPDVResponse.class,
-//                new ApiOperationCallback<UPDVResponse>() {
-//            @Override
-//            public void onCompleted(UPDVResponse result, Exception exception, ServiceFilterResponse response) {
-//                if (exception == null) {
-//                    listener.onCompleteMessage("Opinion Upvoted");
-//                    //Log.e("message UpdvAPi", result.message);
-//                } else {
-//                    listener.onErrorMessage(exception.getMessage());
-//                }
-//            }
-//        });
-//
-//    }
-
-
     public void addOpinion(final opinion opinion , final OnOpinionAddListener listener){
 
         AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
@@ -152,10 +114,10 @@ public class OpinionHelper {
 
                             if(exception == null) {
                                 OpinionDataModel opinion = new OpinionDataModel(entity);
-                                listener.onCompleted(opinion);
+                                listener.onCompleted(opinion, false);
 
                                 if(opinionAddListener!= null){
-                                    opinionAddListener.onCompleted(opinion);
+                                    opinionAddListener.onCompleted(opinion,false);
                                 }
                             }
                             else {
@@ -180,8 +142,9 @@ public class OpinionHelper {
 
         runAsyncTask(task);
     }
-    private void updateOpinion( final String description, final String tid,final OnOpinionAddListener listener) {
 
+    public void updateOpinion(final String description, final String opinionId,final OnOpinionAddListener listener) {
+       // VoteStatus voteStatus =
         AsyncTask<Void, Void,Void> task= new AsyncTask<Void, Void, Void>() {
             opinion o;
             MobileServiceList<opinion> result;
@@ -189,7 +152,7 @@ public class OpinionHelper {
             protected Void doInBackground(Void... voids) {
 
                 try {
-                    result = mOpinion.where().field("opinion_id").eq(tid).execute().get();
+                    result = mOpinion.where().field("opinion_id").eq(opinionId).execute().get();
 
                 } catch (Exception e) {
                     listener.onError(Messages.NO_NET_CONNECTION);
@@ -203,16 +166,16 @@ public class OpinionHelper {
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 o= result.get(0);
-                //t.setTopicName(name);
                 o.setOpinionName(description);
                 mOpinion.update(o, new TableOperationCallback<opinion>() {
                     @Override
                     public void onCompleted(opinion entity, Exception exception, ServiceFilterResponse response) {
                         if (exception == null) {
                             OpinionDataModel opinion = new OpinionDataModel(entity);
-                            listener.onCompleted(opinion);
-
-
+                            listener.onCompleted(opinion, true);
+                            if(opinionAddListener!= null){
+                                opinionAddListener.onCompleted(opinion, true);
+                            }
                         } else {
                             listener.onError(exception.getMessage());
                         }
@@ -257,7 +220,7 @@ public class OpinionHelper {
          *
          * @param  opinion opinion data model with updated params
          */
-        void onCompleted(OpinionDataModel opinion);
+        void onCompleted(OpinionDataModel opinion, boolean isUpdated);
         void onError(String error);
     }
 

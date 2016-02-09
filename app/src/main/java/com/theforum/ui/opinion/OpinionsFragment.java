@@ -10,6 +10,7 @@ import android.support.v4.util.Pair;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
@@ -25,11 +26,14 @@ import android.widget.TextView;
 import com.theforum.R;
 import com.theforum.constants.LayoutType;
 import com.theforum.constants.Messages;
+import com.theforum.data.helpers.FlagHelper;
 import com.theforum.data.helpers.OpinionHelper;
 import com.theforum.data.helpers.TopicHelper;
 import com.theforum.data.local.models.OpinionDataModel;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.utils.CommonUtils;
+import com.theforum.utils.User;
+import com.theforum.utils.listeners.OnListItemClickListener;
 import com.theforum.utils.views.DividerItemDecorator;
 
 import java.util.ArrayList;
@@ -43,7 +47,7 @@ import butterknife.ButterKnife;
  * @since 31-12-2015.
  */
 @SuppressWarnings("deprecation")
-public class OpinionsFragment extends Fragment {
+public class OpinionsFragment extends Fragment implements OnListItemClickListener{
 
     @Bind(R.id.opinion_swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
     @Bind(R.id.opinion_recycler_view) RecyclerView recyclerView;
@@ -60,8 +64,9 @@ public class OpinionsFragment extends Fragment {
     @BindDrawable(R.drawable.renew_icon_on) Drawable renewedIcon;
 
     private OpinionsListAdapter mAdapter;
+    private ArrayList<OpinionDataModel> mOpinions;
     private TopicDataModel mTopicModel;
-
+    private int mPositionClicked;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -71,6 +76,7 @@ public class OpinionsFragment extends Fragment {
         if(getArguments()!=null){
             mTopicModel = getArguments().getParcelable(LayoutType.TOPIC_MODEL);
         }
+        mOpinions = new ArrayList<>();
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -123,10 +129,10 @@ public class OpinionsFragment extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new DividerItemDecorator(getActivity(), R.drawable.recycler_view_divider));
-        mAdapter = new OpinionsListAdapter(getActivity(), new ArrayList<OpinionDataModel>());
+        mAdapter = new OpinionsListAdapter(getActivity(), mOpinions);
         recyclerView.setAdapter(mAdapter);
+        mAdapter.setOnListItemClickListener(this);
         getOpinionsFromServer();
-
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,22 +151,22 @@ public class OpinionsFragment extends Fragment {
 
         OpinionHelper.getHelper().addNewOpinionAddedListener(new OpinionHelper.OnOpinionAddListener() {
             @Override
-            public void onCompleted(OpinionDataModel opinion) {
-                mAdapter.addOpinion(opinion,0);
+            public void onCompleted(OpinionDataModel opinion, boolean isUpdated) {
+                if(isUpdated){
+                    mOpinions.remove(mPositionClicked);
+                    mOpinions.add(mPositionClicked, opinion);
+                    mAdapter.notifyItemChanged(mPositionClicked);
+                }else mAdapter.addOpinion(opinion,0);
             }
 
             @Override
-            public void onError(String error) {
-
-            }
+            public void onError(String error) {}
         });
 
     }
 
-
-
-
     private void getOpinionsFromServer(){
+
         OpinionHelper.getHelper().getTopicSpecificOpinions(mTopicModel.getTopicId(),
                 new OpinionHelper.OnOpinionsReceivedListener() {
             @Override
@@ -173,7 +179,6 @@ public class OpinionsFragment extends Fragment {
 
             @Override
             public void onError(final String error) {
-
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -255,6 +260,36 @@ public class OpinionsFragment extends Fragment {
 
 
     @Override
+    public void onItemClick(View v, final int position) {
+        mPositionClicked = position;
+        PopupMenu popupMenu = new PopupMenu(getContext(), v);
+        popupMenu.inflate(R.menu.popup_menu);
+
+        if(!mOpinions.get(position).getuId().equals(User.getInstance().getId())){
+            popupMenu.getMenu().removeItem(R.id.item_edit);
+        }
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.item_edit:
+                        CommonUtils.openContainerActivity(getContext(), LayoutType.NEW_OPINION_FRAGMENT,
+                                Pair.create(LayoutType.OPINION_MODEL,(Parcelable)mOpinions.get(position)));
+                        break;
+
+                    case R.id.item_flag:
+                        FlagHelper helper = new FlagHelper();
+                        helper.addFlagOpinionRequest(mOpinions.get(position).getOpinionId(),
+                                mOpinions.get(position).getOpinionText(), mOpinions.get(position).getTopicId());
+                        break;
+                }
+                return false;
+            }
+        });
+        popupMenu.show();
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_other, menu);
@@ -262,12 +297,8 @@ public class OpinionsFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if(item.getItemId()== R.id.action_settings) CommonUtils.openContainerActivity(getContext(),
                 LayoutType.SETTINGS_FRAGMENT);
-
         return super.onOptionsItemSelected(item);
     }
-
-
 }

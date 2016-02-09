@@ -33,7 +33,7 @@ public class TrendsDBHelper {
 
     public void addTrend(TrendsDataModel opinion){
         ContentValues values = new ContentValues();
-        values.put(TrendsDBConstants.KEY_SERVER_ID,opinion.getServerId());
+        values.put(TrendsDBConstants.KEY_SERVER_ID,opinion.getuId());
         values.put(TrendsDBConstants.KEY_TOPIC_ID,opinion.getTopicId());
         values.put(TrendsDBConstants.KEY_TOPIC,opinion.getTopicName());
         values.put(TrendsDBConstants.KEY_TREND_ID,opinion.getTrendId());
@@ -80,7 +80,7 @@ public class TrendsDBHelper {
                 do {
                     TrendsDataModel obj = new TrendsDataModel();
 
-                    obj.setServerId(cursor.getString(1));
+                    obj.setuId(cursor.getString(1));
                     obj.setTopicId(cursor.getString(2));
                     obj.setTopicName(cursor.getString(3));
                     obj.setTrendId(cursor.getString(4));

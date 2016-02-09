@@ -152,7 +152,7 @@ public class TrendsHelper {
                     @Override
                     public void onCompleted(RUDAResponse result, Exception exception, ServiceFilterResponse response) {
                         if (exception == null) {
-                            if(ifUpVote)
+                            if (ifUpVote)
                                 listener.onCompleteMessage("Upvote Removed");
                             else listener.onCompleteMessage("Downvote Removed");
                         } else {
@@ -184,7 +184,7 @@ public class TrendsHelper {
                     @Override
                     public void onCompleted(DUDAResponse result, Exception exception, ServiceFilterResponse response) {
                         if (exception == null) {
-                            if(!ifUpVote)
+                            if (!ifUpVote)
                                 listener.onCompleteMessage("Opinion Downvoted");
                             else listener.onCompleteMessage("Opinion Upvoted");
 
@@ -218,20 +218,19 @@ public class TrendsHelper {
 
                                     for (int i = 0; i < jsonArray.length(); i++) {
                                         JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                        TrendsDataModel topic = new TrendsDataModel();
+                                        TrendsDataModel trendDataModel = new TrendsDataModel();
 
-                                        topic.setHoursLeft(Integer.parseInt(jsonObject.get("hours_left").toString()));
-                                        topic.setTrendId(jsonObject.get("trends_id").toString());
-                                        topic.setUpVoteCount(Integer.parseInt(jsonObject.get("upvotes").toString()));
-                                        topic.setDownVoteCount(Integer.parseInt(jsonObject.get("downvotes").toString()));
-                                        topic.setTopicName(jsonObject.get("topic_name").toString());
-                                        topic.setTopicId(jsonObject.get("topic_id").toString());
-                                        topic.setOpinionText(jsonObject.get("opinionText").toString());
-                                        topic.setServerId(jsonObject.get("serverId").toString());
-                                        topic.setDescription(jsonObject.get("description").toString());
-                                        topic.setRenewalIds(jsonObject.get("renewalIds").toString());
-                                        topic.setRenewCount(Integer.parseInt(jsonObject.get("renewal").toString()));
-
+                                        trendDataModel.setHoursLeft(Integer.parseInt(jsonObject.get("hours_left").toString()));
+                                        trendDataModel.setTrendId(jsonObject.get("trends_id").toString());
+                                        trendDataModel.setUpVoteCount(Integer.parseInt(jsonObject.get("upvotes").toString()));
+                                        trendDataModel.setDownVoteCount(Integer.parseInt(jsonObject.get("downvotes").toString()));
+                                        trendDataModel.setTopicName(jsonObject.get("topic_name").toString());
+                                        trendDataModel.setTopicId(jsonObject.get("topic_id").toString());
+                                        trendDataModel.setOpinionText(jsonObject.get("opinionText").toString());
+                                        trendDataModel.setuId(jsonObject.get("serverId").toString());
+                                        trendDataModel.setDescription(jsonObject.get("description").toString());
+                                        trendDataModel.setRenewalIds(jsonObject.get("renewalIds").toString());
+                                        trendDataModel.setRenewCount(Integer.parseInt(jsonObject.get("renewal").toString()));
 
                                         boolean statusReceived = false;
                                         if (jsonObject.get("upvote_ids") != null) {
@@ -240,7 +239,7 @@ public class TrendsHelper {
 
                                             for (int j = 0; j < upids.length; j++) {
                                                 if (upids[j].equals(User.getInstance().getId())) {
-                                                    topic.setVoteStatus(VoteStatus.UPVOTED);
+                                                    trendDataModel.setVoteStatus(VoteStatus.UPVOTED);
                                                     statusReceived = true;
                                                     break;
                                                 }
@@ -253,12 +252,12 @@ public class TrendsHelper {
                                             String[] downids = downid.split(" ");
                                             for (int j = 0; j < downids.length; j++) {
                                                 if (downids[j].equals(User.getInstance().getId())) {
-                                                    topic.setVoteStatus(VoteStatus.DOWNVOTED);
+                                                    trendDataModel.setVoteStatus(VoteStatus.DOWNVOTED);
                                                     break;
                                                 }
                                             }
                                         }
-                                        trends.add(topic);
+                                        trends.add(trendDataModel);
                                     }
 
                                     // save the data to local database.

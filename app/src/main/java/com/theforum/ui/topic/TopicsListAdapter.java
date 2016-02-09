@@ -2,14 +2,18 @@ package com.theforum.ui.topic;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Parcelable;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.theforum.R;
+import com.theforum.constants.LayoutType;
 import com.theforum.data.helpers.TopicHelper;
 import com.theforum.data.local.database.topicDB.TopicDBHelper;
 import com.theforum.data.local.models.TopicDataModel;
@@ -60,9 +64,26 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                   onListItemClickListener.onItemClick(v, getLayoutPosition());
+                    onListItemClickListener.onItemClick(v, getLayoutPosition());
                 }
             });
+
+                    v.setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View view) {
+                            Log.e("hi", "bur");
+                            final TopicDataModel dataModel = mTopics.get(getLayoutPosition());
+                            Log.e("hi", "bur"+dataModel.isMyTopic());
+                            if (dataModel.isMyTopic()) {
+                                Log.e("hi", "bur");
+                                CommonUtils.openContainerActivity(mContext, LayoutType.NEW_TOPIC_FRAGMENT,
+                                        Pair.create(LayoutType.TOPIC_MODEL, (Parcelable) mTopics.get(getLayoutPosition())));
+                            }
+                            return true;
+                        }
+
+                    });
+
 
             renewBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -70,8 +91,8 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
                     final TopicDataModel mTopicModel = mTopics.get(getLayoutPosition());
                     final int b = mTopicModel.getRenewalRequests();
 
-                    if(!mTopicModel.isRenewed()) {
-                        setCompoundDrawables(renewBtn,renewedIcon);
+                    if (!mTopicModel.isRenewed()) {
+                        setCompoundDrawables(renewBtn, renewedIcon);
                         renewBtn.setText(String.valueOf(b + 1));
                         mTopicModel.setRenewalRequests(b + 1);
                         mTopicModel.setIsRenewed(true);
@@ -80,7 +101,8 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
                                 new TopicHelper.OnRenewalRequestListener() {
 
                                     @Override
-                                    public void onCompleted() {}
+                                    public void onCompleted() {
+                                    }
 
                                     @Override
                                     public void onError(String error) {
@@ -100,7 +122,7 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
 
                     } else {
                         setCompoundDrawables(renewBtn, renewIcon);
-                        renewBtn.setText(String.valueOf(b-1));
+                        renewBtn.setText(String.valueOf(b - 1));
                         mTopicModel.setRenewalRequests(b - 1);
                         mTopicModel.setIsRenewed(false);
 

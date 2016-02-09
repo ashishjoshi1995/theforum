@@ -2,25 +2,19 @@ package com.theforum.ui.opinion;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.theforum.R;
 import com.theforum.constants.Messages;
-import com.theforum.data.helpers.FlagHelper;
 import com.theforum.data.helpers.TrendsHelper;
 import com.theforum.data.local.models.OpinionDataModel;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.enums.VoteStatus;
+import com.theforum.utils.listeners.OnListItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,22 +32,23 @@ import butterknife.ButterKnife;
 public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapter.OpinionsItemViewHolder> {
 
     private Context mContext;
-
-    /* list of data */
     private List<OpinionDataModel> mOpinionList;
+    private OnListItemClickListener onListItemClickListener;
 
     public OpinionsListAdapter(Context context, List<OpinionDataModel> feeds){
         mContext = context;
         mOpinionList = feeds;
     }
 
+    public void setOnListItemClickListener(OnListItemClickListener listItemClickListener){
+        onListItemClickListener = listItemClickListener;
+    }
 
     public class OpinionsItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         @Bind(R.id.opinion_opinion) TextView opinionText;
         @Bind(R.id.upvote_btn) TextView upVoteBtn;
         @Bind(R.id.down_vote_btn) TextView downVoteBtn;
-        @Bind(R.id.tem)RelativeLayout l;
 
         @BindDrawable(R.drawable.upvote) Drawable upVoteIcon;
         @BindDrawable(R.drawable.upvote_on) Drawable upVotedIcon;
@@ -67,6 +62,14 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
 
             upVoteBtn.setOnClickListener(this);
             downVoteBtn.setOnClickListener(this);
+
+            v.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                   onListItemClickListener.onItemClick(v,getLayoutPosition());
+                   return true;
+                }
+            });
         }
 
         @Override
@@ -89,11 +92,10 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
                         /*
                          *  send the request to server to increase the count
                          */
-                        TrendsHelper.getHelper().upVoteDownVote(true, opinionModel.getOpinionId(), new TrendsHelper.OnUVDVOperationCompleteListener() {
+                        TrendsHelper.getHelper().upVoteDownVote(true, opinionModel.getOpinionId(),
+                                new TrendsHelper.OnUVDVOperationCompleteListener() {
                             @Override
-                            public void onCompleteMessage(String message) {
-                                //CommonUtils.showToast(mContext, message);
-                            }
+                            public void onCompleteMessage(String message) {}
 
                             @Override
                             public void onErrorMessage(String message) {
@@ -243,6 +245,7 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
                CommonUtils.showToast(mContext, Messages.NO_NET_CONNECTION);
            }
         }
+
     }
 
     @Override
@@ -254,33 +257,6 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
 
     @Override
     public void onBindViewHolder(final OpinionsItemViewHolder holder, final int position) {
-
-        holder.l.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                PopupMenu popupMenu = new PopupMenu(mContext, v);
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()){
-                            case R.id.item_edit:
-
-                                break;
-                            case R.id.item_flag:
-                                FlagHelper helper = new FlagHelper();
-                                helper.addFlagOpinionRequest(mOpinionList.get(position).getOpinionId(),
-                                        mOpinionList.get(position).getOpinionText(),mOpinionList.get(position).getTopicId());
-                                Log.e("item_flag","outsode ok");
-                                break;
-                        }
-                        return false;
-                    }
-                });
-                popupMenu.inflate(R.menu.popup_menu);
-                popupMenu.show();
-                return false;
-            }
-        });
 
         final OpinionDataModel opinionModel = mOpinionList.get(position);
         holder.opinionText.setText(opinionModel.getOpinionText());

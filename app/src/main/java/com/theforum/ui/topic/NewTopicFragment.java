@@ -13,8 +13,10 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.theforum.R;
+import com.theforum.constants.LayoutType;
 import com.theforum.constants.Messages;
 import com.theforum.data.helpers.TopicHelper;
+import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.data.server.topic;
 import com.theforum.ui.ProgressDialog;
 import com.theforum.utils.CommonUtils;
@@ -29,19 +31,23 @@ import butterknife.ButterKnife;
  */
 public class NewTopicFragment extends Fragment {
 
-    @Bind(R.id.toolbar)
-    Toolbar mToolbar;
-
-    @Bind(R.id.new_topic_name)
-    TextInputLayout mTopicNameHolder;
-
+    @Bind(R.id.toolbar) Toolbar mToolbar;
+    @Bind(R.id.new_topic_name) TextInputLayout mTopicNameHolder;
+    @Bind(R.id.new_topic_description) EditText mDescription;
+    @Bind(R.id.new_topic_upload_btn) Button mUpload;
     EditText mTopicText;
 
-    @Bind(R.id.new_topic_description)
-    EditText mDescription;
+    private TopicDataModel mTopicModel;
+    private boolean mUpdateTopic;
 
-    @Bind(R.id.new_topic_upload_btn)
-    Button mUpload;
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if(getArguments()!=null){
+            mTopicModel = getArguments().getParcelable(LayoutType.TOPIC_MODEL);
+            mUpdateTopic = true;
+        }
+    }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_new_topic, container, false);
@@ -62,8 +68,6 @@ public class NewTopicFragment extends Fragment {
                 getActivity().finish();
             }
         });
-
-
         mTopicText = mTopicNameHolder.getEditText();
 
         mUpload.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/Roboto-Medium.ttf"));
@@ -74,12 +78,9 @@ public class NewTopicFragment extends Fragment {
                 if (!isEditTextEmpty(mTopicText)) {
 
                     if(!isEditTextEmpty(mDescription)){
-                        /**
-                         * We have topic and description. Now we can upload the topic
-                         * to server
-                         */
-
-                        uploadData();
+                        if(mUpdateTopic){
+                            updateTopic();
+                        }else uploadTopic();
 
                     }else CommonUtils.showToast(getContext(),"Description Empty");
 
@@ -87,11 +88,15 @@ public class NewTopicFragment extends Fragment {
 
             }
         });
+
+        if(mUpdateTopic){
+            mTopicText.setText(mTopicModel.getTopicName());
+            mDescription.setText(mTopicModel.getTopicDescription());
+        }
     }
 
-    private void uploadData(){
+    private void uploadTopic(){
         topic topic = new topic();
-
         topic.setTopicName(mTopicText.getText().toString().trim());
         topic.setTopicDescription(mDescription.getText().toString().trim());
         topic.setUserId(User.getInstance().getId());
@@ -102,7 +107,7 @@ public class NewTopicFragment extends Fragment {
 
         TopicHelper.getHelper().addTopic(topic, new TopicHelper.OnTopicInsertListener() {
             @Override
-            public void onCompleted() {
+            public void onCompleted(TopicDataModel model,boolean isUpdated) {
                 CommonUtils.showToast(getActivity(), "Topic created");
                 dialog.dismiss();
                 getActivity().finish();
@@ -110,11 +115,34 @@ public class NewTopicFragment extends Fragment {
 
             @Override
             public void onError(String error) {
-                //Log.e("UploadTopic error", "" + error);
                 CommonUtils.showToast(getContext(), Messages.NO_NET_CONNECTION);
                 dialog.dismiss();
             }
         });
+    }
+
+    private void updateTopic(){
+
+        mTopicModel.setTopicName(mTopicText.getText().toString().trim());
+        mTopicModel.setTopicDescription(mDescription.getText().toString().trim());
+
+        final ProgressDialog dialog = ProgressDialog.createDialog(getActivity());
+        dialog.show();
+
+        TopicHelper.getHelper().updateTopic(mTopicModel, new TopicHelper.OnTopicInsertListener() {
+                    @Override
+                    public void onCompleted(TopicDataModel model,boolean isUpdated) {
+                        CommonUtils.showToast(getActivity(), "Topic Updated");
+                        dialog.dismiss();
+                        getActivity().finish();
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        CommonUtils.showToast(getContext(), Messages.NO_NET_CONNECTION);
+                        dialog.dismiss();
+                    }
+                });
     }
 
     private boolean isEditTextEmpty(EditText editText){

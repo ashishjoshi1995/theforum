@@ -22,12 +22,8 @@ import android.widget.Toast;
 import com.theforum.TheForumApplication;
 import com.theforum.ui.activity.ContainerActivity;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-
 
 public class CommonUtils {
-
 
     public static float convertDpToPixel(float dp, Context context){
         Resources resources = context.getResources();
@@ -63,18 +59,16 @@ public class CommonUtils {
         }
     }
 
-    public static void openContainerActivity(Context context,int idValue,ArrayList<Pair<String,Parcelable>> extras){
-        if(extras==null){
-            openContainerActivity(context, idValue);
-        }else{
-            Intent intent = new Intent(context, ContainerActivity.class);
-            intent.putExtra("id", idValue);
-            for(int i = 0;i<extras.size();i++){
-                intent.putExtra(extras.get(i).first,extras.get(i).second);
-            }
-            context.startActivity(intent);
-        }
-    }
+//    public static void openContainerActivity2(Context context,int idValue, Pair<String,Parcelable[]> extras){
+//        if(extras==null){
+//            openContainerActivity(context, idValue);
+//        }else{
+//            Intent intent = new Intent(context, ContainerActivity.class);
+//            intent.putExtra("id", idValue);
+//            intent.putExtra(extras.first,extras.second);
+//            context.startActivity(intent);
+//        }
+//    }
 
     /**
      * Checking for all possible internet providers

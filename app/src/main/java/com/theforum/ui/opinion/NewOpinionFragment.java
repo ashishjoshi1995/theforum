@@ -49,15 +49,22 @@ public class NewOpinionFragment extends Fragment {
 
     EditText mUploadText;
 
-    private TopicDataModel topicModel;
+    private TopicDataModel mTopicModel;
+    private OpinionDataModel mOpinionModel;
     private int mKeyboardHeight;
+    private boolean mEditOpinion;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if(getArguments()!=null){
-            topicModel = getArguments().getParcelable(LayoutType.TOPIC_MODEL);
+            mTopicModel = getArguments().getParcelable(LayoutType.TOPIC_MODEL);
+            if(mTopicModel == null){
+                mEditOpinion = true;
+                mOpinionModel = getArguments().getParcelable(LayoutType.OPINION_MODEL);
+            }
         }
     }
 
@@ -81,7 +88,10 @@ public class NewOpinionFragment extends Fragment {
             }
         });
 
-        mTopicNameHolder.setHint("Your Opinion On " + topicModel.getTopicName());
+        if(mEditOpinion){
+            mTopicNameHolder.setHint("Your Opinion On " + mOpinionModel.getTopicName());
+        }else mTopicNameHolder.setHint("Your Opinion On " + mTopicModel.getTopicName());
+
         mUploadText = mTopicNameHolder.getEditText();
         mUploadText.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/Roboto-Light.ttf"));
 
@@ -91,7 +101,7 @@ public class NewOpinionFragment extends Fragment {
             @Override
             public void onSoftKeyboardOpened(int keyboardHeight) {
                 ViewGroup.LayoutParams params = mRootView.getLayoutParams();
-                params.height = mRootView.getHeight()- keyboardHeight;
+                params.height = mRootView.getHeight() - keyboardHeight;
                 mRootView.setLayoutParams(params);
                 mKeyboardHeight = keyboardHeight;
             }
@@ -99,7 +109,7 @@ public class NewOpinionFragment extends Fragment {
             @Override
             public void onSoftKeyboardClosed() {
                 ViewGroup.LayoutParams params = mRootView.getLayoutParams();
-                params.height = mRootView.getHeight()+ mKeyboardHeight;
+                params.height = mRootView.getHeight() + mKeyboardHeight;
                 mRootView.setLayoutParams(params);
             }
         });
@@ -108,18 +118,27 @@ public class NewOpinionFragment extends Fragment {
         mUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!mUploadText.getText().toString().equals("")){
-                   uploadData();
-                }else CommonUtils.showToast(getContext(),"Opinion Empty");
+                if (!mUploadText.getText().toString().equals("")) {
+                    if (mEditOpinion) {
+                        updateOpinion();
+                    } else {
+                        uploadOpinion();
+                    }
+
+                } else CommonUtils.showToast(getContext(),"Opinion Empty");
             }
         });
 
+        if (mEditOpinion){
+            mUploadText.setText(mOpinionModel.getOpinionText());
+        }
+
     }
 
-    private void uploadData(){
+    private void uploadOpinion(){
         opinion opinion = new opinion(mUploadText.getText().toString());
-        opinion.setTopicId(topicModel.getTopicId());
-        opinion.setTopicName(topicModel.getTopicName());
+        opinion.setTopicId(mTopicModel.getTopicId());
+        opinion.setTopicName(mTopicModel.getTopicName());
         opinion.setUserId(User.getInstance().getId());
 
         final ProgressDialog dialog = ProgressDialog.createDialog(getContext());
@@ -127,7 +146,7 @@ public class NewOpinionFragment extends Fragment {
 
         OpinionHelper.getHelper().addOpinion(opinion, new OpinionHelper.OnOpinionAddListener() {
             @Override
-            public void onCompleted(OpinionDataModel opinion) {
+            public void onCompleted(OpinionDataModel opinion, boolean is) {
                 dialog.dismiss();
                 getActivity().finish();
             }
@@ -139,6 +158,27 @@ public class NewOpinionFragment extends Fragment {
             }
         });
 
+    }
+
+    private void updateOpinion(){
+        String opinionText = mUploadText.getText().toString();
+        final ProgressDialog dialog = ProgressDialog.createDialog(getContext());
+        dialog.show();
+
+        OpinionHelper.getHelper().updateOpinion(opinionText, mOpinionModel.getOpinionId(),
+                new OpinionHelper.OnOpinionAddListener() {
+            @Override
+            public void onCompleted(OpinionDataModel opinion, boolean is) {
+                dialog.dismiss();
+                getActivity().finish();
+            }
+
+            @Override
+            public void onError(String error) {
+                CommonUtils.showToast(getContext(), Messages.NO_NET_CONNECTION);
+                dialog.dismiss();
+            }
+        });
     }
 
 }

@@ -9,7 +9,7 @@ import com.theforum.utils.enums.VoteStatus;
  */
 public class TrendsDataModel {
 
-    private String serverId;
+    private String uId;
     private String trendId;
     private String topicId;
     private String topicName;
@@ -25,7 +25,7 @@ public class TrendsDataModel {
     public TrendsDataModel(){}
 
     public TrendsDataModel(opinion opinion){
-        this.serverId = opinion.getServerId();
+        this.uId = opinion.getUserId();
         this.trendId = opinion.getOpinionId();
         this.topicId = opinion.getTopicId();
         this.topicName = opinion.getTopicName();
@@ -34,12 +34,12 @@ public class TrendsDataModel {
         this.upVoteCount = opinion.getUpVotes();
     }
 
-    public String getServerId() {
-        return serverId;
+    public String getuId() {
+        return uId;
     }
 
-    public void setServerId(String serverId) {
-        this.serverId = serverId;
+    public void setuId(String uId) {
+        this.uId = uId;
     }
 
     public String getTrendId() {

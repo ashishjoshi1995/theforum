@@ -31,6 +31,6 @@
         android:layout_marginBottom="16dp"
         android:src="@drawable/filter_topics"
         app:rippleColor="@color/colorPrimaryDark"
-        app:backgroundTint="@color/colorPrimary"
-        />
+        app:backgroundTint="@color/colorPrimary" />
+
 </RelativeLayout>
