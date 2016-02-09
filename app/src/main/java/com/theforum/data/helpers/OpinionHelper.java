@@ -143,7 +143,7 @@ public class OpinionHelper {
         runAsyncTask(task);
     }
 
-    public void updateOpinion(final String description, final String opinionId,final OnOpinionAddListener listener) {
+    public void updateOpinion(final OpinionDataModel opinionDataModel,final OnOpinionAddListener listener) {
        // VoteStatus voteStatus =
         AsyncTask<Void, Void,Void> task= new AsyncTask<Void, Void, Void>() {
             opinion o;
@@ -152,7 +152,7 @@ public class OpinionHelper {
             protected Void doInBackground(Void... voids) {
 
                 try {
-                    result = mOpinion.where().field("opinion_id").eq(opinionId).execute().get();
+                    result = mOpinion.where().field("opinion_id").eq(opinionDataModel.getOpinionId()).execute().get();
 
                 } catch (Exception e) {
                     listener.onError(Messages.NO_NET_CONNECTION);
@@ -166,15 +166,15 @@ public class OpinionHelper {
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 o= result.get(0);
-                o.setOpinionName(description);
+                o.setOpinionName(opinionDataModel.getOpinionText());
                 mOpinion.update(o, new TableOperationCallback<opinion>() {
                     @Override
                     public void onCompleted(opinion entity, Exception exception, ServiceFilterResponse response) {
                         if (exception == null) {
-                            OpinionDataModel opinion = new OpinionDataModel(entity);
-                            listener.onCompleted(opinion, true);
+                            //OpinionDataModel opinion = new OpinionDataModel(entity);
+                            listener.onCompleted(opinionDataModel, true);
                             if(opinionAddListener!= null){
-                                opinionAddListener.onCompleted(opinion, true);
+                                opinionAddListener.onCompleted(opinionDataModel, true);
                             }
                         } else {
                             listener.onError(exception.getMessage());

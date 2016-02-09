@@ -43,7 +43,7 @@ public class NewTopicFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(getArguments()!=null){
+        if(getArguments()!= null){
             mTopicModel = getArguments().getParcelable(LayoutType.TOPIC_MODEL);
             mUpdateTopic = true;
         }

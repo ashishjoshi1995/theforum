@@ -66,7 +66,7 @@ public class TopicDBHelper {
         }
     }
 
-    public void updateTopic(TopicDataModel topic){
+    public int updateTopic(TopicDataModel topic){
 
         ContentValues values = new ContentValues();
         values.put(TopicDBConstants.KEY_TOPIC,topic.getTopicName());
@@ -74,7 +74,7 @@ public class TopicDBHelper {
 //        values.put(TopicDBConstants.KEY_RENEWAL_REQUEST, topic.getRenewalRequests());
 //        values.put(TopicDBConstants.KEY_RENEWED_COUNT, topic.getRenewedCount());
 //        values.put(TopicDBConstants.KEY_HOURS_LEFT, topic.getHoursLeft());
-        topicDatabase.update(TopicDBConstants.TABLE_NAME, values, TopicDBConstants.KEY_TOPIC_ID
+       return topicDatabase.update(TopicDBConstants.TABLE_NAME, values, TopicDBConstants.KEY_TOPIC_ID
                 +" = ?", new String[]{topic.getTopicId()});
     }
 

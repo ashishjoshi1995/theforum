@@ -2,23 +2,20 @@ package com.theforum.ui.topic;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.os.Parcelable;
-import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.theforum.R;
-import com.theforum.constants.LayoutType;
 import com.theforum.data.helpers.TopicHelper;
 import com.theforum.data.local.database.topicDB.TopicDBHelper;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.listeners.OnListItemClickListener;
+import com.theforum.utils.listeners.OnLongClickItemListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +35,7 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
     private Context mContext;
     private List<TopicDataModel> mTopics;
     private OnListItemClickListener onListItemClickListener;
+    private OnLongClickItemListener onLongClickItemListener;
 
     public TopicsListAdapter(Context context, List<TopicDataModel> feeds){
         mContext = context;
@@ -46,6 +44,10 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
 
     public void setOnListItemClickListener(OnListItemClickListener listItemClickListener){
         this.onListItemClickListener = listItemClickListener;
+    }
+
+    public void setOnLongClickItemListener(OnLongClickItemListener listener){
+        this.onLongClickItemListener = listener;
     }
 
     public class TopicsItemViewHolder extends RecyclerView.ViewHolder {
@@ -68,21 +70,13 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
                 }
             });
 
-                    v.setOnLongClickListener(new View.OnLongClickListener() {
-                        @Override
-                        public boolean onLongClick(View view) {
-                            Log.e("hi", "bur");
-                            final TopicDataModel dataModel = mTopics.get(getLayoutPosition());
-                            Log.e("hi", "bur"+dataModel.isMyTopic());
-                            if (dataModel.isMyTopic()) {
-                                Log.e("hi", "bur");
-                                CommonUtils.openContainerActivity(mContext, LayoutType.NEW_TOPIC_FRAGMENT,
-                                        Pair.create(LayoutType.TOPIC_MODEL, (Parcelable) mTopics.get(getLayoutPosition())));
-                            }
-                            return true;
-                        }
+            v.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    return onLongClickItemListener.onLongClicked(getLayoutPosition());
+                }
 
-                    });
+            });
 
 
             renewBtn.setOnClickListener(new View.OnClickListener() {

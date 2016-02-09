@@ -20,6 +20,7 @@ import com.theforum.utils.CommonUtils;
 import com.theforum.utils.SettingsUtils;
 import com.theforum.utils.enums.RequestStatus;
 import com.theforum.utils.listeners.OnListItemClickListener;
+import com.theforum.utils.listeners.OnLongClickItemListener;
 import com.theforum.utils.views.DividerItemDecorator;
 
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ import butterknife.ButterKnife;
  * @author DEEPANKAR
  * @since 31-12-2015.
  */
-public class TopicsFragment extends Fragment implements OnListItemClickListener{
+public class TopicsFragment extends Fragment implements OnListItemClickListener,OnLongClickItemListener{
 
     @Bind(R.id.home_recycler_view)
     RecyclerView recyclerView;
@@ -45,7 +46,6 @@ public class TopicsFragment extends Fragment implements OnListItemClickListener{
     private int classification;
     private boolean dataReceived;
     private int mPosition;
-
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         classification = SettingsUtils.getInstance().getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS);
@@ -64,6 +64,7 @@ public class TopicsFragment extends Fragment implements OnListItemClickListener{
         mAdapter = new TopicsListAdapter(getActivity(), mTopicsList);
         recyclerView.setAdapter(mAdapter);
         mAdapter.setOnListItemClickListener(this);
+        mAdapter.setOnLongClickItemListener(this);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -77,7 +78,7 @@ public class TopicsFragment extends Fragment implements OnListItemClickListener{
         TopicHelper.getHelper().setTopicInsertListener(new TopicHelper.OnTopicInsertListener() {
             @Override
             public void onCompleted(TopicDataModel topicDataModel, boolean isUpdated) {
-                 mAdapter.addTopic(topicDataModel, 0);
+                if(!isUpdated) mAdapter.addTopic(topicDataModel, 0);
             }
 
             @Override
@@ -150,4 +151,14 @@ public class TopicsFragment extends Fragment implements OnListItemClickListener{
                 Pair.create(LayoutType.TOPIC_MODEL,  (Parcelable) mTopicsList.get(position)));
     }
 
+    @Override
+    public boolean onLongClicked(int position) {
+        mPosition = position;
+        final TopicDataModel dataModel = mTopicsList.get(position);
+        if (dataModel.isMyTopic()) {
+            CommonUtils.openContainerActivity(getContext(), LayoutType.NEW_TOPIC_FRAGMENT,
+                    Pair.create(LayoutType.TOPIC_MODEL, (Parcelable) dataModel));
+        }
+        return true;
+    }
 }

@@ -256,6 +256,9 @@ public class TopicHelper {
         for(int i=0; i<topics.size();i++) {
             TopicDataModel topicDataModel = new TopicDataModel(topics.get(i));
             topicDataModel.setIsRenewed(false);
+            if(topics.get(i).getUserId().equals(User.getInstance().getId())){
+                topicDataModel.setIsMyTopic(true);
+            }
             if(topics.get(i).getRenewalRequestIds()!=null) {
                 String[] r = topics.get(i).getRenewalRequestIds().split(" ");
 
@@ -284,7 +287,6 @@ public class TopicHelper {
 
                 } catch (Exception e) {
                     listener.onError(Messages.NO_NET_CONNECTION);
-
                 }
 
                 return null;
@@ -300,10 +302,8 @@ public class TopicHelper {
                     @Override
                     public void onCompleted(topic entity, Exception exception, ServiceFilterResponse response) {
                         if (exception == null) {
-                            TopicDBHelper.getHelper().updateTopic(topicDataModel);
-                             listener.onCompleted(null, true);
-                            if (topicInsertListener != null) {
-                                topicInsertListener.onCompleted(topicDataModel, true);
+                            if(TopicDBHelper.getHelper().updateTopic(topicDataModel)>0) {
+                                listener.onCompleted(null, true);
                             }
                         } else {
                             listener.onError(exception.getMessage());

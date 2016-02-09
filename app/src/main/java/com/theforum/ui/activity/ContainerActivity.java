@@ -11,9 +11,9 @@ import com.theforum.constants.LayoutType;
 import com.theforum.ui.SortFragment;
 import com.theforum.ui.opinion.NewOpinionFragment;
 import com.theforum.ui.opinion.OpinionsFragment;
+import com.theforum.ui.settings.SettingsFragment;
 import com.theforum.ui.settings.StatisticsFragment;
 import com.theforum.ui.topic.NewTopicFragment;
-import com.theforum.ui.settings.SettingsFragment;
 
 public class ContainerActivity extends AppCompatActivity {
 
@@ -31,7 +31,8 @@ public class ContainerActivity extends AppCompatActivity {
         switch (id){
 
             case LayoutType.NEW_TOPIC_FRAGMENT:
-                fragmentTransaction.replace(R.id.menu_fragment_container, new NewTopicFragment());
+                fragmentTransaction.replace(R.id.menu_fragment_container, Fragment.instantiate(this,
+                        NewTopicFragment.class.getName(), getIntent().getExtras()));
                 break;
 
             case LayoutType.OPINIONS_FRAGMENT:

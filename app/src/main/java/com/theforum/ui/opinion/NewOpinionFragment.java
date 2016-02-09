@@ -164,8 +164,8 @@ public class NewOpinionFragment extends Fragment {
         String opinionText = mUploadText.getText().toString();
         final ProgressDialog dialog = ProgressDialog.createDialog(getContext());
         dialog.show();
-
-        OpinionHelper.getHelper().updateOpinion(opinionText, mOpinionModel.getOpinionId(),
+            mOpinionModel.setOpinionText(opinionText);
+        OpinionHelper.getHelper().updateOpinion(mOpinionModel,
                 new OpinionHelper.OnOpinionAddListener() {
             @Override
             public void onCompleted(OpinionDataModel opinion, boolean is) {
