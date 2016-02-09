@@ -4,16 +4,21 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Parcelable;
 import android.support.v4.util.Pair;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.theforum.R;
 import com.theforum.constants.LayoutType;
 import com.theforum.constants.Messages;
+import com.theforum.data.helpers.FlagHelper;
 import com.theforum.data.helpers.TrendsHelper;
 import com.theforum.data.local.database.trendsDB.TrendsDBHelper;
 import com.theforum.data.local.models.TopicDataModel;
@@ -54,6 +59,7 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
         @Bind(R.id.trends_decay_time)TextView timeHolder;
         @Bind(R.id.upvote_btn) TextView upVoteBtn;
         @Bind(R.id.down_vote_btn) TextView downVoteBtn;
+        @Bind(R.id.tem2) RelativeLayout relativeLayout;
 
 
         @BindDrawable(R.drawable.upvote) Drawable upVoteIcon;
@@ -283,9 +289,34 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
     }
 
     @Override
-    public void onBindViewHolder(TrendsItemViewHolder holder, int position) {
+    public void onBindViewHolder(TrendsItemViewHolder holder, final int position) {
         TrendsDataModel trendsDataModel = mFeeds.get(position);
+        holder.relativeLayout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                PopupMenu popupMenu = new PopupMenu(mContext, v);
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()){
+                            case R.id.item_edit:
 
+                                break;
+                            case R.id.item_flag:
+                                FlagHelper helper = new FlagHelper();
+                                helper.addFlagOpinionRequest(mFeeds.get(position).getTrendId(),
+                                        mFeeds.get(position).getOpinionText(),mFeeds.get(position).getTopicId());
+                                Log.e("item_flag", "outsode ok");
+                                break;
+                        }
+                        return false;
+                    }
+                });
+                popupMenu.inflate(R.menu.popup_menu);
+                popupMenu.show();
+                return false;
+            }
+        });
         holder.topicName.setText(trendsDataModel.getTopicName());
         holder.description.setText(trendsDataModel.getOpinionText());
         holder.upVoteBtn.setText(String.valueOf(trendsDataModel.getUpVoteCount()));
