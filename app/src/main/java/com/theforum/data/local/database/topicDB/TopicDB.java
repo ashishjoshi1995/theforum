@@ -13,8 +13,8 @@ public class TopicDB extends SQLiteOpenHelper {
         super(context,TopicDBConstants.DATABASE_NAME,null,TopicDBConstants.DATABASE_VERSION);
     }
 
-   // private static final String DATABASE_ALTER_TEAM_1 = "ALTER TABLE "
-     //       + TopicDBConstants.TABLE_NAME + " ADD COLUMN " + TopicDBConstants.KEY_ + " string;";
+    private static final String DATABASE_ALTER_TEAM_1 = "ALTER TABLE "
+            + TopicDBConstants.TABLE_NAME + " ADD COLUMN " + TopicDBConstants.KEY_LOCAL_TOPIC + " INTEGER;";
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -35,8 +35,9 @@ public class TopicDB extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS" + TopicDBConstants.TABLE_NAME);
-        onCreate(db);
+        if(oldVersion<2){
+            db.execSQL(DATABASE_ALTER_TEAM_1);
+        }
     }
 }
 

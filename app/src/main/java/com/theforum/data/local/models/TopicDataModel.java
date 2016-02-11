@@ -3,6 +3,7 @@ package com.theforum.data.local.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.theforum.data.server.areatopics;
 import com.theforum.data.server.topic;
 
 /**
@@ -21,6 +22,7 @@ public class TopicDataModel implements Parcelable{
     private int hoursLeft;
     private boolean isRenewed;
     private boolean isMyTopic;
+    private boolean isLocalTopic;
 
     public TopicDataModel(){
         isRenewed = false;
@@ -35,8 +37,20 @@ public class TopicDataModel implements Parcelable{
         this.renewalRequests = topic.getRenewalRequests();
         this.renewedCount = topic.getRenewedCount();
         this.hoursLeft = topic.getHoursLeft();
-
+        this.isLocalTopic = false;
     }
+
+    public TopicDataModel(areatopics topic){
+        this.serverId = topic.getServerId();
+        this.topicId = topic.getTopicId();
+        this.topicName = topic.getTopicName();
+        this.topicDescription = topic.getTopicDescription();
+        this.renewalRequests = topic.getRenewalRequests();
+        this.renewedCount = topic.getRenewedCount();
+        this.hoursLeft = topic.getHoursLeft();
+        this.isLocalTopic = true;
+    }
+
 
 
     public String getServerId() {
@@ -153,4 +167,12 @@ public class TopicDataModel implements Parcelable{
             return new TopicDataModel[size];
         }
     };
+
+    public boolean isLocalTopic() {
+        return isLocalTopic;
+    }
+
+    public void setIsLocalTopic(boolean isLocalTopic) {
+        this.isLocalTopic = isLocalTopic;
+    }
 }

@@ -28,7 +28,8 @@ public class TopicDBConstants {
     public static final String KEY_HOURS_LEFT = "hours_left";
     public static final String KEY_MY_TOPIC = "my_topic";
 
-    //table two column keys version 2
-    public static final String KEY_RENEWAL_IDS = "renewal_ids";
+
+    //version 2 coloums
+    public static final String KEY_LOCAL_TOPIC = "is_local_topic";
 
 }

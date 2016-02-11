@@ -3,6 +3,7 @@ package com.theforum.data.local.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.theforum.data.server.areaopinions;
 import com.theforum.data.server.opinion;
 import com.theforum.utils.enums.VoteStatus;
 
@@ -24,6 +25,16 @@ public class OpinionDataModel implements Parcelable{
 
     public OpinionDataModel(opinion opinion){
 
+        this.uId = opinion.getUserId();
+        this.opinionId = opinion.getOpinionId();
+        this.opinionText = opinion.getOpinionName();
+        this.topicName = opinion.getTopicName();
+        this.topicId = opinion.getTopicId();
+        this.upVoteCount = opinion.getUpVotes();
+        this.downVoteCount = opinion.getDownVotes();
+    }
+
+    public OpinionDataModel(areaopinions opinion){
         this.uId = opinion.getUserId();
         this.opinionId = opinion.getOpinionId();
         this.opinionText = opinion.getOpinionName();
