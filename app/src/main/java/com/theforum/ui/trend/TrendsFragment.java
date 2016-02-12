@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 
 import com.theforum.R;
 import com.theforum.data.helpers.TrendsHelper;
@@ -25,16 +27,17 @@ import butterknife.ButterKnife;
  * @author DEEPANKAR
  * @since 31-12-2015.
  */
-public class TrendsFragment extends Fragment {
+public class TrendsFragment extends Fragment implements CompoundButton.OnCheckedChangeListener {
 
-    @Bind(R.id.home_recycler_view)
-    RecyclerView recyclerView;
+    @Bind(R.id.home_recycler_view) RecyclerView recyclerView;
 
-    @Bind(R.id.topics_swipe_refresh_layout)
-    SwipeRefreshLayout swipeRefreshLayout;
+    @Bind(R.id.topics_swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
+
+    @Bind(R.id.new_trend_Iflocal_toggle_button) Switch aSwitch;
 
     private TrendsListAdapter mAdapter;
     private boolean dataReceived;
+    private boolean ifLocalToDisplay = false;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_topics, container, false);
@@ -45,11 +48,15 @@ public class TrendsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
+        ifLocalToDisplay = false;
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new DividerItemDecorator(getActivity(), R.drawable.recycler_view_divider));
 
         mAdapter = new TrendsListAdapter(getActivity(), new ArrayList<TrendsDataModel>());
         recyclerView.setAdapter(mAdapter);
+
+        aSwitch.setOnCheckedChangeListener(this);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -106,5 +113,10 @@ public class TrendsFragment extends Fragment {
 
             }
         });
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
     }
 }

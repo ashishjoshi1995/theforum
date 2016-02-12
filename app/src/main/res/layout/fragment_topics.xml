@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     >
-    <Switch android:id="@+id/new_topic_Iflocal_toggle_button"
+    <Switch android:id="@+id/new_trend_Iflocal_toggle_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"/>
