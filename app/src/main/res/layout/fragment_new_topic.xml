@@ -8,6 +8,10 @@
 
     <include layout="@layout/toolbar" />
 
+    <Switch android:id="@+id/new_topic_Iflocal_toggle_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"/>
     <TextView
         android:id="@+id/new_topic_dummy"
         android:layout_width="wrap_content"

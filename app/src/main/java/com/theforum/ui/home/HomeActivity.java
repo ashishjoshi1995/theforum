@@ -2,6 +2,7 @@ package com.theforum.ui.home;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -27,10 +28,10 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class HomeActivity extends AppCompatActivity {
-
+    @Nullable
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
-
+    @Nullable
     @Bind(R.id.home_material_search_view)
     MaterialSearchView mMaterialSearchView;
 
@@ -95,8 +96,8 @@ public class HomeActivity extends AppCompatActivity {
 
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
             if(mSearchActive){
-               mMaterialSearchView.closeSearch();
-               mSearchActive = false;
+                mMaterialSearchView.closeSearch();
+                mSearchActive = false;
                 return true;
             }
         }

@@ -10,10 +10,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 
 import com.theforum.R;
 import com.theforum.constants.LayoutType;
 import com.theforum.data.helpers.TopicHelper;
+import com.theforum.data.helpers.localHelpers.LocalTopicHelper;
 import com.theforum.data.local.database.topicDB.TopicDBHelper;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.utils.CommonUtils;
@@ -32,7 +35,7 @@ import butterknife.ButterKnife;
  * @author DEEPANKAR
  * @since 31-12-2015.
  */
-public class TopicsFragment extends Fragment implements OnListItemClickListener,OnLongClickItemListener{
+public class TopicsFragment extends Fragment implements OnListItemClickListener,OnLongClickItemListener,CompoundButton.OnCheckedChangeListener{
 
     @Bind(R.id.home_recycler_view)
     RecyclerView recyclerView;
@@ -40,12 +43,16 @@ public class TopicsFragment extends Fragment implements OnListItemClickListener,
     @Bind(R.id.topics_swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
 
+    @Bind(R.id.new_topic_Iflocal_toggle_button)
+    Switch topicsANDtrends_toggle_button;
+
     private TopicsListAdapter mAdapter;
     private ArrayList<TopicDataModel> mTopicsList;
 
     private int classification;
     private boolean dataReceived;
     private int mPosition;
+    private boolean ifLocalToDisplay = false;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         classification = SettingsUtils.getInstance().getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS);
@@ -65,6 +72,7 @@ public class TopicsFragment extends Fragment implements OnListItemClickListener,
         recyclerView.setAdapter(mAdapter);
         mAdapter.setOnListItemClickListener(this);
         mAdapter.setOnLongClickItemListener(this);
+        topicsANDtrends_toggle_button.setOnCheckedChangeListener(this);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -119,8 +127,8 @@ public class TopicsFragment extends Fragment implements OnListItemClickListener,
 
 
     private void getTopics(){
-
-        TopicHelper.getHelper().getTopics(new TopicHelper.OnTopicsReceiveListener() {
+        if(ifLocalToDisplay){
+            TopicHelper.getHelper().getTopics(new TopicHelper.OnTopicsReceiveListener() {
             @Override
             public void onCompleted(ArrayList<TopicDataModel> topics) {
                 dataReceived = true;
@@ -141,6 +149,30 @@ public class TopicsFragment extends Fragment implements OnListItemClickListener,
                 });
             }
         });
+        }
+        else {
+            LocalTopicHelper.getHelper().getTopics(new LocalTopicHelper.OnTopicsReceiveListener() {
+                @Override
+                public void onCompleted(ArrayList<TopicDataModel> topics) {
+                    dataReceived = true;
+                    mAdapter.removeAllTopics();
+                    mAdapter.addTopics(topics);
+                    classification = SettingsUtils.getInstance().getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS);
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+
+                @Override
+                public void onError(final String error) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            swipeRefreshLayout.setRefreshing(false);
+                            CommonUtils.showToast(getActivity(), error);
+                        }
+                    });
+                }
+            });
+    }
     }
 
 
@@ -160,5 +192,21 @@ public class TopicsFragment extends Fragment implements OnListItemClickListener,
                     Pair.create(LayoutType.TOPIC_MODEL, (Parcelable) dataModel));
         }
         return true;
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if(buttonView.getId()==R.id.new_topic_Iflocal_toggle_button){
+            if(isChecked){
+                //change adapter to get local display topics
+                ifLocalToDisplay = true;
+                getTopics();
+            }
+            else {
+                //rechange adapter to get global display topics
+                ifLocalToDisplay = false;
+                getTopics();
+            }
+        }
     }
 }

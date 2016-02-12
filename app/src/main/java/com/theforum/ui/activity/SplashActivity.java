@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
@@ -22,7 +23,7 @@ import butterknife.ButterKnife;
 public class SplashActivity extends AppCompatActivity {
 
     private int SPLASH_TIME_OUT = 3500;
-
+    @Nullable
     @Bind(R.id.frog_body) ImageView frogBody;
 
     @Override

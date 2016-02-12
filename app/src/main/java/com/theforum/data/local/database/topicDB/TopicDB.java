@@ -28,7 +28,8 @@ public class TopicDB extends SQLiteOpenHelper {
                 + TopicDBConstants.KEY_RENEWED_COUNT + " INTEGER,"
                 + TopicDBConstants.KEY_HOURS_LEFT + " INTEGER,"
                 + TopicDBConstants.KEY_MY_TOPIC+" INTEGER,"
-                + TopicDBConstants.KEY_IS_RENEWED+" INTEGER)";
+                + TopicDBConstants.KEY_IS_RENEWED+" INTEGER,"
+                + TopicDBConstants.KEY_LOCAL_TOPIC+" INTEGER)";
         db.execSQL(CREATE_TOPIC_TABLE);
 
     }
