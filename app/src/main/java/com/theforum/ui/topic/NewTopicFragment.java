@@ -176,24 +176,43 @@ if(!isLocal){
 
         mTopicModel.setTopicName(mTopicText.getText().toString().trim());
         mTopicModel.setTopicDescription(mDescription.getText().toString().trim());
-
         final ProgressDialog dialog = ProgressDialog.createDialog(getActivity());
         dialog.show();
+        if(mTopicModel.isLocalTopic()){
+            LocalTopicHelper.getHelper().updateTopic(mTopicModel, new LocalTopicHelper.OnTopicInsertListener() {
+                @Override
+                public void onCompleted(TopicDataModel topicDataModel, boolean isUpdated) {
+                    CommonUtils.showToast(getActivity(), "Topic Updated");
+                    dialog.dismiss();
+                    getActivity().finish();
+                }
 
-        TopicHelper.getHelper().updateTopic(mTopicModel, new TopicHelper.OnTopicInsertListener() {
-                    @Override
-                    public void onCompleted(TopicDataModel model,boolean isUpdated) {
-                        CommonUtils.showToast(getActivity(), "Topic Updated");
-                        dialog.dismiss();
-                        getActivity().finish();
-                    }
+                @Override
+                public void onError(String error) {
+                    CommonUtils.showToast(getContext(), Messages.NO_NET_CONNECTION);
+                    dialog.dismiss();
+                }
+            });
+        }
+        else {
 
-                    @Override
-                    public void onError(String error) {
-                        CommonUtils.showToast(getContext(), Messages.NO_NET_CONNECTION);
-                        dialog.dismiss();
-                    }
-                });
+
+            TopicHelper.getHelper().updateTopic(mTopicModel, new TopicHelper.OnTopicInsertListener() {
+                @Override
+                public void onCompleted(TopicDataModel model,boolean isUpdated) {
+                    CommonUtils.showToast(getActivity(), "Topic Updated");
+                    dialog.dismiss();
+                    getActivity().finish();
+                }
+
+                @Override
+                public void onError(String error) {
+                    CommonUtils.showToast(getContext(), Messages.NO_NET_CONNECTION);
+                    dialog.dismiss();
+                }
+            });
+        }
+
     }
 
     private boolean isEditTextEmpty(EditText editText){

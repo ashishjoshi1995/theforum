@@ -48,7 +48,7 @@ public class TopicDBHelper {
         values.put(TopicDBConstants.KEY_MY_TOPIC, (topic.isMyTopic())? "yes" :"no");
         values.put(TopicDBConstants.KEY_IS_RENEWED, (topic.isRenewed())? "yes" :"no");
 
-        values.put(TopicDBConstants.KEY_LOCAL_TOPIC,(topic.isRenewed())? 1 :0);
+        values.put(TopicDBConstants.KEY_LOCAL_TOPIC,(topic.isLocalTopic())? 1 :0);
 
         // Inserting Row
         topicDatabase.insert(TopicDBConstants.TABLE_NAME, null, values);
