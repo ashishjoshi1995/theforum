@@ -7,6 +7,7 @@ import android.support.v4.util.Pair;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +58,7 @@ public class TopicsFragment extends Fragment implements OnListItemClickListener,
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         classification = SettingsUtils.getInstance().getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS);
         mTopicsList = new ArrayList<>();
-
+        ifLocalToDisplay = false;
         return inflater.inflate(R.layout.fragment_topics, container, false);
     }
 
@@ -76,8 +77,12 @@ public class TopicsFragment extends Fragment implements OnListItemClickListener,
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                if(!ifLocalToDisplay)
                 TopicHelper.getHelper().loadTopics(SettingsUtils.getInstance()
                         .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS), true);
+                else
+                LocalTopicHelper.getHelper().loadTopics(SettingsUtils.getInstance()
+                        .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS),true);
             }
         });
 
@@ -99,13 +104,21 @@ public class TopicsFragment extends Fragment implements OnListItemClickListener,
         super.onStart();
 
         if(TopicHelper.getHelper().requestStatus == RequestStatus.IDLE && !dataReceived){
+            if(!ifLocalToDisplay)
             TopicHelper.getHelper().loadTopics(SettingsUtils.getInstance()
                     .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS), false);
+            else
+            LocalTopicHelper.getHelper().loadTopics(SettingsUtils.getInstance()
+            .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS),false);
         }
 
         if(classification!=SettingsUtils.getInstance().getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS)){
+            if(!ifLocalToDisplay)
             TopicHelper.getHelper().loadTopics(SettingsUtils.getInstance()
                     .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS), true);
+            else
+            LocalTopicHelper.getHelper().loadTopics(SettingsUtils.getInstance()
+                    .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS),true);
         }
 
         if(TopicHelper.getHelper().requestStatus == RequestStatus.EXECUTING){
@@ -127,13 +140,17 @@ public class TopicsFragment extends Fragment implements OnListItemClickListener,
 
 
     private void getTopics(){
-        if(ifLocalToDisplay){
+        Log.e("gettopics","gettopics");
+        if(!ifLocalToDisplay){
+            Log.e("false","false");
             TopicHelper.getHelper().getTopics(new TopicHelper.OnTopicsReceiveListener() {
             @Override
             public void onCompleted(ArrayList<TopicDataModel> topics) {
                 dataReceived = true;
                 mAdapter.removeAllTopics();
                 mAdapter.addTopics(topics);
+                Log.e("onCompleted global", "" + topics.size());
+                Log.e("mujhko", "pehchan lo");
                 classification = SettingsUtils.getInstance().getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS);
                 swipeRefreshLayout.setRefreshing(false);
             }
@@ -151,12 +168,15 @@ public class TopicsFragment extends Fragment implements OnListItemClickListener,
         });
         }
         else {
+            Log.e("false","fa;se");
             LocalTopicHelper.getHelper().getTopics(new LocalTopicHelper.OnTopicsReceiveListener() {
                 @Override
                 public void onCompleted(ArrayList<TopicDataModel> topics) {
                     dataReceived = true;
                     mAdapter.removeAllTopics();
                     mAdapter.addTopics(topics);
+                    Log.e("onCompleted local", "" + topics.size());
+                    Log.e("mujhko","pehchan lo mai hu don");
                     classification = SettingsUtils.getInstance().getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS);
                     swipeRefreshLayout.setRefreshing(false);
                 }
@@ -197,15 +217,27 @@ public class TopicsFragment extends Fragment implements OnListItemClickListener,
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if(buttonView.getId()==R.id.new_topic_Iflocal_toggle_button){
+
+            swipeRefreshLayout.setRefreshing(true);
+            //onStart();
             if(isChecked){
+                Log.e("ischecked","true");
                 //change adapter to get local display topics
                 ifLocalToDisplay = true;
+
+                LocalTopicHelper.getHelper().loadTopics(SettingsUtils.getInstance()
+                        .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS),true);
                 getTopics();
+                Log.e("asasa",ifLocalToDisplay+"");
             }
             else {
+                Log.e("ischecked","false");
                 //rechange adapter to get global display topics
                 ifLocalToDisplay = false;
+                TopicHelper.getHelper().loadTopics(SettingsUtils.getInstance()
+                        .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS), true);
                 getTopics();
+                Log.e("asasaasasa", ifLocalToDisplay + "");
             }
         }
     }
