@@ -30,6 +30,7 @@ import com.theforum.constants.Messages;
 import com.theforum.data.helpers.FlagHelper;
 import com.theforum.data.helpers.OpinionHelper;
 import com.theforum.data.helpers.TopicHelper;
+import com.theforum.data.helpers.localHelpers.LocalOpinionHelper;
 import com.theforum.data.helpers.localHelpers.LocalTopicHelper;
 import com.theforum.data.local.models.OpinionDataModel;
 import com.theforum.data.local.models.TopicDataModel;
@@ -168,28 +169,51 @@ public class OpinionsFragment extends Fragment implements OnListItemClickListene
     }
 
     private void getOpinionsFromServer(){
+            if (!mTopicModel.isLocalTopic()) {
+                OpinionHelper.getHelper().getTopicSpecificOpinions(mTopicModel.getTopicId(),
+                        new OpinionHelper.OnOpinionsReceivedListener() {
+                            @Override
+                            public void onCompleted(ArrayList<OpinionDataModel> opinions) {
+                                mAdapter.clearAll();
+                                mAdapter.addOpinions(opinions);
+                                swipeRefreshLayout.setRefreshing(false);
 
-        OpinionHelper.getHelper().getTopicSpecificOpinions(mTopicModel.getTopicId(),
-                new OpinionHelper.OnOpinionsReceivedListener() {
-            @Override
-            public void onCompleted(ArrayList<OpinionDataModel> opinions) {
-                mAdapter.clearAll();
-                mAdapter.addOpinions(opinions);
-                swipeRefreshLayout.setRefreshing(false);
+                            }
 
+                            @Override
+                            public void onError(final String error) {
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        swipeRefreshLayout.setRefreshing(false);
+                                        CommonUtils.showToast(getContext(), Messages.NO_NET_CONNECTION);
+                                    }
+                                });
+                            }
+                        });
             }
+        else {
+                LocalOpinionHelper.getHelper().getTopicSpecificOpinions(mTopicModel.getTopicId(),
+                        new LocalOpinionHelper.OnOpinionsReceivedListener() {
+                            @Override
+                            public void onCompleted(ArrayList<OpinionDataModel> opinions) {
+                                mAdapter.clearAll();
+                                mAdapter.addOpinions(opinions);
+                                swipeRefreshLayout.setRefreshing(false);
+                            }
 
-            @Override
-            public void onError(final String error) {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        swipeRefreshLayout.setRefreshing(false);
-                        CommonUtils.showToast(getContext(), Messages.NO_NET_CONNECTION);
-                    }
-                });
+                            @Override
+                            public void onError(String error) {
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        swipeRefreshLayout.setRefreshing(false);
+                                        CommonUtils.showToast(getContext(), Messages.NO_NET_CONNECTION);
+                                    }
+                                });
+                            }
+                        });
             }
-        });
     }
 
     private void handleRenewButton(){

@@ -62,7 +62,7 @@ public class TrendsFragment extends Fragment  {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new DividerItemDecorator(getActivity(), R.drawable.recycler_view_divider));
 
-        mAdapter = new TrendsListAdapter(getActivity(), new ArrayList<TrendsDataModel>());
+        mAdapter = new TrendsListAdapter(getActivity(), new ArrayList<TrendsDataModel>(),ifLocalToDisplay);
         recyclerView.setAdapter(mAdapter);
 
         aSwitch.setChecked(false);
