@@ -30,8 +30,15 @@ public class TrendsFragment extends Fragment {
     @Bind(R.id.home_recycler_view)
     RecyclerView recyclerView;
 
+<<<<<<< HEAD
     @Bind(R.id.topics_swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
+=======
+    @Bind(R.id.topics_swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
+
+    //@Bind(R.id.new_trend_Iflocal_toggle_button)
+    private Switch aSwitch;
+>>>>>>> 43ac736c2c679df7cd2cffa32601318fda0d75d8
 
     private TrendsListAdapter mAdapter;
     private boolean dataReceived;
@@ -45,11 +52,23 @@ public class TrendsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
+<<<<<<< HEAD
+=======
+        ifLocalToDisplay = false;
+
+        aSwitch=(Switch)view.findViewById(R.id.new_trend_Iflocal_toggle_button);
+
+>>>>>>> 43ac736c2c679df7cd2cffa32601318fda0d75d8
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new DividerItemDecorator(getActivity(), R.drawable.recycler_view_divider));
 
         mAdapter = new TrendsListAdapter(getActivity(), new ArrayList<TrendsDataModel>());
         recyclerView.setAdapter(mAdapter);
+<<<<<<< HEAD
+=======
+        aSwitch.setChecked(false);
+        aSwitch.setOnCheckedChangeListener(this);
+>>>>>>> 43ac736c2c679df7cd2cffa32601318fda0d75d8
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

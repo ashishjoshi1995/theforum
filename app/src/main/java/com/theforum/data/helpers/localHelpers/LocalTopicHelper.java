@@ -8,10 +8,10 @@ import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.microsoft.windowsazure.mobileservices.table.TableOperationCallback;
-import com.microsoft.windowsazure.mobileservices.table.query.QueryOrder;
 import com.theforum.TheForumApplication;
 import com.theforum.constants.Messages;
-import com.theforum.constants.SortType;
+import com.theforum.data.helpers.localTrendsApi.LTARequest;
+import com.theforum.data.helpers.localTrendsApi.LTAResponse;
 import com.theforum.data.helpers.local_addrenewalrequesApi.LARRRequest;
 import com.theforum.data.helpers.local_addrenewalrequesApi.LARRResponse;
 import com.theforum.data.local.database.topicDB.TopicDBHelper;
@@ -20,6 +20,10 @@ import com.theforum.data.server.areatopics;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.User;
 import com.theforum.utils.enums.RequestStatus;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -116,74 +120,89 @@ public class LocalTopicHelper {
         }
     }
 
-    public void loadTopics(final int sortMode, boolean refresh){
+    public void loadTopics(final int sortMode, final double latitude, final double longitude, boolean refresh) {
         requestStatus = RequestStatus.EXECUTING;
 
-        if(CommonUtils.isInternetAvailable()){
+        LTARequest request = new LTARequest();
+        request.latitude = latitude;
+        request.longitude = longitude;
+        if (CommonUtils.isInternetAvailable()) {
+            final ArrayList<TopicDataModel> topics = null;
+            TheForumApplication.getClient().invokeApi("local_nearbytopics", request, LTAResponse.class,
+                    new ApiOperationCallback<LTAResponse>() {
+                        @Override
+                        public void onCompleted(LTAResponse result, Exception exception, ServiceFilterResponse response) {
+                            if (exception == null) {
 
-            AsyncTask<Void, Void, ArrayList<areatopics>> task = new AsyncTask<Void, Void, ArrayList<areatopics>>() {
-                MobileServiceList<areatopics> topics = null;
+                                try {
 
-                @Override
-                protected ArrayList<areatopics> doInBackground(Void... params) {
-                    try {
-                        switch (sortMode) {
+                                    if (result.message != null) {
+                                        JSONArray jsonArray = new JSONArray(result.message);
+                                        requestStatus = RequestStatus.COMPLETED;
 
-                            case SortType.SORT_BASIS_MOST_POPULAR:
-                                topics = mTopicTable.orderBy("points", QueryOrder.Descending).execute().get();
-                                break;
+                                        ArrayList<TopicDataModel> topics = null;
+                                        for (int i = 0; i < jsonArray.length(); i++) {
+                                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                            TopicDataModel topicDataModel = new TopicDataModel();
 
-                            case SortType.SORT_BASIS_LATEST:
-                                topics = mTopicTable.orderBy("hours_left", QueryOrder.Descending).execute().get();
-                                break;
+                                            topicDataModel.setHoursLeft(Integer.parseInt(jsonObject.get("hours_left").toString()));
+                                            topicDataModel.setTopicId(jsonObject.get("trends_id").toString());
+                                            topicDataModel.setTopicDescription(jsonObject.get("description").toString());
+                                            topicDataModel.setTopicName(jsonObject.get("topic_name").toString());
+                                            topicDataModel.setRenewalRequests(Integer.parseInt(jsonObject.get("renewal_requests").toString()));
+                                            topicDataModel.setServerId(jsonObject.get("id").toString());
+                                            topicDataModel.setRenewedCount(Integer.parseInt(jsonObject.get("renewed_count").toString()));
+                                            topicDataModel.setIsLocalTopic(true);
 
-                            case SortType.SORT_BASIS_CREATED_BY_ME:
-                                topics = mTopicTable.where().field("uid").eq(User.getInstance().getId())
-                                        .execute().get();
-                                break;
 
-                            case SortType.SORT_BASIS_LEAST_RENEWAL:
-                                topics = mTopicTable.orderBy("renewal_requests", QueryOrder.Ascending)
-                                        .execute().get();
-                                break;
+                                            boolean statusReceived = false;
+                                            topicDataModel.setIsRenewed(false);
+                                            if (jsonObject.get("renewal_request_ids") != null) {
+                                                String upid = jsonObject.get("renewal_request_ids").toString();
+                                                String[] upids = upid.split(" ");
 
-                            case SortType.SORT_BASIS_MOST_RENEWAL:
-                                topics = mTopicTable.orderBy("renewal_requests", QueryOrder.Descending)
-                                        .execute().get();
-                                break;
+                                                for (int j = 0; j < upids.length; j++) {
+                                                    if (upids[j].equals(User.getInstance().getId())) {
+                                                        topicDataModel.setIsRenewed(true);
+                                                        statusReceived = true;
+                                                        break;
+                                                    }
+                                                }
+
+                                            }
+                                            topicDataModel.setIsMyTopic(false);
+                                            if (jsonObject.get("uid").equals(User.getInstance().getId()))
+                                                topicDataModel.setIsMyTopic(true);
+
+                                            topics.add(topicDataModel);
+                                        }
+                                    }
+                                    if (topics != null) {
+                                        requestStatus = RequestStatus.COMPLETED;
+                                        topicArrayList = topics;
+                                        TopicDBHelper.getHelper().deleteAll();
+                                        TopicDBHelper.getHelper().addTopicsFromServer(topicArrayList);
+
+                                    } else {
+                                        sendError(Messages.SERVER_ERROR);
+                                    }
+
+                                } catch (JSONException e) {
+                                    sendError(Messages.NO_NET_CONNECTION);
+                                }
+
+                            } else {
+                                sendError(Messages.SERVER_ERROR);
+                            }
+
+
                         }
 
-                    } catch (Exception e) {
-                        sendError(Messages.SERVER_ERROR);
-                    }
-                    return topics;
-                }
-
-                @Override
-                protected void onPostExecute(ArrayList<areatopics> topics) {
-                    super.onPostExecute(topics);
-
-                    if(topics!=null) {
-                        requestStatus = RequestStatus.COMPLETED;
-                        convertDataModel(topics);
-                        if (topicsReceiveListener != null) {
-                            topicsReceiveListener.onCompleted(topicArrayList);
-                            requestStatus = RequestStatus.IDLE;
-                        }
-                        TopicDBHelper.getHelper().deleteAll();
-                        TopicDBHelper.getHelper().addTopicsFromServer(topicArrayList);
-
-                    }else {
-                        sendError(Messages.SERVER_ERROR);
-                    }
-                }
-            };
-
-            runAsyncTask(task);
-
-        }else {
+                    });
+         }
+        else {
             if(!refresh) {
-                topicArrayList = TopicDBHelper.getHelper().getAllTopics();
+                topicArrayList = TopicDBHelper.getHelper().getLocalAllTopics();
                 requestStatus = RequestStatus.COMPLETED;
 
                 if (topicsReceiveListener != null) {
@@ -194,7 +213,6 @@ public class LocalTopicHelper {
                 sendError(Messages.NO_NET_CONNECTION);
             }
         }
-
     }
 
     private void sendError(String error){
@@ -243,29 +261,7 @@ public class LocalTopicHelper {
         } else listener.onError(Messages.NO_NET_CONNECTION);
     }
 
-    private void convertDataModel(ArrayList<areatopics> topics){
-        topicArrayList = new ArrayList<>();
 
-        for(int i=0; i<topics.size();i++) {
-            TopicDataModel topicDataModel = new TopicDataModel(topics.get(i));
-            topicDataModel.setIsRenewed(false);
-            if(topics.get(i).getUserId().equals(User.getInstance().getId())){
-                topicDataModel.setIsMyTopic(true);
-            }
-            if(topics.get(i).getRenewalRequestIds()!=null) {
-                String[] r = topics.get(i).getRenewalRequestIds().split(" ");
-
-                for (int k = 0; k < r.length; k++) {
-                    if (r[k].equals(User.getInstance().getId())) {
-                        topicDataModel.setIsRenewed(true);
-                        break;
-                    }
-                }
-            }
-            topicArrayList.add(topicDataModel);
-        }
-
-    }
 
     public void updateTopic(final TopicDataModel topicDataModel ,final OnTopicInsertListener listener) {
 
