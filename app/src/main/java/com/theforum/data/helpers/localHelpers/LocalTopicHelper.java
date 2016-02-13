@@ -2,6 +2,7 @@ package com.theforum.data.helpers.localHelpers;
 
 import android.os.AsyncTask;
 
+import com.microsoft.windowsazure.mobileservices.ApiOperationCallback;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
@@ -11,6 +12,8 @@ import com.microsoft.windowsazure.mobileservices.table.query.QueryOrder;
 import com.theforum.TheForumApplication;
 import com.theforum.constants.Messages;
 import com.theforum.constants.SortType;
+import com.theforum.data.helpers.local_addrenewalrequesApi.LARRRequest;
+import com.theforum.data.helpers.local_addrenewalrequesApi.LARRResponse;
 import com.theforum.data.local.database.topicDB.TopicDBHelper;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.data.server.areatopics;
@@ -202,15 +205,14 @@ public class LocalTopicHelper {
     }
 
     public void addRenewalRequest(final TopicDataModel topicDataModel , final OnRenewalRequestListener listener) {
-       /* final Request request = new Request();
+       final LARRRequest request = new LARRRequest();
         request.topic_id = topicDataModel.getTopicId();
         request.uid = User.getInstance().getId();
 
         if(CommonUtils.isInternetAvailable()){
-            mClient.invokeApi("addrenewalrequest", request, Response.class, new ApiOperationCallback<Response>() {
+            mClient.invokeApi("local_addrenewalrequest", request, LARRResponse.class, new ApiOperationCallback<LARRResponse>() {
                 @Override
-                public void onCompleted(Response result, Exception exception, ServiceFilterResponse response) {
-
+                public void onCompleted(LARRResponse result, Exception exception, ServiceFilterResponse response) {
                     if (exception != null) {
                         listener.onError(exception.getMessage());
                     } else {
@@ -223,7 +225,6 @@ public class LocalTopicHelper {
             });
 
         } else listener.onError(Messages.NO_NET_CONNECTION);
-    */
     }
     public void removeRenewal(String topic_id , final OnRemoveRenewalRequestListener listener) {
         //final RemoveRenewalRequest request = new RemoveRenewalRequest();
