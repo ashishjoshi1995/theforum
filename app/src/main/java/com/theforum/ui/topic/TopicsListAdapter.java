@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.theforum.R;
 import com.theforum.data.helpers.TopicHelper;
+import com.theforum.data.helpers.localHelpers.LocalTopicHelper;
 import com.theforum.data.local.database.topicDB.TopicDBHelper;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.utils.CommonUtils;
@@ -82,43 +84,69 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
             renewBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Log.e("clicked","clicked");
                     final TopicDataModel mTopicModel = mTopics.get(getLayoutPosition());
                     final int b = mTopicModel.getRenewalRequests();
 
                     if (!mTopicModel.isRenewed()) {
-                        setCompoundDrawables(renewBtn, renewedIcon);
-                        renewBtn.setText(String.valueOf(b + 1));
-                        mTopicModel.setRenewalRequests(b + 1);
-                        mTopicModel.setIsRenewed(true);
 
-                        TopicHelper.getHelper().addRenewalRequest(mTopicModel,
-                                new TopicHelper.OnRenewalRequestListener() {
+                            setCompoundDrawables(renewBtn, renewedIcon);
+                            renewBtn.setText(String.valueOf(b + 1));
+                            mTopicModel.setRenewalRequests(b + 1);
+                            mTopicModel.setIsRenewed(true);
+                        if(!mTopicModel.isLocalTopic()) {
+                            TopicHelper.getHelper().addRenewalRequest(mTopicModel,
+                                    new TopicHelper.OnRenewalRequestListener() {
 
-                                    @Override
-                                    public void onCompleted() {
-                                    }
+                                        @Override
+                                        public void onCompleted() {
+                                        }
 
-                                    @Override
-                                    public void onError(String error) {
-                                        // notify the user that renew have failed
-                                        CommonUtils.showToast(mContext, error);
+                                        @Override
+                                        public void onError(String error) {
+                                            // notify the user that renew have failed
+                                            CommonUtils.showToast(mContext, error);
 
-                                        //revert changes in local dataModel
-                                        mTopicModel.setRenewalRequests(b);
-                                        mTopicModel.setIsRenewed(false);
+                                            //revert changes in local dataModel
+                                            mTopicModel.setRenewalRequests(b);
+                                            mTopicModel.setIsRenewed(false);
 
-                                        // revert the changes made in the UI
-                                        setCompoundDrawables(renewBtn, renewIcon);
-                                        renewBtn.setText(String.valueOf(b));
+                                            // revert the changes made in the UI
+                                            setCompoundDrawables(renewBtn, renewIcon);
+                                            renewBtn.setText(String.valueOf(b));
 
-                                    }
-                                });
+                                        }
+                                    });
+                        }
+                        else {
+                            LocalTopicHelper.getHelper().addRenewalRequest(mTopicModel, new LocalTopicHelper.OnRenewalRequestListener() {
+                                @Override
+                                public void onCompleted() {
 
+                                }
+
+                                @Override
+                                public void onError(String error) {
+                                    // notify the user that renew have failed
+                                    CommonUtils.showToast(mContext, error);
+
+                                    //revert changes in local dataModel
+                                    mTopicModel.setRenewalRequests(b);
+                                    mTopicModel.setIsRenewed(false);
+
+                                    // revert the changes made in the UI
+                                    setCompoundDrawables(renewBtn, renewIcon);
+                                    renewBtn.setText(String.valueOf(b));
+
+                                }
+                            });
+                        }
                     } else {
                         setCompoundDrawables(renewBtn, renewIcon);
                         renewBtn.setText(String.valueOf(b - 1));
                         mTopicModel.setRenewalRequests(b - 1);
                         mTopicModel.setIsRenewed(false);
+                        if(!mTopicModel.isLocalTopic()){
 
                         TopicHelper.getHelper().removeRenewal(mTopicModel.getTopicId(),
                                 new TopicHelper.OnRemoveRenewalRequestListener() {
@@ -142,6 +170,28 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
                                     }
 
                                 });
+                    }else {
+                            LocalTopicHelper.getHelper().removeRenewal(mTopicModel.getTopicId(), new LocalTopicHelper.OnRemoveRenewalRequestListener() {
+                                @Override
+                                public void onCompleted() {
+
+                                }
+
+                                @Override
+                                public void onError(String error) {
+                                    // notify the user that renew removal have failed
+                                    CommonUtils.showToast(mContext, error);
+
+                                    //revert changes in local dataModel
+                                    mTopicModel.setRenewalRequests(b);
+                                    mTopicModel.setIsRenewed(true);
+
+                                    // revert the changes made in the UI
+                                    setCompoundDrawables(renewBtn, renewedIcon);
+                                    renewBtn.setText(String.valueOf(b));
+                                }
+                            });
+                        }
                     }
                 }
             });

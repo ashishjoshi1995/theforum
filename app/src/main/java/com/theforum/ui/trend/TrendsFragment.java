@@ -5,13 +5,16 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import com.theforum.R;
 import com.theforum.data.helpers.TrendsHelper;
+import com.theforum.data.helpers.localHelpers.LocalTrendsHelper;
 import com.theforum.data.local.models.TrendsDataModel;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.enums.RequestStatus;
@@ -26,7 +29,7 @@ import butterknife.ButterKnife;
  * @author DEEPANKAR
  * @since 31-12-2015.
  */
-public class TrendsFragment extends Fragment {
+public class TrendsFragment extends Fragment  {
 
     @Bind(R.id.home_recycler_view)
     RecyclerView recyclerView;
@@ -63,7 +66,25 @@ public class TrendsFragment extends Fragment {
         recyclerView.setAdapter(mAdapter);
 
         aSwitch.setChecked(false);
-        aSwitch.setOnCheckedChangeListener(this);
+        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                if(buttonView.getId()==R.id.new_trend_Iflocal_toggle_button){
+                    Log.e("oncheck","changedlistenr");
+                    swipeRefreshLayout.setRefreshing(true);
+                if(isChecked){
+                    ifLocalToDisplay = true;
+                    Log.e("true",""+ifLocalToDisplay);
+                }
+                else {
+                    ifLocalToDisplay = false;
+                    Log.e("false",""+ifLocalToDisplay);
+                }
+                    getData();
+            }
+            }
+        });
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -96,7 +117,9 @@ public class TrendsFragment extends Fragment {
 
 
     private void getData(){
-
+        if(!ifLocalToDisplay){
+            Log.e("getdata if",""+!ifLocalToDisplay);
+            TrendsHelper.getHelper().loadTrends(false);
         TrendsHelper.getHelper().getTrends(new TrendsHelper.OnTrendsReceivedListener() {
 
             @Override
@@ -105,6 +128,7 @@ public class TrendsFragment extends Fragment {
                 mAdapter.clearList();
                 mAdapter.addAllTrends(trends);
                 swipeRefreshLayout.setRefreshing(false);
+                Log.e("asasas","onCompleted");
             }
 
             @Override
@@ -119,6 +143,31 @@ public class TrendsFragment extends Fragment {
                 });
 
             }
-        });
+        });}
+        else {
+            Log.e("getdata else",""+!ifLocalToDisplay);
+            LocalTrendsHelper.getHelper().loadTrends(false);
+            LocalTrendsHelper.getHelper().getTrends(new LocalTrendsHelper.OnTrendsReceivedListener() {
+                @Override
+                public void onCompleted(ArrayList<TrendsDataModel> trends) {
+                    dataReceived = true;
+                    mAdapter.clearList();
+                    mAdapter.addAllTrends(trends);
+                    swipeRefreshLayout.setRefreshing(false);
+                    Log.e("bsbsbs","onCompleted");
+                }
+
+                @Override
+                public void onError(final String error) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            swipeRefreshLayout.setRefreshing(false);
+                            CommonUtils.showToast(getActivity(), error);
+                        }
+                    });
+                }
+            });
+        }
     }
 }

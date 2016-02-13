@@ -14,6 +14,7 @@ import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,6 +30,7 @@ import com.theforum.constants.Messages;
 import com.theforum.data.helpers.FlagHelper;
 import com.theforum.data.helpers.OpinionHelper;
 import com.theforum.data.helpers.TopicHelper;
+import com.theforum.data.helpers.localHelpers.LocalTopicHelper;
 import com.theforum.data.local.models.OpinionDataModel;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.utils.CommonUtils;
@@ -197,15 +199,17 @@ public class OpinionsFragment extends Fragment implements OnListItemClickListene
             renewBtn.setBackgroundDrawable(renewedIcon);
             timeHolder.setText(Html.fromHtml(getContext().getResources().getQuantityString(
                     R.plurals.opinion_time_holder_message,
-                    b +1, mTopicModel.getHoursLeft(), b+1)));
+                    b + 1, mTopicModel.getHoursLeft(), b + 1)));
             mTopicModel.setRenewalRequests(b + 1);
             mTopicModel.setIsRenewed(true);
-
+              if(!mTopicModel.isLocalTopic()){
             TopicHelper.getHelper().addRenewalRequest(mTopicModel,
                     new TopicHelper.OnRenewalRequestListener() {
 
                         @Override
-                        public void onCompleted() {}
+                        public void onCompleted() {
+                            Log.e("renew non local", "renew non local");
+                        }
 
                         @Override
                         public void onError(String error) {
@@ -220,22 +224,49 @@ public class OpinionsFragment extends Fragment implements OnListItemClickListene
                             renewBtn.setBackgroundDrawable(renewIcon);
                             timeHolder.setText(Html.fromHtml(getContext().getResources().getQuantityString(
                                     R.plurals.opinion_time_holder_message,
-                                    b , mTopicModel.getHoursLeft(), b)));
+                                    b, mTopicModel.getHoursLeft(), b)));
                         }
                     });
+        }
+            else {
+                  LocalTopicHelper.getHelper().addRenewalRequest(mTopicModel, new LocalTopicHelper.OnRenewalRequestListener() {
+                      @Override
+                      public void onCompleted() {
+                          Log.e("local topic renewed","local topic renewed");
+                      }
+
+                      @Override
+                      public void onError(String error) {
+                          // notify the user that renew have failed
+                          CommonUtils.showToast(getContext(), error);
+
+                          // revert the changes in local dataModel
+                          mTopicModel.setRenewalRequests(b);
+                          mTopicModel.setIsRenewed(false);
+
+                          // revert the changes made in the UI
+                          renewBtn.setBackgroundDrawable(renewIcon);
+                          timeHolder.setText(Html.fromHtml(getContext().getResources().getQuantityString(
+                                  R.plurals.opinion_time_holder_message,
+                                  b, mTopicModel.getHoursLeft(), b)));
+                      }
+                  });
+              }
 
         } else {
             renewBtn.setBackgroundDrawable(renewIcon);
             timeHolder.setText(Html.fromHtml(getContext().getResources().getQuantityString(
                     R.plurals.opinion_time_holder_message,
-                    b - 1, mTopicModel.getHoursLeft(), b-1)));
-            mTopicModel.setRenewalRequests(b-1);
+                    b - 1, mTopicModel.getHoursLeft(), b - 1)));
+            mTopicModel.setRenewalRequests(b - 1);
             mTopicModel.setIsRenewed(false);
-
+if(!mTopicModel.isLocalTopic()){
             TopicHelper.getHelper().removeRenewal(mTopicModel.getTopicId(),
                     new TopicHelper.OnRemoveRenewalRequestListener() {
                         @Override
-                        public void onCompleted() {}
+                        public void onCompleted() {
+                            Log.e("remoed renewal","removed renewal global");
+                        }
 
                         @Override
                         public void onError(String error) {
@@ -250,10 +281,35 @@ public class OpinionsFragment extends Fragment implements OnListItemClickListene
                             renewBtn.setBackgroundDrawable(renewedIcon);
                             timeHolder.setText(Html.fromHtml(getContext().getResources().getQuantityString(
                                     R.plurals.opinion_time_holder_message,
-                                    b , mTopicModel.getHoursLeft(), b)));
+                                    b, mTopicModel.getHoursLeft(), b)));
                         }
 
                     });
+        }
+            else{
+                LocalTopicHelper.getHelper().removeRenewal(mTopicModel.getTopicId(),
+                        new LocalTopicHelper.OnRemoveRenewalRequestListener() {
+                    @Override
+                    public void onCompleted() {
+                        Log.e("local tpc remv renewal","local tpc remv renewal");
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        CommonUtils.showToast(getContext(), error);
+
+                        // revert the changes in local dataModel
+                        mTopicModel.setRenewalRequests(b);
+                        mTopicModel.setIsRenewed(true);
+
+                        // revert the changes made in the UI
+                        renewBtn.setBackgroundDrawable(renewedIcon);
+                        timeHolder.setText(Html.fromHtml(getContext().getResources().getQuantityString(
+                                R.plurals.opinion_time_holder_message,
+                                b, mTopicModel.getHoursLeft(), b)));
+                    }
+                });
+            }
         }
 
     }

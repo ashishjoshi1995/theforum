@@ -1,6 +1,7 @@
 package com.theforum.data.helpers.localHelpers;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.microsoft.windowsazure.mobileservices.ApiOperationCallback;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
@@ -127,28 +128,29 @@ public class LocalTopicHelper {
         request.latitude = latitude;
         request.longitude = longitude;
         if (CommonUtils.isInternetAvailable()) {
-            final ArrayList<TopicDataModel> topics = null;
-            TheForumApplication.getClient().invokeApi("local_nearbytopics", request, LTAResponse.class,
+            final ArrayList<TopicDataModel> topics = new ArrayList<TopicDataModel>();
+            TheForumApplication.getClient().invokeApi("nearbytopics", request, LTAResponse.class,
                     new ApiOperationCallback<LTAResponse>() {
                         @Override
                         public void onCompleted(LTAResponse result, Exception exception, ServiceFilterResponse response) {
                             if (exception == null) {
 
                                 try {
-
+                                   // ArrayList<TopicDataModel> topics = new ArrayList<TopicDataModel>();
                                     if (result.message != null) {
                                         JSONArray jsonArray = new JSONArray(result.message);
                                         requestStatus = RequestStatus.COMPLETED;
 
-                                        ArrayList<TopicDataModel> topics = null;
+
                                         for (int i = 0; i < jsonArray.length(); i++) {
+                                            Log.e("test1",""+i);
                                             JSONObject jsonObject = jsonArray.getJSONObject(i);
                                             TopicDataModel topicDataModel = new TopicDataModel();
 
                                             topicDataModel.setHoursLeft(Integer.parseInt(jsonObject.get("hours_left").toString()));
-                                            topicDataModel.setTopicId(jsonObject.get("trends_id").toString());
+                                            topicDataModel.setTopicId(jsonObject.get("topic_id").toString());
                                             topicDataModel.setTopicDescription(jsonObject.get("description").toString());
-                                            topicDataModel.setTopicName(jsonObject.get("topic_name").toString());
+                                            topicDataModel.setTopicName(jsonObject.get("topic").toString());
                                             topicDataModel.setRenewalRequests(Integer.parseInt(jsonObject.get("renewal_requests").toString()));
                                             topicDataModel.setServerId(jsonObject.get("id").toString());
                                             topicDataModel.setRenewedCount(Integer.parseInt(jsonObject.get("renewed_count").toString()));
@@ -175,24 +177,31 @@ public class LocalTopicHelper {
                                                 topicDataModel.setIsMyTopic(true);
 
                                             topics.add(topicDataModel);
+                                            Log.e("test2",""+topics.size());
                                         }
                                     }
                                     if (topics != null) {
                                         requestStatus = RequestStatus.COMPLETED;
                                         topicArrayList = topics;
+                                        if (topicsReceiveListener != null) {
+                                            topicsReceiveListener.onCompleted(topicArrayList);
+                                            requestStatus = RequestStatus.IDLE;
+                                        }
+                                        //TODO local and global, modify the method
                                         TopicDBHelper.getHelper().deleteAll();
                                         TopicDBHelper.getHelper().addTopicsFromServer(topicArrayList);
-
+                                        Log.e("test3",topics.size()+"");
                                     } else {
-                                        sendError(Messages.SERVER_ERROR);
+                                        sendError("\n\n\n"+"sadsafdsa");
                                     }
 
                                 } catch (JSONException e) {
-                                    sendError(Messages.NO_NET_CONNECTION);
+                                    Log.e("mjhghjgjhgb",""+result.message);
+                                    sendError(Messages.NO_NET_CONNECTION + "\n" + e.getMessage());
                                 }
 
                             } else {
-                                sendError(Messages.SERVER_ERROR);
+                                sendError(exception.getMessage());
                             }
 
 
