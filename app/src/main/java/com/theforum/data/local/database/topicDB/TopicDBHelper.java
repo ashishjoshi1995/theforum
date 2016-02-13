@@ -1,8 +1,10 @@
 package com.theforum.data.local.database.topicDB;
 
+import android.annotation.TargetApi;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 
 import com.theforum.TheForumApplication;
 import com.theforum.data.local.models.TopicDataModel;
@@ -48,7 +50,7 @@ public class TopicDBHelper {
         values.put(TopicDBConstants.KEY_MY_TOPIC, (topic.isMyTopic())? "yes" :"no");
         values.put(TopicDBConstants.KEY_IS_RENEWED, (topic.isRenewed())? "yes" :"no");
 
-        values.put(TopicDBConstants.KEY_LOCAL_TOPIC,(topic.isRenewed())? 1 :0);
+        values.put(TopicDBConstants.KEY_LOCAL_TOPIC,(topic.isLocalTopic())?  "yes" :"no");
 
         // Inserting Row
         topicDatabase.insert(TopicDBConstants.TABLE_NAME, null, values);
@@ -199,5 +201,52 @@ public class TopicDBHelper {
     public void closeDataBase(){
         topicDatabase.close();
         topicDB.close();
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    public ArrayList<TopicDataModel> getLocalAllTopics() {
+        ArrayList<TopicDataModel> topics = new ArrayList<>();
+        String a="yes";
+        ArrayList<TopicDataModel> myTopics = new ArrayList<>();
+        Cursor cursor = topicDatabase.rawQuery("SELECT  * FROM " + TopicDBConstants.TABLE_NAME+" WHERE " +
+                TopicDBConstants.KEY_LOCAL_TOPIC + " =?", new String[] {a}, null);
+
+        if(cursor!=null){
+            if (cursor.moveToFirst()) {
+                do {
+                    TopicDataModel obj = new TopicDataModel();
+                    obj.setServerId(cursor.getString(1));
+                    obj.setTopicId(cursor.getString(2));
+                    obj.setTopicName(cursor.getString(3));
+                    obj.setTopicDescription(cursor.getString(4));
+                    obj.setRenewalRequests(cursor.getInt(5));
+                    obj.setRenewedCount(cursor.getInt(6));
+                    obj.setHoursLeft(cursor.getInt(7));
+                    if(cursor.getString(9).equals("yes")){
+                        obj.setIsRenewed(true);
+                    }
+
+                    if(cursor.getString(8).equals("yes")) {
+                        obj.setIsMyTopic(true);
+                        myTopics.add(obj);
+                    }
+                    else {
+                        obj.setIsMyTopic(false);
+                        topics.add(obj);
+                    }
+                    if(cursor.getInt(10)==1){
+                        obj.setIsLocalTopic(true);
+                    }
+                    else {
+                        obj.setIsLocalTopic(false);
+                    }
+
+                } while (cursor.moveToNext());
+            }
+            topics.addAll(0,myTopics);
+            cursor.close();
+        }
+
+        return topics;
     }
 }

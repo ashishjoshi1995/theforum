@@ -36,7 +36,7 @@ import butterknife.ButterKnife;
  * @author DEEPANKAR
  * @since 31-12-2015.
  */
-public class TopicsFragment extends Fragment implements OnListItemClickListener,OnLongClickItemListener,CompoundButton.OnCheckedChangeListener{
+public class TopicsFragment extends Fragment implements OnListItemClickListener,OnLongClickItemListener{
 
     @Bind(R.id.home_recycler_view)
     RecyclerView recyclerView;
@@ -44,8 +44,9 @@ public class TopicsFragment extends Fragment implements OnListItemClickListener,
     @Bind(R.id.topics_swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
 
-    @Bind(R.id.new_topic_Iflocal_toggle_button)
-    Switch topicsANDtrends_toggle_button;
+
+  //  @Bind(R.id.new_topic_Iflocal_toggle_button)
+    private  Switch topicsANDtrends_toggle_button;
 
     private TopicsListAdapter mAdapter;
     private ArrayList<TopicDataModel> mTopicsList;
@@ -66,14 +67,44 @@ public class TopicsFragment extends Fragment implements OnListItemClickListener,
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-
+        topicsANDtrends_toggle_button=(Switch)view.findViewById(R.id.new_topic_Iflocal_toggle_button);
+        topicsANDtrends_toggle_button.setChecked(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new DividerItemDecorator(getActivity(), R.drawable.recycler_view_divider));
         mAdapter = new TopicsListAdapter(getActivity(), mTopicsList);
         recyclerView.setAdapter(mAdapter);
         mAdapter.setOnListItemClickListener(this);
         mAdapter.setOnLongClickItemListener(this);
-        topicsANDtrends_toggle_button.setOnCheckedChangeListener(this);
+        topicsANDtrends_toggle_button.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(compoundButton.getId()==R.id.new_topic_Iflocal_toggle_button){
+
+                    swipeRefreshLayout.setRefreshing(true);
+                    //onStart();
+                    if(b){
+                        Log.e("ischecked","true");
+                        //change adapter to get local display topics
+                        ifLocalToDisplay = true;
+
+                        LocalTopicHelper.getHelper().loadTopics(SettingsUtils.getInstance()
+                                .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS),0,0,true);
+                        getTopics();
+                        Log.e("asasa",ifLocalToDisplay+"");
+                    }
+                    else {
+                        Log.e("ischecked","false");
+                        //rechange adapter to get global display topics
+                        ifLocalToDisplay = false;
+                        TopicHelper.getHelper().loadTopics(SettingsUtils.getInstance()
+                                .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS), true);
+                        getTopics();
+                        Log.e("asasaasasa", ifLocalToDisplay + "");
+                    }
+                }
+
+            }
+        });
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -82,7 +113,7 @@ public class TopicsFragment extends Fragment implements OnListItemClickListener,
                         .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS), true);
                 else
                 LocalTopicHelper.getHelper().loadTopics(SettingsUtils.getInstance()
-                        .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS),true);
+                        .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS),0,0,true);
             }
         });
 
@@ -109,7 +140,7 @@ public class TopicsFragment extends Fragment implements OnListItemClickListener,
                     .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS), false);
             else
             LocalTopicHelper.getHelper().loadTopics(SettingsUtils.getInstance()
-            .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS),false);
+            .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS),0,0,false);
         }
 
         if(classification!=SettingsUtils.getInstance().getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS)){
@@ -118,7 +149,7 @@ public class TopicsFragment extends Fragment implements OnListItemClickListener,
                     .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS), true);
             else
             LocalTopicHelper.getHelper().loadTopics(SettingsUtils.getInstance()
-                    .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS),true);
+                    .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS),0,0,true);
         }
 
         if(TopicHelper.getHelper().requestStatus == RequestStatus.EXECUTING){
@@ -214,31 +245,5 @@ public class TopicsFragment extends Fragment implements OnListItemClickListener,
         return true;
     }
 
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if(buttonView.getId()==R.id.new_topic_Iflocal_toggle_button){
 
-            swipeRefreshLayout.setRefreshing(true);
-            //onStart();
-            if(isChecked){
-                Log.e("ischecked","true");
-                //change adapter to get local display topics
-                ifLocalToDisplay = true;
-
-                LocalTopicHelper.getHelper().loadTopics(SettingsUtils.getInstance()
-                        .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS),true);
-                getTopics();
-                Log.e("asasa",ifLocalToDisplay+"");
-            }
-            else {
-                Log.e("ischecked","false");
-                //rechange adapter to get global display topics
-                ifLocalToDisplay = false;
-                TopicHelper.getHelper().loadTopics(SettingsUtils.getInstance()
-                        .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS), true);
-                getTopics();
-                Log.e("asasaasasa", ifLocalToDisplay + "");
-            }
-        }
-    }
 }

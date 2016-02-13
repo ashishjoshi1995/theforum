@@ -33,7 +33,8 @@ public class TrendsFragment extends Fragment implements CompoundButton.OnChecked
 
     @Bind(R.id.topics_swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
 
-    @Bind(R.id.new_trend_Iflocal_toggle_button) Switch aSwitch;
+    //@Bind(R.id.new_trend_Iflocal_toggle_button)
+    private Switch aSwitch;
 
     private TrendsListAdapter mAdapter;
     private boolean dataReceived;
@@ -50,12 +51,14 @@ public class TrendsFragment extends Fragment implements CompoundButton.OnChecked
 
         ifLocalToDisplay = false;
 
+        aSwitch=(Switch)view.findViewById(R.id.new_trend_Iflocal_toggle_button);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new DividerItemDecorator(getActivity(), R.drawable.recycler_view_divider));
 
         mAdapter = new TrendsListAdapter(getActivity(), new ArrayList<TrendsDataModel>());
         recyclerView.setAdapter(mAdapter);
-
+        aSwitch.setChecked(false);
         aSwitch.setOnCheckedChangeListener(this);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
