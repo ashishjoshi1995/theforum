@@ -28,6 +28,7 @@ public class TrendsDBHelper {
     private TrendsDBHelper(){
         trendsDB = new TrendsDB(TheForumApplication.getAppContext());
         trendsDatabase = trendsDB.getWritableDatabase();
+        //nn
     }
 
 
