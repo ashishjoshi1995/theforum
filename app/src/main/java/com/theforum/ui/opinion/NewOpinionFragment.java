@@ -18,8 +18,10 @@ import com.theforum.R;
 import com.theforum.constants.LayoutType;
 import com.theforum.constants.Messages;
 import com.theforum.data.helpers.OpinionHelper;
+import com.theforum.data.helpers.localHelpers.LocalOpinionHelper;
 import com.theforum.data.local.models.OpinionDataModel;
 import com.theforum.data.local.models.TopicDataModel;
+import com.theforum.data.server.areaopinions;
 import com.theforum.data.server.opinion;
 import com.theforum.ui.ProgressDialog;
 import com.theforum.utils.CommonUtils;
@@ -125,7 +127,7 @@ public class NewOpinionFragment extends Fragment {
                         uploadOpinion();
                     }
 
-                } else CommonUtils.showToast(getContext(),"Opinion Empty");
+                } else CommonUtils.showToast(getContext(), "Opinion Empty");
             }
         });
 
@@ -136,27 +138,55 @@ public class NewOpinionFragment extends Fragment {
     }
 
     private void uploadOpinion(){
-        opinion opinion = new opinion(mUploadText.getText().toString());
-        opinion.setTopicId(mTopicModel.getTopicId());
-        opinion.setTopicName(mTopicModel.getTopicName());
-        opinion.setUserId(User.getInstance().getId());
+
 
         final ProgressDialog dialog = ProgressDialog.createDialog(getContext());
         dialog.show();
+        if(!mTopicModel.isLocalTopic()) {
+            opinion opinion = new opinion(mUploadText.getText().toString());
+            opinion.setTopicId(mTopicModel.getTopicId());
+            opinion.setTopicName(mTopicModel.getTopicName());
+            opinion.setUserId(User.getInstance().getId());
 
-        OpinionHelper.getHelper().addOpinion(opinion, new OpinionHelper.OnOpinionAddListener() {
-            @Override
-            public void onCompleted(OpinionDataModel opinion, boolean is) {
-                dialog.dismiss();
-                getActivity().finish();
-            }
+            OpinionHelper.getHelper().addOpinion(opinion, new OpinionHelper.OnOpinionAddListener() {
+                @Override
+                public void onCompleted(OpinionDataModel opinion, boolean is) {
+                    dialog.dismiss();
+                    getActivity().finish();
+                }
 
-            @Override
-            public void onError(String error) {
-                CommonUtils.showToast(getContext(), Messages.NO_NET_CONNECTION);
-                dialog.dismiss();
-            }
-        });
+                @Override
+                public void onError(String error) {
+                    CommonUtils.showToast(getContext(), Messages.NO_NET_CONNECTION);
+                    dialog.dismiss();
+                }
+            });
+        }
+        else {
+            areaopinions opinion=new areaopinions();
+            opinion.setTopicId(mTopicModel.getTopicId());
+            opinion.setTopicName(mTopicModel.getTopicName());
+            opinion.setUserId(User.getInstance().getId());
+            opinion.setOpinionName(mUploadText.getText().toString());
+            opinion.setLongitude(mTopicModel.getLongitude());
+            opinion.setLatitude(mTopicModel.getLatitude());
+
+
+
+            LocalOpinionHelper.getHelper().addOpinion(opinion, new LocalOpinionHelper.OnOpinionAddListener() {
+                @Override
+                public void onCompleted(OpinionDataModel opinion, boolean isUpdated) {
+                    dialog.dismiss();
+                    getActivity().finish();
+                }
+
+                @Override
+                public void onError(String error) {
+                    CommonUtils.showToast(getContext(), Messages.NO_NET_CONNECTION);
+                    dialog.dismiss();
+                }
+            });
+        }
 
     }
 
@@ -164,21 +194,23 @@ public class NewOpinionFragment extends Fragment {
         String opinionText = mUploadText.getText().toString();
         final ProgressDialog dialog = ProgressDialog.createDialog(getContext());
         dialog.show();
-            mOpinionModel.setOpinionText(opinionText);
-        OpinionHelper.getHelper().updateOpinion(mOpinionModel,
-                new OpinionHelper.OnOpinionAddListener() {
-            @Override
-            public void onCompleted(OpinionDataModel opinion, boolean is) {
-                dialog.dismiss();
-                getActivity().finish();
-            }
 
-            @Override
-            public void onError(String error) {
-                CommonUtils.showToast(getContext(), Messages.NO_NET_CONNECTION);
-                dialog.dismiss();
-            }
-        });
+            mOpinionModel.setOpinionText(opinionText);
+            OpinionHelper.getHelper().updateOpinion(mOpinionModel,
+                    new OpinionHelper.OnOpinionAddListener() {
+                        @Override
+                        public void onCompleted(OpinionDataModel opinion, boolean is) {
+                            dialog.dismiss();
+                            getActivity().finish();
+                        }
+
+                        @Override
+                        public void onError(String error) {
+                            CommonUtils.showToast(getContext(), Messages.NO_NET_CONNECTION);
+                            dialog.dismiss();
+                        }
+                    });
+
     }
 
 }

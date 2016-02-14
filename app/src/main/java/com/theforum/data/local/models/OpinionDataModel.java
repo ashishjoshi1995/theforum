@@ -20,6 +20,8 @@ public class OpinionDataModel implements Parcelable{
     private int downVoteCount;
     private int upVoteCount;
     private VoteStatus voteStatus = VoteStatus.NONE;
+    private double latitude;
+    private double longitude;
 
     public OpinionDataModel(){}
 
@@ -152,4 +154,20 @@ public class OpinionDataModel implements Parcelable{
             return new OpinionDataModel[size];
         }
     };
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
 }

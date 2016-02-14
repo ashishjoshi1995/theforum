@@ -23,6 +23,8 @@ public class TopicDataModel implements Parcelable{
     private boolean isRenewed;
     private boolean isMyTopic;
     private boolean isLocalTopic;
+    private double latitude;
+    private double longitude;
 
     public TopicDataModel(){
         isRenewed = false;
@@ -174,5 +176,21 @@ public class TopicDataModel implements Parcelable{
 
     public void setIsLocalTopic(boolean isLocalTopic) {
         this.isLocalTopic = isLocalTopic;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 }
