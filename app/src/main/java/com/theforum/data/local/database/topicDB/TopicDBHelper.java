@@ -150,24 +150,7 @@ public class TopicDBHelper {
         ArrayList<TopicDataModel> topics = new ArrayList<>();
         ArrayList<TopicDataModel> myTopics = new ArrayList<>();
         Cursor cursor = null;
-  /*      switch(SettingsUtils.getInstance()
-                .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS)){
-            case SortType.SORT_BASIS_CREATED_BY_ME:
-                cursor = topicDatabase.rawQuery("SELECT  * FROM " + TopicDBConstants.TABLE_NAME + " WHERE "+
-                        TopicDBConstants.KEY_LOCAL_TOPIC + " =?" , new String[]{"yes"});
-                break;
-            case SortType.SORT_BASIS_LATEST:
-
-                break;
-            case SortType.SORT_BASIS_MOST_POPULAR:
-                break;
-            case SortType.SORT_BASIS_LEAST_RENEWAL:
-                break;
-            case SortType.SORT_BASIS_MOST_RENEWAL:
-                break;
-
-        }
-*/
+  
         cursor = topicDatabase.rawQuery("SELECT  * FROM " + TopicDBConstants.TABLE_NAME + " WHERE "+
                 TopicDBConstants.KEY_LOCAL_TOPIC + " =?" , new String[]{"yes"});
 
