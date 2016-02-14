@@ -88,13 +88,21 @@ public class TopicsFragment extends Fragment implements OnListItemClickListener,
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (compoundButton.getId() == R.id.new_trend_Iflocal_toggle_button) {
                     ifLocalToDisplay = b;
+                    ArrayList<TopicDataModel> topicDataModels = new ArrayList<TopicDataModel>();
                     if(ifLocalToDisplay){
+
+                        topicDataModels = TopicDBHelper.getHelper().getAllLocalTopics();
+                        Log.e("togglr local","toggle local");
+                        Log.e("aaaaaaaaaaaaaaa",topicDataModels.size()+"");
                         mAdapter.removeAllTopics();
-                        mAdapter.addTopics(TopicDBHelper.getHelper().getAllLocalTopics());
+                        mAdapter.addTopics(topicDataModels);
                     }
                     else {
+                        topicDataModels = TopicDBHelper.getHelper().getAllGlobalTopics();
+                        Log.e("toggle global","toggle global");
+                        Log.e("sdsdsdsdsdsdsdsds2",topicDataModels.size()+"");
                         mAdapter.removeAllTopics();
-                        mAdapter.addTopics(TopicDBHelper.getHelper().getAllGlobalTopics());
+                        mAdapter.addTopics(topicDataModels);
                     }
                 }
 
@@ -103,6 +111,7 @@ public class TopicsFragment extends Fragment implements OnListItemClickListener,
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                Log.e("debug1","onrefresh");
                 if (!ifLocalToDisplay)
                     TopicHelper.getHelper().loadTopics(SettingsUtils.getInstance()
                             .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS), true);

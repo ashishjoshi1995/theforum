@@ -140,6 +140,7 @@ public class OpinionsFragment extends Fragment implements OnListItemClickListene
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.e("jgjfhgffgdhhgd",""+mTopicModel.isLocalTopic());
                 CommonUtils.openContainerActivity(getActivity(), LayoutType.NEW_OPINION_FRAGMENT,
                         Pair.create(LayoutType.TOPIC_MODEL, (Parcelable) mTopicModel));
             }

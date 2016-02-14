@@ -1,6 +1,7 @@
 package com.theforum.data.helpers.localHelpers;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
@@ -100,7 +101,7 @@ public class LocalOpinionHelper {
 
 
     public void addOpinion(final areaopinions opinion , final OnOpinionAddListener listener){
-
+        Log.e("Loacalhelper","addpopion called");
         AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
 
             @Override

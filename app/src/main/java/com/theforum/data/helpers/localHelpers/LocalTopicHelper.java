@@ -125,7 +125,7 @@ public class LocalTopicHelper {
 
     public void loadTopics(final int sortMode, final double latitude, final double longitude, boolean refresh) {
         requestStatus = RequestStatus.EXECUTING;
-
+        Log.e("local load topics","local load topics");
         LTARequest request = new LTARequest();
         request.latitude = latitude;
         request.longitude = longitude;
@@ -136,7 +136,7 @@ public class LocalTopicHelper {
                         @Override
                         public void onCompleted(LTAResponse result, Exception exception, ServiceFilterResponse response) {
                             if (exception == null) {
-
+                                Log.e("oncopleffffffffff","llllllllllllllllll");
                                 try {
                                    // ArrayList<TopicDataModel> topics = new ArrayList<TopicDataModel>();
                                     if (result.message != null) {
@@ -191,7 +191,7 @@ public class LocalTopicHelper {
                                         }
                                         //TODO local and global, modify the method
                                         TopicDBHelper.getHelper().deleteAllLocalTopics();
-                                        TopicDBHelper.getHelper().addTopicsFromServer(topicArrayList);
+                                        TopicDBHelper.getHelper().addTopicsFromServer(topicArrayList,true);
                                         Log.e("test3",topics.size()+"");
                                     } else {
                                         sendError("\n\n\n"+"sadsafdsa");

@@ -6,6 +6,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -142,7 +143,9 @@ public class NewOpinionFragment extends Fragment {
 
         final ProgressDialog dialog = ProgressDialog.createDialog(getContext());
         dialog.show();
+        Log.e("islocal",""+mTopicModel.isLocalTopic());
         if(!mTopicModel.isLocalTopic()) {
+            Log.e("upload local opinion",""+mTopicModel.isLocalTopic());
             opinion opinion = new opinion(mUploadText.getText().toString());
             opinion.setTopicId(mTopicModel.getTopicId());
             opinion.setTopicName(mTopicModel.getTopicName());
@@ -171,7 +174,8 @@ public class NewOpinionFragment extends Fragment {
             opinion.setLongitude(mTopicModel.getLongitude());
             opinion.setLatitude(mTopicModel.getLatitude());
 
-
+            Log.e("upload local opinion", "" + mTopicModel.isLocalTopic());
+            Log.e("upload local opinion",""+mTopicModel.getTopicName());
 
             LocalOpinionHelper.getHelper().addOpinion(opinion, new LocalOpinionHelper.OnOpinionAddListener() {
                 @Override

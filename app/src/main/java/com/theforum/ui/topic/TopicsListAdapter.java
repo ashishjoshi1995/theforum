@@ -239,6 +239,7 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
 
     public void addTopics(ArrayList<TopicDataModel> topics){
         mTopics.addAll(0,topics);
+        Log.e("addTopics",topics.size()+"");
         notifyDataSetChanged();
     }
 

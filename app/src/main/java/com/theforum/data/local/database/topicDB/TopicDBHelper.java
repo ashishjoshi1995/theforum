@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
+import android.util.Log;
 
 import com.theforum.TheForumApplication;
 import com.theforum.constants.SortType;
@@ -37,9 +38,10 @@ public class TopicDBHelper {
     /**
      *
      * @param topic data model to save into local database
+     *
      */
     public void addTopic(TopicDataModel topic){
-
+        Log.e("addTopic","addTopics");
         ContentValues values = new ContentValues();
 
         values.put(TopicDBConstants.KEY_SERVER_ID,topic.getServerId());
@@ -51,11 +53,7 @@ public class TopicDBHelper {
         values.put(TopicDBConstants.KEY_HOURS_LEFT, topic.getHoursLeft());
         values.put(TopicDBConstants.KEY_MY_TOPIC, (topic.isMyTopic())? "yes" :"no");
         values.put(TopicDBConstants.KEY_IS_RENEWED, (topic.isRenewed())? "yes" :"no");
-
-
         values.put(TopicDBConstants.KEY_LOCAL_TOPIC,(topic.isLocalTopic())?  "yes" :"no");
-
-
 
         // Inserting Row
         topicDatabase.insert(TopicDBConstants.TABLE_NAME, null, values);
@@ -69,8 +67,10 @@ public class TopicDBHelper {
      * @param topics list of topics that you want to save into db.
      *
      */
-    public void addTopicsFromServer(ArrayList<TopicDataModel> topics){
+    public void addTopicsFromServer(ArrayList<TopicDataModel> topics, boolean ifLocal){
         for (int k = 0; k<topics.size();k++){
+           // Log.e("addtopics","addtopics"+topics.get());
+            topics.get(k).setIsLocalTopic(ifLocal);
             addTopic(topics.get(k));
         }
     }
@@ -150,15 +150,14 @@ public class TopicDBHelper {
         ArrayList<TopicDataModel> topics = new ArrayList<>();
         ArrayList<TopicDataModel> myTopics = new ArrayList<>();
         Cursor cursor = null;
-        switch(SettingsUtils.getInstance()
+  /*      switch(SettingsUtils.getInstance()
                 .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS)){
             case SortType.SORT_BASIS_CREATED_BY_ME:
                 cursor = topicDatabase.rawQuery("SELECT  * FROM " + TopicDBConstants.TABLE_NAME + " WHERE "+
                         TopicDBConstants.KEY_LOCAL_TOPIC + " =?" , new String[]{"yes"});
                 break;
             case SortType.SORT_BASIS_LATEST:
-                cursor = topicDatabase.rawQuery("SELECT  * FROM " + TopicDBConstants.TABLE_NAME + " WHERE "+
-                        TopicDBConstants.KEY_LOCAL_TOPIC + " =?" , new String[]{"yes"});
+
                 break;
             case SortType.SORT_BASIS_MOST_POPULAR:
                 break;
@@ -168,8 +167,9 @@ public class TopicDBHelper {
                 break;
 
         }
-
-
+*/
+        cursor = topicDatabase.rawQuery("SELECT  * FROM " + TopicDBConstants.TABLE_NAME + " WHERE "+
+                TopicDBConstants.KEY_LOCAL_TOPIC + " =?" , new String[]{"yes"});
 
         if(cursor!=null){
             if (cursor.moveToFirst()) {
@@ -195,11 +195,13 @@ public class TopicDBHelper {
                         obj.setIsMyTopic(false);
                         topics.add(obj);
                     }
-                    if(cursor.getString(10)=="yes"){
+                    if(cursor.getString(10).equals("yes")){
                         obj.setIsLocalTopic(true);
+                        Log.e("qwertyyes",""+obj.isLocalTopic());
                     }
                     else {
                         obj.setIsLocalTopic(false);
+                        Log.e("qwertyno",""+obj.isLocalTopic());
                     }
 
                 } while (cursor.moveToNext());
@@ -264,14 +266,16 @@ public class TopicDBHelper {
     }
 
     public void deleteAllLocalTopics(){
+        Log.e("deleteAllLocalTopics","deleteAllLocalTopics");
         if(topicDatabase.isOpen()){}else topicDatabase = topicDB.getWritableDatabase();
         topicDatabase.execSQL("DELETE from " + TopicDBConstants.TABLE_NAME+" WHERE "+ TopicDBConstants.KEY_LOCAL_TOPIC
-        + " ?", new String[]{"yes"});
+        + " =?", new String[]{"yes"});
 
 
     }
 
     public void deleteAllGlobalTopics(){
+        Log.e("deleteAllglobalTopics","deleteAllglovblaTopics");
         if(topicDatabase.isOpen()){}else topicDatabase = topicDB.getWritableDatabase();
         topicDatabase.execSQL("DELETE from " + TopicDBConstants.TABLE_NAME+" WHERE "+ TopicDBConstants.KEY_LOCAL_TOPIC
                 + " =?", new String[]{"no"});
