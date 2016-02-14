@@ -175,7 +175,7 @@ public class TopicHelper {
                             topicsReceiveListener.onCompleted(topicArrayList);
                             requestStatus = RequestStatus.IDLE;
                         }
-                        TopicDBHelper.getHelper().deleteAll();
+                        TopicDBHelper.getHelper().deleteAllGlobalTopics();
                         TopicDBHelper.getHelper().addTopicsFromServer(topicArrayList);
 
                     }else {
@@ -188,7 +188,7 @@ public class TopicHelper {
 
         }else {
             if(!refresh) {
-                topicArrayList = TopicDBHelper.getHelper().getAllTopics();
+                topicArrayList = TopicDBHelper.getHelper().getAllGlobalTopics();
                 requestStatus = RequestStatus.COMPLETED;
 
                 if (topicsReceiveListener != null) {

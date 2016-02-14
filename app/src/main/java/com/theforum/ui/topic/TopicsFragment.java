@@ -18,6 +18,7 @@ import com.theforum.R;
 import com.theforum.constants.LayoutType;
 import com.theforum.data.helpers.TopicHelper;
 import com.theforum.data.helpers.localHelpers.LocalTopicHelper;
+import com.theforum.data.local.database.topicDB.TopicDB;
 import com.theforum.data.local.database.topicDB.TopicDBHelper;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.utils.CommonUtils;
@@ -86,26 +87,14 @@ public class TopicsFragment extends Fragment implements OnListItemClickListener,
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (compoundButton.getId() == R.id.new_trend_Iflocal_toggle_button) {
-
-                    swipeRefreshLayout.setRefreshing(true);
-                    //onStart();
-                    if (b) {
-                        Log.e("ischecked", "true");
-                        //change adapter to get local display topics
-                        ifLocalToDisplay = true;
-
-                        LocalTopicHelper.getHelper().loadTopics(SettingsUtils.getInstance()
-                                .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS), latitude, longitude, true);
-                        getTopics();
-                        Log.e("asasa", ifLocalToDisplay + "");
-                    } else {
-                        Log.e("ischecked", "false");
-                        //rechange adapter to get global display topics
-                        ifLocalToDisplay = false;
-                        TopicHelper.getHelper().loadTopics(SettingsUtils.getInstance()
-                                .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS), true);
-                        getTopics();
-                        Log.e("asasaasasa", ifLocalToDisplay + "");
+                    ifLocalToDisplay = b;
+                    if(ifLocalToDisplay){
+                        mAdapter.removeAllTopics();
+                        mAdapter.addTopics(TopicDBHelper.getHelper().getAllLocalTopics());
+                    }
+                    else {
+                        mAdapter.removeAllTopics();
+                        mAdapter.addTopics(TopicDBHelper.getHelper().getAllGlobalTopics());
                     }
                 }
 

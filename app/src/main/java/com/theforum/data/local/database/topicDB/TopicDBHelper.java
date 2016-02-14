@@ -7,7 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 
 import com.theforum.TheForumApplication;
+import com.theforum.constants.SortType;
 import com.theforum.data.local.models.TopicDataModel;
+import com.theforum.utils.SettingsUtils;
 
 import java.util.ArrayList;
 
@@ -143,9 +145,136 @@ public class TopicDBHelper {
         return topics;
     }
 
+    public ArrayList<TopicDataModel> getAllLocalTopics(){
+        //String v = SettingsUtils.TOPIC_FEED_SORT_STATUS;
+        ArrayList<TopicDataModel> topics = new ArrayList<>();
+        ArrayList<TopicDataModel> myTopics = new ArrayList<>();
+        Cursor cursor = null;
+        switch(SettingsUtils.getInstance()
+                .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS)){
+            case SortType.SORT_BASIS_CREATED_BY_ME:
+                cursor = topicDatabase.rawQuery("SELECT  * FROM " + TopicDBConstants.TABLE_NAME + " WHERE "+
+                        TopicDBConstants.KEY_LOCAL_TOPIC + " =?" , new String[]{"yes"});
+                break;
+            case SortType.SORT_BASIS_LATEST:
+                cursor = topicDatabase.rawQuery("SELECT  * FROM " + TopicDBConstants.TABLE_NAME + " WHERE "+
+                        TopicDBConstants.KEY_LOCAL_TOPIC + " =?" , new String[]{"yes"});
+                break;
+            case SortType.SORT_BASIS_MOST_POPULAR:
+                break;
+            case SortType.SORT_BASIS_LEAST_RENEWAL:
+                break;
+            case SortType.SORT_BASIS_MOST_RENEWAL:
+                break;
+
+        }
+
+
+
+        if(cursor!=null){
+            if (cursor.moveToFirst()) {
+                do {
+                    TopicDataModel obj = new TopicDataModel();
+                    obj.setServerId(cursor.getString(1));
+                    obj.setTopicId(cursor.getString(2));
+                    obj.setTopicName(cursor.getString(3));
+                    obj.setTopicDescription(cursor.getString(4));
+                    obj.setRenewalRequests(cursor.getInt(5));
+                    obj.setRenewedCount(cursor.getInt(6));
+                    obj.setHoursLeft(cursor.getInt(7));
+
+                    if(cursor.getString(9).equals("yes")){
+                        obj.setIsRenewed(true);
+                    }
+
+                    if(cursor.getString(8).equals("yes")) {
+                        obj.setIsMyTopic(true);
+                        myTopics.add(obj);
+                    }
+                    else {
+                        obj.setIsMyTopic(false);
+                        topics.add(obj);
+                    }
+                    if(cursor.getString(10)=="yes"){
+                        obj.setIsLocalTopic(true);
+                    }
+                    else {
+                        obj.setIsLocalTopic(false);
+                    }
+
+                } while (cursor.moveToNext());
+            }
+            topics.addAll(0,myTopics);
+            cursor.close();
+        }
+
+        return topics;
+    }
+
+    public ArrayList<TopicDataModel> getAllGlobalTopics(){
+        ArrayList<TopicDataModel> topics = new ArrayList<>();
+        ArrayList<TopicDataModel> myTopics = new ArrayList<>();
+        Cursor cursor = topicDatabase.rawQuery("SELECT  * FROM " + TopicDBConstants.TABLE_NAME + " WHERE "+
+                TopicDBConstants.KEY_LOCAL_TOPIC + " =?" , new String[]{"no"});
+
+        if(cursor!=null){
+            if (cursor.moveToFirst()) {
+                do {
+                    TopicDataModel obj = new TopicDataModel();
+                    obj.setServerId(cursor.getString(1));
+                    obj.setTopicId(cursor.getString(2));
+                    obj.setTopicName(cursor.getString(3));
+                    obj.setTopicDescription(cursor.getString(4));
+                    obj.setRenewalRequests(cursor.getInt(5));
+                    obj.setRenewedCount(cursor.getInt(6));
+                    obj.setHoursLeft(cursor.getInt(7));
+
+                    if(cursor.getString(9).equals("yes")){
+                        obj.setIsRenewed(true);
+                    }
+
+                    if(cursor.getString(8).equals("yes")) {
+                        obj.setIsMyTopic(true);
+                        myTopics.add(obj);
+                    }
+                    else {
+                        obj.setIsMyTopic(false);
+                        topics.add(obj);
+                    }
+                    if(cursor.getString(10)=="yes"){
+                        obj.setIsLocalTopic(true);
+                    }
+                    else {
+                        obj.setIsLocalTopic(false);
+                    }
+
+                } while (cursor.moveToNext());
+            }
+            topics.addAll(0,myTopics);
+            cursor.close();
+        }
+
+        return topics;
+    }
+
+
     public void deleteAll() {
         if(topicDatabase.isOpen()){}else topicDatabase = topicDB.getWritableDatabase();
         topicDatabase.execSQL("DELETE from " + TopicDBConstants.TABLE_NAME);
+    }
+
+    public void deleteAllLocalTopics(){
+        if(topicDatabase.isOpen()){}else topicDatabase = topicDB.getWritableDatabase();
+        topicDatabase.execSQL("DELETE from " + TopicDBConstants.TABLE_NAME+" WHERE "+ TopicDBConstants.KEY_LOCAL_TOPIC
+        + " ?", new String[]{"yes"});
+
+
+    }
+
+    public void deleteAllGlobalTopics(){
+        if(topicDatabase.isOpen()){}else topicDatabase = topicDB.getWritableDatabase();
+        topicDatabase.execSQL("DELETE from " + TopicDBConstants.TABLE_NAME+" WHERE "+ TopicDBConstants.KEY_LOCAL_TOPIC
+                + " =?", new String[]{"no"});
     }
 
     public TopicDataModel getTopicById(String id){
@@ -200,50 +329,4 @@ public class TopicDBHelper {
         topicDB.close();
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public ArrayList<TopicDataModel> getLocalAllTopics() {
-        ArrayList<TopicDataModel> topics = new ArrayList<>();
-        String a="yes";
-        ArrayList<TopicDataModel> myTopics = new ArrayList<>();
-        Cursor cursor = topicDatabase.rawQuery("SELECT  * FROM " + TopicDBConstants.TABLE_NAME+" WHERE " +
-                TopicDBConstants.KEY_LOCAL_TOPIC + " =?", new String[] {a}, null);
-
-        if(cursor!=null){
-            if (cursor.moveToFirst()) {
-                do {
-                    TopicDataModel obj = new TopicDataModel();
-                    obj.setServerId(cursor.getString(1));
-                    obj.setTopicId(cursor.getString(2));
-                    obj.setTopicName(cursor.getString(3));
-                    obj.setTopicDescription(cursor.getString(4));
-                    obj.setRenewalRequests(cursor.getInt(5));
-                    obj.setRenewedCount(cursor.getInt(6));
-                    obj.setHoursLeft(cursor.getInt(7));
-                    if(cursor.getString(9).equals("yes")){
-                        obj.setIsRenewed(true);
-                    }
-
-                    if(cursor.getString(8).equals("yes")) {
-                        obj.setIsMyTopic(true);
-                        myTopics.add(obj);
-                    }
-                    else {
-                        obj.setIsMyTopic(false);
-                        topics.add(obj);
-                    }
-                    if(cursor.getInt(10)==1){
-                        obj.setIsLocalTopic(true);
-                    }
-                    else {
-                        obj.setIsLocalTopic(false);
-                    }
-
-                } while (cursor.moveToNext());
-            }
-            topics.addAll(0,myTopics);
-            cursor.close();
-        }
-
-        return topics;
-    }
 }

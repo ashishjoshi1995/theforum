@@ -15,6 +15,8 @@ import com.theforum.data.helpers.localTrendsApi.LTARequest;
 import com.theforum.data.helpers.localTrendsApi.LTAResponse;
 import com.theforum.data.helpers.local_addrenewalrequesApi.LARRRequest;
 import com.theforum.data.helpers.local_addrenewalrequesApi.LARRResponse;
+import com.theforum.data.helpers.local_remove_renewalApi.LRRARequest;
+import com.theforum.data.helpers.local_remove_renewalApi.LRRAResponse;
 import com.theforum.data.local.database.topicDB.TopicDBHelper;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.data.server.areatopics;
@@ -188,7 +190,7 @@ public class LocalTopicHelper {
                                             requestStatus = RequestStatus.IDLE;
                                         }
                                         //TODO local and global, modify the method
-                                        TopicDBHelper.getHelper().deleteAll();
+                                        TopicDBHelper.getHelper().deleteAllLocalTopics();
                                         TopicDBHelper.getHelper().addTopicsFromServer(topicArrayList);
                                         Log.e("test3",topics.size()+"");
                                     } else {
@@ -211,7 +213,7 @@ public class LocalTopicHelper {
          }
         else {
             if(!refresh) {
-                topicArrayList = TopicDBHelper.getHelper().getLocalAllTopics();
+                topicArrayList = TopicDBHelper.getHelper().getAllLocalTopics();
                 requestStatus = RequestStatus.COMPLETED;
 
                 if (topicsReceiveListener != null) {
@@ -254,19 +256,19 @@ public class LocalTopicHelper {
         } else listener.onError(Messages.NO_NET_CONNECTION);
     }
     public void removeRenewal(String topic_id , final OnRemoveRenewalRequestListener listener) {
-        //final RemoveRenewalRequest request = new RemoveRenewalRequest();
-        //request.topic_id = topic_id;
-        //request.uid = User.getInstance().getId();
+        final LRRARequest request = new LRRARequest();
+        request.topic_id = topic_id;
+        request.uid = User.getInstance().getId();
 
         if(CommonUtils.isInternetAvailable()) {
-           /* mClient.invokeApi("remove_renewal", request, RemoveRenewalResponse.class, new ApiOperationCallback<RemoveRenewalResponse>() {
+            mClient.invokeApi("local_remove_renewal", request, LRRAResponse.class, new ApiOperationCallback<LRRAResponse>() {
                 @Override
-                public void onCompleted(RemoveRenewalResponse result, Exception exception, ServiceFilterResponse response) {
+                public void onCompleted(LRRAResponse result, Exception exception, ServiceFilterResponse response) {
                     if (exception != null) {
                         listener.onError(exception.getMessage());
                     } else listener.onCompleted();
                 }
-            });*/
+            });
         } else listener.onError(Messages.NO_NET_CONNECTION);
     }
 
