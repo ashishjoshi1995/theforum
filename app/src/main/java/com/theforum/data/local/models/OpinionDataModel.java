@@ -119,52 +119,6 @@ public class OpinionDataModel implements Parcelable{
         this.uId = uId;
     }
 
-    protected OpinionDataModel(Parcel in) {
-        uId = in.readString();
-        opinionId = in.readString();
-        opinionText = in.readString();
-        topicName = in.readString();
-        topicId = in.readString();
-        downVoteCount = in.readInt();
-        upVoteCount = in.readInt();
-        latitude=in.readDouble();
-        longitude=in.readDouble();
-        voteStatus = (VoteStatus) in.readValue(VoteStatus.class.getClassLoader());
-    }
-
-
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(uId);
-        dest.writeString(opinionId);
-        dest.writeString(opinionText);
-        dest.writeString(topicName);
-        dest.writeString(topicId);
-        dest.writeInt(downVoteCount);
-        dest.writeInt(upVoteCount);
-        dest.writeValue(voteStatus);
-        dest.writeDouble(latitude);
-        dest.writeDouble(longitude);
-    }
-
-    @SuppressWarnings("unused")
-    public static final Parcelable.Creator<OpinionDataModel> CREATOR = new Parcelable.Creator<OpinionDataModel>() {
-        @Override
-        public OpinionDataModel createFromParcel(Parcel in) {
-            return new OpinionDataModel(in);
-        }
-
-        @Override
-        public OpinionDataModel[] newArray(int size) {
-            return new OpinionDataModel[size];
-        }
-    };
 
     public double getLatitude() {
         return latitude;
@@ -189,4 +143,51 @@ public class OpinionDataModel implements Parcelable{
     public void setIsLocal(boolean isLocal) {
         this.isLocal = isLocal;
     }
+
+    protected OpinionDataModel(Parcel in) {
+        uId = in.readString();
+        opinionId = in.readString();
+        opinionText = in.readString();
+        topicName = in.readString();
+        topicId = in.readString();
+        downVoteCount = in.readInt();
+        upVoteCount = in.readInt();
+        voteStatus = (VoteStatus) in.readValue(VoteStatus.class.getClassLoader());
+        latitude = in.readDouble();
+        longitude = in.readDouble();
+        isLocal = in.readByte() != 0x00;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(uId);
+        dest.writeString(opinionId);
+        dest.writeString(opinionText);
+        dest.writeString(topicName);
+        dest.writeString(topicId);
+        dest.writeInt(downVoteCount);
+        dest.writeInt(upVoteCount);
+        dest.writeValue(voteStatus);
+        dest.writeDouble(latitude);
+        dest.writeDouble(longitude);
+        dest.writeByte((byte) (isLocal ? 0x01 : 0x00));
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<OpinionDataModel> CREATOR = new Parcelable.Creator<OpinionDataModel>() {
+        @Override
+        public OpinionDataModel createFromParcel(Parcel in) {
+            return new OpinionDataModel(in);
+        }
+
+        @Override
+        public OpinionDataModel[] newArray(int size) {
+            return new OpinionDataModel[size];
+        }
+    };
 }

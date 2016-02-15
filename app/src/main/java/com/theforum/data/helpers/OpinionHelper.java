@@ -1,6 +1,7 @@
 package com.theforum.data.helpers;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
@@ -145,9 +146,11 @@ public class OpinionHelper {
 
     public void updateOpinion(final OpinionDataModel opinionDataModel,final OnOpinionAddListener listener) {
        // VoteStatus voteStatus =
+        Log.e("aaaaazzzzzzzzz",""+opinionDataModel.getOpinionId());
         AsyncTask<Void, Void,Void> task= new AsyncTask<Void, Void, Void>() {
             opinion o;
             MobileServiceList<opinion> result;
+
             @Override
             protected Void doInBackground(Void... voids) {
 
@@ -165,6 +168,7 @@ public class OpinionHelper {
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
+                Log.e("nbvcxv.,m",""+result.size());
                 o= result.get(0);
                 o.setOpinionName(opinionDataModel.getOpinionText());
                 mOpinion.update(o, new TableOperationCallback<opinion>() {

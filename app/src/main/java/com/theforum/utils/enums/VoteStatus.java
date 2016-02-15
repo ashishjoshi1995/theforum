@@ -1,11 +1,13 @@
 package com.theforum.utils.enums;
 
+import java.io.Serializable;
+
 /**
  * @author DEEPANKAR
  * @since 21-01-2016.
  */
 
-public enum VoteStatus{
+public enum VoteStatus implements Serializable{
 
     /**
      * if an opinion is upvoted
