@@ -25,7 +25,6 @@ import com.theforum.data.local.database.trendsDB.TrendsDBHelper;
 import com.theforum.data.local.models.OpinionDataModel;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.data.local.models.TrendsDataModel;
-import com.theforum.data.server.opinion;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.User;
 import com.theforum.utils.enums.VoteStatus;
@@ -450,7 +449,7 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
     @Override
     public TrendsItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new TrendsItemViewHolder(LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.trends_list_item, parent, false));
+                R.layout.list_item_trend, parent, false));
     }
 
     @Override

@@ -36,6 +36,7 @@ import java.util.List;
  * @since 2/11/2016
  */
 public class LocalTopicHelper {
+
     private static LocalTopicHelper mTopicHelper;
     private MobileServiceClient mClient;
     private MobileServiceTable<areatopics> mTopicTable;
@@ -124,29 +125,27 @@ public class LocalTopicHelper {
         }
     }
 
-    public void loadTopics(final int sortMode, final double latitude, final double longitude, boolean refresh) {
+    public void loadTopics(final double latitude, final double longitude, boolean refresh) {
         requestStatus = RequestStatus.EXECUTING;
-        Log.e("local load topics","local load topics");
+
         LTARequest request = new LTARequest();
         request.latitude = latitude;
         request.longitude = longitude;
         if (CommonUtils.isInternetAvailable()) {
-            final ArrayList<TopicDataModel> topics = new ArrayList<TopicDataModel>();
+            final ArrayList<TopicDataModel> topics = new ArrayList<>();
             TheForumApplication.getClient().invokeApi("nearbytopics", request, LTAResponse.class,
                     new ApiOperationCallback<LTAResponse>() {
                         @Override
                         public void onCompleted(LTAResponse result, Exception exception, ServiceFilterResponse response) {
+
                             if (exception == null) {
-                                Log.e("oncopleffffffffff","llllllllllllllllll");
                                 try {
-                                   // ArrayList<TopicDataModel> topics = new ArrayList<TopicDataModel>();
                                     if (result.message != null) {
                                         JSONArray jsonArray = new JSONArray(result.message);
                                         requestStatus = RequestStatus.COMPLETED;
 
 
                                         for (int i = 0; i < jsonArray.length(); i++) {
-                                            Log.e("test1",""+i);
                                             JSONObject jsonObject = jsonArray.getJSONObject(i);
                                             TopicDataModel topicDataModel = new TopicDataModel();
 
@@ -161,10 +160,9 @@ public class LocalTopicHelper {
                                             topicDataModel.setLatitude(Double.parseDouble(jsonObject.get("latitude").toString()));
                                             topicDataModel.setLongitude(Double.parseDouble(jsonObject.get("longitude").toString()));
                                             topicDataModel.setUid(jsonObject.get("uid").toString());
-
-
                                             topicDataModel.setIsRenewed(false);
                                             topicDataModel.setIsLocalTopic(true);
+
                                             if (jsonObject.get("renewal_request_ids") != null) {
                                                 String upid = jsonObject.get("renewal_request_ids").toString();
                                                 String[] upids = upid.split(" ");
@@ -184,25 +182,24 @@ public class LocalTopicHelper {
                                             topics.add(topicDataModel);
                                             Log.e("test2", "" + topics.size());
                                         }
-                                    }
-                                    if (topics != null) {
-                                        requestStatus = RequestStatus.COMPLETED;
-                                        topicArrayList = topics;
-                                        if (topicsReceiveListener != null) {
-                                            topicsReceiveListener.onCompleted(topicArrayList);
-                                            requestStatus = RequestStatus.IDLE;
-                                        }
+                                        if(topics.size()>0) {
+                                            requestStatus = RequestStatus.COMPLETED;
+                                            topicArrayList = topics;
+                                            if (topicsReceiveListener != null) {
+                                                topicsReceiveListener.onCompleted(topicArrayList);
+                                                requestStatus = RequestStatus.IDLE;
+                                            }
 
-                                        TopicDBHelper.getHelper().deleteAllLocalTopics();
-                                        TopicDBHelper.getHelper().addTopicsFromServer(topicArrayList, true);
-                                        Log.e("test3", topics.size() + "");
+                                            TopicDBHelper.getHelper().deleteAllLocalTopics();
+                                            TopicDBHelper.getHelper().addTopicsFromServer(topicArrayList, true);
+                                        }
                                     } else {
-                                        sendError("\n\n\n"+"sadsafdsa");
+                                        sendError(Messages.NO_NET_CONNECTION);
                                     }
 
                                 } catch (JSONException e) {
                                     Log.e("mjhghjgjhgb",""+result.message);
-                                    sendError(Messages.NO_NET_CONNECTION + "\n" + e.getMessage());
+                                    sendError(Messages.SERVER_ERROR);
                                 }
 
                             } else {
@@ -228,6 +225,7 @@ public class LocalTopicHelper {
             }
         }
     }
+
 
     private void sendError(String error){
         requestStatus = RequestStatus.IDLE;
@@ -274,7 +272,6 @@ public class LocalTopicHelper {
             });
         } else listener.onError(Messages.NO_NET_CONNECTION);
     }
-
 
 
     public void updateTopic(final TopicDataModel topicDataModel ,final OnTopicInsertListener listener) {

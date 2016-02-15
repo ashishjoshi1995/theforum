@@ -41,8 +41,8 @@ public class TrendsFragment extends Fragment implements PopupListener {
     SwipeRefreshLayout swipeRefreshLayout;
 
 
-    //@Bind(R.id.new_trend_Iflocal_toggle_button)
-    private Switch aSwitch;
+    @Bind(R.id.topic_toggle_button)
+    Switch aSwitch;
 
 
     private TrendsListAdapter mAdapter;
@@ -60,8 +60,6 @@ public class TrendsFragment extends Fragment implements PopupListener {
 
         ifLocalToDisplay = false;
 
-        aSwitch=(Switch)view.findViewById(R.id.new_trend_Iflocal_toggle_button);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new DividerItemDecorator(getActivity(), R.drawable.recycler_view_divider));
 
@@ -73,7 +71,7 @@ public class TrendsFragment extends Fragment implements PopupListener {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                if(buttonView.getId()==R.id.new_trend_Iflocal_toggle_button){
+                if(buttonView.getId()==R.id.topic_toggle_button){
                     Log.e("oncheck","changedlistenr");
                     swipeRefreshLayout.setRefreshing(true);
                 if(isChecked){

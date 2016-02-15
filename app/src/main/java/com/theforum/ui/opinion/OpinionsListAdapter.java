@@ -346,7 +346,7 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
     public OpinionsItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         return new OpinionsItemViewHolder(LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.opinion_list_item, parent, false));
+                R.layout.list_item_opinion, parent, false));
     }
 
     @Override
