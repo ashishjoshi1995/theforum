@@ -91,9 +91,10 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                             opinionModel.setUpVoteCount(upvotes);
                             opinionModel.setVoteStatus(VoteStatus.UPVOTED);
 
+                            Log.e("localtopic",""+opinionModel.isLocal());
                         /*
                          *  send the request to server to increase the count
-                         */if(!mlocal) {
+                         */if(!opinionModel.isLocal()) {
                                 TrendsHelper.getHelper().upVoteDownVote(true, opinionModel.getTrendId(), new TrendsHelper.OnUVDVOperationCompleteListener() {
                                     @Override
                                     public void onCompleteMessage(String message) {
@@ -134,7 +135,7 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                         /*
                          *  send the request to server to increase the count
                          */
-                            if (!mlocal) {
+                            if (!opinionModel.isLocal()) {
                                 TrendsHelper.getHelper().removeUpDownVote(true, opinionModel.getTrendId(),
                                         new TrendsHelper.OnRUDAOperationCompleteListener() {
                                             @Override
@@ -178,7 +179,7 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                             setCompoundDrawables(upVoteBtn, upVotedIcon);
                             opinionModel.setUpVoteCount(upvotes);
                             opinionModel.setVoteStatus(VoteStatus.UPVOTED);
-                            if (!mlocal) {
+                            if (!opinionModel.isLocal()) {
 
 
                                 TrendsHelper.getHelper().directUpDownVoteChange(true, opinionModel.getTrendId(), new TrendsHelper.OnDUDAOperationCompleteListener() {
@@ -232,7 +233,7 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                         /*
                          *  send the request to server to decrease the count
                          */
-                        if (!mlocal) {
+                        if (!opinionModel2.isLocal()) {
                             TrendsHelper.getHelper().upVoteDownVote(false, opinionModel2.getTrendId(), new TrendsHelper.OnUVDVOperationCompleteListener() {
                                 @Override
                                 public void onCompleteMessage(String message) {
@@ -268,7 +269,7 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                         opinionModel2.setDownVoteCount(downvotes);
                         opinionModel2.setVoteStatus(VoteStatus.NONE);
                         // TrendsDBHelper.getHelper().updateUPDVStatus(opinionModel2);
-                        if (!mlocal) {
+                        if (!opinionModel2.isLocal()) {
                             TrendsHelper.getHelper().removeUpDownVote(false, opinionModel2.getTrendId(), new TrendsHelper.OnRUDAOperationCompleteListener() {
                                 @Override
                                 public void onCompleteMessage(String message) {
@@ -314,7 +315,7 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                         /*
                          *  send the request to server to increase the count
                          */
-                        if (!mlocal) {
+                        if (!opinionModel2.isLocal()) {
                             TrendsHelper.getHelper().directUpDownVoteChange(false, opinionModel2.getTrendId(),
                                     new TrendsHelper.OnDUDAOperationCompleteListener() {
                                         @Override
@@ -373,7 +374,7 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
             topicDataModel.setTopicName(trend.getTopicName());
             topicDataModel.setTopicId(trend.getTopicId());
             topicDataModel.setHoursLeft(trend.getHoursLeft());
-            if(mlocal){
+            if(trend.isLocal()){
                 topicDataModel.setIsLocalTopic(true);
             }
 

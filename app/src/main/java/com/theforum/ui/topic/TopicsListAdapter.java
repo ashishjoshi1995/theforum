@@ -100,6 +100,7 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
 
                                         @Override
                                         public void onCompleted() {
+                                            TopicDBHelper.getHelper().updateTopicRenewalStatus(mTopicModel);
                                         }
 
                                         @Override
@@ -122,6 +123,7 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
                             LocalTopicHelper.getHelper().addRenewalRequest(mTopicModel, new LocalTopicHelper.OnRenewalRequestListener() {
                                 @Override
                                 public void onCompleted() {
+                                    TopicDBHelper.getHelper().updateTopicRenewalStatus(mTopicModel);
 
                                 }
 
@@ -174,6 +176,7 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
                             LocalTopicHelper.getHelper().removeRenewal(mTopicModel.getTopicId(), new LocalTopicHelper.OnRemoveRenewalRequestListener() {
                                 @Override
                                 public void onCompleted() {
+                                    TopicDBHelper.getHelper().updateTopicRenewalStatus(mTopicModel);
 
                                 }
 

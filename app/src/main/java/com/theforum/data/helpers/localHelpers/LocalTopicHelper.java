@@ -162,7 +162,7 @@ public class LocalTopicHelper {
                                             topicDataModel.setLongitude(Double.parseDouble(jsonObject.get("longitude").toString()));
                                             topicDataModel.setUid(jsonObject.get("uid").toString());
 
-                                            boolean statusReceived = false;
+
                                             topicDataModel.setIsRenewed(false);
                                             topicDataModel.setIsLocalTopic(true);
                                             if (jsonObject.get("renewal_request_ids") != null) {
@@ -172,8 +172,7 @@ public class LocalTopicHelper {
                                                 for (int j = 0; j < upids.length; j++) {
                                                     if (upids[j].equals(User.getInstance().getId())) {
                                                         topicDataModel.setIsRenewed(true);
-                                                        statusReceived = true;
-                                                        break;
+                                                          break;
                                                     }
                                                 }
 
@@ -193,7 +192,7 @@ public class LocalTopicHelper {
                                             topicsReceiveListener.onCompleted(topicArrayList);
                                             requestStatus = RequestStatus.IDLE;
                                         }
-                                        //TODO local and global, modify the method
+
                                         TopicDBHelper.getHelper().deleteAllLocalTopics();
                                         TopicDBHelper.getHelper().addTopicsFromServer(topicArrayList, true);
                                         Log.e("test3", topics.size() + "");

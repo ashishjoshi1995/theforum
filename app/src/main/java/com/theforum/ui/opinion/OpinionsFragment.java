@@ -32,6 +32,7 @@ import com.theforum.data.helpers.OpinionHelper;
 import com.theforum.data.helpers.TopicHelper;
 import com.theforum.data.helpers.localHelpers.LocalOpinionHelper;
 import com.theforum.data.helpers.localHelpers.LocalTopicHelper;
+import com.theforum.data.local.database.topicDB.TopicDBHelper;
 import com.theforum.data.local.models.OpinionDataModel;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.utils.CommonUtils;
@@ -235,6 +236,7 @@ public class OpinionsFragment extends Fragment implements OnListItemClickListene
                         @Override
                         public void onCompleted() {
                             Log.e("renew non local", "renew non local");
+                            TopicDBHelper.getHelper().updateTopicRenewalStatus(mTopicModel);
                         }
 
                         @Override
@@ -259,6 +261,7 @@ public class OpinionsFragment extends Fragment implements OnListItemClickListene
                       @Override
                       public void onCompleted() {
                           Log.e("local topic renewed","local topic renewed");
+                          TopicDBHelper.getHelper().updateTopicRenewalStatus(mTopicModel);
                       }
 
                       @Override
@@ -286,12 +289,13 @@ public class OpinionsFragment extends Fragment implements OnListItemClickListene
                     b - 1, mTopicModel.getHoursLeft(), b - 1)));
             mTopicModel.setRenewalRequests(b - 1);
             mTopicModel.setIsRenewed(false);
-if(!mTopicModel.isLocalTopic()){
+            if(!mTopicModel.isLocalTopic()){
             TopicHelper.getHelper().removeRenewal(mTopicModel.getTopicId(),
                     new TopicHelper.OnRemoveRenewalRequestListener() {
                         @Override
                         public void onCompleted() {
                             Log.e("remoed renewal","removed renewal global");
+                            TopicDBHelper.getHelper().updateTopicRenewalStatus(mTopicModel);
                         }
 
                         @Override
@@ -318,6 +322,7 @@ if(!mTopicModel.isLocalTopic()){
                     @Override
                     public void onCompleted() {
                         Log.e("local tpc remv renewal","local tpc remv renewal");
+                        TopicDBHelper.getHelper().updateTopicRenewalStatus(mTopicModel);
                     }
 
                     @Override
