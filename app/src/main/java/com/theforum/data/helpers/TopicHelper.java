@@ -1,7 +1,6 @@
 package com.theforum.data.helpers;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.microsoft.windowsazure.mobileservices.ApiOperationCallback;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
@@ -126,7 +125,6 @@ public class TopicHelper {
         requestStatus = RequestStatus.EXECUTING;
 
         if(CommonUtils.isInternetAvailable()){
-            Log.e("debug2","test");
             AsyncTask<Void, Void, ArrayList<topic>> task = new AsyncTask<Void, Void, ArrayList<topic>>() {
                 MobileServiceList<topic> topics = null;
 

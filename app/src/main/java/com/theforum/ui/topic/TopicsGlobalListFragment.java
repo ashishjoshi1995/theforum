@@ -7,6 +7,7 @@ import android.support.v4.util.Pair;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +48,7 @@ public class TopicsGlobalListFragment extends Fragment implements OnListItemClic
     private int mPosition;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.e("topicGlobal","onCreateView");
         classification = SettingsUtils.getInstance().getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS);
         mTopicsList = new ArrayList<>();
         return inflater.inflate(R.layout.fragment_topics_list, container, false);
@@ -64,7 +66,6 @@ public class TopicsGlobalListFragment extends Fragment implements OnListItemClic
         mAdapter.setOnListItemClickListener(this);
         mAdapter.setOnLongClickItemListener(this);
 
-
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -80,17 +81,12 @@ public class TopicsGlobalListFragment extends Fragment implements OnListItemClic
         TopicHelper.getHelper().setTopicInsertListener(new TopicHelper.OnTopicInsertListener() {
             @Override
             public void onCompleted(TopicDataModel topicDataModel, boolean isUpdated) {
-
                 if (!isUpdated) mAdapter.addTopic(topicDataModel, 0);
-
             }
 
             @Override
-            public void onError(String error) {
-            }
+            public void onError(String error) {}
         });
-
-
     }
 
     @Override
