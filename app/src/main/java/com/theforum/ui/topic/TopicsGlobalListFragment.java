@@ -69,7 +69,7 @@ public class TopicsGlobalListFragment extends Fragment implements OnListItemClic
             @Override
             public void onRefresh() {
 
-            TopicHelper.getHelper().loadTopics(SettingsUtils.getInstance()
+                TopicHelper.getHelper().loadTopics(SettingsUtils.getInstance()
                     .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS), true);
 
             }

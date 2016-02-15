@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.theforum.R;
@@ -29,7 +28,6 @@ import com.theforum.utils.CommonUtils;
 import com.theforum.utils.User;
 import com.theforum.utils.enums.VoteStatus;
 import com.theforum.utils.listeners.OnListItemClickListener;
-import com.theforum.utils.listeners.PopupListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,15 +46,12 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
     private Context mContext;
 
     private List<TrendsDataModel> mFeeds;
-    private boolean mlocal=false;
     private OnListItemClickListener onListItemClickListener2;
-    private PopupListener popupListener;
 
 
-    public TrendsListAdapter(Context context, List<TrendsDataModel> feeds,boolean local){
+    public TrendsListAdapter(Context context, List<TrendsDataModel> feeds){
         mContext = context;
         mFeeds = feeds;
-        mlocal=local;
     }
 
 
@@ -67,8 +62,6 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
         @Bind(R.id.trends_decay_time)TextView timeHolder;
         @Bind(R.id.upvote_btn) TextView upVoteBtn;
         @Bind(R.id.down_vote_btn) TextView downVoteBtn;
-        @Bind(R.id.tem2) RelativeLayout relativeLayout;
-
 
         @BindDrawable(R.drawable.upvote) Drawable upVoteIcon;
         @BindDrawable(R.drawable.upvote_on) Drawable upVotedIcon;
@@ -83,8 +76,7 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
             v.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    Log.e("sasasa", "tfjavcajscsau");
-                    //popupListener.onLongCLick(null, mFeeds.get(getLayoutPosition()), v);
+
                     PopupMenu popupMenu = new PopupMenu(mContext, v);
                     popupMenu.inflate(R.menu.popup_menu);
                     if(!mFeeds.get(getLayoutPosition()).getuId().equals(User.getInstance().getId())){

@@ -7,13 +7,13 @@ package com.theforum.data.local.database.trendsDB;
 public class TrendsDBConstants {
     // All Static variables
     // Database Version
-    public static final int DATABASE_VERSION = 3;
+    public static final int DATABASE_VERSION = 4;
 
     // Database Name
     public static final String DATABASE_NAME = "TRENDS_DB";
     public static final String TABLE_NAME = "TABLE_TRENDS";
 
-    //version 1 coloumns
+    //version 1 columns
     public static final String KEY_LOCAL_ID = "local_id";
     public static final String KEY_SERVER_ID="id";
     public static final String KEY_TREND_ID ="opinion_id";
@@ -24,10 +24,10 @@ public class TrendsDBConstants {
     public static final String KEY_DOWNVOTES="downvotes";
     public static final String KEY_HOURS_LEFT = "time";
 
-    //version 2 coloumns
+    //version 2 columns
     public static final String KEY_VOTE_STATUS="vote_status";
 
-    //version 3 columns
+    //version 4 columns
     public static final String KEY_UID = "uid";
     public static final String KEY_LATITUDE = "latitude";
     public static final String KEY_LONGITUDE = "longitude";
