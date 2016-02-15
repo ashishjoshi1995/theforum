@@ -4,6 +4,12 @@ package com.theforum.data.server;
  * @author  Ashish on 12/31/2015.
  */
 public class opinion {
+    @com.google.gson.annotations.SerializedName("latitude")
+    private double latitude;
+
+    @com.google.gson.annotations.SerializedName("longitude")
+    private double longitude;
+
 
     @com.google.gson.annotations.SerializedName("id")
     private String serverId;
@@ -154,5 +160,21 @@ public class opinion {
 
     public void setUpVoted_ids(String upVoted_ids) {
         this.upVoted_ids = upVoted_ids;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 }

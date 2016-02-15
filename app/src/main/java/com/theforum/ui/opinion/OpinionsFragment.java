@@ -143,6 +143,7 @@ public class OpinionsFragment extends Fragment implements OnListItemClickListene
                 Log.e("jgjfhgffgdhhgd",""+mTopicModel.isLocalTopic());
                 CommonUtils.openContainerActivity(getActivity(), LayoutType.NEW_OPINION_FRAGMENT,
                         Pair.create(LayoutType.TOPIC_MODEL, (Parcelable) mTopicModel));
+                Log.e("jgjfhgffgdhhgd", "" + mTopicModel.isLocalTopic());
             }
         });
 

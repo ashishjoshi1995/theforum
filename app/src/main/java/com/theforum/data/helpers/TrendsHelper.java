@@ -196,8 +196,6 @@ public class TrendsHelper {
 
     }
 
-
-
     private void loadTrendsFromServer() {
         TrendingInput updvRequest= new TrendingInput();
 
@@ -227,10 +225,14 @@ public class TrendsHelper {
                                         trendDataModel.setTopicName(jsonObject.get("topic_name").toString());
                                         trendDataModel.setTopicId(jsonObject.get("topic_id").toString());
                                         trendDataModel.setOpinionText(jsonObject.get("opinionText").toString());
-                                        trendDataModel.setuId(jsonObject.get("serverId").toString());
+                                        trendDataModel.setServerId(jsonObject.get("serverId").toString());
+                                        trendDataModel.setuId(jsonObject.get("uid").toString());
                                         trendDataModel.setDescription(jsonObject.get("description").toString());
                                         trendDataModel.setRenewalIds(jsonObject.get("renewalIds").toString());
+                                        trendDataModel.setLatitude(Double.parseDouble(jsonObject.get("latitude").toString()));
+                                        trendDataModel.setLongitude(Double.parseDouble(jsonObject.get("longitude").toString()));
                                         trendDataModel.setRenewCount(Integer.parseInt(jsonObject.get("renewal").toString()));
+                                        trendDataModel.setIsLocal(false);
 
                                         boolean statusReceived = false;
                                         if (jsonObject.get("upvote_ids") != null) {

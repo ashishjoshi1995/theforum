@@ -18,7 +18,6 @@ import com.theforum.R;
 import com.theforum.constants.LayoutType;
 import com.theforum.data.helpers.TopicHelper;
 import com.theforum.data.helpers.localHelpers.LocalTopicHelper;
-import com.theforum.data.local.database.topicDB.TopicDB;
 import com.theforum.data.local.database.topicDB.TopicDBHelper;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.utils.CommonUtils;
@@ -251,8 +250,10 @@ public class TopicsFragment extends Fragment implements OnListItemClickListener,
     @Override
     public void onItemClick(View v, int position) {
         mPosition = position;
+        Log.e("ghfsdgeshd",mTopicsList.get(position).isLocalTopic()+"");
         CommonUtils.openContainerActivity(getContext(), LayoutType.OPINIONS_FRAGMENT,
                 Pair.create(LayoutType.TOPIC_MODEL, (Parcelable) mTopicsList.get(position)));
+
     }
 
     @Override

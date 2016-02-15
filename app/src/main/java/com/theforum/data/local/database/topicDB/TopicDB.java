@@ -12,7 +12,7 @@ public class TopicDB extends SQLiteOpenHelper {
     public TopicDB(Context context){
         super(context,TopicDBConstants.DATABASE_NAME,null,TopicDBConstants.DATABASE_VERSION);
     }
-
+////TODO topic local ke update me colum add karna
     private static final String DATABASE_ALTER_TEAM_1 = "ALTER TABLE "
             + TopicDBConstants.TABLE_NAME + " ADD COLUMN " + TopicDBConstants.KEY_LOCAL_TOPIC + " INTEGER;";
 
@@ -29,7 +29,10 @@ public class TopicDB extends SQLiteOpenHelper {
                 + TopicDBConstants.KEY_HOURS_LEFT + " INTEGER,"
                 + TopicDBConstants.KEY_MY_TOPIC+" INTEGER,"
                 + TopicDBConstants.KEY_IS_RENEWED+" INTEGER,"
-                + TopicDBConstants.KEY_LOCAL_TOPIC+" TEXT)";
+                + TopicDBConstants.KEY_LATITUDE+" REAL,"
+                + TopicDBConstants.KEY_LONGITUDE+" REAL,"
+                + TopicDBConstants.KEY_LOCAL_TOPIC+" INTEGER,"
+                + TopicDBConstants.KEY_UID+" TEXT)";
         db.execSQL(CREATE_TOPIC_TABLE);
 
     }

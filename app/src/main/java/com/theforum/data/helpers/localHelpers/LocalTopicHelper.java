@@ -83,7 +83,8 @@ public class LocalTopicHelper {
 
                                     TopicDataModel topicDataModel = new TopicDataModel(entity);
                                     topicDataModel.setIsMyTopic(true);
-                                   // TODO TopicDBHelper.getHelper().addTopic(topicDataModel);
+                                    topicDataModel.setIsLocalTopic(true);
+                                    TopicDBHelper.getHelper().addTopic(topicDataModel);
 
                                     if (topicInsertListener != null) {
                                         topicInsertListener.onCompleted(topicDataModel, false);
@@ -157,10 +158,13 @@ public class LocalTopicHelper {
                                             topicDataModel.setServerId(jsonObject.get("id").toString());
                                             topicDataModel.setRenewedCount(Integer.parseInt(jsonObject.get("renewed_count").toString()));
                                             topicDataModel.setIsLocalTopic(true);
-
+                                            topicDataModel.setLatitude(Double.parseDouble(jsonObject.get("latitude").toString()));
+                                            topicDataModel.setLongitude(Double.parseDouble(jsonObject.get("longitude").toString()));
+                                            topicDataModel.setUid(jsonObject.get("uid").toString());
 
                                             boolean statusReceived = false;
                                             topicDataModel.setIsRenewed(false);
+                                            topicDataModel.setIsLocalTopic(true);
                                             if (jsonObject.get("renewal_request_ids") != null) {
                                                 String upid = jsonObject.get("renewal_request_ids").toString();
                                                 String[] upids = upid.split(" ");
@@ -179,7 +183,7 @@ public class LocalTopicHelper {
                                                 topicDataModel.setIsMyTopic(true);
 
                                             topics.add(topicDataModel);
-                                            Log.e("test2",""+topics.size());
+                                            Log.e("test2", "" + topics.size());
                                         }
                                     }
                                     if (topics != null) {
@@ -191,8 +195,8 @@ public class LocalTopicHelper {
                                         }
                                         //TODO local and global, modify the method
                                         TopicDBHelper.getHelper().deleteAllLocalTopics();
-                                        TopicDBHelper.getHelper().addTopicsFromServer(topicArrayList,true);
-                                        Log.e("test3",topics.size()+"");
+                                        TopicDBHelper.getHelper().addTopicsFromServer(topicArrayList, true);
+                                        Log.e("test3", topics.size() + "");
                                     } else {
                                         sendError("\n\n\n"+"sadsafdsa");
                                     }

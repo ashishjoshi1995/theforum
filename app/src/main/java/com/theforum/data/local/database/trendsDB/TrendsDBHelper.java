@@ -34,7 +34,7 @@ public class TrendsDBHelper {
 
     public void addTrend(TrendsDataModel opinion){
         ContentValues values = new ContentValues();
-        values.put(TrendsDBConstants.KEY_SERVER_ID,opinion.getuId());
+        values.put(TrendsDBConstants.KEY_SERVER_ID,opinion.getServerId());
         values.put(TrendsDBConstants.KEY_TOPIC_ID,opinion.getTopicId());
         values.put(TrendsDBConstants.KEY_TOPIC,opinion.getTopicName());
         values.put(TrendsDBConstants.KEY_TREND_ID,opinion.getTrendId());
@@ -42,6 +42,10 @@ public class TrendsDBHelper {
         values.put(TrendsDBConstants.KEY_UPVOTES, opinion.getUpVoteCount());
         values.put(TrendsDBConstants.KEY_DOWNVOTES, opinion.getDownVoteCount());
         values.put(TrendsDBConstants.KEY_HOURS_LEFT, opinion.getHoursLeft());
+        values.put(TrendsDBConstants.KEY_LATITUDE,opinion.getLatitude());
+        values.put(TrendsDBConstants.KEY_LONGITUDE,opinion.getLongitude());
+        values.put(TrendsDBConstants.KEY_UID,opinion.getuId());
+        values.put(TrendsDBConstants.KEY_LOCAL_TOPIC,(opinion.isLocal())?  "yes" :"no");
         if(opinion.getVoteStatus()== VoteStatus.DOWNVOTED)
             values.put(TrendsDBConstants.KEY_VOTE_STATUS,0);
         else if(opinion.getVoteStatus()==VoteStatus.NONE)
@@ -81,7 +85,7 @@ public class TrendsDBHelper {
                 do {
                     TrendsDataModel obj = new TrendsDataModel();
 
-                    obj.setuId(cursor.getString(1));
+                    obj.setServerId(cursor.getString(1));
                     obj.setTopicId(cursor.getString(2));
                     obj.setTopicName(cursor.getString(3));
                     obj.setTrendId(cursor.getString(4));
@@ -95,6 +99,18 @@ public class TrendsDBHelper {
                         obj.setVoteStatus(VoteStatus.NONE);
                     else if (cursor.getInt(9)==2)
                         obj.setVoteStatus(VoteStatus.UPVOTED);
+                    obj.setLatitude(cursor.getDouble(10));
+                    obj.setLongitude(cursor.getDouble(11));
+                    if(cursor.getString(12).equals("yes")){
+                        obj.setIsLocal(true);
+                       // Log.e("qwertyyes", "" + obj.isLocalTopic());
+                    }
+                    else {
+                        obj.setIsLocal(false);
+                        //Log.e("qwertyno",""+obj.isLocalTopic());
+                    }
+
+                    obj.setuId(cursor.getString(13));
                     trends.add(obj);
 
                 } while (cursor.moveToNext());

@@ -1,16 +1,12 @@
 package com.theforum.data.local.database.topicDB;
 
-import android.annotation.TargetApi;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Build;
 import android.util.Log;
 
 import com.theforum.TheForumApplication;
-import com.theforum.constants.SortType;
 import com.theforum.data.local.models.TopicDataModel;
-import com.theforum.utils.SettingsUtils;
 
 import java.util.ArrayList;
 
@@ -41,12 +37,12 @@ public class TopicDBHelper {
      *
      */
     public void addTopic(TopicDataModel topic){
-        Log.e("addTopic","addTopics");
+        Log.e("addTopic", "addTopics");
         ContentValues values = new ContentValues();
 
         values.put(TopicDBConstants.KEY_SERVER_ID,topic.getServerId());
         values.put(TopicDBConstants.KEY_TOPIC_ID,topic.getTopicId());
-        values.put(TopicDBConstants.KEY_TOPIC,topic.getTopicName());
+        values.put(TopicDBConstants.KEY_TOPIC, topic.getTopicName());
         values.put(TopicDBConstants.KEY_DESCRIPTION,topic.getTopicDescription());
         values.put(TopicDBConstants.KEY_RENEWAL_REQUEST, topic.getRenewalRequests());
         values.put(TopicDBConstants.KEY_RENEWED_COUNT, topic.getRenewedCount());
@@ -54,6 +50,9 @@ public class TopicDBHelper {
         values.put(TopicDBConstants.KEY_MY_TOPIC, (topic.isMyTopic())? "yes" :"no");
         values.put(TopicDBConstants.KEY_IS_RENEWED, (topic.isRenewed())? "yes" :"no");
         values.put(TopicDBConstants.KEY_LOCAL_TOPIC,(topic.isLocalTopic())?  "yes" :"no");
+        values.put(TopicDBConstants.KEY_LATITUDE, topic.getLatitude());
+        values.put(TopicDBConstants.KEY_LONGITUDE, topic.getLongitude());
+        values.put(TopicDBConstants.KEY_UID,topic.getUid());
 
         // Inserting Row
         topicDatabase.insert(TopicDBConstants.TABLE_NAME, null, values);
@@ -129,12 +128,15 @@ public class TopicDBHelper {
                         obj.setIsMyTopic(false);
                         topics.add(obj);
                     }
-                    if(cursor.getInt(10)==1){
+                    if(cursor.getString(12).equals("yes")){
                         obj.setIsLocalTopic(true);
                     }
                     else {
                         obj.setIsLocalTopic(false);
                     }
+                    obj.setLatitude(cursor.getDouble(10));
+                    obj.setLongitude(cursor.getDouble(11));
+                    obj.setUid(cursor.getString(13));
 
                 } while (cursor.moveToNext());
             }
@@ -178,14 +180,15 @@ public class TopicDBHelper {
                         obj.setIsMyTopic(false);
                         topics.add(obj);
                     }
-                    if(cursor.getString(10).equals("yes")){
+                    if(cursor.getString(12).equals("yes")){
                         obj.setIsLocalTopic(true);
-                        Log.e("qwertyyes",""+obj.isLocalTopic());
                     }
                     else {
                         obj.setIsLocalTopic(false);
-                        Log.e("qwertyno",""+obj.isLocalTopic());
                     }
+                    obj.setLatitude(cursor.getDouble(10));
+                    obj.setLongitude(cursor.getDouble(11));
+                    obj.setUid(cursor.getString(13));
 
                 } while (cursor.moveToNext());
             }
@@ -226,12 +229,15 @@ public class TopicDBHelper {
                         obj.setIsMyTopic(false);
                         topics.add(obj);
                     }
-                    if(cursor.getString(10)=="yes"){
+                    if(cursor.getString(12).equals("yes")){
                         obj.setIsLocalTopic(true);
                     }
                     else {
                         obj.setIsLocalTopic(false);
                     }
+                    obj.setLatitude(cursor.getDouble(10));
+                    obj.setLongitude(cursor.getDouble(11));
+                    obj.setUid(cursor.getString(13));
 
                 } while (cursor.moveToNext());
             }
@@ -284,6 +290,15 @@ public class TopicDBHelper {
             if (cursor.getString(8).equals("yes")) {
                 obj.setIsMyTopic(true);
             }
+            if(cursor.getString(12).equals("yes")){
+                obj.setIsLocalTopic(true);
+            }
+            else {
+                obj.setIsLocalTopic(false);
+            }
+            obj.setLatitude(cursor.getDouble(10));
+            obj.setLongitude(cursor.getDouble(11));
+            obj.setUid(cursor.getString(13));
 
             cursor.close();
             return obj;

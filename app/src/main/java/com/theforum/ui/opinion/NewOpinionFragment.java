@@ -64,6 +64,7 @@ public class NewOpinionFragment extends Fragment {
 
         if(getArguments()!=null){
             mTopicModel = getArguments().getParcelable(LayoutType.TOPIC_MODEL);
+            Log.e("ttttttt",mTopicModel.isLocalTopic()+"");
             if(mTopicModel == null){
                 mEditOpinion = true;
                 mOpinionModel = getArguments().getParcelable(LayoutType.OPINION_MODEL);

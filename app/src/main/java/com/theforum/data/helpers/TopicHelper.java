@@ -257,6 +257,7 @@ public class TopicHelper {
         for(int i=0; i<topics.size();i++) {
             TopicDataModel topicDataModel = new TopicDataModel(topics.get(i));
             topicDataModel.setIsRenewed(false);
+            topicDataModel.setIsLocalTopic(false);
             if(topics.get(i).getUserId().equals(User.getInstance().getId())){
                 topicDataModel.setIsMyTopic(true);
             }

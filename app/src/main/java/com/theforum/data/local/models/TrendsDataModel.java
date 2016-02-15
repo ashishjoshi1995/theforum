@@ -20,7 +20,11 @@ public class TrendsDataModel {
     private String renewalIds;
     private int downVoteCount;
     private int upVoteCount;
+    private double latitude;
+    private double longitude;
     private VoteStatus voteStatus = VoteStatus.NONE;
+    private String serverId;
+    private boolean isLocal;
 
     public TrendsDataModel(){}
 
@@ -131,4 +135,37 @@ public class TrendsDataModel {
     }
 
 
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+
+
+    public String getServerId() {
+        return serverId;
+    }
+
+    public void setServerId(String serverId) {
+        this.serverId = serverId;
+    }
+
+    public boolean isLocal() {
+        return isLocal;
+    }
+
+    public void setIsLocal(boolean isLocal) {
+        this.isLocal = isLocal;
+    }
 }

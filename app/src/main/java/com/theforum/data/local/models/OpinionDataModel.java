@@ -22,6 +22,7 @@ public class OpinionDataModel implements Parcelable{
     private VoteStatus voteStatus = VoteStatus.NONE;
     private double latitude;
     private double longitude;
+    private boolean isLocal;
 
     public OpinionDataModel(){}
 
@@ -34,6 +35,9 @@ public class OpinionDataModel implements Parcelable{
         this.topicId = opinion.getTopicId();
         this.upVoteCount = opinion.getUpVotes();
         this.downVoteCount = opinion.getDownVotes();
+        this.longitude=opinion.getLongitude();
+        this.latitude=opinion.getLatitude();
+        this.isLocal=false;
     }
 
     public OpinionDataModel(areaopinions opinion){
@@ -43,7 +47,10 @@ public class OpinionDataModel implements Parcelable{
         this.topicName = opinion.getTopicName();
         this.topicId = opinion.getTopicId();
         this.upVoteCount = opinion.getUpVotes();
+        this.longitude=opinion.getLongitude();
+        this.latitude=opinion.getLatitude();
         this.downVoteCount = opinion.getDownVotes();
+        this.isLocal=true;
     }
 
 
@@ -120,6 +127,8 @@ public class OpinionDataModel implements Parcelable{
         topicId = in.readString();
         downVoteCount = in.readInt();
         upVoteCount = in.readInt();
+        latitude=in.readDouble();
+        longitude=in.readDouble();
         voteStatus = (VoteStatus) in.readValue(VoteStatus.class.getClassLoader());
     }
 
@@ -140,6 +149,8 @@ public class OpinionDataModel implements Parcelable{
         dest.writeInt(downVoteCount);
         dest.writeInt(upVoteCount);
         dest.writeValue(voteStatus);
+        dest.writeDouble(latitude);
+        dest.writeDouble(longitude);
     }
 
     @SuppressWarnings("unused")
@@ -169,5 +180,13 @@ public class OpinionDataModel implements Parcelable{
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public boolean isLocal() {
+        return isLocal;
+    }
+
+    public void setIsLocal(boolean isLocal) {
+        this.isLocal = isLocal;
     }
 }

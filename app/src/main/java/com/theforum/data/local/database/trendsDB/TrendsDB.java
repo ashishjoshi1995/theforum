@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class TrendsDB extends SQLiteOpenHelper {
 
-
+//TODO sare updated colum update me likhna
     public TrendsDB(Context context){
         super(context, TrendsDBConstants.DATABASE_NAME,null, TrendsDBConstants.DATABASE_VERSION);
     }
@@ -30,7 +30,11 @@ public class TrendsDB extends SQLiteOpenHelper {
                 + TrendsDBConstants.KEY_UPVOTES+" INTEGER,"
                 + TrendsDBConstants.KEY_DOWNVOTES+" INTEGER,"
                 + TrendsDBConstants.KEY_HOURS_LEFT+" INTEGER,"
-                + TrendsDBConstants.KEY_VOTE_STATUS+" INTEGER)";
+                + TrendsDBConstants.KEY_VOTE_STATUS+" INTEGER,"
+                + TrendsDBConstants.KEY_LATITUDE+" REAL,"
+                + TrendsDBConstants.KEY_LONGITUDE+" REAL,"
+                + TrendsDBConstants.KEY_LOCAL_TOPIC+" INTEGER,"
+                + TrendsDBConstants.KEY_UID+" TEXT)";
 
         db.execSQL(CREATE_TOPIC_TABLE);
 

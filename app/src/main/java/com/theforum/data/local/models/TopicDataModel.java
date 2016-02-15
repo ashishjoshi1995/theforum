@@ -2,6 +2,7 @@ package com.theforum.data.local.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.theforum.data.server.areatopics;
 import com.theforum.data.server.topic;
@@ -25,6 +26,7 @@ public class TopicDataModel implements Parcelable{
     private boolean isLocalTopic;
     private double latitude;
     private double longitude;
+    private String uid;
 
     public TopicDataModel(){
         isRenewed = false;
@@ -39,7 +41,10 @@ public class TopicDataModel implements Parcelable{
         this.renewalRequests = topic.getRenewalRequests();
         this.renewedCount = topic.getRenewedCount();
         this.hoursLeft = topic.getHoursLeft();
-        this.isLocalTopic = false;
+
+        this.uid= topic.getUserId();
+        this.latitude=topic.getLatitude();
+        this.longitude=topic.getLongitude();
     }
 
     public TopicDataModel(areatopics topic){
@@ -50,7 +55,10 @@ public class TopicDataModel implements Parcelable{
         this.renewalRequests = topic.getRenewalRequests();
         this.renewedCount = topic.getRenewedCount();
         this.hoursLeft = topic.getHoursLeft();
-        this.isLocalTopic = true;
+        this.uid= topic.getUserId();
+        this.latitude=topic.getLatitude();
+        this.longitude=topic.getLongitude();
+
     }
 
 
@@ -135,8 +143,16 @@ public class TopicDataModel implements Parcelable{
         renewalRequests = in.readInt();
         renewedCount = in.readInt();
         hoursLeft = in.readInt();
+
+        latitude=in.readDouble();
+        longitude=in.readDouble();
+        uid=in.readString();
+
         isRenewed = in.readByte() != 0x00;
         isMyTopic = in.readByte() != 0x00;
+        isLocalTopic = (in.readByte() != 0x00 ? true : false);
+        Log.e("sdsfread","is"+isLocalTopic);
+
     }
 
     @Override
@@ -153,8 +169,13 @@ public class TopicDataModel implements Parcelable{
         dest.writeInt(renewalRequests);
         dest.writeInt(renewedCount);
         dest.writeInt(hoursLeft);
+        dest.writeDouble(latitude);
+        dest.writeDouble(longitude);
+        dest.writeString(uid);
         dest.writeByte((byte) (isRenewed ? 0x01 : 0x00));
         dest.writeByte((byte) (isMyTopic ? 0x01 : 0x00));
+        dest.writeByte((byte) (isLocalTopic ? 0x01 : 0x00));
+        Log.e("sdsfwrite","is"+isLocalTopic);
     }
 
     @SuppressWarnings("unused")
@@ -192,5 +213,13 @@ public class TopicDataModel implements Parcelable{
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }

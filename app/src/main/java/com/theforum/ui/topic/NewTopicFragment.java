@@ -6,6 +6,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -114,10 +115,12 @@ public class NewTopicFragment extends Fragment implements CompoundButton.OnCheck
         if(gps.canGetLocation()||(gps.getLongitude()!=0.0&&gps.getLatitude()!=0.0)) {
             latitude = gps.getLatitude();
             longitude = gps.getLongitude();
+            Log.e("lat,long"," "+latitude+"   "+longitude);
 
             // \n is for new line
             //Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
-        } else {
+        }
+        else {
             // Can't get location.
             // GPS or network is not enabled.
             // Ask user to enable GPS/network in settings.

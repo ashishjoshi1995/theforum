@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.theforum.R;
 import com.theforum.constants.Messages;
 import com.theforum.data.helpers.TrendsHelper;
+import com.theforum.data.helpers.localHelpers.LocalTrendsHelper;
 import com.theforum.data.local.models.OpinionDataModel;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.enums.VoteStatus;
@@ -66,8 +67,8 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
             v.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                   onListItemClickListener.onItemClick(v,getLayoutPosition());
-                   return true;
+                    onListItemClickListener.onItemClick(v, getLayoutPosition());
+                    return true;
                 }
             });
         }
@@ -92,6 +93,7 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
                         /*
                          *  send the request to server to increase the count
                          */
+                        if (!opinionModel.isLocal()){
                         TrendsHelper.getHelper().upVoteDownVote(true, opinionModel.getOpinionId(),
                                 new TrendsHelper.OnUVDVOperationCompleteListener() {
                             @Override
@@ -101,7 +103,20 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
                             public void onErrorMessage(String message) {
                                 CommonUtils.showToast(mContext,Messages.SERVER_ERROR);
                             }
+                        });}
+                    else {
+                        LocalTrendsHelper.getHelper().upVoteDownVote(true, opinionModel.getOpinionId(), new LocalTrendsHelper.OnUVDVOperationCompleteListener() {
+                            @Override
+                            public void onCompleteMessage(String message) {
+
+                            }
+
+                            @Override
+                            public void onErrorMessage(String message) {
+                                CommonUtils.showToast(mContext, message);
+                            }
                         });
+                    }
 
                     }
                     else if(opinionModel.getVoteStatus() == VoteStatus.UPVOTED){
@@ -117,18 +132,34 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
                         /*
                          *  send the request to server to increase the count
                          */
-                        TrendsHelper.getHelper().removeUpDownVote(true, opinionModel.getOpinionId(),
-                                new TrendsHelper.OnRUDAOperationCompleteListener() {
-                                    @Override
-                                    public void onCompleteMessage(String message) {
-                                        //CommonUtils.showToast(mContext, message);
-                                    }
+                        if (!opinionModel.isLocal()) {
+                            TrendsHelper.getHelper().removeUpDownVote(true, opinionModel.getOpinionId(),
+                                    new TrendsHelper.OnRUDAOperationCompleteListener() {
+                                        @Override
+                                        public void onCompleteMessage(String message) {
+                                            //CommonUtils.showToast(mContext, message);
+                                        }
 
-                                    @Override
-                                    public void onErrorMessage(String message) {
-                                        CommonUtils.showToast(mContext,Messages.SERVER_ERROR);
-                                    }
-                                });
+                                        @Override
+                                        public void onErrorMessage(String message) {
+                                            CommonUtils.showToast(mContext, Messages.SERVER_ERROR);
+                                        }
+                                    });
+                        }
+                        else {
+                            LocalTrendsHelper.getHelper().removeUpDownVote(true, opinionModel.getOpinionId(),
+                                    new LocalTrendsHelper.OnRUDAOperationCompleteListener() {
+                                        @Override
+                                        public void onCompleteMessage(String message) {
+
+                                        }
+
+                                        @Override
+                                        public void onErrorMessage(String message) {
+                                            CommonUtils.showToast(mContext, message);
+                                        }
+                                    });
+                        }
                     }
                     else if(opinionModel.getVoteStatus() == VoteStatus.DOWNVOTED){
                         int downvotes = opinionModel.getDownVoteCount();
@@ -145,17 +176,34 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
                         setCompoundDrawables(upVoteBtn, upVotedIcon);
                         opinionModel.setUpVoteCount(upvotes);
                         opinionModel.setVoteStatus(VoteStatus.UPVOTED);
-                        TrendsHelper.getHelper().directUpDownVoteChange(true, opinionModel.getOpinionId(), new TrendsHelper.OnDUDAOperationCompleteListener() {
-                            @Override
-                            public void onCompleteMessage(String message) {
-                                //CommonUtils.showToast(mContext, message);
-                            }
+                        if (!opinionModel.isLocal()) {
+                            TrendsHelper.getHelper().directUpDownVoteChange(true, opinionModel.getOpinionId(), new TrendsHelper.OnDUDAOperationCompleteListener() {
+                                @Override
+                                public void onCompleteMessage(String message) {
+                                    //CommonUtils.showToast(mContext, message);
+                                }
 
-                            @Override
-                            public void onErrorMessage(String message) {
-                                CommonUtils.showToast(mContext,Messages.SERVER_ERROR);
-                            }
-                        });
+                                @Override
+                                public void onErrorMessage(String message) {
+                                    CommonUtils.showToast(mContext, Messages.SERVER_ERROR);
+                                }
+                            });
+                        }
+                        else {
+                            LocalTrendsHelper.getHelper().directUpDownVoteChange(true,opinionModel.getOpinionId(), new LocalTrendsHelper.OnDUDAOperationCompleteListener() {
+                                @Override
+                                public void onCompleteMessage(String message) {
+
+                                }
+
+                                @Override
+                                public void onErrorMessage(String message) {
+                                    CommonUtils.showToast(mContext, Messages.SERVER_ERROR);
+                                }
+                            });
+                        }
+
+
                     }
                     break;
 
@@ -173,17 +221,32 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
                         /*
                          *  send the request to server to decrease the count
                          */
-                        TrendsHelper.getHelper().upVoteDownVote(false, opinionModel2.getOpinionId(), new TrendsHelper.OnUVDVOperationCompleteListener() {
-                            @Override
-                            public void onCompleteMessage(String message) {
-                                //CommonUtils.showToast(mContext, message);
-                            }
+                        if (!opinionModel2.isLocal()) {
+                            TrendsHelper.getHelper().upVoteDownVote(false, opinionModel2.getOpinionId(), new TrendsHelper.OnUVDVOperationCompleteListener() {
+                                @Override
+                                public void onCompleteMessage(String message) {
+                                    //CommonUtils.showToast(mContext, message);
+                                }
 
-                            @Override
-                            public void onErrorMessage(String message) {
-                                CommonUtils.showToast(mContext,Messages.SERVER_ERROR);
-                            }
-                        });
+                                @Override
+                                public void onErrorMessage(String message) {
+                                    CommonUtils.showToast(mContext, Messages.SERVER_ERROR);
+                                }
+                            });
+                        }
+                        else {
+                            LocalTrendsHelper.getHelper().upVoteDownVote(false, opinionModel2.getOpinionId(), new LocalTrendsHelper.OnUVDVOperationCompleteListener() {
+                                @Override
+                                public void onCompleteMessage(String message) {
+
+                                }
+
+                                @Override
+                                public void onErrorMessage(String message) {
+                                    CommonUtils.showToast(mContext, message);
+                                }
+                            });
+                        }
                     }
 
                     else if(opinionModel2.getVoteStatus() == VoteStatus.DOWNVOTED){
@@ -195,17 +258,33 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
                         opinionModel2.setDownVoteCount(downvotes);
                         opinionModel2.setVoteStatus(VoteStatus.NONE);
                         // TrendsDBHelper.getHelper().updateUPDVStatus(opinionModel2);
-                        TrendsHelper.getHelper().removeUpDownVote(false, opinionModel2.getOpinionId(), new TrendsHelper.OnRUDAOperationCompleteListener() {
-                            @Override
-                            public void onCompleteMessage(String message) {
-                                //CommonUtils.showToast(mContext, message);
-                            }
+                        if (!opinionModel2.isLocal()) {
+                            TrendsHelper.getHelper().removeUpDownVote(false, opinionModel2.getOpinionId(), new TrendsHelper.OnRUDAOperationCompleteListener() {
+                                @Override
+                                public void onCompleteMessage(String message) {
+                                    //CommonUtils.showToast(mContext, message);
+                                }
 
-                            @Override
-                            public void onErrorMessage(String message) {
-                                CommonUtils.showToast(mContext,Messages.SERVER_ERROR);
-                            }
-                        });
+                                @Override
+                                public void onErrorMessage(String message) {
+                                    CommonUtils.showToast(mContext, Messages.SERVER_ERROR);
+                                }
+                            });
+                        }
+                        else {
+                            LocalTrendsHelper.getHelper().removeUpDownVote(false, opinionModel2.getOpinionId(),
+                                    new LocalTrendsHelper.OnRUDAOperationCompleteListener() {
+                                        @Override
+                                        public void onCompleteMessage(String message) {
+
+                                        }
+
+                                        @Override
+                                        public void onErrorMessage(String message) {
+                                            CommonUtils.showToast(mContext, message);
+                                        }
+                                    });
+                        }
                     }
                     else if(opinionModel2.getVoteStatus() == VoteStatus.UPVOTED){
                         int upvotes = opinionModel2.getUpVoteCount();
@@ -226,18 +305,33 @@ public class OpinionsListAdapter extends RecyclerView.Adapter<OpinionsListAdapte
                         /*
                          *  send the request to server to increase the count
                          */
-                        TrendsHelper.getHelper().directUpDownVoteChange(false, opinionModel2.getOpinionId(),
-                                new TrendsHelper.OnDUDAOperationCompleteListener() {
-                                    @Override
-                                    public void onCompleteMessage(String message) {
-                                        //CommonUtils.showToast(mContext, message);
-                                    }
+                        if (!opinionModel2.isLocal()) {
+                            TrendsHelper.getHelper().directUpDownVoteChange(false, opinionModel2.getOpinionId(),
+                                    new TrendsHelper.OnDUDAOperationCompleteListener() {
+                                        @Override
+                                        public void onCompleteMessage(String message) {
+                                            //CommonUtils.showToast(mContext, message);
+                                        }
 
-                                    @Override
-                                    public void onErrorMessage(String message) {
-                                        CommonUtils.showToast(mContext,Messages.SERVER_ERROR);
-                                    }
-                                });
+                                        @Override
+                                        public void onErrorMessage(String message) {
+                                            CommonUtils.showToast(mContext, Messages.SERVER_ERROR);
+                                        }
+                                    });
+                        }
+                        else {
+                            LocalTrendsHelper.getHelper().directUpDownVoteChange(false,opinionModel2.getOpinionId(), new LocalTrendsHelper.OnDUDAOperationCompleteListener() {
+                                @Override
+                                public void onCompleteMessage(String message) {
+
+                                }
+
+                                @Override
+                                public void onErrorMessage(String message) {
+                                    CommonUtils.showToast(mContext, Messages.SERVER_ERROR);
+                                }
+                            });
+                        }
                     }
                     break;
             }}

@@ -7,7 +7,7 @@ package com.theforum.data.local.database.trendsDB;
 public class TrendsDBConstants {
     // All Static variables
     // Database Version
-    public static final int DATABASE_VERSION = 3;
+    public static final int DATABASE_VERSION = 4;
 
     // Database Name
     public static final String DATABASE_NAME = "TRENDS_DB";
@@ -27,6 +27,10 @@ public class TrendsDBConstants {
     //version 2 coloumns
     public static final String KEY_VOTE_STATUS="vote_status";
 
-    //version 3 columns
+    //version 4 columns
+    public static final String KEY_UID = "uid";
+    public static final String KEY_LATITUDE = "latitude";
+    public static final String KEY_LONGITUDE = "longitude";
     public static final String KEY_LOCAL_TOPIC = "is_local_topic";
+
 }
