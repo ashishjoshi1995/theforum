@@ -64,7 +64,6 @@ public class NewOpinionFragment extends Fragment {
 
         if(getArguments()!=null){
             mTopicModel = getArguments().getParcelable(LayoutType.TOPIC_MODEL);
-            Log.e("ttttttt",mTopicModel.isLocalTopic()+"");
             if(mTopicModel == null){
                 mEditOpinion = true;
                 mOpinionModel = getArguments().getParcelable(LayoutType.OPINION_MODEL);
@@ -195,12 +194,13 @@ public class NewOpinionFragment extends Fragment {
 
     }
 
-    private void updateOpinion(){
+    private void updateOpinion() {
         String opinionText = mUploadText.getText().toString();
         final ProgressDialog dialog = ProgressDialog.createDialog(getContext());
         dialog.show();
 
-            mOpinionModel.setOpinionText(opinionText);
+        mOpinionModel.setOpinionText(opinionText);
+        if (!mOpinionModel.isLocal()) {
             OpinionHelper.getHelper().updateOpinion(mOpinionModel,
                     new OpinionHelper.OnOpinionAddListener() {
                         @Override
@@ -216,6 +216,21 @@ public class NewOpinionFragment extends Fragment {
                         }
                     });
 
-    }
+        }
+        else {
+            LocalOpinionHelper.getHelper().updateOpinion(mOpinionModel, new LocalOpinionHelper.OnOpinionAddListener() {
+                @Override
+                public void onCompleted(OpinionDataModel opinion, boolean isUpdated) {
+                    dialog.dismiss();
+                    getActivity().finish();
+                }
 
+                @Override
+                public void onError(String error) {
+                    CommonUtils.showToast(getContext(), Messages.NO_NET_CONNECTION);
+                    dialog.dismiss();
+                }
+            });
+        }
+    }
 }

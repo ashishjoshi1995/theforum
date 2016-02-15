@@ -106,6 +106,7 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                                     opinionDataModel.setLatitude(mFeeds.get(getLayoutPosition()).getLatitude());
                                     opinionDataModel.setLongitude(mFeeds.get(getLayoutPosition()).getLongitude());
                                     opinionDataModel.setVoteStatus(mFeeds.get(getLayoutPosition()).getVoteStatus());
+                                    opinionDataModel.setOpinionId(mFeeds.get(getLayoutPosition()).getTrendId());
 
                                     CommonUtils.openContainerActivity(mContext, LayoutType.NEW_OPINION_FRAGMENT,
                                             Pair.create(LayoutType.OPINION_MODEL, (Parcelable) opinionDataModel));
