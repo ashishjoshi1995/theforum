@@ -6,6 +6,7 @@ import android.util.Log;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
+import com.microsoft.windowsazure.mobileservices.table.TableOperationCallback;
 import com.microsoft.windowsazure.mobileservices.table.TableQueryCallback;
 import com.theforum.TheForumApplication;
 import com.theforum.data.server.flags;
@@ -28,35 +29,43 @@ public class FlagHelper {
             MobileServiceList<flags> ash = null;
             @Override
             protected Void doInBackground(Void... params) {
-               //check if already flagged
-                //if not the add the flag
-                //check
-
                 try {
                     Log.e("try","try");
                  mFlagTable.where().field("opinion_id").eq(opinionId).execute(new TableQueryCallback<flags>() {
                     @Override
                     public void onCompleted(List<flags> result, int count, Exception exception, ServiceFilterResponse response) {
                         Log.e("onCompleted","OnCLompleted");
-                        if( result.size()>0 && result!=null){
+                        if( result!=null && result.size()>0){
                             Log.e("item_flag","ok");
                             String s = result.get(0).getApndUidOfFlaggers();
                             String[] s2 = s.split(" ");
                             for(int i =0;i<s2.length;i++){
-                                if(User.getInstance().getId().equals(s2[i])){
+                            //    if(User.getInstance().getId().equals(s2[i])){
                                     //already flagged
-                                    Log.e("item_flag","ok");
-                                    break;
-                                }
-                                else {
+                              //      Log.e("item_flag","ok");
+                                //    break;
+                               // }
+                               // else {
                                     int j = result.get(0).getFlagCount();
+                                Log.e("knkinjn",""+j);
                                     j++;
                                     result.get(0).setFlagCount(j);
+                                    Log.e("reasasasasa",result.get(0).getFlagCount()+"");
                                     s+=" ";
                                     s+= User.getInstance().getId();
-                                    mFlagTable.update(result.get(0));
+                                    mFlagTable.update(result.get(0), new TableOperationCallback<flags>() {
+                                        @Override
+                                        public void onCompleted(flags entity, Exception exception, ServiceFilterResponse response) {
+                                            if(exception!=null){
+
+                                            }
+                                            else {
+                                                Log.e("asasaszzzzzz", )
+                                            }
+                                        }
+                                    });
                                     Log.e("item_flag", "ok");
-                                }
+                                //}
                             }
                         }
                         else{
