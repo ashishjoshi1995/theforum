@@ -22,11 +22,15 @@ import com.theforum.data.helpers.FlagHelper;
 import com.theforum.data.helpers.TrendsHelper;
 import com.theforum.data.helpers.localHelpers.LocalTrendsHelper;
 import com.theforum.data.local.database.trendsDB.TrendsDBHelper;
+import com.theforum.data.local.models.OpinionDataModel;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.data.local.models.TrendsDataModel;
+import com.theforum.data.server.opinion;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.User;
 import com.theforum.utils.enums.VoteStatus;
+import com.theforum.utils.listeners.OnListItemClickListener;
+import com.theforum.utils.listeners.PopupListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +50,8 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
 
     private List<TrendsDataModel> mFeeds;
     private boolean mlocal=false;
+    private OnListItemClickListener onListItemClickListener2;
+    private PopupListener popupListener;
 
 
     public TrendsListAdapter(Context context, List<TrendsDataModel> feeds,boolean local){
@@ -75,7 +81,50 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
             ButterKnife.bind(this, v);
 
             v.setOnClickListener(this);
+            v.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    Log.e("sasasa", "tfjavcajscsau");
+                    //popupListener.onLongCLick(null, mFeeds.get(getLayoutPosition()), v);
+                    PopupMenu popupMenu = new PopupMenu(mContext, v);
+                    popupMenu.inflate(R.menu.popup_menu);
+                    if(!mFeeds.get(getLayoutPosition()).getuId().equals(User.getInstance().getId())){
+                        popupMenu.getMenu().removeItem(R.id.item_edit);
+                    }
 
+                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            switch (item.getItemId()) {
+                                case R.id.item_edit:
+                                    OpinionDataModel opinionDataModel = new OpinionDataModel();
+                                    opinionDataModel.setuId(mFeeds.get(getLayoutPosition()).getuId());
+                                    opinionDataModel.setDownVoteCount(mFeeds.get(getLayoutPosition()).getDownVoteCount());
+                                    opinionDataModel.setUpVoteCount(mFeeds.get(getLayoutPosition()).getUpVoteCount());
+                                    opinionDataModel.setOpinionText(mFeeds.get(getLayoutPosition()).getOpinionText());
+                                    opinionDataModel.setTopicName(mFeeds.get(getLayoutPosition()).getTopicName());
+                                    opinionDataModel.setTopicId(mFeeds.get(getLayoutPosition()).getTopicId());
+                                    opinionDataModel.setLatitude(mFeeds.get(getLayoutPosition()).getLatitude());
+                                    opinionDataModel.setLongitude(mFeeds.get(getLayoutPosition()).getLongitude());
+                                    opinionDataModel.setVoteStatus(mFeeds.get(getLayoutPosition()).getVoteStatus());
+
+                                    CommonUtils.openContainerActivity(mContext, LayoutType.NEW_OPINION_FRAGMENT,
+                                            Pair.create(LayoutType.OPINION_MODEL, (Parcelable) opinionDataModel));
+                                    break;
+
+                                case R.id.item_flag:
+                                    FlagHelper helper = new FlagHelper();
+                                    helper.addFlagOpinionRequest(mFeeds.get(getLayoutPosition()).getTrendId(),
+                                            mFeeds.get(getLayoutPosition()).getOpinionText(), mFeeds.get(getLayoutPosition()).getTopicId());
+                                    break;
+                            }
+                            return false;
+                        }
+                    });
+                    popupMenu.show();
+                    return false;
+                }
+            });
             upVoteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -370,6 +419,8 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                 }
             }
 
+
+
             topicDataModel.setRenewalRequests(p);
             topicDataModel.setTopicName(trend.getTopicName());
             topicDataModel.setTopicId(trend.getTopicId());
@@ -382,6 +433,18 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                     Pair.create(LayoutType.TOPIC_MODEL, (Parcelable) topicDataModel));
 
         }
+
+
+      /*  @Override
+        public boolean onLongClick(View v) {
+            Log.e("sasasa", "tfjavcajscsau");
+            popupListener.onLongCLick(null, mFeeds.get(getLayoutPosition()), v);
+            return true;
+        }
+        */
+
+
+
     }
 
     @Override
@@ -392,33 +455,8 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
 
     @Override
     public void onBindViewHolder(TrendsItemViewHolder holder, final int position) {
-        TrendsDataModel trendsDataModel = mFeeds.get(position);
-        holder.relativeLayout.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                PopupMenu popupMenu = new PopupMenu(mContext, v);
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()){
-                            case R.id.item_edit:
+        final TrendsDataModel trendsDataModel = mFeeds.get(position);
 
-                                break;
-                            case R.id.item_flag:
-                                FlagHelper helper = new FlagHelper();
-                                helper.addFlagOpinionRequest(mFeeds.get(position).getTrendId(),
-                                        mFeeds.get(position).getOpinionText(),mFeeds.get(position).getTopicId());
-                                Log.e("item_flag", "outsode ok");
-                                break;
-                        }
-                        return false;
-                    }
-                });
-                popupMenu.inflate(R.menu.popup_menu);
-                popupMenu.show();
-                return false;
-            }
-        });
         holder.topicName.setText(trendsDataModel.getTopicName());
         holder.description.setText(trendsDataModel.getOpinionText());
         holder.upVoteBtn.setText(String.valueOf(trendsDataModel.getUpVoteCount()));

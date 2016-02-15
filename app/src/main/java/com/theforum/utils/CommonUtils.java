@@ -50,7 +50,8 @@ public class CommonUtils {
     public static void openContainerActivity(Context context,int idValue,Pair<String,Parcelable> extras){
         if(extras==null){
             openContainerActivity(context, idValue);
-        }else{
+        }
+        else{
 
             Intent intent = new Intent(context, ContainerActivity.class);
             intent.putExtra("id", idValue);

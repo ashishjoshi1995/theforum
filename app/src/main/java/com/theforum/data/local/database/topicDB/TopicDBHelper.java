@@ -272,7 +272,7 @@ public class TopicDBHelper {
 
     public TopicDataModel getTopicById(String id){
         Cursor cursor= topicDatabase.rawQuery("SELECT * FROM "+ TopicDBConstants.TABLE_NAME+ " WHERE " +
-                TopicDBConstants.KEY_TOPIC_ID + " =?", new String[] {id});
+                 TopicDBConstants.KEY_TOPIC_ID + " =?", new String[] {id});
         if(cursor!=null) {
             cursor.moveToFirst();
             TopicDataModel obj = new TopicDataModel();

@@ -374,6 +374,7 @@ public class OpinionsFragment extends Fragment implements OnListItemClickListene
             }
         });
         popupMenu.show();
+
     }
 
     @Override

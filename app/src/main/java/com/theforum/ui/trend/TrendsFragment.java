@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,8 +17,10 @@ import com.theforum.R;
 import com.theforum.data.helpers.TrendsHelper;
 import com.theforum.data.helpers.localHelpers.LocalTrendsHelper;
 import com.theforum.data.local.models.TrendsDataModel;
+import com.theforum.data.server.opinion;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.enums.RequestStatus;
+import com.theforum.utils.listeners.PopupListener;
 import com.theforum.utils.views.DividerItemDecorator;
 
 import java.util.ArrayList;
@@ -29,7 +32,7 @@ import butterknife.ButterKnife;
  * @author DEEPANKAR
  * @since 31-12-2015.
  */
-public class TrendsFragment extends Fragment  {
+public class TrendsFragment extends Fragment implements PopupListener {
 
     @Bind(R.id.home_recycler_view)
     RecyclerView recyclerView;
@@ -169,5 +172,14 @@ public class TrendsFragment extends Fragment  {
                 }
             });
         }
+    }
+
+    @Override
+    public void onLongCLick(opinion opinion, TrendsDataModel trendsDataModel,View v) {
+        Log.e("werwre","ytuytiuyioou");
+        String id = trendsDataModel.getTrendId();
+        PopupMenu popupMenu = new PopupMenu(getContext(), v);
+        popupMenu.inflate(R.menu.popup_menu);
+        popupMenu.show();
     }
 }

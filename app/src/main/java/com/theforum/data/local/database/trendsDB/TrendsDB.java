@@ -17,6 +17,14 @@ public class TrendsDB extends SQLiteOpenHelper {
 
     private static final String DATABASE_ALTER_TEAM_1 = "ALTER TABLE "
             + TrendsDBConstants.TABLE_NAME + " ADD COLUMN " + TrendsDBConstants.KEY_VOTE_STATUS + " int;";
+    private static final String DATABASE_ALTER_TEAM_2 = "ALTER TABLE "
+            + TrendsDBConstants.TABLE_NAME + " ADD COLUMN "+TrendsDBConstants.KEY_UID + " TEXT;";
+    private static final String DATABASE_ALTER_TEAM_3 = "ALTER TABLE "
+            + TrendsDBConstants.TABLE_NAME + " ADD COLUMN "+TrendsDBConstants.KEY_LATITUDE + " REAL;";
+    private static final String DATABASE_ALTER_TEAM_4 = "ALTER TABLE "
+            + TrendsDBConstants.TABLE_NAME + " ADD COLUMN " + TrendsDBConstants.KEY_LONGITUDE + " REAL;";
+    private static final String DATABASE_ALTER_TEAM_5 = "ALTER TABLE "
+            + TrendsDBConstants.TABLE_NAME + " ADD COLUMN " + TrendsDBConstants.KEY_LOCAL_TOPIC + " INTEGER;";
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -31,9 +39,9 @@ public class TrendsDB extends SQLiteOpenHelper {
                 + TrendsDBConstants.KEY_DOWNVOTES+" INTEGER,"
                 + TrendsDBConstants.KEY_HOURS_LEFT+" INTEGER,"
                 + TrendsDBConstants.KEY_VOTE_STATUS+" INTEGER,"
+                + TrendsDBConstants.KEY_LOCAL_TOPIC+" INTEGER,"
                 + TrendsDBConstants.KEY_LATITUDE+" REAL,"
                 + TrendsDBConstants.KEY_LONGITUDE+" REAL,"
-                + TrendsDBConstants.KEY_LOCAL_TOPIC+" INTEGER,"
                 + TrendsDBConstants.KEY_UID+" TEXT)";
 
         db.execSQL(CREATE_TOPIC_TABLE);
@@ -43,7 +51,16 @@ public class TrendsDB extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion < 2) {
+
             db.execSQL(DATABASE_ALTER_TEAM_1);
+
+        }
+        if (oldVersion<3){
+            db.execSQL(DATABASE_ALTER_TEAM_5);
+            db.execSQL(DATABASE_ALTER_TEAM_3);
+            db.execSQL(DATABASE_ALTER_TEAM_4);
+            db.execSQL(DATABASE_ALTER_TEAM_2);
+
         }
 
     }
