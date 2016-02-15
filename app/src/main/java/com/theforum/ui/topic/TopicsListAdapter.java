@@ -206,7 +206,7 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
     @Override
     public TopicsItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             return new TopicsItemViewHolder(LayoutInflater.from(parent.getContext()).inflate(
-                    R.layout.topics_list_item, parent, false));
+                    R.layout.list_item_topic, parent, false));
     }
 
     @Override

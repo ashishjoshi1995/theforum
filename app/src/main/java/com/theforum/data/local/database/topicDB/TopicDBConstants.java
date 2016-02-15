@@ -7,7 +7,7 @@ package com.theforum.data.local.database.topicDB;
 public class TopicDBConstants {
 
     // Database version
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 4;
 
     // Database Name
     public static final String DATABASE_NAME = "TOPIC_DATABASE";

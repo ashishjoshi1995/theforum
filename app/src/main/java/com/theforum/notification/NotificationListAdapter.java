@@ -87,7 +87,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolderOne(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.notifications_list_item, parent, false));
+                .inflate(R.layout.list_item_notification, parent, false));
     }
 
     @Override

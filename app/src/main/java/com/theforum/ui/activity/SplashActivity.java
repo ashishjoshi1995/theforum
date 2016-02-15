@@ -14,7 +14,6 @@ import com.theforum.data.helpers.ProfileHelper;
 import com.theforum.data.helpers.TopicHelper;
 import com.theforum.data.helpers.TrendsHelper;
 import com.theforum.data.helpers.localHelpers.LocalTopicHelper;
-import com.theforum.notification.NotificationService;
 import com.theforum.ui.home.HomeActivity;
 import com.theforum.utils.SettingsUtils;
 import com.theforum.utils.locationTracker.GPSTracker;
@@ -55,13 +54,9 @@ public class SplashActivity extends AppCompatActivity {
         getLocation();
         TopicHelper.getHelper().loadTopics(SettingsUtils.getInstance().getIntFromPreferences(
                 SettingsUtils.TOPIC_FEED_SORT_STATUS), false);
-        LocalTopicHelper.getHelper().loadTopics(SettingsUtils.getInstance().
-                getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS),latitude,longitude, false);
+        LocalTopicHelper.getHelper().loadTopics(latitude,longitude, false);
         TrendsHelper.getHelper().loadTrends(false);
         ProfileHelper.getHelper().loadProfile();
-
-        //Intent intent = new Intent(this, NotificationService.class);
-        //this.startService(intent);
 
     }
 

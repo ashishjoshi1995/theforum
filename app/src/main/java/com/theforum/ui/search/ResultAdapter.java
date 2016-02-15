@@ -66,7 +66,7 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder
     public ResultAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         return new ViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.search_list_item, parent, false));
+                .inflate(R.layout.list_item_search, parent, false));
     }
 
 

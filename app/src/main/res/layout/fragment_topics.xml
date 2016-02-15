@@ -2,20 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
-    <Switch android:id="@+id/new_trend_Iflocal_toggle_button"
+    android:orientation="vertical">
+
+    <Switch android:id="@+id/topic_toggle_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"/>
-<android.support.v4.widget.SwipeRefreshLayout
+        android:layout_gravity="center"
+        android:layout_margin="16dp" />
 
-    android:id="@+id/topics_swipe_refresh_layout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-
-    <include layout="@layout/recycler_view" />
-
-</android.support.v4.widget.SwipeRefreshLayout>
+    <FrameLayout
+        android:id="@+id/topics_list_holder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 </LinearLayout>
