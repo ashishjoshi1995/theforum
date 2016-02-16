@@ -3,6 +3,7 @@ package com.theforum.data.local.database.notificationDB;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.theforum.TheForumApplication;
 import com.theforum.data.local.models.NotificationDataModel;
@@ -53,7 +54,7 @@ public class NotificationDBHelper {
     }
 
     public boolean checkIfNotificationExist(){
-        Cursor cursor = notificationDatabase.rawQuery("SELECT " + NotificationDBConstants.KEY_ID +" FROM "
+        Cursor cursor = notificationDatabase.rawQuery("SELECT " + NotificationDBConstants.KEY_ID + " FROM "
                 + NotificationDBConstants.TABLE_NAME, null);
 
         if(cursor.getCount()>0){
@@ -64,6 +65,37 @@ public class NotificationDBHelper {
     }
 
     public void addNotifications(List<NotificationDataModel> NotificationDataModels){
+        //here we will add code to keep the total count to less than eq to 30
+        int c =NotificationDataModels.size();
+        Log.e("1", "" + c);
+        Cursor cc = notificationDatabase.rawQuery("select * from "+NotificationDBConstants.TABLE_NAME,null);
+        int d=cc.getCount();
+        Log.e("Number of Records", " :: " + d);
+
+
+        if(c<30) {
+            if(c+d<=30){
+                //addNotifications(NotificationDataModels);
+            }
+            else{
+                int temp = c+d - 30;
+                Log.e("chali k nahi","?");
+
+                String ALTER_TBL ="delete from " + NotificationDBConstants.TABLE_NAME +
+                        " LIMIT 15;";
+               String a = "delete from " + NotificationDBConstants.TABLE_NAME + " where "+ NotificationDBConstants.KEY_ID+" in " +
+                        "(select "+ NotificationDBConstants.KEY_ID+" from " + NotificationDBConstants.TABLE_NAME + " order by "+
+                       NotificationDBConstants.KEY_ID+" limit 10)";
+                notificationDatabase.execSQL(a);
+                Log.e("chal gai re","just chill");
+            }
+            }
+
+
+        else{
+            //empty the entire db
+            deleteAllNotifications();
+        }
 
         for(int j=0; j< NotificationDataModels.size();j++){
             addNotification(NotificationDataModels.get(j));
