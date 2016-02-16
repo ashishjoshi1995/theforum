@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,7 +83,6 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
             renewBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.e("clicked","clicked");
                     final TopicDataModel mTopicModel = mTopics.get(getLayoutPosition());
                     final int b = mTopicModel.getRenewalRequests();
 
@@ -241,8 +239,7 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
      */
 
     public void addTopics(ArrayList<TopicDataModel> topics){
-        mTopics.addAll(0,topics);
-        Log.e("addTopics",topics.size()+"");
+        mTopics.addAll(0, topics);
         notifyDataSetChanged();
     }
 
