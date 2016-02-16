@@ -16,6 +16,8 @@ import com.theforum.TheForumApplication;
 import com.theforum.constants.NotificationType;
 import com.theforum.data.local.database.notificationDB.NotificationDBHelper;
 import com.theforum.data.local.models.NotificationDataModel;
+import com.theforum.data.server.areaopinions;
+import com.theforum.data.server.areatopics;
 import com.theforum.data.server.opinion;
 import com.theforum.data.server.topic;
 import com.theforum.utils.CommonUtils;
@@ -171,6 +173,123 @@ public class NotificationService extends IntentService {
                 }
 
                 if (opinions.size() > 0) {
+                    if (NotificationHelper.one && NotificationHelper.two && count == 0) {
+                        helper.cleanItUp();
+                        count++;
+                    } else if (count > 0) {
+                        count = 0;
+                    }
+
+                    if (notificationCount > 0) {
+                        Notify(notificationCount, TheForumApplication.getAppContext());
+                        stream = 0;
+                    }
+
+                    NotificationDBHelper.getHelper().openDatabase();
+                    NotificationDBHelper.getHelper().addNotifications(notificationsList);
+                    notificationsList.clear();
+
+                }
+            }
+
+            @Override
+            public void areaTopicNotification(List<areatopics> areatopics) {
+                Calendar calendar;
+                String median ;
+                for (int j = 0; j < areatopics.size(); j++) {
+
+                    if (areatopics.get(j).getNotifRenewalRequests() > 0) {
+
+                        NotificationDataModel notificationDataModel = new NotificationDataModel();
+                        notificationDataModel.notificationType = NotificationType.NOTIFICATION_TYPE_RENEWAL_REQUEST;
+                        notificationDataModel.topicId = areatopics.get(j).getTopicId();
+                        notificationDataModel.topicText = areatopics.get(j).getTopicName();
+                        notificationDataModel.notificationCount = areatopics.get(j).getNotifRenewalRequests();
+                        notificationDataModel.isRead = false;
+
+                        calendar = Calendar.getInstance();
+                        if(calendar.get(Calendar.AM_PM)==1){
+                            median = "PM";
+                        }else median = "AM";
+
+                        notificationDataModel.timeHolder = areatopics.get(j).getHoursLeft() + " hrs left to decay | "
+                                + calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE) + " "
+                                + median;
+
+                        notificationsList.add(notificationDataModel);
+
+                        if (SettingsUtils.getInstance().getBoolPreference(SettingsUtils.ENABLE_RENEWAL_REQUESTS_NOTIFICATION))
+                            notificationCount++;
+                    }
+
+                    if (areatopics.get(j).getNotifOpinions() > 0) {
+                        NotificationDataModel dataModel = new NotificationDataModel();
+                        dataModel.notificationType = NotificationType.NOTIFICATION_TYPE_OPINIONS;
+                        dataModel.topicId = areatopics.get(j).getTopicId();
+                        dataModel.topicText = areatopics.get(j).getTopicName();
+                        dataModel.notificationCount = areatopics.get(j).getNotifOpinions();
+                        dataModel.isRead = false;
+
+                        calendar = Calendar.getInstance();
+                        if(calendar.get(Calendar.AM_PM)==1){
+                            median = "PM";
+                        }else median = "AM";
+                        dataModel.timeHolder = areatopics.get(j).getHoursLeft() + " hrs left to decay | "
+                                + calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE) + " "
+                                + median;
+
+                        notificationsList.add(dataModel);
+
+                        if (SettingsUtils.getInstance().getBoolPreference(SettingsUtils.ENABLE_OPINIONS_RECEIVED_NOTIFICATION))
+                            notificationCount++;
+                    }
+                }
+                if (areatopics.size() > 0) {
+
+                    if (NotificationHelper.one && NotificationHelper.two && count == 0) {
+                        helper.cleanItUp();
+                        count++;
+                    }
+
+                    if (notificationCount > 0) {
+                        Notify(notificationCount, TheForumApplication.getAppContext());
+                        stream = 0;
+                    }
+
+                    else if (stream == 0) stream++;
+                    NotificationDBHelper.getHelper().openDatabase();
+                    NotificationDBHelper.getHelper().addNotifications(notificationsList);
+                    notificationsList.clear();
+                } else if (count > 0) {
+                    count = 0;
+                }
+            }
+
+            @Override
+            public void areaOpinionNotification(List<areaopinions> areaopinionss) {
+                Calendar calendar = Calendar.getInstance();
+                String median;
+
+                for (int j = 0; j < areaopinionss.size(); j++) {
+
+                    NotificationDataModel notificationDataModel = new NotificationDataModel();
+                    notificationDataModel.notificationType = NotificationType.NOTIFICATION_TYPE_OPINION_UP_VOTES;
+                    notificationDataModel.topicText = areaopinionss.get(j).getTopicName();
+                    notificationDataModel.topicId = areaopinionss.get(j).getTopicId();
+                    notificationDataModel.notificationCount = areaopinionss.get(j).getmNotifNewUpvotes();
+                    notificationDataModel.description = areaopinionss.get(j).getOpinionName();
+
+                    if(calendar.get(Calendar.AM_PM)==1){
+                        median = "PM";
+                    }else median = "AM";
+                    notificationDataModel.timeHolder = calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE) + " "
+                            + median;
+
+                    notificationsList.add(notificationDataModel);
+                    notificationCount++;
+                }
+
+                if (areaopinionss.size() > 0) {
                     if (NotificationHelper.one && NotificationHelper.two && count == 0) {
                         helper.cleanItUp();
                         count++;
