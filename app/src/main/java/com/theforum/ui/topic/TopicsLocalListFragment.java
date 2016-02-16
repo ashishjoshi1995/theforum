@@ -168,13 +168,15 @@ public class TopicsLocalListFragment extends Fragment implements OnListItemClick
     private void getLocation(){
         GPSTracker gps;
         gps = new GPSTracker(getActivity());
-        if(gps.canGetLocation()||(gps.getLongitude()!=0.0&&gps.getLatitude()!=0.0)) {
-            latitude = gps.getLatitude();
-            longitude = gps.getLongitude();
 
-        }
-        else {
-            gps.showSettingsAlert();
+        while(gps.getLongitude()==0.0||gps.getLatitude()==0.0) {
+            if (gps.canGetLocation() || (gps.getLongitude() != 0.0 && gps.getLatitude() != 0.0)) {
+                latitude = gps.getLatitude();
+                longitude = gps.getLongitude();
+
+            } else {
+                gps.showSettingsAlert();
+            }
         }
 
     }
