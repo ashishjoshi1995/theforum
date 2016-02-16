@@ -45,10 +45,10 @@ public class areaopinions {
     @com.google.gson.annotations.SerializedName("topic")
     private String topicName;
 
-    @com.google.gson.annotations.SerializedName("latitude")
+    @com.google.gson.annotations.SerializedName("longitude")
     private double longitude;
 
-    @com.google.gson.annotations.SerializedName("longitude")
+    @com.google.gson.annotations.SerializedName("latitude")
     private double latitude;
 
 
