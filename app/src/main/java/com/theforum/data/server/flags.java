@@ -8,6 +8,9 @@ public class flags {
     @com.google.gson.annotations.SerializedName("id")
     private String serverId;
 
+    @com.google.gson.annotations.SerializedName("to_delete_id")
+    private String to_delete_id;
+
     @com.google.gson.annotations.SerializedName("flag_count")
     private int flagCount ;
 
@@ -69,5 +72,13 @@ public class flags {
 
     public void setApndUidOfFlaggers(String apndUidOfFlaggers) {
         this.apndUidOfFlaggers = apndUidOfFlaggers;
+    }
+
+    public String getTo_delete_id() {
+        return to_delete_id;
+    }
+
+    public void setTo_delete_id(String to_delete_id) {
+        this.to_delete_id = to_delete_id;
     }
 }

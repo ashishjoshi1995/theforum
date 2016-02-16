@@ -9,6 +9,8 @@ import com.microsoft.windowsazure.mobileservices.table.TableQueryCallback;
 import com.theforum.TheForumApplication;
 import com.theforum.data.helpers.notificationClearApi.NotificationClearApiRequest;
 import com.theforum.data.helpers.notificationClearApi.NotificationClearApiResponse;
+import com.theforum.data.server.areaopinions;
+import com.theforum.data.server.areatopics;
 import com.theforum.data.server.opinion;
 import com.theforum.data.server.topic;
 import com.theforum.utils.User;
@@ -29,15 +31,21 @@ public class NotificationHelper {
     MobileServiceClient mobileServiceClient;
     MobileServiceTable<topic> topic;
     MobileServiceTable<opinion> opinion;
+    MobileServiceTable<areaopinions> localOpinions;
+    MobileServiceTable<areatopics> localTopics;
 
     public static boolean one = false;
     public static boolean two = false;
+    public static boolean three = false;
+    public static boolean four = false;
 
 
     public NotificationHelper(){
         this.mobileServiceClient = TheForumApplication.getClient();
         this.opinion = mobileServiceClient.getTable(opinion.class);
         this.topic = mobileServiceClient.getTable(topic.class);
+        this.localOpinions = mobileServiceClient.getTable(areaopinions.class);
+        this.localTopics = mobileServiceClient.getTable(areatopics.class);
     }
 
     public void readNotification(final NotificationListener notificationListener){
@@ -58,14 +66,38 @@ public class NotificationHelper {
 
         topic.where().field("uid").eq(User.getInstance().getId()).and().field("notif_count").gt(0).
                 execute(new TableQueryCallback<topic>() {
-            @Override
-            public void onCompleted(List<topic> result, int count, Exception exception, ServiceFilterResponse response) {
-                two = true;
-                if (count > 0) {
-                    notificationListener.topicNotification(result);
-                }
-            }
-        });
+                    @Override
+                    public void onCompleted(List<topic> result, int count, Exception exception, ServiceFilterResponse response) {
+                        two = true;
+                        if (count > 0) {
+                            notificationListener.topicNotification(result);
+                        }
+                    }
+                });
+        localTopics.where().field("uid").eq(User.getInstance().getId()).and().field("notif_count").gt(0).
+                execute(new TableQueryCallback<areatopics>() {
+                    @Override
+                    public void onCompleted(List<areatopics> result, int count, Exception exception, ServiceFilterResponse response) {
+                        three = true;
+                        if(count>0){
+                            notificationListener.areaTopicNotification(result);
+                        }
+                    }
+                });
+       localOpinions.where().field("uid").eq(User.getInstance().getId()).and().field("notif_upvotes").gt(0)
+                .execute(new TableQueryCallback<areaopinions>() {
+
+                    @Override
+                    public void onCompleted(List<areaopinions> result, int count, Exception exception,
+                                            ServiceFilterResponse response) {
+                        four = true;
+                        if (count > 0) {
+                            notificationListener.areaOpinionNotification(result);
+                        }
+                    }
+
+                });
+
     }
 
     public void cleanItUp(){
@@ -83,6 +115,8 @@ public class NotificationHelper {
 
         one = false;
         two = false;
+        three = false;
+        four = false;
     }
 
 

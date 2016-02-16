@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,8 +60,11 @@ public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.V
         public void onClick(View view) {
             NotificationDataModel noti = mData.get(getLayoutPosition());
             TopicDataModel topicDataModel= TopicDBHelper.getHelper().getTopicById(noti.topicId);
+            Log.e("sasasas",noti.topicId+"");
+
 
             if(topicDataModel!=null) {
+                Log.e("papapa",topicDataModel.getTopicId());
                 CommonUtils.openContainerActivity(mContext, LayoutType.OPINIONS_FRAGMENT,
                         Pair.create(LayoutType.TOPIC_MODEL, (Parcelable) topicDataModel));
             }

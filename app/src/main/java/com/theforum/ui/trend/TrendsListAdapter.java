@@ -99,6 +99,7 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                                     opinionDataModel.setLongitude(mFeeds.get(getLayoutPosition()).getLongitude());
                                     opinionDataModel.setVoteStatus(mFeeds.get(getLayoutPosition()).getVoteStatus());
                                     opinionDataModel.setOpinionId(mFeeds.get(getLayoutPosition()).getTrendId());
+                                    opinionDataModel.setServerId(mFeeds.get(getLayoutPosition()).getServerId());
 
                                     CommonUtils.openContainerActivity(mContext, LayoutType.NEW_OPINION_FRAGMENT,
                                             Pair.create(LayoutType.OPINION_MODEL, (Parcelable) opinionDataModel));
@@ -107,7 +108,8 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                                 case R.id.item_flag:
                                     FlagHelper helper = new FlagHelper();
                                     helper.addFlagOpinionRequest(mFeeds.get(getLayoutPosition()).getTrendId(),
-                                            mFeeds.get(getLayoutPosition()).getOpinionText(), mFeeds.get(getLayoutPosition()).getTopicId());
+                                            mFeeds.get(getLayoutPosition()).getOpinionText(), mFeeds.get(getLayoutPosition()).
+                                                    getTopicId(),mFeeds.get(getLayoutPosition()).getServerId());
                                     break;
                             }
                             return false;

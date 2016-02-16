@@ -15,6 +15,7 @@ import com.theforum.data.helpers.localHelpers.LocalTrendsHelper;
 import com.theforum.data.local.models.TrendsDataModel;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.enums.RequestStatus;
+import com.theforum.utils.locationTracker.GPSTracker;
 import com.theforum.utils.views.DividerItemDecorator;
 
 import java.util.ArrayList;
@@ -36,6 +37,9 @@ public class TrendsLocalListFragment extends Fragment{
 
     private TrendsListAdapter mAdapter;
     private boolean dataReceived;
+    //Location
+    private double latitude= 0.0;
+    private double longitude = 0.0;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_topics_list, container, false);
@@ -45,7 +49,7 @@ public class TrendsLocalListFragment extends Fragment{
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-
+        getLocation();
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new DividerItemDecorator(getActivity(), R.drawable.recycler_view_divider));
 
@@ -55,7 +59,7 @@ public class TrendsLocalListFragment extends Fragment{
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                LocalTrendsHelper.getHelper().loadTrends(true);
+                LocalTrendsHelper.getHelper().loadTrends(true,latitude,longitude);
             }
         });
 
@@ -68,7 +72,7 @@ public class TrendsLocalListFragment extends Fragment{
         super.onStart();
 
         if(LocalTrendsHelper.getHelper().requestStatus == RequestStatus.IDLE && !dataReceived){
-            LocalTrendsHelper.getHelper().loadTrends(false);
+            LocalTrendsHelper.getHelper().loadTrends(false,latitude,longitude);
         }
 
         if(LocalTrendsHelper.getHelper().requestStatus == RequestStatus.EXECUTING ){
@@ -90,7 +94,7 @@ public class TrendsLocalListFragment extends Fragment{
                 mAdapter.clearList();
                 mAdapter.addAllTrends(trends);
                 swipeRefreshLayout.setRefreshing(false);
-                Log.e("localHelper","onCompleted");
+                Log.e("localHelper", "onCompleted");
             }
 
             @Override
@@ -104,6 +108,19 @@ public class TrendsLocalListFragment extends Fragment{
                 });
             }
         });
+
+    }
+    private void getLocation(){
+        GPSTracker gps;
+        gps = new GPSTracker(getActivity());
+        if(gps.canGetLocation()||(gps.getLongitude()!=0.0&&gps.getLatitude()!=0.0)) {
+            latitude = gps.getLatitude();
+            longitude = gps.getLongitude();
+
+        }
+        else {
+            gps.showSettingsAlert();
+        }
 
     }
 
