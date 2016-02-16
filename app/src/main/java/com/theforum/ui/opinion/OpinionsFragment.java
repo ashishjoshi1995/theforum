@@ -26,7 +26,6 @@ import android.widget.TextView;
 
 import com.theforum.R;
 import com.theforum.constants.LayoutType;
-import com.theforum.constants.Messages;
 import com.theforum.data.helpers.FlagHelper;
 import com.theforum.data.helpers.OpinionHelper;
 import com.theforum.data.helpers.TopicHelper;
@@ -141,10 +140,8 @@ public class OpinionsFragment extends Fragment implements OnListItemClickListene
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("jgjfhgffgdhhgd",""+mTopicModel.isLocalTopic());
                 CommonUtils.openContainerActivity(getActivity(), LayoutType.NEW_OPINION_FRAGMENT,
                         Pair.create(LayoutType.TOPIC_MODEL, (Parcelable) mTopicModel));
-                Log.e("jgjfhgffgdhhgd", "" + mTopicModel.isLocalTopic());
             }
         });
 
@@ -156,6 +153,21 @@ public class OpinionsFragment extends Fragment implements OnListItemClickListene
         });
 
         OpinionHelper.getHelper().addNewOpinionAddedListener(new OpinionHelper.OnOpinionAddListener() {
+            @Override
+            public void onCompleted(OpinionDataModel opinion, boolean isUpdated) {
+                if (isUpdated) {
+                    mOpinions.remove(mPositionClicked);
+                    mOpinions.add(mPositionClicked, opinion);
+                    mAdapter.notifyItemChanged(mPositionClicked);
+                } else mAdapter.addOpinion(opinion, 0);
+            }
+
+            @Override
+            public void onError(String error) {
+            }
+        });
+
+        LocalOpinionHelper.getHelper().addNewOpinionAddedListener(new LocalOpinionHelper.OnOpinionAddListener() {
             @Override
             public void onCompleted(OpinionDataModel opinion, boolean isUpdated) {
                 if(isUpdated){
@@ -189,7 +201,7 @@ public class OpinionsFragment extends Fragment implements OnListItemClickListene
                                     @Override
                                     public void run() {
                                         swipeRefreshLayout.setRefreshing(false);
-                                        CommonUtils.showToast(getContext(), Messages.NO_NET_CONNECTION);
+                                        CommonUtils.showToast(getContext(), error);
                                     }
                                 });
                             }
@@ -206,12 +218,12 @@ public class OpinionsFragment extends Fragment implements OnListItemClickListene
                             }
 
                             @Override
-                            public void onError(String error) {
+                            public void onError(final String error) {
                                 getActivity().runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
                                         swipeRefreshLayout.setRefreshing(false);
-                                        CommonUtils.showToast(getContext(), Messages.NO_NET_CONNECTION);
+                                        CommonUtils.showToast(getContext(), error);
                                     }
                                 });
                             }
