@@ -1,6 +1,7 @@
 package com.theforum.data.helpers.localHelpers;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.microsoft.windowsazure.mobileservices.ApiOperationCallback;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
@@ -42,6 +43,9 @@ public class LocalTrendsHelper {
 
         private ArrayList<TrendsDataModel> trends;
         private OnTrendsReceivedListener trendsReceivedListener;
+        //Location
+        private double latitude= 0.0;
+        private double longitude = 0.0;
 
 
         public static LocalTrendsHelper getHelper(){
@@ -58,7 +62,9 @@ public class LocalTrendsHelper {
          *
          * @param refresh true if current data is refreshed
          */
-        public void loadTrends(boolean refresh){
+        public void loadTrends(boolean refresh,double alatitude,double alongitude){
+            latitude=alatitude;
+            longitude=alongitude;
 
             if(requestStatus == RequestStatus.IDLE) {
 
@@ -202,8 +208,8 @@ public class LocalTrendsHelper {
             LTARequest updvRequest= new LTARequest();
 
             updvRequest.uid = User.getInstance().getId();
-            updvRequest.latitude=0;
-            updvRequest.longitude=0;
+            updvRequest.latitude=latitude;
+            updvRequest.longitude=longitude;
 
             TheForumApplication.getClient().invokeApi("nearbytrends", updvRequest, LTAResponse.class,
                     new ApiOperationCallback<LTAResponse>() {
@@ -211,10 +217,14 @@ public class LocalTrendsHelper {
                         @Override
                         public void onCompleted(LTAResponse result, Exception exception, ServiceFilterResponse response) {
                             if (exception == null) {
-
+                                Log.e("messagenull1",""+result.message);
+                                if(result.message.equals("null")){
+                                    result.message=null;
+                                }
                                 try {
 
                                     if (result.message != null) {
+                                        Log.e("messagenull",""+result.message);
                                         JSONArray jsonArray = new JSONArray(result.message);
                                         requestStatus = RequestStatus.COMPLETED;
 
