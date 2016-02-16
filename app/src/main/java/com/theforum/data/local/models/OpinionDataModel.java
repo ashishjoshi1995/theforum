@@ -23,6 +23,7 @@ public class OpinionDataModel implements Parcelable{
     private double latitude;
     private double longitude;
     private boolean isLocal;
+    private String serverId;
 
     public OpinionDataModel(){}
 
@@ -38,6 +39,7 @@ public class OpinionDataModel implements Parcelable{
         this.longitude=opinion.getLongitude();
         this.latitude=opinion.getLatitude();
         this.isLocal=false;
+        this.serverId = opinion.getServerId();
     }
 
     public OpinionDataModel(areaopinions opinion){
@@ -51,6 +53,7 @@ public class OpinionDataModel implements Parcelable{
         this.latitude=opinion.getLatitude();
         this.downVoteCount = opinion.getDownVotes();
         this.isLocal=true;
+        this.serverId = opinion.getServerId();
     }
 
 
@@ -156,6 +159,7 @@ public class OpinionDataModel implements Parcelable{
         latitude = in.readDouble();
         longitude = in.readDouble();
         isLocal = in.readByte() != 0x00;
+        serverId = in.readString();
     }
 
     @Override
@@ -176,6 +180,7 @@ public class OpinionDataModel implements Parcelable{
         dest.writeDouble(latitude);
         dest.writeDouble(longitude);
         dest.writeByte((byte) (isLocal ? 0x01 : 0x00));
+        dest.writeString(serverId);
     }
 
     @SuppressWarnings("unused")
@@ -190,4 +195,11 @@ public class OpinionDataModel implements Parcelable{
             return new OpinionDataModel[size];
         }
     };
+    public String getServerId() {
+        return serverId;
+    }
+
+    public void setServerId(String serverId) {
+        this.serverId = serverId;
+    }
 }

@@ -366,8 +366,10 @@ public class OpinionsFragment extends Fragment implements OnListItemClickListene
 
                     case R.id.item_flag:
                         FlagHelper helper = new FlagHelper();
+
                         helper.addFlagOpinionRequest(mOpinions.get(position).getOpinionId(),
-                                mOpinions.get(position).getOpinionText(), mOpinions.get(position).getTopicId());
+                                mOpinions.get(position).getOpinionText(), mOpinions.get(position).getTopicId(),
+                                mOpinions.get(position).getServerId());
                         break;
                 }
                 return false;

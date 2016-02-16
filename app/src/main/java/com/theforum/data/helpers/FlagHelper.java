@@ -23,7 +23,7 @@ public class FlagHelper {
     private MobileServiceTable<flags> mFlagTable;
     public FlagHelper(){mFlagTable = TheForumApplication.getClient().getTable(flags.class);}
 
-    public void addFlagOpinionRequest(final String opinionId, final String opinionText , final String topicId){
+    public void addFlagOpinionRequest(final String opinionId, final String opinionText , final String topicId, final String serverId){
         Log.e("item_flag", "ok");
         AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>(){
             MobileServiceList<flags> ash = null;
@@ -33,39 +33,48 @@ public class FlagHelper {
                     Log.e("try","try");
                  mFlagTable.where().field("opinion_id").eq(opinionId).execute(new TableQueryCallback<flags>() {
                     @Override
-                    public void onCompleted(List<flags> result, int count, Exception exception, ServiceFilterResponse response) {
+                    public void onCompleted(final List<flags> result, int count, Exception exception, ServiceFilterResponse response) {
                         Log.e("onCompleted","OnCLompleted");
                         if( result!=null && result.size()>0){
                             Log.e("item_flag","ok");
                             String s = result.get(0).getApndUidOfFlaggers();
                             String[] s2 = s.split(" ");
                             for(int i =0;i<s2.length;i++){
-                            //    if(User.getInstance().getId().equals(s2[i])){
+                                if(User.getInstance().getId().equals(s2[i])){
                                     //already flagged
-                              //      Log.e("item_flag","ok");
-                                //    break;
-                               // }
-                               // else {
+                                   Log.e("item_flag","ok");
+                                    break;
+                                }
+                                else {
                                     int j = result.get(0).getFlagCount();
-                                Log.e("knkinjn",""+j);
+                                    Log.e("knkinjn",""+j);
                                     j++;
                                     result.get(0).setFlagCount(j);
-                                    Log.e("reasasasasa",result.get(0).getFlagCount()+"");
+                                    Log.e("reasasasasa", result.get(0).getFlagCount() + "");
+                                    Log.e("1", result.get(0).getServerId());
+                                    Log.e("2", result.get(0).getOpinionId());
                                     s+=" ";
                                     s+= User.getInstance().getId();
+
                                     mFlagTable.update(result.get(0), new TableOperationCallback<flags>() {
                                         @Override
                                         public void onCompleted(flags entity, Exception exception, ServiceFilterResponse response) {
                                             if(exception!=null){
-
+                                                Log.e("asasas",exception.getMessage()+"");
+                                                Log.e("id",entity.getOpinionId()+"");
+                                                Log.e("server  id", entity.getServerId()+"");
+                                                Log.e("5",result.get(0).getOpinionId()+"");
+                                                Log.e("6", result.get(0).getServerId()+"");
                                             }
                                             else {
-                                                Log.e("asasaszzzzzz", )
+                                                Log.e("asasaszzzzzz", entity.getFlagCount()+"");
                                             }
                                         }
                                     });
+                                    Log.e("3", result.get(0).getServerId());
+                                    Log.e("4", result.get(0).getOpinionId());
                                     Log.e("item_flag", "ok");
-                                //}
+                                }
                             }
                         }
                         else{
@@ -75,7 +84,15 @@ public class FlagHelper {
                             f.setTopicId(topicId);
                             f.setApndUidOfFlaggers(User.getInstance().getId());
                             f.setOpinionId(opinionId);
-                            mFlagTable.insert(f);
+                            f.setTo_delete_id(serverId);
+                            mFlagTable.insert(f, new TableOperationCallback<flags>() {
+                                @Override
+                                public void onCompleted(flags entity, Exception exception, ServiceFilterResponse response) {
+                                    if(exception==null){
+                                        Log.e("6",entity.getServerId()+"");
+                                    }
+                                }
+                            });
                             Log.e("item_flag", "null");
                         }
                     }
