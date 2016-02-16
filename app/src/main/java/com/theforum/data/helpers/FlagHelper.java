@@ -9,6 +9,7 @@ import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.microsoft.windowsazure.mobileservices.table.TableOperationCallback;
 import com.microsoft.windowsazure.mobileservices.table.TableQueryCallback;
 import com.theforum.TheForumApplication;
+import com.theforum.data.server.flaggedTopics;
 import com.theforum.data.server.flags;
 import com.theforum.utils.User;
 
@@ -21,7 +22,9 @@ import java.util.List;
 public class FlagHelper {
 
     private MobileServiceTable<flags> mFlagTable;
+    private MobileServiceTable<flaggedTopics> mFlaggedTopics;
     public FlagHelper(){mFlagTable = TheForumApplication.getClient().getTable(flags.class);}
+    public FlagHelper(String topic){mFlaggedTopics = TheForumApplication.getClient().getTable(flaggedTopics.class);}
 
     public void addFlagOpinionRequest(final String opinionId, final String opinionText , final String topicId, final String serverId){
         Log.e("item_flag", "ok");
@@ -108,6 +111,64 @@ public class FlagHelper {
         };
         runAsyncTask(task);
     }
+
+    public void addFlagTopicRequest(final String topicId){
+        AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>(){
+            MobileServiceList<flags> ash = null;
+            @Override
+            protected Void doInBackground(Void... params) {
+                mFlaggedTopics.where().field("topic_id").eq(topicId).execute(new TableQueryCallback<flaggedTopics>() {
+                    @Override
+                    public void onCompleted(List<flaggedTopics> result, int count, Exception exception, ServiceFilterResponse response) {
+                        if(exception==null){
+                            if(result!=null && result.size()>0){
+                              boolean  boolToAct = true;
+                                //flag exist,
+                                String ids = result.get(0).getApndFlaggerIds();
+                                String[] idsS = ids.split(" ");
+                                for(int i=0;i<idsS.length;i++){
+                                    if(idsS[i]==User.getInstance().getId()){
+                                        boolToAct = false;
+                                        break;
+                                        //take no action
+                                    }
+
+                                }
+                                if(boolToAct){
+                                    //id not found
+                                    int j = result.get(0).getFlagCount();
+                                    j++;
+                                    result.get(0).setFlagCount(j);
+                                    String d = result.get(0).getApndFlaggerIds();
+                                    d+=" ";
+                                    d+=User.getInstance().getId();
+                                    result.get(0).setApndFlaggerIds(d);
+                                    mFlaggedTopics.update(result.get(0));
+                                }
+                            }
+                            else {
+                                //first flag request
+                                flaggedTopics topic = new flaggedTopics();
+                                topic.setApndFlaggerIds(User.getInstance().getId());
+                                topic.setFlagCount(1);
+                                topic.setTopicId(topicId);
+                                mFlaggedTopics.insert(topic);
+                            }
+                        }
+                        else {
+                            Log.e("exception",exception.getMessage()+"");
+                        }
+                    }
+                });
+
+              return null;
+            }
+
+        };
+        runAsyncTask(task);
+
+    }
+
 
     private AsyncTask<Void, Void, Void> runAsyncTask(AsyncTask<Void, Void, Void> task) {
         return task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
