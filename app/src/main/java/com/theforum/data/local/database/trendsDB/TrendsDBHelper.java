@@ -28,7 +28,6 @@ public class TrendsDBHelper {
     private TrendsDBHelper(){
         trendsDB = new TrendsDB(TheForumApplication.getAppContext());
         trendsDatabase = trendsDB.getWritableDatabase();
-        //nn
     }
 
 
@@ -99,17 +98,11 @@ public class TrendsDBHelper {
                         obj.setVoteStatus(VoteStatus.NONE);
                     else if (cursor.getInt(9)==2)
                         obj.setVoteStatus(VoteStatus.UPVOTED);
-                    obj.setLatitude(cursor.getDouble(10));
-                    obj.setLongitude(cursor.getDouble(11));
-                    if(cursor.getString(12).equals("yes")){
+                    if(cursor.getString(10) != null && cursor.getString(10).equals("yes")){
                         obj.setIsLocal(true);
-                       // Log.e("qwertyyes", "" + obj.isLocalTopic());
                     }
-                    else {
-                        obj.setIsLocal(false);
-                        //Log.e("qwertyno",""+obj.isLocalTopic());
-                    }
-
+                    obj.setLatitude(cursor.getDouble(11));
+                    obj.setLongitude(cursor.getDouble(12));
                     obj.setuId(cursor.getString(13));
                     trends.add(obj);
 

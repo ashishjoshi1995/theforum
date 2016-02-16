@@ -24,7 +24,7 @@ public class TrendsDataModel {
     private double longitude;
     private VoteStatus voteStatus = VoteStatus.NONE;
     private String serverId;
-    private boolean isLocal;
+    private boolean isLocal = false;
 
     public TrendsDataModel(){}
 

@@ -46,7 +46,7 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
     private Context mContext;
 
     private List<TrendsDataModel> mFeeds;
-    private OnListItemClickListener onListItemClickListener2;
+   // private OnListItemClickListener onListItemClickListener2;
 
 
     public TrendsListAdapter(Context context, List<TrendsDataModel> feeds){
@@ -119,6 +119,7 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                     return false;
                 }
             });
+
             upVoteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -272,16 +273,14 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                         setCompoundDrawables(downVoteBtn, downVotedIcon);
                         opinionModel2.setDownVoteCount(downvotes);
                         opinionModel2.setVoteStatus(VoteStatus.DOWNVOTED);
-                        //TrendsDBHelper.getHelper().updateUPDVStatus(opinionModel2);
+
                         /*
                          *  send the request to server to decrease the count
                          */
                         if (!opinionModel2.isLocal()) {
                             TrendsHelper.getHelper().upVoteDownVote(false, opinionModel2.getTrendId(), new TrendsHelper.OnUVDVOperationCompleteListener() {
                                 @Override
-                                public void onCompleteMessage(String message) {
-                                    //CommonUtils.showToast(mContext, message);
-                                }
+                                public void onCompleteMessage(String message) {}
 
                                 @Override
                                 public void onErrorMessage(String message) {
@@ -413,8 +412,6 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                 }
             }
 
-
-
             topicDataModel.setRenewalRequests(p);
             topicDataModel.setTopicName(trend.getTopicName());
             topicDataModel.setTopicId(trend.getTopicId());
@@ -427,17 +424,6 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                     Pair.create(LayoutType.TOPIC_MODEL, (Parcelable) topicDataModel));
 
         }
-
-
-      /*  @Override
-        public boolean onLongClick(View v) {
-            Log.e("sasasa", "tfjavcajscsau");
-            popupListener.onLongCLick(null, mFeeds.get(getLayoutPosition()), v);
-            return true;
-        }
-        */
-
-
 
     }
 

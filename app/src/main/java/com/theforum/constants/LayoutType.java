@@ -17,11 +17,6 @@ public class LayoutType {
     public static final int STATS_FRAGMENT = 105;
 
 
-    public static final int ADD_MY_TOPIC = 300;
-    public static final int ADD_TOPICS_ALL = 301;
-
-
-
     /**
      * other key values for passing of the variables (as bundles) between activities.
      */

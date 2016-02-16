@@ -119,6 +119,8 @@ public class TopicsLocalListFragment extends Fragment implements OnListItemClick
         }
     }
 
+
+
     private void getTopics() {
 
         LocalTopicHelper.getHelper().getTopics(new LocalTopicHelper.OnTopicsReceiveListener() {

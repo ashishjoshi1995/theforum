@@ -42,7 +42,9 @@ public class TrendsFragment extends Fragment {
 
         mFragmentManager = getChildFragmentManager();
         mFragmentManager.beginTransaction()
-                .replace(R.id.topics_list_holder, mGlobalTrendsList)
+                .add(R.id.topics_list_holder,mLocalTrendsList)
+                .add(R.id.topics_list_holder, mGlobalTrendsList)
+                .hide(mLocalTrendsList)
                 .commit();
 
         switchBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -53,13 +55,9 @@ public class TrendsFragment extends Fragment {
                  * is true.
                  */
                 if (isChecked) {
-                    mFragmentManager.beginTransaction()
-                            .replace(R.id.topics_list_holder, mLocalTrendsList)
-                            .commit();
+                    mFragmentManager.beginTransaction().hide(mGlobalTrendsList).show(mLocalTrendsList).commit();
                 } else {
-                    mFragmentManager.beginTransaction()
-                            .replace(R.id.topics_list_holder, mGlobalTrendsList)
-                            .commit();
+                    mFragmentManager.beginTransaction().hide(mLocalTrendsList).show(mGlobalTrendsList).commit();
                 }
 
 

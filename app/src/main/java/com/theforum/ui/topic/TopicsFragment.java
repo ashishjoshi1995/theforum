@@ -25,8 +25,8 @@ public class TopicsFragment extends Fragment{
     Switch topicsToggleButton;
 
     private FragmentManager mFragmentManager;
-    private TopicsGlobalListFragment mGlobalTopicsList;
-    private TopicsLocalListFragment mLocalTopicsList;
+    private Fragment mGlobalTopicsList;
+    private Fragment mLocalTopicsList;
 
     private boolean ifLocalToDisplay = false;
 
@@ -40,12 +40,14 @@ public class TopicsFragment extends Fragment{
         ButterKnife.bind(this, view);
 
         topicsToggleButton.setChecked(false);
-        mGlobalTopicsList = new TopicsGlobalListFragment();
-        mLocalTopicsList = new TopicsLocalListFragment();
+        mGlobalTopicsList = Fragment.instantiate(getContext(),TopicsGlobalListFragment.class.getName());
+        mLocalTopicsList = Fragment.instantiate(getContext(), TopicsLocalListFragment.class.getName());
 
         mFragmentManager = getChildFragmentManager();
         mFragmentManager.beginTransaction()
-                .replace(R.id.topics_list_holder, mGlobalTopicsList)
+                .add(R.id.topics_list_holder, mLocalTopicsList)
+                .add(R.id.topics_list_holder, mGlobalTopicsList)
+                .hide(mLocalTopicsList)
                 .commit();
 
         topicsToggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -55,15 +57,10 @@ public class TopicsFragment extends Fragment{
                 ifLocalToDisplay = b;
 
                 if (ifLocalToDisplay) {
-                    mFragmentManager.beginTransaction()
-                            .replace(R.id.topics_list_holder, mLocalTopicsList)
-                            .commit();
+                    mFragmentManager.beginTransaction().hide(mGlobalTopicsList).show(mLocalTopicsList).commit();
                 } else {
-                    mFragmentManager.beginTransaction()
-                            .replace(R.id.topics_list_holder, mGlobalTopicsList)
-                            .commit();
+                    mFragmentManager.beginTransaction().hide(mLocalTopicsList).show(mGlobalTopicsList).commit();
                 }
-
             }
 
         });
