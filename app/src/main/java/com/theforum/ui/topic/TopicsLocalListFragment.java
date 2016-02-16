@@ -41,19 +41,19 @@ public class TopicsLocalListFragment extends Fragment implements OnListItemClick
     @Bind(R.id.topics_swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
 
-
     private TopicsListAdapter mAdapter;
     private ArrayList<TopicDataModel> mTopicsList;
 
     //Location
-    private double latitude=0.0;
-    private double longitude =0.0;
+    private double latitude= 0.0;
+    private double longitude = 0.0;
 
     private boolean dataReceived;
     private int mPosition;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.e("topicLocal", "onCreateView");
         mTopicsList = new ArrayList<>();
         return inflater.inflate(R.layout.fragment_topics_list, container, false);
     }
@@ -120,7 +120,6 @@ public class TopicsLocalListFragment extends Fragment implements OnListItemClick
     }
 
     private void getTopics() {
-        Log.e("gettopicsLocal", "gettopics");
 
         LocalTopicHelper.getHelper().getTopics(new LocalTopicHelper.OnTopicsReceiveListener() {
             @Override
@@ -128,7 +127,6 @@ public class TopicsLocalListFragment extends Fragment implements OnListItemClick
                 dataReceived = true;
                 mAdapter.removeAllTopics();
                 mAdapter.addTopics(topics);
-                Log.e("onCompleted local", "" + topics.size());
                 swipeRefreshLayout.setRefreshing(false);
             }
 

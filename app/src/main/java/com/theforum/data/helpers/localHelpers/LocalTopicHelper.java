@@ -1,7 +1,6 @@
 package com.theforum.data.helpers.localHelpers;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.microsoft.windowsazure.mobileservices.ApiOperationCallback;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
@@ -105,7 +104,7 @@ public class LocalTopicHelper {
                     return null;
                 }
             };
-            runAsyncTask2(task);
+            runAsyncTask(task);
         }
         else{
             CommonUtils.showToast(TheForumApplication.getAppContext(), "Topic Already Exists");
@@ -180,7 +179,7 @@ public class LocalTopicHelper {
                                                 topicDataModel.setIsMyTopic(true);
 
                                             topics.add(topicDataModel);
-                                            Log.e("test2", "" + topics.size());
+
                                         }
                                         if(topics.size()>0) {
                                             requestStatus = RequestStatus.COMPLETED;
@@ -198,15 +197,12 @@ public class LocalTopicHelper {
                                     }
 
                                 } catch (JSONException e) {
-                                    Log.e("mjhghjgjhgb",""+result.message);
                                     sendError(Messages.SERVER_ERROR);
                                 }
 
                             } else {
                                 sendError(exception.getMessage());
                             }
-
-
                         }
 
                     });
@@ -313,20 +309,13 @@ public class LocalTopicHelper {
             }
         };
 
-        runAsyncTask3(task);
+        runAsyncTask(task);
     }
 
-    private AsyncTask<Void, Void,ArrayList<areatopics>> runAsyncTask(AsyncTask<Void, Void, ArrayList<areatopics>> task) {
-        return task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-    }
 
-    private AsyncTask<Void, Void,Void> runAsyncTask2(AsyncTask<Void, Void, Void> task) {
+    private AsyncTask<Void, Void,Void> runAsyncTask(AsyncTask<Void, Void, Void> task) {
         return task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
-    private AsyncTask<Void, Void, Void> runAsyncTask3(AsyncTask<Void, Void, Void> task) {
-        return task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-    }
-
 
     public interface OnTopicsReceiveListener{
         /**
