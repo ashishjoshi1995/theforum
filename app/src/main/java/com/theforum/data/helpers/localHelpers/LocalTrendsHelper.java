@@ -209,7 +209,6 @@ public class LocalTrendsHelper {
         LTARequest updvRequest= new LTARequest();
 
         updvRequest.uid = User.getInstance().getId();
-
         updvRequest.latitude=latitude;
         updvRequest.longitude=longitude;
 
@@ -219,19 +218,22 @@ public class LocalTrendsHelper {
                     @Override
                     public void onCompleted(LTAResponse result, Exception exception, ServiceFilterResponse response) {
                         if (exception == null) {
-
+                            Log.e("messagenull1",""+result.message);
                             if(result.message.equals("null")){
                                 result.message=null;
                             }
                             try {
 
                                 if (result.message != null) {
-
+                                    Log.e("messagenull",""+result.message);
                                     JSONArray jsonArray = new JSONArray(result.message);
                                     requestStatus = RequestStatus.COMPLETED;
 
                                     for (int i = 0; i < jsonArray.length(); i++) {
-                                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                        JSONObject jsonObject = null;
+
+                                            jsonObject = jsonArray.getJSONObject(i);
+
                                         TrendsDataModel trendDataModel = new TrendsDataModel();
 
                                         trendDataModel.setHoursLeft(Integer.parseInt(jsonObject.get("hours_left").toString()));
@@ -264,6 +266,7 @@ public class LocalTrendsHelper {
 
                                         }
 
+
                                             if (jsonObject.get("downvote_ids").toString() != null && !statusReceived) {
                                                 String downid = jsonObject.get("downvote_ids").toString();
                                                 String[] downids = downid.split(" ");
@@ -278,11 +281,9 @@ public class LocalTrendsHelper {
                                             trends.add(trendDataModel);
                                         }
 
+                                        // save the data to local database.
                                         TrendsDBHelper.getHelper().deleteAllLocalTrends();
                                         TrendsDBHelper.getHelper().addTrends(trends);
-
-                                        // save the data to local database.
-
 
                                         /**
                                          * passing the data to ui
@@ -294,7 +295,7 @@ public class LocalTrendsHelper {
                                         }
 
                                     } else {
-                                        sendError(Messages.NO_LOCAL_TOPIC);
+                                        sendError(Messages.SERVER_ERROR);
                                     }
 
                                 } catch (JSONException e) {
