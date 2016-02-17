@@ -1,7 +1,6 @@
 package com.theforum.data.local.database.topicDB;
 
 import android.content.Context;
-import android.content.pm.InstrumentationInfo;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -13,7 +12,7 @@ public class TopicDB extends SQLiteOpenHelper {
     public TopicDB(Context context){
         super(context,TopicDBConstants.DATABASE_NAME,null,TopicDBConstants.DATABASE_VERSION);
     }
-////TODO topic local ke update me colum add karna
+
     private static final String DATABASE_ALTER_TEAM_1 = "ALTER TABLE "
             + TopicDBConstants.TABLE_NAME + " ADD COLUMN " + TopicDBConstants.KEY_LOCAL_TOPIC + " INTEGER;";
     private static final String DATABASE_ALTER_TEAM_2 = "ALTER TABLE "
@@ -22,6 +21,7 @@ public class TopicDB extends SQLiteOpenHelper {
             + TopicDBConstants.TABLE_NAME + " ADD COLUMN "+TopicDBConstants.KEY_LATITUDE + " REAL;";
     private static final String DATABASE_ALTER_TEAM_4 = "ALTER TABLE "
             + TopicDBConstants.TABLE_NAME + " ADD COLUMN " + TopicDBConstants.KEY_LONGITUDE + " REAL;";
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_TOPIC_TABLE = "CREATE TABLE " + TopicDBConstants.TABLE_NAME + "("
