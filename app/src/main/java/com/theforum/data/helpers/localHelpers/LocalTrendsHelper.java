@@ -209,6 +209,7 @@ public class LocalTrendsHelper {
         LTARequest updvRequest= new LTARequest();
 
         updvRequest.uid = User.getInstance().getId();
+
         updvRequest.latitude=latitude;
         updvRequest.longitude=longitude;
 
@@ -218,14 +219,14 @@ public class LocalTrendsHelper {
                     @Override
                     public void onCompleted(LTAResponse result, Exception exception, ServiceFilterResponse response) {
                         if (exception == null) {
-                            Log.e("messagenull1",""+result.message);
+
                             if(result.message.equals("null")){
                                 result.message=null;
                             }
                             try {
 
                                 if (result.message != null) {
-                                    Log.e("messagenull",""+result.message);
+
                                     JSONArray jsonArray = new JSONArray(result.message);
                                     requestStatus = RequestStatus.COMPLETED;
 
@@ -262,14 +263,27 @@ public class LocalTrendsHelper {
                                             }
 
                                         }
-<<<<<<< HEAD
-                                        if(trends.size()<=0){
-                                            sendError("No topics trending in the area");
-                                        }else {
-                                            // save the data to local database.
-                                            TrendsDBHelper.getHelper().deleteAllTrends();
-                                            TrendsDBHelper.getHelper().addTrends(trends);
+
+                                            if (jsonObject.get("downvote_ids").toString() != null && !statusReceived) {
+                                                String downid = jsonObject.get("downvote_ids").toString();
+                                                String[] downids = downid.split(" ");
+                                                for (int j = 0; j < downids.length; j++) {
+                                                    if (downids[j].equals(User.getInstance().getId())) {
+                                                        trendDataModel.setVoteStatus(VoteStatus.DOWNVOTED);
+                                                        break;
+                                                    }
+                                                }
+
+                                            }
+                                            trends.add(trendDataModel);
                                         }
+
+                                        TrendsDBHelper.getHelper().deleteAllLocalTrends();
+                                        TrendsDBHelper.getHelper().addTrends(trends);
+
+                                        // save the data to local database.
+
+
                                         /**
                                          * passing the data to ui
                                          */
@@ -277,51 +291,24 @@ public class LocalTrendsHelper {
                                             trendsReceivedListener.onCompleted(trends);
                                             requestStatus = RequestStatus.IDLE;
                                             trends.clear();
-=======
-
-                                        if (jsonObject.get("downvote_ids").toString() != null && !statusReceived) {
-                                            String downid = jsonObject.get("downvote_ids").toString();
-                                            String[] downids = downid.split(" ");
-                                            for (int j = 0; j < downids.length; j++) {
-                                                if (downids[j].equals(User.getInstance().getId())) {
-                                                    trendDataModel.setVoteStatus(VoteStatus.DOWNVOTED);
-                                                    break;
-                                                }
-                                            }
->>>>>>> 1b45d9ccbd9d6ce59cfc5e63e84e6b33454a3dfc
                                         }
-                                        trends.add(trendDataModel);
+
+                                    } else {
+                                        sendError(Messages.NO_LOCAL_TOPIC);
                                     }
 
-                                    // save the data to local database.
-                                    TrendsDBHelper.getHelper().deleteAllLocalTrends();
-                                    TrendsDBHelper.getHelper().addTrends(trends);
-
-                                    /**
-                                     * passing the data to ui
-                                     */
-                                    if (trendsReceivedListener != null) {
-                                        trendsReceivedListener.onCompleted(trends);
-                                        requestStatus = RequestStatus.IDLE;
-                                        trends.clear();
-                                    }
-
-                                } else {
-                                    sendError(Messages.SERVER_ERROR);
+                                } catch (JSONException e) {
+                                    sendError(Messages.NO_NET_CONNECTION);
                                 }
 
-                            } catch (JSONException e) {
-                                sendError(Messages.NO_NET_CONNECTION);
+                            } else {
+                                sendError(Messages.SERVER_ERROR);
                             }
-
-                        } else {
-                            sendError(Messages.SERVER_ERROR);
                         }
-                    }
 
 
-                });
-    }
+                    });
+                }
 
     private void sendError(String message){
         requestStatus = RequestStatus.IDLE;
@@ -418,4 +405,3 @@ public class LocalTrendsHelper {
         void onError(String error);
     }
 }
-

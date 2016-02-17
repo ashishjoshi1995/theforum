@@ -97,7 +97,7 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
                                     break;
 
                                 case R.id.item_flag:
-                                    FlagHelper helper = new FlagHelper();
+                                    FlagHelper helper = new FlagHelper("xccxcx");
                                     helper.addFlagTopicRequest(mTopics.get(getLayoutPosition()).getTopicId());
                                     break;
                             }

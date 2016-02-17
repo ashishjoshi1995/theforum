@@ -135,7 +135,7 @@ public class TrendsListAdapter extends RecyclerView.Adapter<TrendsListAdapter.Tr
                             opinionModel.setUpVoteCount(upvotes);
                             opinionModel.setVoteStatus(VoteStatus.UPVOTED);
 
-                            Log.e("localtopic",""+opinionModel.isLocal());
+
                         /*
                          *  send the request to server to increase the count
                          */if(!opinionModel.isLocal()) {
