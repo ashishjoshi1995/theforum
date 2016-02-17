@@ -37,9 +37,8 @@ public class TopicDBHelper {
      *
      */
     public void addTopic(TopicDataModel topic){
-        Log.e("addTopic", "addTopics");
-        ContentValues values = new ContentValues();
 
+        ContentValues values = new ContentValues();
         values.put(TopicDBConstants.KEY_SERVER_ID,topic.getServerId());
         values.put(TopicDBConstants.KEY_TOPIC_ID,topic.getTopicId());
         values.put(TopicDBConstants.KEY_TOPIC, topic.getTopicName());
@@ -103,7 +102,9 @@ public class TopicDBHelper {
     public ArrayList<TopicDataModel> getAllTopics(){
         ArrayList<TopicDataModel> topics = new ArrayList<>();
         ArrayList<TopicDataModel> myTopics = new ArrayList<>();
-        if(topicDatabase.isOpen()){}else topicDatabase = topicDB.getWritableDatabase();
+        if(!topicDatabase.isOpen()){
+            topicDatabase = topicDB.getWritableDatabase();
+        }
         Cursor cursor = topicDatabase.rawQuery("SELECT  * FROM " + TopicDBConstants.TABLE_NAME, null);
 
         if(cursor!=null){
@@ -149,11 +150,10 @@ public class TopicDBHelper {
     }
 
     public ArrayList<TopicDataModel> getAllLocalTopics(){
-        //String v = SettingsUtils.TOPIC_FEED_SORT_STATUS;
         ArrayList<TopicDataModel> topics = new ArrayList<>();
         ArrayList<TopicDataModel> myTopics = new ArrayList<>();
-        if(topicDatabase.isOpen()){}else topicDatabase = topicDB.getWritableDatabase();
-        Cursor cursor = null;
+        if(!topicDatabase.isOpen())topicDatabase = topicDB.getWritableDatabase();
+        Cursor cursor;
   
         cursor = topicDatabase.rawQuery("SELECT  * FROM " + TopicDBConstants.TABLE_NAME + " WHERE "+
                 TopicDBConstants.KEY_LOCAL_TOPIC + " =?" , new String[]{"yes"});
@@ -202,9 +202,10 @@ public class TopicDBHelper {
     }
 
     public ArrayList<TopicDataModel> getAllGlobalTopics(){
+
         ArrayList<TopicDataModel> topics = new ArrayList<>();
         ArrayList<TopicDataModel> myTopics = new ArrayList<>();
-        if(topicDatabase.isOpen()){}else topicDatabase = topicDB.getWritableDatabase();
+        if(!topicDatabase.isOpen())topicDatabase = topicDB.getWritableDatabase();
         Cursor cursor = topicDatabase.rawQuery("SELECT  * FROM " + TopicDBConstants.TABLE_NAME + " WHERE "+
                 TopicDBConstants.KEY_LOCAL_TOPIC + " =?" , new String[]{"no"});
 
@@ -251,15 +252,14 @@ public class TopicDBHelper {
         return topics;
     }
 
-
+    @SuppressWarnings("unused")
     public void deleteAll() {
-        if(topicDatabase.isOpen()){}else topicDatabase = topicDB.getWritableDatabase();
+        if(!topicDatabase.isOpen())topicDatabase = topicDB.getWritableDatabase();
         topicDatabase.execSQL("DELETE from " + TopicDBConstants.TABLE_NAME);
     }
 
     public void deleteAllLocalTopics(){
-        Log.e("deleteAllLocalTopics","deleteAllLocalTopics");
-        if(topicDatabase.isOpen()){}else topicDatabase = topicDB.getWritableDatabase();
+        if(!topicDatabase.isOpen())topicDatabase = topicDB.getWritableDatabase();
         topicDatabase.execSQL("DELETE from " + TopicDBConstants.TABLE_NAME+" WHERE "+ TopicDBConstants.KEY_LOCAL_TOPIC
         + " =?", new String[]{"yes"});
 
@@ -268,14 +268,14 @@ public class TopicDBHelper {
 
     public void deleteAllGlobalTopics(){
         Log.e("deleteAllglobalTopics","deleteAllglovblaTopics");
-        if(topicDatabase.isOpen()){}else topicDatabase = topicDB.getWritableDatabase();
+        if(!topicDatabase.isOpen())topicDatabase = topicDB.getWritableDatabase();
         topicDatabase.execSQL("DELETE from " + TopicDBConstants.TABLE_NAME+" WHERE "+ TopicDBConstants.KEY_LOCAL_TOPIC
                 + " =?", new String[]{"no"});
     }
 
     public TopicDataModel getTopicById(String id){
 
-        if(topicDatabase.isOpen()){}else topicDatabase = topicDB.getWritableDatabase();
+        if(!topicDatabase.isOpen())topicDatabase = topicDB.getWritableDatabase();
         Cursor cursor= topicDatabase.rawQuery("SELECT * FROM "+ TopicDBConstants.TABLE_NAME+ " WHERE " +
                  TopicDBConstants.KEY_TOPIC_ID + " =?", new String[] {id});
         if(cursor!=null&&cursor.getCount()>0) {
@@ -312,7 +312,7 @@ public class TopicDBHelper {
     }
 
     public ArrayList<String> getMyTopicText(){
-        topicDatabase = topicDB.getWritableDatabase();
+        if(!topicDatabase.isOpen())topicDatabase = topicDB.getWritableDatabase();
         ArrayList<String> s = new ArrayList<>();
         String readTopicId = "SELECT DISTINCT " + TopicDBConstants.KEY_TOPIC +" FROM " + TopicDBConstants.TABLE_NAME;
         Cursor c = topicDatabase.rawQuery(readTopicId,null);

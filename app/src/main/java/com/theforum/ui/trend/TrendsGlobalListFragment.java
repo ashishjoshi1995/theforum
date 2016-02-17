@@ -91,7 +91,6 @@ public class TrendsGlobalListFragment extends Fragment{
                 mAdapter.clearList();
                 mAdapter.addAllTrends(trends);
                 swipeRefreshLayout.setRefreshing(false);
-                Log.e("globalTrends","onCompleted");
             }
 
             @Override
