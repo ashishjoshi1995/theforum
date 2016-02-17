@@ -67,7 +67,6 @@ public class TopicDBHelper {
      */
     public void addTopicsFromServer(ArrayList<TopicDataModel> topics, boolean ifLocal){
         for (int k = 0; k<topics.size();k++){
-           // Log.e("addtopics","addtopics"+topics.get());
             topics.get(k).setIsLocalTopic(ifLocal);
             addTopic(topics.get(k));
         }

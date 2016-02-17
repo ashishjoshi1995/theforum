@@ -1,12 +1,7 @@
 package com.theforum.data.helpers.localHelpers;
 
-import android.os.AsyncTask;
-import android.util.Log;
-
 import com.microsoft.windowsazure.mobileservices.ApiOperationCallback;
-import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
-import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.theforum.TheForumApplication;
 import com.theforum.constants.Messages;
 import com.theforum.data.helpers.localTrendsApi.LTARequest;
@@ -18,9 +13,7 @@ import com.theforum.data.helpers.local_remove_up_downApi.LRUDAResponse;
 import com.theforum.data.helpers.local_upvoteApi.LUARequest;
 import com.theforum.data.helpers.local_upvoteApi.LUAResponse;
 import com.theforum.data.local.database.trendsDB.TrendsDBHelper;
-import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.data.local.models.TrendsDataModel;
-import com.theforum.data.server.areatopics;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.User;
 import com.theforum.utils.enums.RequestStatus;
@@ -37,13 +30,12 @@ import java.util.ArrayList;
  */
 public class LocalTrendsHelper {
 
-    public RequestStatus requestStatus;
-
     private static LocalTrendsHelper localTrendsHelper;
-    private MobileServiceTable<areatopics> mTopic;
 
+    public RequestStatus requestStatus;
     private ArrayList<TrendsDataModel> trends;
     private OnTrendsReceivedListener trendsReceivedListener;
+
     //Location
     private double latitude= 0.0;
     private double longitude = 0.0;
@@ -140,6 +132,7 @@ public class LocalTrendsHelper {
 
     public void removeUpDownVote(final boolean ifUpVote, String opinionId,
                                  final OnRUDAOperationCompleteListener listener){
+
         LRUDARequest updvRequest= new LRUDARequest();
         updvRequest.opinion_id = opinionId;
         updvRequest.id = User.getInstance().getId();
@@ -218,14 +211,13 @@ public class LocalTrendsHelper {
                     @Override
                     public void onCompleted(LTAResponse result, Exception exception, ServiceFilterResponse response) {
                         if (exception == null) {
-                            Log.e("messagenull1",""+result.message);
+
                             if(result.message.equals("null")){
                                 result.message=null;
                             }
                             try {
 
                                 if (result.message != null) {
-                                    Log.e("messagenull",""+result.message);
                                     JSONArray jsonArray = new JSONArray(result.message);
                                     requestStatus = RequestStatus.COMPLETED;
 
@@ -248,6 +240,7 @@ public class LocalTrendsHelper {
                                         trendDataModel.setLatitude(Double.parseDouble(jsonObject.get("latitude").toString()));
                                         trendDataModel.setLongitude(Double.parseDouble(jsonObject.get("longitude").toString()));
                                         trendDataModel.setIsLocal(true);
+
                                         boolean statusReceived = false;
                                         if (jsonObject.get("upvote_ids") != null) {
                                             String upid = jsonObject.get("upvote_ids").toString();
@@ -260,24 +253,7 @@ public class LocalTrendsHelper {
                                                     break;
                                                 }
                                             }
-
                                         }
-<<<<<<< HEAD
-                                        if(trends.size()<=0){
-                                            sendError("No topics trending in the area");
-                                        }else {
-                                            // save the data to local database.
-                                            TrendsDBHelper.getHelper().deleteAllTrends();
-                                            TrendsDBHelper.getHelper().addTrends(trends);
-                                        }
-                                        /**
-                                         * passing the data to ui
-                                         */
-                                        if (trendsReceivedListener != null) {
-                                            trendsReceivedListener.onCompleted(trends);
-                                            requestStatus = RequestStatus.IDLE;
-                                            trends.clear();
-=======
 
                                         if (jsonObject.get("downvote_ids").toString() != null && !statusReceived) {
                                             String downid = jsonObject.get("downvote_ids").toString();
@@ -288,8 +264,8 @@ public class LocalTrendsHelper {
                                                     break;
                                                 }
                                             }
->>>>>>> 1b45d9ccbd9d6ce59cfc5e63e84e6b33454a3dfc
                                         }
+
                                         trends.add(trendDataModel);
                                     }
 
@@ -323,6 +299,7 @@ public class LocalTrendsHelper {
                 });
     }
 
+
     private void sendError(String message){
         requestStatus = RequestStatus.IDLE;
         if (trendsReceivedListener != null) {
@@ -330,47 +307,6 @@ public class LocalTrendsHelper {
         }
     }
 
-
-    public void getTopicDetails(final String topic_id,final OnTopicDetailReceived listener){
-        if(mTopic == null) mTopic = TheForumApplication.getClient().getTable(areatopics.class);
-        AsyncTask<Void, Void, areatopics> task= new AsyncTask<Void, Void, areatopics>() {
-
-            @Override
-            protected areatopics doInBackground(Void... voids) {
-                MobileServiceList<areatopics> result;
-                try {
-                    result = mTopic.where().field("topic_id").eq(topic_id).execute().get();
-                    return result.get(0);
-                } catch (Exception e) {
-                    listener.onError(Messages.NO_NET_CONNECTION);
-                    return null;
-                }
-
-            }
-
-            @Override
-            protected void onPostExecute(areatopics topic) {
-                super.onPostExecute(topic);
-
-                if(topic!=null) {
-                    TopicDataModel topicDataModel = new TopicDataModel(topic);
-                    listener.onCompleted(topicDataModel);
-                }
-            }
-        };
-
-        runAsyncTask3(task);
-    }
-
-
-
-
-
-
-
-    private static AsyncTask<Void, Void, areatopics> runAsyncTask3(AsyncTask<Void, Void, areatopics> task) {
-        return task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-    }
 
 
 
@@ -399,6 +335,7 @@ public class LocalTrendsHelper {
         void onCompleteMessage(String message);
         void onErrorMessage(String message);
     }
+
     public interface OnDUDAOperationCompleteListener{
         /**
          *
@@ -408,14 +345,5 @@ public class LocalTrendsHelper {
         void onErrorMessage(String message);
     }
 
-    public interface OnTopicDetailReceived{
-        /**
-         *
-         * @param  topic topic data model with updated params
-         */
-
-        void onCompleted(TopicDataModel topic);
-        void onError(String error);
-    }
 }
 
