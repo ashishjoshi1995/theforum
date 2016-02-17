@@ -2,19 +2,26 @@ package com.theforum.ui.topic;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Parcelable;
+import android.support.v4.util.Pair;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.theforum.R;
+import com.theforum.constants.LayoutType;
+import com.theforum.data.helpers.FlagHelper;
 import com.theforum.data.helpers.TopicHelper;
 import com.theforum.data.helpers.localHelpers.LocalTopicHelper;
 import com.theforum.data.local.database.topicDB.TopicDBHelper;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.utils.CommonUtils;
+import com.theforum.utils.User;
 import com.theforum.utils.listeners.OnListItemClickListener;
 import com.theforum.utils.listeners.OnLongClickItemListener;
 
@@ -79,6 +86,37 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
 
             });
 
+            topicName.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    PopupMenu popupMenu = new PopupMenu(mContext, v);
+                    popupMenu.inflate(R.menu.popup_menu);
+
+                    if(!mTopics.get(getLayoutPosition()).getUid().equals(User.getInstance().getId())){
+                        popupMenu.getMenu().removeItem(R.id.item_edit);
+                    }
+                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            switch (item.getItemId()) {
+                                case R.id.item_edit:
+                                    CommonUtils.openContainerActivity(mContext, LayoutType.NEW_TOPIC_FRAGMENT,
+                                            Pair.create(LayoutType.TOPIC_MODEL, (Parcelable) mTopics.get(getLayoutPosition())));
+                                    break;
+
+                                case R.id.item_flag:
+                                    FlagHelper helper = new FlagHelper();
+                                    helper.addFlagTopicRequest(mTopics.get(getLayoutPosition()).getTopicId());
+                                    break;
+                            }
+                            return false;
+                        }
+                    });
+                    popupMenu.show();
+
+                    return false;
+                }
+            });
 
             renewBtn.setOnClickListener(new View.OnClickListener() {
                 @Override

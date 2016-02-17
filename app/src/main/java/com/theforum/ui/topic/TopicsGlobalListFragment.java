@@ -150,8 +150,8 @@ public class TopicsGlobalListFragment extends Fragment implements OnListItemClic
     @Override
     public void onItemClick(View v, int position) {
         mPosition = position;
-        CommonUtils.openContainerActivity(getContext(), LayoutType.OPINIONS_FRAGMENT,
-                Pair.create(LayoutType.TOPIC_MODEL, (Parcelable) mTopicsList.get(position)));
+      //  CommonUtils.openContainerActivity(getContext(), LayoutType.OPINIONS_FRAGMENT,
+        //        Pair.create(LayoutType.TOPIC_MODEL, (Parcelable) mTopicsList.get(position)));
 
     }
 
@@ -163,6 +163,8 @@ public class TopicsGlobalListFragment extends Fragment implements OnListItemClic
             CommonUtils.openContainerActivity(getContext(), LayoutType.NEW_TOPIC_FRAGMENT,
                     Pair.create(LayoutType.TOPIC_MODEL, (Parcelable) dataModel));
         }
+
+
         return true;
     }
 }
