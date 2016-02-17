@@ -10,6 +10,7 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import com.theforum.R;
+import com.theforum.ui.home.HomeFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -27,8 +28,9 @@ public class TopicsFragment extends Fragment{
     private FragmentManager mFragmentManager;
     private Fragment mGlobalTopicsList;
     private Fragment mLocalTopicsList;
+    private HomeFragment mHomeFragment;
 
-    private boolean ifLocalToDisplay = false;
+    public boolean ifLocalToDisplay = false;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_topics, container, false);
@@ -50,6 +52,8 @@ public class TopicsFragment extends Fragment{
                 .hide(mLocalTopicsList)
                 .commit();
 
+        mHomeFragment = (HomeFragment)getParentFragment();
+
         topicsToggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -58,8 +62,10 @@ public class TopicsFragment extends Fragment{
 
                 if (ifLocalToDisplay) {
                     mFragmentManager.beginTransaction().hide(mGlobalTopicsList).show(mLocalTopicsList).commit();
+                    mHomeFragment.getFab().hide();
                 } else {
                     mFragmentManager.beginTransaction().hide(mLocalTopicsList).show(mGlobalTopicsList).commit();
+                    mHomeFragment.getFab().show();
                 }
             }
 

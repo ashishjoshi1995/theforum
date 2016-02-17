@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.theforum.R;
 import com.theforum.constants.LayoutType;
+import com.theforum.ui.topic.TopicsFragment;
 import com.theforum.utils.CommonUtils;
 
 import butterknife.Bind;
@@ -41,7 +42,8 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        mViewPager.setAdapter(new HomePagerAdapter(getContext(), getChildFragmentManager()));
+        HomePagerAdapter homePagerAdapter = new HomePagerAdapter(getContext(), getChildFragmentManager());
+        mViewPager.setAdapter(homePagerAdapter);
         mViewPager.setOffscreenPageLimit(2);
         mTabLayout.setupWithViewPager(mViewPager);
 
@@ -53,6 +55,8 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        final TopicsFragment topicsFragment = (TopicsFragment)homePagerAdapter.getItem(2);
+
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
@@ -61,7 +65,7 @@ public class HomeFragment extends Fragment {
             public void onPageSelected(int position) {
                 if (position != 1) {
                     mFab.hide();
-                } else {
+                } else if(!topicsFragment.ifLocalToDisplay){
                     mFab.show();
                 }
             }
@@ -76,5 +80,8 @@ public class HomeFragment extends Fragment {
         return mTabLayout.getTabAt(position);
     }
 
+    public FloatingActionButton getFab(){
+        return mFab;
+    }
 
 }
