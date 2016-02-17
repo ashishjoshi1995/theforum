@@ -86,6 +86,7 @@ public class TrendsLocalListFragment extends Fragment{
     }
 
     private void getData(){
+        getLocation();
 
         LocalTrendsHelper.getHelper().getTrends(new LocalTrendsHelper.OnTrendsReceivedListener() {
             @Override

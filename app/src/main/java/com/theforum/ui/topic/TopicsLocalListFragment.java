@@ -97,7 +97,6 @@ public class TopicsLocalListFragment extends Fragment implements OnListItemClick
     @Override
     public void onStart() {
         super.onStart();
-
         if(TopicHelper.getHelper().requestStatus == RequestStatus.IDLE && !dataReceived){
             LocalTopicHelper.getHelper().loadTopics(latitude,longitude,false);
         }
@@ -122,6 +121,7 @@ public class TopicsLocalListFragment extends Fragment implements OnListItemClick
 
 
     private void getTopics() {
+        getLocation();
 
         LocalTopicHelper.getHelper().getTopics(new LocalTopicHelper.OnTopicsReceiveListener() {
             @Override
@@ -169,7 +169,7 @@ public class TopicsLocalListFragment extends Fragment implements OnListItemClick
         GPSTracker gps;
         gps = new GPSTracker(getActivity());
 
-        while(gps.getLongitude()==0.0||gps.getLatitude()==0.0) {
+
             if (gps.canGetLocation() || (gps.getLongitude() != 0.0 && gps.getLatitude() != 0.0)) {
                 latitude = gps.getLatitude();
                 longitude = gps.getLongitude();
@@ -177,7 +177,7 @@ public class TopicsLocalListFragment extends Fragment implements OnListItemClick
             } else {
                 gps.showSettingsAlert();
             }
-        }
+
 
     }
 }

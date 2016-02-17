@@ -117,13 +117,8 @@ public class NewTopicFragment extends Fragment implements CompoundButton.OnCheck
             longitude = gps.getLongitude();
             Log.e("lat,long"," "+latitude+"   "+longitude);
 
-            // \n is for new line
-            //Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
         }
         else {
-            // Can't get location.
-            // GPS or network is not enabled.
-            // Ask user to enable GPS/network in settings.
             gps.showSettingsAlert();
         }
 
@@ -184,7 +179,7 @@ if(!isLocal){
         if(mTopicModel.isLocalTopic()){
             LocalTopicHelper.getHelper().updateTopic(mTopicModel, new LocalTopicHelper.OnTopicInsertListener() {
                 @Override
-                public void onCompleted(TopicDataModel topicDataModel, boolean isUpdated) {
+                public void onCompleted(TopicDataModel topicDataModel, boolean isUpdated)    {
                     CommonUtils.showToast(getActivity(), "Topic Updated");
                     dialog.dismiss();
                     getActivity().finish();

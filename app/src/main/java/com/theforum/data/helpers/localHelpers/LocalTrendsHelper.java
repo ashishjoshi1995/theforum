@@ -73,7 +73,7 @@ public class LocalTrendsHelper {
                     loadTrendsFromServer();
                 } else {
                     if(!refresh) {
-                        trends.addAll(TrendsDBHelper.getHelper().getAllTrends());
+                        trends.addAll(TrendsDBHelper.getHelper().getAllLocalTrends());
                         requestStatus = RequestStatus.COMPLETED;
 
                         if (trendsReceivedListener != null) {
@@ -276,7 +276,7 @@ public class LocalTrendsHelper {
                                         }
 
                                         // save the data to local database.
-                                        TrendsDBHelper.getHelper().deleteAllTrends();
+                                        TrendsDBHelper.getHelper().deleteAllLocalTrends();
                                         TrendsDBHelper.getHelper().addTrends(trends);
 
                                         /**
