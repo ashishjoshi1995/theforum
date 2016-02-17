@@ -81,15 +81,7 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
             v.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-                    return onLongClickItemListener.onLongClicked(getLayoutPosition());
-                }
-
-            });
-
-            topicName.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    PopupMenu popupMenu = new PopupMenu(mContext, v);
+                    PopupMenu popupMenu = new PopupMenu(mContext, view);
                     popupMenu.inflate(R.menu.popup_menu);
 
                     if(!mTopics.get(getLayoutPosition()).getUid().equals(User.getInstance().getId())){
@@ -116,7 +108,15 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
 
                     return false;
                 }
+
+
             });
+
+          //  topicName.setOnLongClickListener(new View.OnLongClickListener() {
+            //    @Override
+              //  public boolean onLongClick(View v) {
+
+            //});
 
             renewBtn.setOnClickListener(new View.OnClickListener() {
                 @Override

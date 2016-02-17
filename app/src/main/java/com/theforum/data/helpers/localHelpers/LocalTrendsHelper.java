@@ -274,11 +274,13 @@ public class LocalTrendsHelper {
                                             }
                                             trends.add(trendDataModel);
                                         }
-
-                                        // save the data to local database.
-                                        TrendsDBHelper.getHelper().deleteAllTrends();
-                                        TrendsDBHelper.getHelper().addTrends(trends);
-
+                                        if(trends.size()<=0){
+                                            sendError("No topics trending in the area");
+                                        }else {
+                                            // save the data to local database.
+                                            TrendsDBHelper.getHelper().deleteAllTrends();
+                                            TrendsDBHelper.getHelper().addTrends(trends);
+                                        }
                                         /**
                                          * passing the data to ui
                                          */

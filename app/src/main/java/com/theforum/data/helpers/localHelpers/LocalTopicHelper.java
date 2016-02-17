@@ -193,7 +193,8 @@ public class LocalTopicHelper {
                                             TopicDBHelper.getHelper().addTopicsFromServer(topicArrayList, true);
                                         }
                                     } else {
-                                        sendError(Messages.NO_NET_CONNECTION);
+                                        sendError(Messages.NO_LOCAL_TOPIC);
+                                        //CommonUtils.showToast();
                                     }
 
                                 } catch (JSONException e) {

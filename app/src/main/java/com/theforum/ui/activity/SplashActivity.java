@@ -61,11 +61,18 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void getLocation(){
+
         GPSTracker gps;
+
+
         gps = new GPSTracker(this);
+//        gps.showSettingsAlert();
         if(gps.canGetLocation()||(gps.getLongitude()!=0.0&&gps.getLatitude()!=0.0)) {
             latitude = gps.getLatitude();
             longitude = gps.getLongitude();
+            if(latitude==0.0 && longitude == 0.0){
+                gps.showSettingsAlert();
+            }
             gps.stopUsingGPS();
         } else {
             gps.showSettingsAlert();

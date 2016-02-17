@@ -7,6 +7,7 @@ import android.support.v4.util.Pair;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -150,19 +151,18 @@ public class TopicsGlobalListFragment extends Fragment implements OnListItemClic
     @Override
     public void onItemClick(View v, int position) {
         mPosition = position;
-      //  CommonUtils.openContainerActivity(getContext(), LayoutType.OPINIONS_FRAGMENT,
-        //        Pair.create(LayoutType.TOPIC_MODEL, (Parcelable) mTopicsList.get(position)));
-
+        CommonUtils.openContainerActivity(getContext(), LayoutType.OPINIONS_FRAGMENT,
+                Pair.create(LayoutType.TOPIC_MODEL, (Parcelable) mTopicsList.get(position)));
     }
 
     @Override
     public boolean onLongClicked(int position) {
         mPosition = position;
-        final TopicDataModel dataModel = mTopicsList.get(position);
-        if (dataModel.isMyTopic()) {
-            CommonUtils.openContainerActivity(getContext(), LayoutType.NEW_TOPIC_FRAGMENT,
-                    Pair.create(LayoutType.TOPIC_MODEL, (Parcelable) dataModel));
-        }
+        //final TopicDataModel dataModel = mTopicsList.get(position);
+        //if (dataModel.isMyTopic()) {
+          //  CommonUtils.openContainerActivity(getContext(), LayoutType.NEW_TOPIC_FRAGMENT,
+            //        Pair.create(LayoutType.TOPIC_MODEL, (Parcelable) dataModel));
+       // }
 
 
         return true;
