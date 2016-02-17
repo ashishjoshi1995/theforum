@@ -94,7 +94,6 @@ public class TrendsLocalListFragment extends Fragment{
                 mAdapter.clearList();
                 mAdapter.addAllTrends(trends);
                 swipeRefreshLayout.setRefreshing(false);
-                Log.e("localHelper", "onCompleted");
             }
 
             @Override

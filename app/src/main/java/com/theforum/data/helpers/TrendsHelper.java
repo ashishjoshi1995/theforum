@@ -1,11 +1,7 @@
 package com.theforum.data.helpers;
 
-import android.os.AsyncTask;
-
 import com.microsoft.windowsazure.mobileservices.ApiOperationCallback;
-import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
-import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.theforum.TheForumApplication;
 import com.theforum.constants.Messages;
 import com.theforum.data.helpers.directUpDownApi.DUDARequest;
@@ -18,7 +14,6 @@ import com.theforum.data.helpers.upvoteDownvoteApi.UPDVResponse;
 import com.theforum.data.local.database.trendsDB.TrendsDBHelper;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.data.local.models.TrendsDataModel;
-import com.theforum.data.server.topic;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.User;
 import com.theforum.utils.enums.RequestStatus;
@@ -39,7 +34,7 @@ public class TrendsHelper {
     public RequestStatus requestStatus;
 
     private static TrendsHelper trendsHelper;
-    private MobileServiceTable<topic> mTopic;
+    //private MobileServiceTable<topic> mTopic;
 
     private ArrayList<TrendsDataModel> trends;
     private OnTrendsReceivedListener trendsReceivedListener;
@@ -209,7 +204,6 @@ public class TrendsHelper {
                         if (exception == null) {
 
                             try {
-
                                 if (result.message != null) {
                                     JSONArray jsonArray = new JSONArray(result.message);
                                     requestStatus = RequestStatus.COMPLETED;
@@ -298,46 +292,41 @@ public class TrendsHelper {
     }
 
 
-    public void getTopicDetails(final String topic_id,final OnTopicDetailReceived listener){
-        if(mTopic == null) mTopic = TheForumApplication.getClient().getTable(topic.class);
-        AsyncTask<Void, Void,topic> task= new AsyncTask<Void, Void, topic>() {
-
-            @Override
-            protected topic doInBackground(Void... voids) {
-                MobileServiceList<topic> result;
-                try {
-                    result = mTopic.where().field("topic_id").eq(topic_id).execute().get();
-                    return result.get(0);
-                } catch (Exception e) {
-                    listener.onError(Messages.NO_NET_CONNECTION);
-                    return null;
-                }
-
-            }
-
-            @Override
-            protected void onPostExecute(topic topic) {
-                super.onPostExecute(topic);
-
-                if(topic!=null) {
-                    TopicDataModel topicDataModel = new TopicDataModel(topic);
-                    listener.onCompleted(topicDataModel);
-                }
-            }
-        };
-
-        runAsyncTask3(task);
-    }
-
-
+//    public void getTopicDetails(final String topic_id,final OnTopicDetailReceived listener){
+//        if(mTopic == null) mTopic = TheForumApplication.getClient().getTable(topic.class);
+//        AsyncTask<Void, Void,topic> task= new AsyncTask<Void, Void, topic>() {
+//
+//            @Override
+//            protected topic doInBackground(Void... voids) {
+//                MobileServiceList<topic> result;
+//                try {
+//                    result = mTopic.where().field("topic_id").eq(topic_id).execute().get();
+//                    return result.get(0);
+//                } catch (Exception e) {
+//                    listener.onError(Messages.NO_NET_CONNECTION);
+//                    return null;
+//                }
+//
+//            }
+//
+//            @Override
+//            protected void onPostExecute(topic topic) {
+//                super.onPostExecute(topic);
+//
+//                if(topic!=null) {
+//                    TopicDataModel topicDataModel = new TopicDataModel(topic);
+//                    listener.onCompleted(topicDataModel);
+//                }
+//            }
+//        };
+//
+//        runAsyncTask3(task);
+//    }
 
 
-
-
-
-    private static AsyncTask<Void, Void,topic> runAsyncTask3(AsyncTask<Void, Void, topic> task) {
-        return task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-    }
+//    private static AsyncTask<Void, Void,topic> runAsyncTask3(AsyncTask<Void, Void, topic> task) {
+//        return task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+//    }
 
 
 
