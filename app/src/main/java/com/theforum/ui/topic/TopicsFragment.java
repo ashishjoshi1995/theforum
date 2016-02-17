@@ -25,12 +25,12 @@ public class TopicsFragment extends Fragment{
     @Bind(R.id.topic_toggle_button)
     Switch topicsToggleButton;
 
-    private FragmentManager mFragmentManager;
+    public FragmentManager mFragmentManager;
     private Fragment mGlobalTopicsList;
     private Fragment mLocalTopicsList;
     private HomeFragment mHomeFragment;
 
-    public boolean ifLocalToDisplay = false;
+    public boolean ifLocalToDisplay;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_topics, container, false);

@@ -5,6 +5,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,13 +57,16 @@ public class HomeFragment extends Fragment {
         });
 
         final TopicsFragment topicsFragment = (TopicsFragment)homePagerAdapter.getItem(1);
-
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
 
             @Override
             public void onPageSelected(int position) {
+                if(topicsFragment.mFragmentManager==null){
+                    Log.e("testFailed","");
+                }
+                Log.e("home debug",""+topicsFragment.ifLocalToDisplay);
                 if (position != 1) {
                     mFab.hide();
                 } else if(!topicsFragment.ifLocalToDisplay){

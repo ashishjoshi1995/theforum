@@ -7,7 +7,6 @@ import android.support.v4.util.Pair;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +52,6 @@ public class TopicsLocalListFragment extends Fragment implements OnListItemClick
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.e("topicLocal", "onCreateView");
         mTopicsList = new ArrayList<>();
         return inflater.inflate(R.layout.fragment_topics_list, container, false);
     }

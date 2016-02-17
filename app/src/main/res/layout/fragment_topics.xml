@@ -10,8 +10,8 @@
         android:layout_gravity="center"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="6dp"
-        android:track="@drawable/switch_bg"
-        android:thumb="@drawable/switch_fg"
+        android:track="@drawable/switch_home_track"
+        android:thumb="@drawable/switch_home_thumb"
         android:showText="true"
         android:textOn="NEAR BY"
         android:textOff="GLOBAL" />

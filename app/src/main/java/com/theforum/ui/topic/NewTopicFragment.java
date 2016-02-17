@@ -40,11 +40,11 @@ public class NewTopicFragment extends Fragment implements CompoundButton.OnCheck
     @Bind(R.id.new_topic_name) TextInputLayout mTopicNameHolder;
     @Bind(R.id.new_topic_description) EditText mDescription;
     @Bind(R.id.new_topic_upload_btn) Button mUpload;
-    @Bind(R.id.new_topic_Iflocal_toggle_button) Switch aSwitch;
+    @Bind(R.id.new_topic_toggle_button) Switch aSwitch;
     EditText mTopicText;
 
     private TopicDataModel mTopicModel;
-    private boolean mUpdateTopic=false;
+    private boolean mUpdateTopic = false;
     private boolean isLocal = false;
 
     @Override
@@ -216,7 +216,7 @@ public class NewTopicFragment extends Fragment implements CompoundButton.OnCheck
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if(buttonView.getId()==R.id.new_topic_Iflocal_toggle_button){
+        if(buttonView.getId()==R.id.new_topic_toggle_button){
             if(isChecked){
                 isLocal = true;
             }

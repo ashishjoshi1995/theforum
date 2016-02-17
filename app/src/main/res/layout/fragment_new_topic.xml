@@ -8,10 +8,6 @@
 
     <include layout="@layout/toolbar" />
 
-    <Switch android:id="@+id/new_topic_Iflocal_toggle_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"/>
     <TextView
         android:id="@+id/new_topic_dummy"
         android:layout_width="wrap_content"
@@ -22,14 +18,26 @@
         android:textSize="24sp"
         android:text="Create A Topic" />
 
+    <Switch android:id="@+id/new_topic_toggle_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/new_topic_dummy"
+        android:layout_alignLeft="@id/new_topic_dummy"
+        android:layout_marginTop="30dp"
+        android:track="@drawable/switch_topic_track"
+        android:thumb="@drawable/switch_topic_thumb"
+        android:showText="true"
+        android:textOn="NEAR BY"
+        android:textOff="GLOBAL" />
+
     <android.support.design.widget.TextInputLayout
         android:id="@+id/new_topic_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/new_topic_dummy"
-        android:layout_below="@id/new_topic_dummy"
+        android:layout_below="@id/new_topic_toggle_button"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="40dp"
         android:textColorHint="@color/colorAccentSecondary">
 
         <com.theforum.utils.views.customFont.EditText
