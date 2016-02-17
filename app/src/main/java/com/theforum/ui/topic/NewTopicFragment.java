@@ -6,7 +6,6 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +50,7 @@ public class NewTopicFragment extends Fragment implements CompoundButton.OnCheck
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         mUpdateTopic = false;
         if(getArguments()!= null){
             mTopicModel = getArguments().getParcelable(LayoutType.TOPIC_MODEL);
@@ -70,7 +70,6 @@ public class NewTopicFragment extends Fragment implements CompoundButton.OnCheck
         mToolbar.setTitle("");
         mToolbar.setNavigationIcon(R.drawable.ic_action_navigation_arrow_back);
         ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
-
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,8 +114,6 @@ public class NewTopicFragment extends Fragment implements CompoundButton.OnCheck
         if(gps.canGetLocation()||(gps.getLongitude()!=0.0&&gps.getLatitude()!=0.0)) {
             latitude = gps.getLatitude();
             longitude = gps.getLongitude();
-            Log.e("lat,long"," "+latitude+"   "+longitude);
-
         }
         else {
             gps.showSettingsAlert();
@@ -125,48 +122,49 @@ public class NewTopicFragment extends Fragment implements CompoundButton.OnCheck
         final ProgressDialog dialog = ProgressDialog.createDialog(getActivity());
         dialog.show();
 
-if(!isLocal){
-    topic topic = new topic();
-    topic.setTopicName(mTopicText.getText().toString().trim());
-    topic.setTopicDescription(mDescription.getText().toString().trim());
-    topic.setUserId(User.getInstance().getId());
-    topic.setLatitude(latitude);
-    topic.setLongitude(longitude);
-        TopicHelper.getHelper().addTopic(topic, new TopicHelper.OnTopicInsertListener() {
-            @Override
-            public void onCompleted(TopicDataModel model, boolean isUpdated) {
-                CommonUtils.showToast(getActivity(), "Topic created");
-                dialog.dismiss();
-                getActivity().finish();
-            }
+        if(!isLocal){
+            topic topic = new topic();
+            topic.setTopicName(mTopicText.getText().toString().trim());
+            topic.setTopicDescription(mDescription.getText().toString().trim());
+            topic.setUserId(User.getInstance().getId());
+            topic.setLatitude(latitude);
+            topic.setLongitude(longitude);
+                TopicHelper.getHelper().addTopic(topic, new TopicHelper.OnTopicInsertListener() {
+                    @Override
+                    public void onCompleted(TopicDataModel model, boolean isUpdated) {
+                        CommonUtils.showToast(getActivity(), "Topic created");
+                        dialog.dismiss();
+                        getActivity().finish();
+                    }
 
-            @Override
-            public void onError(String error) {
-                CommonUtils.showToast(getContext(), Messages.NO_NET_CONNECTION);
-                dialog.dismiss();
-            }
-        });}
-        else{
-    areatopics areatopics = new areatopics();
-    areatopics.setLatitude(latitude);
-    areatopics.setLongitude(longitude);
-    areatopics.setTopicName(mTopicText.getText().toString().trim());
-    areatopics.setTopicDescription(mDescription.getText().toString().trim());
-    areatopics.setUserId(User.getInstance().getId());
-    LocalTopicHelper.getHelper().addTopic(areatopics, new LocalTopicHelper.OnTopicInsertListener() {
-        @Override
-        public void onCompleted(TopicDataModel topicDataModel, boolean isUpdated) {
-            CommonUtils.showToast(getActivity(), "Topic created");
-            dialog.dismiss();
-            getActivity().finish();
-        }
+                    @Override
+                    public void onError(String error) {
+                        CommonUtils.showToast(getContext(), Messages.NO_NET_CONNECTION);
+                        dialog.dismiss();
+                    }
+                });
 
-        @Override
-        public void onError(String error) {
-            CommonUtils.showToast(getContext(), Messages.NO_NET_CONNECTION);
-            dialog.dismiss();
-        }
-    });
+        } else{
+            areatopics areatopics = new areatopics();
+            areatopics.setLatitude(latitude);
+            areatopics.setLongitude(longitude);
+            areatopics.setTopicName(mTopicText.getText().toString().trim());
+            areatopics.setTopicDescription(mDescription.getText().toString().trim());
+            areatopics.setUserId(User.getInstance().getId());
+            LocalTopicHelper.getHelper().addTopic(areatopics, new LocalTopicHelper.OnTopicInsertListener() {
+                @Override
+                public void onCompleted(TopicDataModel topicDataModel, boolean isUpdated) {
+                    CommonUtils.showToast(getActivity(), "Topic created");
+                    dialog.dismiss();
+                    getActivity().finish();
+                }
+
+                @Override
+                public void onError(String error) {
+                    CommonUtils.showToast(getContext(), Messages.NO_NET_CONNECTION);
+                    dialog.dismiss();
+                }
+            });
         }
     }
 
@@ -193,7 +191,6 @@ if(!isLocal){
             });
         }
         else {
-
 
             TopicHelper.getHelper().updateTopic(mTopicModel, new TopicHelper.OnTopicInsertListener() {
                 @Override

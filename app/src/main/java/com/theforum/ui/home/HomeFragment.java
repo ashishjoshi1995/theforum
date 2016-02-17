@@ -55,7 +55,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        final TopicsFragment topicsFragment = (TopicsFragment)homePagerAdapter.getItem(2);
+        final TopicsFragment topicsFragment = (TopicsFragment)homePagerAdapter.getItem(1);
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

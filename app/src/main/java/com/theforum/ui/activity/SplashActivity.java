@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
@@ -26,7 +25,7 @@ public class SplashActivity extends AppCompatActivity {
     private int SPLASH_TIME_OUT = 3500;
     private double latitude=0.0;
     private double longitude =0.0;
-    @Nullable
+
     @Bind(R.id.frog_body) ImageView frogBody;
 
     @Override
@@ -51,6 +50,7 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         getLocation();
         TopicHelper.getHelper().loadTopics(SettingsUtils.getInstance().getIntFromPreferences(
                 SettingsUtils.TOPIC_FEED_SORT_STATUS), false);
@@ -64,9 +64,8 @@ public class SplashActivity extends AppCompatActivity {
 
         GPSTracker gps;
 
-
         gps = new GPSTracker(this);
-//        gps.showSettingsAlert();
+
         if(gps.canGetLocation()||(gps.getLongitude()!=0.0&&gps.getLatitude()!=0.0)) {
             latitude = gps.getLatitude();
             longitude = gps.getLongitude();
