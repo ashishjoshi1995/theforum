@@ -59,9 +59,7 @@ public class SearchResultFragment extends Fragment {
         mMaterialSearchView = ((HomeActivity)getActivity()).getSearchView();
         mMaterialSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
-            public void onQueryTextSubmit(String query) {
-
-            }
+            public void onQueryTextSubmit(String query) {}
 
             @Override
             public void onQueryTextChange(CharSequence changedText) {

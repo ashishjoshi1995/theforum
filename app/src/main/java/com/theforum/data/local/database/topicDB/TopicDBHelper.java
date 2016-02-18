@@ -3,7 +3,6 @@ package com.theforum.data.local.database.topicDB;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.theforum.TheForumApplication;
 import com.theforum.data.local.models.TopicDataModel;
@@ -77,9 +76,6 @@ public class TopicDBHelper {
         ContentValues values = new ContentValues();
         values.put(TopicDBConstants.KEY_TOPIC,topic.getTopicName());
         values.put(TopicDBConstants.KEY_DESCRIPTION,topic.getTopicDescription());
-//        values.put(TopicDBConstants.KEY_RENEWAL_REQUEST, topic.getRenewalRequests());
-//        values.put(TopicDBConstants.KEY_RENEWED_COUNT, topic.getRenewedCount());
-//        values.put(TopicDBConstants.KEY_HOURS_LEFT, topic.getHoursLeft());
        return topicDatabase.update(TopicDBConstants.TABLE_NAME, values, TopicDBConstants.KEY_TOPIC_ID
                 +" = ?", new String[]{topic.getTopicId()});
     }
@@ -117,26 +113,26 @@ public class TopicDBHelper {
                     obj.setRenewalRequests(cursor.getInt(5));
                     obj.setRenewedCount(cursor.getInt(6));
                     obj.setHoursLeft(cursor.getInt(7));
-                    if(cursor.getString(9).equals("yes")){
-                        obj.setIsRenewed(true);
-                    }
 
                     if(cursor.getString(8).equals("yes")) {
                         obj.setIsMyTopic(true);
                         myTopics.add(obj);
-                    }
-                    else {
+                    } else {
                         obj.setIsMyTopic(false);
                         topics.add(obj);
                     }
-                    if(cursor.getString(12).equals("yes")){
-                        obj.setIsLocalTopic(true);
+
+                    if(cursor.getString(9).equals("yes")){
+                        obj.setIsRenewed(true);
                     }
-                    else {
-                        obj.setIsLocalTopic(false);
-                    }
+
                     obj.setLatitude(cursor.getDouble(10));
                     obj.setLongitude(cursor.getDouble(11));
+
+                    if(cursor.getString(12)!=null && cursor.getString(12).equals("yes")){
+                        obj.setIsLocalTopic(true);
+                    }
+
                     obj.setUid(cursor.getString(13));
 
                 } while (cursor.moveToNext());
@@ -176,17 +172,14 @@ public class TopicDBHelper {
                     if(cursor.getString(8).equals("yes")) {
                         obj.setIsMyTopic(true);
                         myTopics.add(obj);
-                    }
-                    else {
+                    } else {
                         obj.setIsMyTopic(false);
                         topics.add(obj);
                     }
-                    if(cursor.getString(12).equals("yes")){
+                    if(cursor.getString(12)!=null && cursor.getString(12).equals("yes")){
                         obj.setIsLocalTopic(true);
                     }
-                    else {
-                        obj.setIsLocalTopic(false);
-                    }
+
                     obj.setLatitude(cursor.getDouble(10));
                     obj.setLongitude(cursor.getDouble(11));
                     obj.setUid(cursor.getString(13));
@@ -227,17 +220,15 @@ public class TopicDBHelper {
                     if(cursor.getString(8).equals("yes")) {
                         obj.setIsMyTopic(true);
                         myTopics.add(obj);
-                    }
-                    else {
+                    } else {
                         obj.setIsMyTopic(false);
                         topics.add(obj);
                     }
-                    if(cursor.getString(12).equals("yes")){
+
+                    if(cursor.getString(12)!=null && cursor.getString(12).equals("yes")){
                         obj.setIsLocalTopic(true);
                     }
-                    else {
-                        obj.setIsLocalTopic(false);
-                    }
+
                     obj.setLatitude(cursor.getDouble(10));
                     obj.setLongitude(cursor.getDouble(11));
                     obj.setUid(cursor.getString(13));
@@ -266,7 +257,6 @@ public class TopicDBHelper {
     }
 
     public void deleteAllGlobalTopics(){
-        Log.e("deleteAllglobalTopics","deleteAllglovblaTopics");
         if(!topicDatabase.isOpen())topicDatabase = topicDB.getWritableDatabase();
         topicDatabase.execSQL("DELETE from " + TopicDBConstants.TABLE_NAME+" WHERE "+ TopicDBConstants.KEY_LOCAL_TOPIC
                 + " =?", new String[]{"no"});
@@ -294,12 +284,10 @@ public class TopicDBHelper {
             if (cursor.getString(8).equals("yes")) {
                 obj.setIsMyTopic(true);
             }
-            if(cursor.getString(12).equals("yes")){
+            if(cursor.getString(12)!=null && cursor.getString(12).equals("yes")){
                 obj.setIsLocalTopic(true);
             }
-            else {
-                obj.setIsLocalTopic(false);
-            }
+
             obj.setLatitude(cursor.getDouble(10));
             obj.setLongitude(cursor.getDouble(11));
             obj.setUid(cursor.getString(13));
