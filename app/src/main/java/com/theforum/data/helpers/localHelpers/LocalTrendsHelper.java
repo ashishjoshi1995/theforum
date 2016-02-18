@@ -295,7 +295,7 @@ public class LocalTrendsHelper {
                                         }
 
                                     } else {
-                                        sendError(Messages.SERVER_ERROR);
+                                        //sendError(Messages.SERVER_ERROR);
                                     }
 
                                 } catch (JSONException e) {

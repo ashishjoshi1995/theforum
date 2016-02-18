@@ -70,7 +70,7 @@ public class SplashActivity extends AppCompatActivity {
             latitude = gps.getLatitude();
             longitude = gps.getLongitude();
             if(latitude==0.0 && longitude == 0.0){
-                gps.showSettingsAlert();
+              //  gps.showSettingsAlert();
             }
             gps.stopUsingGPS();
         } else {
