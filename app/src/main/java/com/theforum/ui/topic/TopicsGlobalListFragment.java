@@ -6,18 +6,22 @@ import android.support.v4.app.Fragment;
 import android.support.v4.util.Pair;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.theforum.R;
 import com.theforum.constants.LayoutType;
+import com.theforum.data.helpers.FlagHelper;
 import com.theforum.data.helpers.TopicHelper;
 import com.theforum.data.local.database.topicDB.TopicDBHelper;
 import com.theforum.data.local.models.TopicDataModel;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.SettingsUtils;
+import com.theforum.utils.User;
 import com.theforum.utils.enums.RequestStatus;
 import com.theforum.utils.listeners.OnListItemClickListener;
 import com.theforum.utils.listeners.OnLongClickItemListener;
@@ -97,10 +101,8 @@ public class TopicsGlobalListFragment extends Fragment implements OnListItemClic
         }
 
         if(classification!=SettingsUtils.getInstance().getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS)){
-
             TopicHelper.getHelper().loadTopics(SettingsUtils.getInstance()
                     .getIntFromPreferences(SettingsUtils.TOPIC_FEED_SORT_STATUS), true);
-
         }
 
         if(TopicHelper.getHelper().requestStatus == RequestStatus.EXECUTING){
@@ -155,15 +157,33 @@ public class TopicsGlobalListFragment extends Fragment implements OnListItemClic
     }
 
     @Override
-    public boolean onLongClicked(int position) {
+    public boolean onLongClicked(View v,int position) {
         mPosition = position;
-        //final TopicDataModel dataModel = mTopicsList.get(position);
-        //if (dataModel.isMyTopic()) {
-          //  CommonUtils.openContainerActivity(getContext(), LayoutType.NEW_TOPIC_FRAGMENT,
-            //        Pair.create(LayoutType.TOPIC_MODEL, (Parcelable) dataModel));
-       // }
+        final TopicDataModel dataModel = mTopicsList.get(position);
+        PopupMenu popupMenu = new PopupMenu(getContext(), v);
+        popupMenu.inflate(R.menu.popup_menu);
 
+        if(!dataModel.getUid().equals(User.getInstance().getId())){
+            popupMenu.getMenu().removeItem(R.id.item_edit);
+        }
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.item_edit:
+                        CommonUtils.openContainerActivity(getContext(), LayoutType.NEW_TOPIC_FRAGMENT,
+                                Pair.create(LayoutType.TOPIC_MODEL, (Parcelable) dataModel));
+                        break;
 
+                    case R.id.item_flag:
+                        FlagHelper helper = new FlagHelper("xccxcx");
+                        helper.addFlagTopicRequest(dataModel.getTopicId());
+                        break;
+                }
+                return false;
+            }
+        });
+        popupMenu.show();
         return true;
     }
 }
