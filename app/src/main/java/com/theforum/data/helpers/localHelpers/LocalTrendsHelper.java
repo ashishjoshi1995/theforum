@@ -1,7 +1,6 @@
 package com.theforum.data.helpers.localHelpers;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.microsoft.windowsazure.mobileservices.ApiOperationCallback;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
@@ -218,14 +217,14 @@ public class LocalTrendsHelper {
                     @Override
                     public void onCompleted(LTAResponse result, Exception exception, ServiceFilterResponse response) {
                         if (exception == null) {
-                            Log.e("messagenull1",""+result.message);
+                           // Log.e("messagenull1",""+result.message);
                             if(result.message.equals("null")){
                                 result.message=null;
                             }
                             try {
 
                                 if (result.message != null) {
-                                    Log.e("messagenull",""+result.message);
+                             //       Log.e("messagenull",""+result.message);
                                     JSONArray jsonArray = new JSONArray(result.message);
                                     requestStatus = RequestStatus.COMPLETED;
 
