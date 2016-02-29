@@ -8,6 +8,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -48,8 +49,8 @@ public class TopicsLocalListFragment extends Fragment implements OnListItemClick
     private ArrayList<TopicDataModel> mTopicsList;
 
     //Location
-    private double latitude= 0.0;
-    private double longitude = 0.0;
+    private double latitude;
+    private double longitude ;
 
     private boolean dataReceived;
     private int mPosition;
@@ -187,16 +188,17 @@ public class TopicsLocalListFragment extends Fragment implements OnListItemClick
     }
 
     private void getLocation(){
-        GPSTracker gps;
-        gps = new GPSTracker(getActivity());
 
-        if (gps.canGetLocation() || (gps.getLongitude() != 0.0 && gps.getLatitude() != 0.0)) {
-            latitude = gps.getLatitude();
-            longitude = gps.getLongitude();
-
+        GPSTracker tracker = new GPSTracker(getActivity());
+        if (!tracker.canGetLocation()) {
+            tracker.showSettingsAlert();
         } else {
-            gps.showSettingsAlert();
+            Log.e("lat",""+latitude);
+            latitude = tracker.getLatitude();
+            longitude = tracker.getLongitude();
         }
+
+
 
     }
 }
