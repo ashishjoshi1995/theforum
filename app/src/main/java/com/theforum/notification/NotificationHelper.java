@@ -1,12 +1,15 @@
 package com.theforum.notification;
 
 
+import android.util.Log;
+
 import com.microsoft.windowsazure.mobileservices.ApiOperationCallback;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.microsoft.windowsazure.mobileservices.table.TableQueryCallback;
 import com.theforum.TheForumApplication;
+import com.theforum.data.helpers.localHelpers.LocalOpinionHelper;
 import com.theforum.data.helpers.notificationClearApi.NotificationClearApiRequest;
 import com.theforum.data.helpers.notificationClearApi.NotificationClearApiResponse;
 import com.theforum.data.server.areaopinions;
@@ -50,12 +53,14 @@ public class NotificationHelper {
     }
 
     public void readKillerNotification(final KillerNotificationListener listener){
+        Log.e("inside killer helper","sdsdsd");
         topic.where().execute(new TableQueryCallback<topic>() {
             @Override
             public void onCompleted(List<topic> result, int count, Exception exception, ServiceFilterResponse response) {
                 two = true;
                 if (count > 0) {
-                    listener.topicsGot(result,count);
+                    Log.e("inside killer helrer","onCompleted");
+                    listener.topicsGot(result, count);
                 }
             }
         });

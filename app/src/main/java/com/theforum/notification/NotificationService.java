@@ -10,6 +10,7 @@ import android.os.PowerManager;
 import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.util.Log;
 
 import com.theforum.R;
 import com.theforum.TheForumApplication;
@@ -65,23 +66,26 @@ public class NotificationService extends IntentService {
         }
         killInactivity();
         getNotifications();
-
+Log.e("Service started","service");
         wakeLock.release();
     }
 
     private void killInactivity(){
+        Log.e("kill inactivity","function");
         //get the count, increment it, resave to prefernce
         //if count > 12 call helper to read about the latest topic in global
         //TODO remove the testing modification from here
        int j = SettingsUtils.getInstance().getIntFromPreferences(SettingsUtils.INACTIVITY_KILLER_NOTIFICATION);
         j++;
-        if(j>=0){
+        if(j>=12){
             j=0;
+            Log.e("inside j","inside j");
             final NotificationHelper helper = new NotificationHelper();
             helper.readKillerNotification(new KillerNotificationListener() {
                 @Override
                 public void topicsGot(List<topic> topicNotifications, int count) {
                     int c = 0;
+                    Log.e("inside","topicgots");
                     int index = 0;
                     for(int i=0;i<topicNotifications.size();i++){
                         if(c>= topicNotifications.get(i).getHoursLeft()){
@@ -374,7 +378,7 @@ public class NotificationService extends IntentService {
     }
 
     private void killerNotify(Context context,topic topic, int count){
-        String message = "Have your say on "+topic.getTopicName()+"and "+count+" other topics on theforum";
+        String message = "Croak about "+topic.getTopicName()+" and "+count+" other topics on theforum";
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(),
                         R.drawable.notification_icon))
