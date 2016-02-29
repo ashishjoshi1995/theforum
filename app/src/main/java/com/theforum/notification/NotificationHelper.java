@@ -14,6 +14,7 @@ import com.theforum.data.server.areatopics;
 import com.theforum.data.server.opinion;
 import com.theforum.data.server.topic;
 import com.theforum.utils.User;
+import com.theforum.utils.listeners.KillerNotificationListener;
 import com.theforum.utils.listeners.NotificationListener;
 
 import java.util.List;
@@ -46,6 +47,18 @@ public class NotificationHelper {
         this.topic = mobileServiceClient.getTable(topic.class);
         this.localOpinions = mobileServiceClient.getTable(areaopinions.class);
         this.localTopics = mobileServiceClient.getTable(areatopics.class);
+    }
+
+    public void readKillerNotification(final KillerNotificationListener listener){
+        topic.where().execute(new TableQueryCallback<topic>() {
+            @Override
+            public void onCompleted(List<topic> result, int count, Exception exception, ServiceFilterResponse response) {
+                two = true;
+                if (count > 0) {
+                    listener.topicsGot(result,count);
+                }
+            }
+        });
     }
 
     public void readNotification(final NotificationListener notificationListener){
