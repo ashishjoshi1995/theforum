@@ -22,6 +22,7 @@ public class SettingsUtils {
     public static final String ENABLE_RENEWAL_REQUESTS_NOTIFICATION = "enable_renewal_request_notif";
     public static final String ENABLE_TOPIC_RENEWED_NOTIFICATION = "enable_topic_renewed_notification";
     public static final String ENABLE_OPINIONS_RECEIVED_NOTIFICATION = "enable_opinions_received_notification";
+    public static final String INACTIVITY_KILLER_NOTIFICATION = "inactivity_killer_notification";
 
 
     public static SettingsUtils getInstance() {
