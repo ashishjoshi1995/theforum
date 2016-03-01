@@ -10,6 +10,14 @@ public class user {
 
     @com.google.gson.annotations.SerializedName("id")
     private String mId;
+    @com.google.gson.annotations.SerializedName("updated")
+    private boolean mUpdated;
+
+
+
+    @com.google.gson.annotations.SerializedName("updatedText")
+    private String mUpdatedText;
+
 
 
 
@@ -210,5 +218,21 @@ public class user {
 
     public void setOpinions_received(int opinions_received) {
         this.opinions_received = opinions_received;
+    }
+
+    public boolean ismUpdated() {
+        return mUpdated;
+    }
+
+    public void setmUpdated(boolean mUpdated) {
+        this.mUpdated = mUpdated;
+    }
+
+    public String getmUpdatedText() {
+        return mUpdatedText;
+    }
+
+    public void setmUpdatedText(String mUpdatedText) {
+        this.mUpdatedText = mUpdatedText;
     }
 }
