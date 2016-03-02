@@ -49,7 +49,7 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
         }
-        CommonUtils.showToast(getApplication(), SettingsUtils.getInstance().getIntFromPreferences(SettingsUtils.INACTIVITY_KILLER_NOTIFICATION)+"");
+        //CommonUtils.showToast(getApplication(), SettingsUtils.getInstance().getIntFromPreferences(SettingsUtils.INACTIVITY_KILLER_NOTIFICATION)+"");
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
 
