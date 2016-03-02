@@ -20,6 +20,7 @@ import com.theforum.ui.activity.LoginActivity;
 import com.theforum.ui.search.SearchResultFragment;
 import com.theforum.utils.CommonUtils;
 import com.theforum.utils.ProfileUtils;
+import com.theforum.utils.SettingsUtils;
 import com.theforum.utils.TypefaceSpan;
 import com.theforum.utils.views.MaterialSearchView;
 
@@ -48,7 +49,7 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
         }
-
+        CommonUtils.showToast(getApplication(), SettingsUtils.getInstance().getIntFromPreferences(SettingsUtils.INACTIVITY_KILLER_NOTIFICATION)+"");
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
 

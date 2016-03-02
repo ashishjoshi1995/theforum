@@ -25,6 +25,7 @@ import com.theforum.data.server.areatopics;
 import com.theforum.data.server.topic;
 import com.theforum.ui.ProgressDialog;
 import com.theforum.utils.CommonUtils;
+import com.theforum.utils.SettingsUtils;
 import com.theforum.utils.User;
 import com.theforum.utils.locationTracker.GPSTracker;
 
@@ -42,6 +43,7 @@ public class NewTopicFragment extends Fragment implements CompoundButton.OnCheck
     @Bind(R.id.new_topic_description) EditText mDescription;
     @Bind(R.id.new_topic_upload_btn) Button mUpload;
     @Bind(R.id.new_topic_toggle_button) Switch aSwitch;
+
     EditText mTopicText;
 
     private TopicDataModel mTopicModel;
@@ -105,6 +107,14 @@ public class NewTopicFragment extends Fragment implements CompoundButton.OnCheck
 
         aSwitch.setOnCheckedChangeListener(this);
         aSwitch.setChecked(false);
+/*
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CommonUtils.showToast(getContext(), SettingsUtils.getInstance().getIntFromPreferences(SettingsUtils.INACTIVITY_KILLER_NOTIFICATION)+" j");
+            }
+        });
+        */
     }
 
     private void uploadTopic(){

@@ -41,7 +41,7 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         ButterKnife.bind(this);
-
+        SettingsUtils.getInstance().saveIntegerarPreference(SettingsUtils.INACTIVITY_KILLER_NOTIFICATION, 0);
         ((GradientDrawable) frogBody.getBackground()).setColor(Color.parseColor("#30ed17"));
         SettingsUtils.getInstance().saveIntegerarPreference(SettingsUtils.INACTIVITY_KILLER_NOTIFICATION, 0);
         new Handler().postDelayed(new Runnable() {
@@ -52,6 +52,7 @@ public class SplashActivity extends AppCompatActivity {
                 finish();
             }
         }, SPLASH_TIME_OUT);
+
     }
 
     @Override

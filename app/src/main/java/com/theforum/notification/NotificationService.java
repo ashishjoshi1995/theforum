@@ -76,8 +76,9 @@ Log.e("Service started","service");
         //if count > 12 call helper to read about the latest topic in global
         //TODO remove the testing modification from here
        int j = SettingsUtils.getInstance().getIntFromPreferences(SettingsUtils.INACTIVITY_KILLER_NOTIFICATION);
+        CommonUtils.showToast(getApplication(),"dafuk");
         j++;
-        if(j>=12){
+        if(j>10){
             j=0;
             Log.e("inside j","inside j");
             final NotificationHelper helper = new NotificationHelper();

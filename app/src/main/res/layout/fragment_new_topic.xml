@@ -78,4 +78,7 @@
         android:textColor="@android:color/white"
         android:text="UPLOAD"
         android:background="@color/colorPrimaryDark"/>
+
+
+
 </RelativeLayout>
